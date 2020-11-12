@@ -9,10 +9,11 @@ import Music from './Music';
 import Tog from './components/Reflection';
 import Search from './components/SearchPage'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import PlayBox from './components/SearchBar'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Search/>
+    <PlayBox />
   </React.StrictMode>,
   document.getElementById('root')
 );
