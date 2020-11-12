@@ -60,11 +60,11 @@ class Search extends React.Component {
         return (
             <div className="content">
                 <div className="container">
-                    <section className="section">
+                    <section>
                         <List items={this.state.list} delete={this.removeItem} />
                     </section>
-                    <hr />
-                    <section className="section">
+                    {/* <hr /> */}
+                    {/* <section className="section">
                         <form className="form" id="addItemForm">
                             <input
                                 type="text"
@@ -76,7 +76,7 @@ class Search extends React.Component {
                                 Add Item
               </button>
                         </form>
-                    </section>
+                    </section> */}
                 </div>
             </div>
         );

@@ -53,6 +53,15 @@
   height: 120px;
 }
 
+.vl {
+  border-left: 2px solid white;
+  height: 200px;
+}
+
+.vl2 {
+  border-left: 2px solid white;
+  height: 100px;
+}
 
 
 @keyframes App-logo-spin {
