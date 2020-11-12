@@ -28,6 +28,25 @@
   color: #61dafb;
 }
 
+.navbar_logo {
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+
+}
+
+.navbar_logo_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.playlist_logo {
+  height: 120px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

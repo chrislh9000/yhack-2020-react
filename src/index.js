@@ -8,6 +8,7 @@ import reportWebVitals from './reportWebVitals';
 import Music from './Music';
 import Tog from './components/Reflection';
 import Search from './components/SearchPage'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
   <React.StrictMode>
