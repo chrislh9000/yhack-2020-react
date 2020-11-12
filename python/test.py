@@ -4,59 +4,68 @@ import sys
 from user_timestamp import *
 from datetime import timedelta
 from beg_sentence import *
+import json
+
 
 
 def transcribe_gcs(gcs_uri):
     """Asynchronously transcribes the audio file specified by the gcs_uri."""
 
 
-    from google.cloud import speech
+    # from google.cloud import speech
+    #
+    # client = speech.SpeechClient()
+    #
+    # audio = speech.RecognitionAudio(uri=gcs_uri)
+    # config = speech.RecognitionConfig(
+    #     encoding=speech.RecognitionConfig.AudioEncoding.FLAC,
+    #     sample_rate_hertz=16000,
+    #     language_code="en-US",
+    #     audio_channel_count=2,
+    #     model="video",
+    #     enable_word_time_offsets=True,
+    #     enable_automatic_punctuation=True,
+    #     use_enhanced=True,
+    #     diarization_config=speech.SpeakerDiarizationConfig(
+    #         enable_speaker_diarization=True,
+    #         min_speaker_count=4,
+    #         max_speaker_count=4,
+    #     )
+    #
+    # )
+    #
+    # operation = client.long_running_recognize(
+    #     request={"config": config, "audio": audio}
+    # )
+    #
+    # operation = client.long_running_recognize(config=config, audio=audio)
+    f = open('data.json',)
 
-    client = speech.SpeechClient()
-
-    audio = speech.RecognitionAudio(uri=gcs_uri)
-    config = speech.RecognitionConfig(
-        encoding=speech.RecognitionConfig.AudioEncoding.FLAC,
-        sample_rate_hertz=16000,
-        language_code="en-US",
-        audio_channel_count=2,
-        model="video",
-        enable_word_time_offsets=True,
-        enable_automatic_punctuation=True,
-        use_enhanced=True,
-        diarization_config=speech.SpeakerDiarizationConfig(
-            enable_speaker_diarization=True,
-            min_speaker_count=4,
-            max_speaker_count=4,
-        )
-
-    )
-
-    operation = client.long_running_recognize(
-        request={"config": config, "audio": audio}
-    )
-
-    operation = client.long_running_recognize(config=config, audio=audio)
-
+    response = json.load(f)
+    f.close()
+    # print(response["name"])
     print("Waiting for operation to complete...")
     print("=======OPERATION=======")
-    print(operation.metadata)
+    # print(operation.metadata)
 
-    response = operation.result(timeout=1000)
+    # response = operation.result(timeout=1000)
 
-
+    print("\n\n\n")
+    # print(response["name"])
+    print(response["response"]["results"])
+    print("\n\n\n")
     with open('full-json.json', 'w') as f:
         print(response, file=f)
         # print(response.metadata)
-        print(operation.metadata)
+        # print(operation.metadata)
 
     fulltext = ""
 
     #tester
 
-    sec = timedelta(0,10,0,1)
-    print("proccessed timestamps:    ")
-    print(process_timestamp(response, sec))
+    # sec = timedelta(0,10,0,1)
+    # print("proccessed timestamps:    ")
+    # print(process_timestamp(response, sec))
     # Each result is for a consecutive portion of the audio. Iterate through
     # them to get the transcripts for the entire audio file.
     for result in response.results:
@@ -90,8 +99,9 @@ def transcribe_gcs(gcs_uri):
 
     return response
 
-response = transcribe_gcs("gs://sample_audio_v1/trimmed-daily.flac")
-beg_word = response.results[1].alternatives[0].words[9]
-print(response)
+# response = transcribe_gcs("gs://sample_audio_v1/trimmed-daily.flac")
+transcribe_gcs("gs://sample_audio_v1/trimmed-daily.flac")
+# beg_word = response.results[1].alternatives[0].words[9]
+# print(response)
 
-print(get_beg_sentence(response, beg_word))
+# print(get_beg_sentence(response, beg_word))

@@ -21,7 +21,7 @@ tasks = [
 
 @app.route('/podcast')
 def index():
-    return jsonify({'tasks': tasks})
+    
 
 
 if __name__ == "__main__":

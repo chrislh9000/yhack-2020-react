@@ -1,6 +1,7 @@
 import sys
 import meaningcloud
 
+
 # @param model str - Name of the model to use. Example: "IAB_en" by default = "IPTC_en"
 model = 'IAB_en'
 
@@ -9,6 +10,16 @@ license_key = 'f0f682f46f2e1a814b4a53cd92888447'
 
 # @param text - Text to use for different API calls
 text = 'London is a very nice city but I also love Madrid.'
+
+for result in response.results:
+    # The first alternative is the most likely one for this portion.
+    print(u"Transcript: {}".format(result.alternatives[0].transcript))
+    fulltext += result.alternatives[0].transcript
+    fulltext += "\n\n"
+    print("Confidence: {}".format(result.alternatives[0].confidence))
+
+with open('full-output.txt', 'w') as f:
+    print(fulltext, file=f)
 
 document = 'full-output.txt'
 
@@ -23,7 +34,7 @@ def entity_filter_tags(entities, topics_response):
         # remove "Top"
         if len(tags_list) > 1:
             tags_list = tags_list[1:]
-        
+
         if topic in entity_dict.keys():
             continue
         else:
@@ -78,10 +89,10 @@ def topics():
 
                 # for entity in entities:
                 #     print("\t\t" + topics_response.getTopicForm(entity) + ' --> ' +
-                #         topics_response.getTypeLastNode(topics_response.getOntoType(entity)) + ' --> ' + 
+                #         topics_response.getTypeLastNode(topics_response.getOntoType(entity)) + ' --> ' +
                 #         topics_response.getOntoType(entity) + ' --> ' +
                 #         str(topics_response.getNumberOfAppearances(entity)) +"\n")
-                    
+
 
             else:
                 print("\tNo entities detected!\n")
@@ -125,8 +136,8 @@ def summary():
         summary = ''
         print("\tGetting automatic summarization...")
         summarization_response = meaningcloud.SummarizationResponse(meaningcloud.SummarizationRequest(license_key, sentences=4, doc = document).sendReq())
-    
-    
+
+
         if summarization_response.isSuccessful():
             summary = summarization_response.getSummary()
             print(summary)
