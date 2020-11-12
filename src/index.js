@@ -12,7 +12,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Search/>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
