@@ -13,7 +13,7 @@ import PlayBox from './components/SearchBar'
 
 ReactDOM.render(
   <React.StrictMode>
-    <PlayBox />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
