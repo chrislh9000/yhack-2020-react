@@ -1,6 +1,6 @@
 import sys
 import meaningcloud
-
+import json
 
 # @param model str - Name of the model to use. Example: "IAB_en" by default = "IPTC_en"
 model = 'IAB_en'
@@ -11,12 +11,21 @@ license_key = 'f0f682f46f2e1a814b4a53cd92888447'
 # @param text - Text to use for different API calls
 text = 'London is a very nice city but I also love Madrid.'
 
-for result in response.results:
+f = open('data.json',)
+
+response = json.load(f)
+f.close()
+
+fulltext = ""
+for result in response["response"]["results"]:
     # The first alternative is the most likely one for this portion.
-    print(u"Transcript: {}".format(result.alternatives[0].transcript))
-    fulltext += result.alternatives[0].transcript
+
+    print("\n\n\n\n\n\n\n\n")
+    print(result["alternatives"][0])
+    print(u"Transcript: {}".format(result["alternatives"][0]["words"]))
+    fulltext += result["alternatives"][0]["transcript"]
     fulltext += "\n\n"
-    print("Confidence: {}".format(result.alternatives[0].confidence))
+    print("Confidence: {}".format(result["alternatives"][0]["confidence"]))
 
 with open('full-output.txt', 'w') as f:
     print(fulltext, file=f)
