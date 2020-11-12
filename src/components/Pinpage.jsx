@@ -7,6 +7,9 @@ import Row from 'react-bootstrap/Row'
 import { Link } from 'react-router-dom'
 import '../assets/css/App.css';
 import Navibar from './Navbar.jsx'
+import Form from 'react-bootstrap/Form'
+import InputGroup from 'react-bootstrap/InputGroup'
+import FormControl from 'react-bootstrap/FormControl'
 
 class Pinpage extends React.Component {
   constructor(props) {
@@ -16,8 +19,10 @@ class Pinpage extends React.Component {
     //pre-rendering code
     return(
       <div>
-      <Navibar />
+
       <h1> David is Gey </h1>
+      <Navibar />
+
       </div>
     );
   };

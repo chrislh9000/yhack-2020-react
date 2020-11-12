@@ -9,6 +9,8 @@ import {
 } from "react-router-dom";
 import Navbar from './Navbar'
 import Pinpage from './Pinpage'
+import Discussion from './Discussion'
+import Audioplayer from './Audioplayer'
 
 export default function App() {
   return (
@@ -25,6 +27,10 @@ export default function App() {
 
         <Route path="/pins_page">
           <Pinpage />
+        </Route>
+
+        <Route path="/discussion">
+          <Discussion />
         </Route>
 
         <Route path="/navbar">
@@ -62,5 +68,5 @@ function Users() {
 }
 
 function Podcast() {
-  return <h2> DUDEEE </h2>;
+  return <Audioplayer />
 }
