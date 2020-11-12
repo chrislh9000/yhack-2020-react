@@ -5,12 +5,15 @@ import routes from './routes';
 import './index.css';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
+import Music from './Music';
+import Tog from './components/Reflection';
+import Search from './components/SearchPage'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
   <React.StrictMode>
-  <App />
-</React.StrictMode>,
+    <Search/>
+  </React.StrictMode>,
   document.getElementById('root')
 );
 
