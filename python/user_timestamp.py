@@ -1,21 +1,33 @@
-# from nlp import *
+from nlp import *
 from datetime import time
 from beg_sentence import *
 import string
+import json
+import datetime
+
+f = open('data.json',)
+
+response = json.load(f)
+f.close()
 ########################################################################################
 # math helpers                                                                         #
 ########################################################################################
 def count_results(json):
     count = 0
-    for i in json.results:
+    # for i in json.results:
+    for i in json["response"]["results"]:
         count += 1
     return count
 
+print(count_results(response))
+
 def count_words(result):
     count = 0
-    for i in result.alternatives[0].words:
+    # print(result[0])
+    for i in result[0]["alternatives"][0]["words"]:
         count += 1
     return count
+print(count_words(response["response"]["results"]))
 
 def in_range_time(pin_time, start_time, end_time):
     if pin_time <= end_time and pin_time >= start_time:
@@ -49,36 +61,39 @@ def find_start_end_time(json, time):
     response = json
 
     res_count = count_results(response)
-    print(res_count)
+    # print(res_count)
     for j in range(res_count):
         # print("\n\n\n")
         # print("\t\t" + str(time))
 
         # print(result.alternatives[0].words[0], result.alternatives[0].words[-1])
 
-        result = response.results[j]
-        start_t = result.alternatives[0].words[0].start_time
+        result = response["response"]["results"][j]
+        print(result)
+        
+        start_t = result["alternatives"][0]["words"][0]["startTime"]
+        print(start_t)
         if j == res_count - 1:
-            end_t = result.alternatives[0].words[-1].end_time
+            end_t = result["alternatives"][0]["words"][-1]["endTime"]
         else:
-            end_t = response.results[j+1].alternatives[0].words[0].start_time
+            end_t = response["results"][j+1]["alternatives"][0]["words"][0]["startTime"]
 
         if in_range_time(time, start_t, end_t):
 
             count = count_words(result)
             for i in range(count):
-                word_start = result.alternatives[0].words[i].start_time
+                word_start = result["alternatives"][0]["words"][i]["startTime"]
                 if i == count - 1:
-                    word_end = result.alternatives[0].words[i].end_time
+                    word_end = result["alternatives"][0]["words"][i]["endTime"]
                 else:
-                    word_end = result.alternatives[0].words[i+1].start_time
+                    word_end = result["alternatives"][0]["words"][i+1]["start_time"]
                 if in_range_time(time, word_start, word_end):
-                    return (result.alternatives[0].words[i].word,
-                            result.alternatives[0].words[i].start_time,
-                            result.alternatives[0].words[i].end_time,
-                            result.alternatives[0].words[i])
+                    return (result["alternatives"][0]["words"][i]["word"],
+                            result["alternatives"][0]["words"][i]["startTime"],
+                            result["alternatives"][0]["words"][i]["endTime"],
+                            result["alternatives"][0]["words"][i])
 
-
+print(find_start_end_time(response, 1))
 
 def process_timestamp(json, time):
     response = json
@@ -93,6 +108,9 @@ def process_timestamp(json, time):
     tags = search_for_proper(sentence, entity_dict)
     return tags
 
+
+sec = timedelta(0,10,0,1)
+print(process_timestamp(response, sec))
 
 
 
