@@ -52,6 +52,7 @@ def transcribe_gcs(gcs_uri):
 
     print("\n\n\n")
     # print(response["name"])
+    
     print(response["response"]["results"])
     print("\n\n\n")
     with open('full-json.json', 'w') as f:
