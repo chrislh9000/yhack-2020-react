@@ -10,6 +10,7 @@ import {
 import Navbar from './Navbar'
 import Pinpage from './Pinpage'
 import Discussion from './Discussion'
+import Audioplayer from './Audioplayer'
 
 export default function App() {
   return (
@@ -67,5 +68,5 @@ function Users() {
 }
 
 function Podcast() {
-  return <h2> DUDEEE </h2>;
+  return <Audioplayer />
 }
