@@ -12,6 +12,7 @@ import Pinpage from './Pinpage'
 import Discussion from './Discussion'
 import Audioplayer from './Audioplayer'
 import PinIcon from './PinIcon'
+import Pin from './Pin'
 
 export default function App() {
   return (
@@ -21,6 +22,10 @@ export default function App() {
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
+
+        <Route path="/pinning">
+          <Pin />
+        </Route>
 
         <Route path="/podcast">
           <Podcast />

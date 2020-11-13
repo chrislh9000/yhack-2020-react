@@ -30,6 +30,15 @@ class Audioplayer extends React.Component {
   handlePin = () => {
     var pin = this.player.getCurrentTime()
     console.log(this.player.getCurrentTime())
+    this.props.handlePin(pin);
+  }
+
+  componentDidMount = (e) => {
+    this.interval = setInterval(() => this.props.handlePin(this.player.getCurrentTime()), 5000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   fastRewind = () => {
@@ -49,36 +58,35 @@ class Audioplayer extends React.Component {
     return (
       <Row className="mt-4" style={{ flexDirection: 'row', display: 'flex', justifyContent: "space-evenly", alignItems: "center"}}>
       <IconButton onClick={() => this.fastRewind()}>
-          <img style={{
-              height: 25,
-              width: 25,
-          }} src='/back.png' />
-        </IconButton>
+      <img style={{
+        height: 25,
+        width: 25,
+      }} src='/back.png' />
+      </IconButton>
 
-        <IconButton onClick={() => this.handlePlayorpause()}>
-        <img style={{
-            height: 42,
-            width: 42,
-            opacity: 1
-        }} src='/Play.png' />
-        </IconButton>
+      <IconButton onClick={() => this.handlePlayorpause()}>
+      <img style={{
+        height: 42,
+        width: 42,
+        opacity: 1
+      }} src='/Play.png' />
+      </IconButton>
 
-        <IconButton onClick={() => this.fastForward()}>
-            <img style={{
-                height: 25,
-                width: 25,
-            }} src='/next.png' />
-        </IconButton>
+      <IconButton onClick={() => this.handlePin()}>
+      <img style={{
+        height: 25,
+        width: 25,
+      }} src='/next.png' />
+      </IconButton>
 
-        <ReactPlayer
-          ref={this.ref}
-          url= {podcast}
-          height="20"
-          // width="400px"
-          // height="50px"
-          playing={this.state.playpause}
-          controls={false}
-        />
+      <ReactPlayer
+      ref={this.ref}
+      url= {podcast}
+      width="400px"
+      height="50px"
+      playing={this.state.playpause}
+      controls={false}
+      />
       </Row>
     );
   }

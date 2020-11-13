@@ -14,6 +14,8 @@ import Search from './SearchPage'
 import PlayBox from './SearchBar'
 import TextField from '@material-ui/core/TextField'
 import PinIcon from './PinIcon'
+import Button from 'react-bootstrap/Button';
+import Pin from './Pin'
 
 import Scroll from "react-scroll"
 // var Link = Scroll.Link;
@@ -30,9 +32,36 @@ class Discussion extends React.Component {
     super(props);
     this.state = {
       audioStamp: 0,
-      audioTrascript: "",
+      audioTranscript: "",
+      pins: [],
+      pinTime: 0,
     };
-    
+
+  }
+
+  handlePin = (pin) => {
+    this.setState({
+      pinTime: pin,
+    })
+  }
+
+  makePin = (pinTime) => {
+    console.log("======MAKING PinTime========")
+    //get timestamp from audio
+    var timestamp = this.state.pinTime;
+    console.log("timestamp", timestamp)
+    //create pins object
+    var pinId = Math.random() * 10000
+    var newPin = {
+      pinId: pinId,
+      timeStamp: timestamp,
+      title: "The Daily: An Unfinished Election",
+      tags: ["Joe Biden", "Donald Trump"]
+    }
+
+    this.state.pins.push(newPin)
+
+    //send request to backend, update database with pin
   }
 
 
@@ -48,12 +77,9 @@ class Discussion extends React.Component {
     })
     .then((res)=> res.json())
     .then((json) => {
-      console.log("SUCCESS!!!");
-      console.log(json);
       this.setState({
-        audioTrascript: json
+        audioTranscript: json
       })
-      console.log("audioStamp", this.state.audioTranscript)
     })
     .catch((err)=> {
       console.log('Error: ', err);
@@ -66,6 +92,12 @@ class Discussion extends React.Component {
     //   </div>
     // ))
     //pre-rendering code
+    const pinArr = this.state.pins.map((pin, i) => (
+      <div key={pin.pinId}>
+      <Pin title={pin.title} timestamp={pin.timeStamp} tags={pin.tags}/>
+      </div>
+    ));
+
     return (
       <Container fluid className="discussion_background main-back" style={{ height: "100%" /*backgroundColor: "#353B74"*/}}>
       <Row>
@@ -101,9 +133,9 @@ class Discussion extends React.Component {
       <Row className="ml-4">
       <p style={{ color: "white", fontSize: "16px" }}>New Releases</p>
       </Row>
-      {/* <Row>
-      
-      </Row> */}
+      <Row>
+      <PlayBox handlePin={this.handlePin} />
+      </Row>
       </Container>
       <PlayBox />
 
@@ -113,135 +145,95 @@ class Discussion extends React.Component {
        }}>
       <div style={{ display: "flex", flexDirection: "column", overflow: "scroll"}
     } >
-      <Link
-          activeClass="active"
-          to="firstInsideContainer"
-          spy={true}
-          smooth={true}
-          duration={250}
-          containerId="containerElement"
-          style={{ display: "inline-block", margin: "20px" }}
-        >
-          Go to first element inside container
-        </Link>
-        <Element
-            name="firstInsideContainer"
-            style={{
-              height: "48%", color: "white", fontSize: "20px", padding: "30px", overFlow: "scroll" 
-            }}
-          >
-            I'm here to tell you tonight. We believe we're on track to win this
-            election. From The New York Times. I'm Michael borrow. This is a
-            daily today. So we'll be going to the US Supreme Court. We want all
-            voting to start. It ain't over till every vote is counted. Every
-            ballot is counted Joe Biden is calling for patients and President
-            Trump is threatening legal action as millions of votes are still
-            uncounted. We don't want them to find any ballots at Four o'clock in
-            the morning and add them to the list. Okay. It's going to take time
-            to count the votes. We're going to win, Pennsylvania. Alex burns on
-            where the election stands and the remaining paths to Victory. We
-            were getting ready to win this election.
-
-            I'm here to tell you tonight. We believe we're on track to win this
-            election. From The New York Times. I'm Michael borrow. This is a
-            daily today. So we'll be going to the US Supreme Court. We want all
-            voting to start. It ain't over till every vote is counted. Every
-            ballot is counted Joe Biden is calling for patients and President
-            Trump is threatening legal action as millions of votes are still
-            uncounted. We don't want them to find any ballots at Four o'clock in
-            the morning and add them to the list. Okay. It's going to take time
-            to count the votes. We're going to win, Pennsylvania. Alex burns on
-            where the election stands and the remaining paths to Victory. We
-            were getting ready to win this election.
-          </Element>
-    {/* <p style={{ height: "48%", color: "white", fontSize: "20px", padding: "30px", overFlow: "scroll" }}> 
-    
-    Hello dog my name is ... David Wang  Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang
-    Hello dog my name isid Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang
-
-
-    </p> */}
-
-    
-    </div>
-    <div class="hl" style = {{position: 'absolute', alignSelf: "center"}}></div>
-    
-    </Col>
-    <Col xs={4} style={{ paddingRight: "0px", paddingLeft: "2px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
-      
-      <div style = {{}}class="arrow-right"></div>
-      <PinIcon/>
-    </Col>
-    <Col id="far_right" xs={3} style={{ justifyContent: "space-between", display: 'flex', flexDirection: 'column', backgroundColor: "#5C719B" }}>
-    <Row>
-    <div id="comment" className="mt-4 ml-5 mr-4">
-    <p className="mb-1" style={{ color: "white", fontSize: "11px" }}>
-    David_Wang 2h
+    <p style={{ height: "55.5%", color: "white", fontSize: "20px", padding: "30px", paddingRight: "130px", overFlow: "scroll" }}>
+    {this.state.audioTranscript}
     </p>
-    <p style={{ color: "white", fontSize: "12px" }}>Also: Justin reviews the outlook for convertibles and discusses how investors can consider taking advantage of the asset...</p>
-    <p style={{ color: "white", fontSize: "9px", textAlign: "right" }}>Reply</p>
-    <Row display="flex" className="ml-1">
-    <div class="vl"></div>
-    <Col>
-    <div id="replies">
-    <p className="mb-1" style={{ color: "white", fontSize: "9px" }}>
-    David_Wang 2h
-    </p>
-    <p style={{ color: "white", fontSize: "12px" }}>Also: Justin reviews the outlook for convertibles and discusses how investors can consider taking advantage of the asset...</p>
-    <p style={{ color: "white", fontSize: "9px", textAlign: "right" }}>Reply</p>
+    <div class="hl" style = {{alignSelf: "center"}}></div>
     </div>
-
-    <div id="replies">
-    <p className="mb-1" style={{ color: "white", fontSize: "9px" }}>
-    David_Wang 2h
-    </p>
-    <p style={{ color: "white", fontSize: "12px" }}>Also: Justin reviews the outlook for convertibles and discusses how investors can consider taking advantage of the asset...</p>
-    <p style={{ color: "white", fontSize: "9px", textAlign: "right" }}>Reply</p>
-    </div>
-
-
     </Col>
-    </Row>
-    </div>
-    <div id="comment" className="mt-4 ml-5 mr-4">
-    <p className="mb-1" style={{ color: "white", fontSize: "9px" }}>
-    David_Wang 2h
-    </p>
-    <p style={{ color: "white", fontSize: "12px" }}>Also: Justin reviews the outlook for convertibles and discusses how investors can consider taking advantage of the asset...</p>
-    <p style={{ color: "white", fontSize: "9px", textAlign: "right" }}>Reply</p>
-    <Row display="flex" className="ml-1">
-    <div class="vl2"></div>
-    <Col>
-    <div id="replies">
-    <p className="mb-1" style={{ color: "white", fontSize: "9px" }}>
-    David_Wang 2h
-    </p>
-    <p style={{ color: "white", fontSize: "12px" }}>Also: Justin reviews the outlook for convertibles and discusses how investors can consider taking advantage of the asset...</p>
-    <p style={{ color: "white", fontSize: "9px", textAlign: "right" }}>Reply</p>
-    </div>
+    <Col xs={4} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center"}}>
+    <Button onClick={(e) => this.makePin(e)} className = "butt" style = {{backgroundColor: "#2C3263", borderColor: "#2C3263"}}>
+    <img style = {{width: 60, height: 60, paddingTop: 10}} src="/whitepin.png" />
+    <p style={{
+      color: 'white',
+      fontSize: 13,}}>
+      PIN IT
+      </p>
+      </Button>
+      <div style = {{alignSelf: "flex-start"}}class="arrow-right"></div>
+      <div></div>
+      {pinArr}
+      </Col>
+      <Col id="far_right" xs={3} style={{ justifyContent: "space-between", display: 'flex', flexDirection: 'column', backgroundColor: "#5C719B" }}>
+      <Row>
+      <div id="comment" className="mt-4 ml-5 mr-4">
+      <p className="mb-1" style={{ color: "white", fontSize: "11px" }}>
+      David_Wang 2h
+      </p>
+      <p style={{ color: "white", fontSize: "12px" }}>Also: Justin reviews the outlook for convertibles and discusses how investors can consider taking advantage of the asset...</p>
+      <p style={{ color: "white", fontSize: "9px", textAlign: "right" }}>Reply</p>
+      <Row display="flex" className="ml-1">
+      <div class="vl"></div>
+      <Col>
+      <div id="replies">
+      <p className="mb-1" style={{ color: "white", fontSize: "9px" }}>
+      David_Wang 2h
+      </p>
+      <p style={{ color: "white", fontSize: "12px" }}>Also: Justin reviews the outlook for convertibles and discusses how investors can consider taking advantage of the asset...</p>
+      <p style={{ color: "white", fontSize: "9px", textAlign: "right" }}>Reply</p>
+      </div>
+
+      <div id="replies">
+      <p className="mb-1" style={{ color: "white", fontSize: "9px" }}>
+      David_Wang 2h
+      </p>
+      <p style={{ color: "white", fontSize: "12px" }}>Also: Justin reviews the outlook for convertibles and discusses how investors can consider taking advantage of the asset...</p>
+      <p style={{ color: "white", fontSize: "9px", textAlign: "right" }}>Reply</p>
+      </div>
 
 
-    </Col>
-    </Row>
-    </div>
-    </Row>
-    <Row>
-    <Container style={{ borderRadius: "30px 30px 0px 0px", height: "180px", backgroundColor: "#7597B0", display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: "center", boxShadow: "0px -4px 3px rgba(50, 50, 50, 0.35)" }}>
-    <TextField
-    id="first-name"
-    label="Add Comment"
-    margin="normal"
-    />
-    </Container>
-    </Row>
-    </Col>
-    </Row>
-    </Container >
+      </Col>
+      </Row>
+      </div>
+      <div id="comment" className="mt-4 ml-5 mr-4">
+      <p className="mb-1" style={{ color: "white", fontSize: "9px" }}>
+      David_Wang 2h
+      </p>
+      <p style={{ color: "white", fontSize: "12px" }}>Also: Justin reviews the outlook for convertibles and discusses how investors can consider taking advantage of the asset...</p>
+      <p style={{ color: "white", fontSize: "9px", textAlign: "right" }}>Reply</p>
+      <Row display="flex" className="ml-1">
+      <div class="vl2"></div>
+      <Col>
+      <div id="replies">
+      <p className="mb-1" style={{ color: "white", fontSize: "9px" }}>
+      David_Wang 2h
+      </p>
+      <p style={{ color: "white", fontSize: "12px" }}>Also: Justin reviews the outlook for convertibles and discusses how investors can consider taking advantage of the asset...</p>
+      <p style={{ color: "white", fontSize: "9px", textAlign: "right" }}>Reply</p>
+      </div>
+
+
+      </Col>
+      </Row>
+      </div>
+      </Row>
+      <Row>
+      <Container style={{ borderRadius: "30px 30px 0px 0px", height: "180px", backgroundColor: "#7597B0", display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: "center", boxShadow: "0px -4px 3px rgba(50, 50, 50, 0.35)" }}>
+      <TextField
+      id="first-name"
+      label="Add Comment"
+      margin="normal"
+      />
+      </Container>
+      </Row>
+      </Col>
+      </Row>
+      </Container >
 
 
 
-  );
-};
+    );
+  };
 };
 
 export default Discussion
