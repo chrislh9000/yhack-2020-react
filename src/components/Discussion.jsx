@@ -133,11 +133,8 @@ class Discussion extends React.Component {
       <Row className="ml-4">
       <p style={{ color: "white", fontSize: "16px" }}>New Releases</p>
       </Row>
-      <Row>
-      <PlayBox handlePin={this.handlePin} />
-      </Row>
       </Container>
-      <PlayBox />
+      <PlayBox handlePin={this.handlePin} />
 
       </Col>
       <Col id="middle" xs={3} style={{
