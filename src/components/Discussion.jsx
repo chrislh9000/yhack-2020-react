@@ -34,6 +34,8 @@ class Discussion extends React.Component {
       audioTranscript: "",
       pins: [],
       pinTime: 0,
+      accordion_title: "Supreme Court",
+      accordion_body: "",
     };
 
   }
@@ -93,7 +95,7 @@ class Discussion extends React.Component {
     //pre-rendering code
     const pinArr = this.state.pins.map((pin, i) => (
       <div key={pin.pinId}>
-      <Pin title={pin.title} timestamp={pin.timeStamp} tags={pin.tags}/>
+      <Pin title={pin.title} timestamp={pin.timeStamp} tags={pin.tags} accordion_title="Supreme Court" accordion_body="Hey"/>
       </div>
     ));
 
