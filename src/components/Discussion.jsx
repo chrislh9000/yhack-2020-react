@@ -15,6 +15,16 @@ import PlayBox from './SearchBar'
 import TextField from '@material-ui/core/TextField'
 import PinIcon from './PinIcon'
 
+import Scroll from "react-scroll"
+// var Link = Scroll.Link;
+// import DirectLink from Scroll.DirectLink;
+var Element = Scroll.Element;
+// import Events from Scroll.Events;
+// import scroll from Scroll.animateScroll;
+// import scrollSpy from Scroll.scrollSpy;
+
+
+
 class Discussion extends React.Component {
   constructor(props) {
     super(props);
@@ -24,6 +34,8 @@ class Discussion extends React.Component {
     };
     
   }
+
+
 
   componentDidMount = (e) => {
     const url = 'http://localhost:3000/db/getTranscript'
@@ -97,18 +109,62 @@ class Discussion extends React.Component {
 
       </Col>
       <Col id="middle" xs={3} style={{
-       display: "flex", borderRadius: "30px 0px 0px 30px", backgroundColor: "#4F57AA", boxShadow: "12px 0 15px -4px rgba(0,0,0,0.5), -12px 0 8px -4px rgba(0,0,0,0.5)",
+       height: "30", minHeight: "50%", overflow: "scroll",display: "flex", borderRadius: "30px 0px 0px 30px", backgroundColor: "#4F57AA", boxShadow: "12px 0 15px -4px rgba(0,0,0,0.5), -12px 0 8px -4px rgba(0,0,0,0.5)",
        }}>
-      <div style={{}
+      <div style={{ display: "flex", flexDirection: "column", overflow: "scroll"}
     } >
-    <p style={{ height: "48%", color: "white", fontSize: "20px", padding: "30px", overFlow: "scroll" }}> Hello dog my name is ... David Wang  Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang
+      <Link
+          activeClass="active"
+          to="firstInsideContainer"
+          spy={true}
+          smooth={true}
+          duration={250}
+          containerId="containerElement"
+          style={{ display: "inline-block", margin: "20px" }}
+        >
+          Go to first element inside container
+        </Link>
+        <Element
+            name="firstInsideContainer"
+            style={{
+              height: "48%", color: "white", fontSize: "20px", padding: "30px", overFlow: "scroll" 
+            }}
+          >
+            I'm here to tell you tonight. We believe we're on track to win this
+            election. From The New York Times. I'm Michael borrow. This is a
+            daily today. So we'll be going to the US Supreme Court. We want all
+            voting to start. It ain't over till every vote is counted. Every
+            ballot is counted Joe Biden is calling for patients and President
+            Trump is threatening legal action as millions of votes are still
+            uncounted. We don't want them to find any ballots at Four o'clock in
+            the morning and add them to the list. Okay. It's going to take time
+            to count the votes. We're going to win, Pennsylvania. Alex burns on
+            where the election stands and the remaining paths to Victory. We
+            were getting ready to win this election.
+
+            I'm here to tell you tonight. We believe we're on track to win this
+            election. From The New York Times. I'm Michael borrow. This is a
+            daily today. So we'll be going to the US Supreme Court. We want all
+            voting to start. It ain't over till every vote is counted. Every
+            ballot is counted Joe Biden is calling for patients and President
+            Trump is threatening legal action as millions of votes are still
+            uncounted. We don't want them to find any ballots at Four o'clock in
+            the morning and add them to the list. Okay. It's going to take time
+            to count the votes. We're going to win, Pennsylvania. Alex burns on
+            where the election stands and the remaining paths to Victory. We
+            were getting ready to win this election.
+          </Element>
+    {/* <p style={{ height: "48%", color: "white", fontSize: "20px", padding: "30px", overFlow: "scroll" }}> 
+    
+    Hello dog my name is ... David Wang  Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang
     Hello dog my name isid Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang
 
 
-    </p>
+    </p> */}
 
-    <div class="hl" style = {{alignSelf: "center"}}></div>
+    
     </div>
+    <div class="hl" style = {{position: 'absolute', alignSelf: "center"}}></div>
     
     </Col>
     <Col xs={4} style={{ paddingRight: "0px", paddingLeft: "2px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
