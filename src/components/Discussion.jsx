@@ -16,6 +16,7 @@ import TextField from '@material-ui/core/TextField'
 import PinIcon from './PinIcon'
 import Button from 'react-bootstrap/Button';
 import Pin from './Pin'
+import Logo from './Logo'
 
 import Scroll from "react-scroll"
 var Link = Scroll.Link;
@@ -34,6 +35,8 @@ class Discussion extends React.Component {
       audioTranscript: "",
       pins: [],
       pinTime: 0,
+      accordion_title: "Supreme Court",
+      accordion_body: "",
     };
 
   }
@@ -93,7 +96,7 @@ class Discussion extends React.Component {
     //pre-rendering code
     const pinArr = this.state.pins.map((pin, i) => (
       <div key={pin.pinId}>
-      <Pin title={pin.title} timestamp={pin.timeStamp} tags={pin.tags}/>
+      <Pin title={pin.title} timestamp={pin.timeStamp} tags={pin.tags} accordion_title="Supreme Court" accordion_body="Hey"/>
       </div>
     ));
 
@@ -102,35 +105,42 @@ class Discussion extends React.Component {
       <Row>
       <Col className="pl-0 pr-0" id="far_left" xs={2} style={{ justifyContent: "flex-start", display: "flex", alignItems: "center", flexDirection: "column", backgroundColor: "#5C719B" }}>
       <Row>
-      <p style={{ color: "white", fontSize: "30px" }}>PINCAST</p>
+      <img style = {{width: 30, height: 30, paddingRight: 3, paddingBottom: 2, paddingTop: 3}} src="/LOGO.png" />
+      <p style={{
+        color: 'white', 
+        fontSize: 19,
+        fontWeight: "bold",
+        paddingTop: 5}}> 
+          PINCAST
+      </p>
       </Row>
       <Row>
       <Search />
       </Row>
       <Container className = "mb-1" style={{}}>
       <Row className="ml-4">
-      <p style={{ color: "white", fontSize: "16px" }}>Home</p>
+      <p className = "EuclidFlexMedium" style={{ color: "white", fontSize: "16px"}}>Home</p>
       </Row>
       <Row className="ml-4">
-      <p style={{ color: "white", fontSize: "16px" }}>Search</p>
+      <p className = "EuclidFlexMedium" style={{ color: "white"}}>Search</p>
       </Row>
       <Row className="ml-4">
-      <p style={{ color: "white", fontSize: "16px" }}>Pins</p>
+      <p className = "EuclidFlexMedium" style={{ color: "white"}}>Pins</p>
       </Row>
       <Row className="ml-4">
-      <p style={{ color: "white", fontSize: "16px" }}>Profile</p>
+      <p className = "EuclidFlexMedium" style={{ color: "white"}}>Profile</p>
       </Row>
       <Row className="ml-4">
-      <p style={{ color: "white", fontSize: "16px" }}>Saved Podcasts</p>
+      <p className = "EuclidFlexMedium" style={{ color: "white"}}>Saved Podcasts</p>
       </Row>
       <Row className="ml-4">
-      <p style={{ color: "white", fontSize: "16px" }}>Followed</p>
+      <p className = "EuclidFlexMedium" style={{ color: "white"}}>Followed</p>
       </Row>
       <Row className="ml-4">
-      <p style={{ color: "white", fontSize: "16px" }}>Discovered</p>
+      <p className = "EuclidFlexMedium" style={{ color: "white"}}>Discovered</p>
       </Row>
       <Row className="ml-4">
-      <p style={{ color: "white", fontSize: "16px" }}>New Releases</p>
+      <p className = "EuclidFlexMedium" style={{ color: "white"}}>New Releases</p>
       </Row>
       </Container>
       <PlayBox handlePin={this.handlePin} />
@@ -139,6 +149,13 @@ class Discussion extends React.Component {
       <Col id="middle" xs={3} style={{
            height: "30", minHeight: "50%", height: "850px", overflow: "scroll",display: "flex", borderRadius: "30px 0px 0px 30px", backgroundColor: "#4F57AA", boxShadow: "12px 0 15px -4px rgba(0,0,0,0.5), -12px 0 8px -4px rgba(0,0,0,0.5)",
        }}>
+      <div style={{ display: "flex", flexDirection: "column", overflow: "scroll"}
+    } >
+    <p className = "sidebarText" style={{ height: "55.5%", color: "white", fontSize: "20px", padding: "30px", paddingRight: "130px", overFlow: "scroll" }}>
+    {this.state.audioTranscript}
+    </p>
+    <div class="hl" style = {{alignSelf: "center"}}></div>
+    </div>
       {/* <div style={{ display: "flex", flexDirection: "column", overflow: "scroll"}} > */}
        <div class="hl" style = {{alignSelf: "center", position: "absolute"}}></div>
       {/* <Link
@@ -401,11 +418,6 @@ class Discussion extends React.Component {
     //
     // </p> */}
 
-
-
-
-
-    
     {/* </div> */}
     </Col>
     <Col xs={4} style={{ paddingLeft: "0px", paddingRight: "0px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
@@ -426,8 +438,8 @@ class Discussion extends React.Component {
       <p className="mb-1" style={{ color: "white", fontSize: "11px" }}>
       David_Wang 2h
       </p>
-      <p style={{ color: "white", fontSize: "12px" }}>Also: Justin reviews the outlook for convertibles and discusses how investors can consider taking advantage of the asset...</p>
-      <p style={{ color: "white", fontSize: "9px", textAlign: "right" }}>Reply</p>
+      <p className = "EuclidFlexLight" style={{ color: "white", fontSize: "12px" }}>Also: Justin reviews the outlook for convertibles and discusses how investors can consider taking advantage of the asset...</p>
+      <p className = "EuclidFlexLight" style={{ color: "white", fontSize: "9px", textAlign: "right" }}>Reply</p>
       <Row display="flex" className="ml-1">
       <div class="vl"></div>
       <Col>

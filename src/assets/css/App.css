@@ -91,7 +91,6 @@
   height: 0;
   border-top: 12px solid transparent;
   border-bottom: 12px solid transparent;
-
   border-right: 12px solid white;
 }
 
@@ -121,4 +120,16 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.EuclidFlexMedium {
+  font-family: "EuclidFlexMedium";
+}
+
+.EuclidFlexLight {
+  font-family: "EuclidFlexLight";
+}
+
+.EuclidFlexRegular {
+  font-family: "EuclidFlexRegular";
 }
