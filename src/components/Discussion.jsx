@@ -4,7 +4,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import '../assets/css/App.css';
 import Navibar from './Navbar.jsx'
 import Form from 'react-bootstrap/Form'
@@ -18,13 +18,12 @@ import Button from 'react-bootstrap/Button';
 import Pin from './Pin'
 
 import Scroll from "react-scroll"
-// var Link = Scroll.Link;
-// import DirectLink from Scroll.DirectLink;
+var Link = Scroll.Link;
+var DirectLink = Scroll.DirectLink;
 var Element = Scroll.Element;
-// import Events from Scroll.Events;
-// import scroll from Scroll.animateScroll;
-// import scrollSpy from Scroll.scrollSpy;
-
+var Events = Scroll.Events;
+var scroll = Scroll.animateScroll;
+var scrollSpy = Scroll.scrollSpy;
 
 
 class Discussion extends React.Component {
@@ -122,7 +121,7 @@ class Discussion extends React.Component {
       <p style={{ color: "white", fontSize: "16px" }}>Profile</p>
       </Row>
       <Row className="ml-4">
-      <p style={{ color: "white", fontSize: "16px" }}>Saved Podcastss</p>
+      <p style={{ color: "white", fontSize: "16px" }}>Saved Podcasts</p>
       </Row>
       <Row className="ml-4">
       <p style={{ color: "white", fontSize: "16px" }}>Followed</p>
@@ -139,13 +138,59 @@ class Discussion extends React.Component {
 
       </Col>
       <Col id="middle" xs={3} style={{
-       height: "30", minHeight: "50%", overflow: "scroll",display: "flex", borderRadius: "30px 0px 0px 30px", backgroundColor: "#4F57AA", boxShadow: "12px 0 15px -4px rgba(0,0,0,0.5), -12px 0 8px -4px rgba(0,0,0,0.5)",
+       height: "30", minHeight: "50%", height: "1080px", overflow: "scroll",display: "flex", borderRadius: "30px 0px 0px 30px", backgroundColor: "#4F57AA", boxShadow: "12px 0 15px -4px rgba(0,0,0,0.5), -12px 0 8px -4px rgba(0,0,0,0.5)",
        }}>
-      <div style={{ display: "flex", flexDirection: "column", overflow: "scroll"}
-    } >
-    <p style={{ height: "55.5%", color: "white", fontSize: "20px", padding: "30px", paddingRight: "130px", overFlow: "scroll" }}>
-    {this.state.audioTranscript}
-    </p>
+      <div style={{ display: "flex", flexDirection: "column", overflow: "scroll"}} >
+
+      <Link
+          activeClass="active"
+          to="firstInsideContainer"
+          spy={true}
+          smooth={true}
+          duration={1000}
+          containerId="containerElement"
+          style={{ display: "inline-block", margin: "20px" }}
+        >
+          Go to first element inside container
+        </Link>
+        <Element
+          name="test7"
+          className="element"
+          id="containerElement"
+          style={{
+            position: "relative",
+            height: "200px",
+            overflow: "scroll",
+            marginBottom: "100px"
+          }}
+        >
+          test 7 (duration and container)
+          <Element
+            name="firstInsideContainer"
+            style={{
+              marginBottom: "200px"
+            }}
+          >
+            {this.state.audioTranscript}
+          </Element>
+
+          <Element
+            name="secondInsideContainer"
+            style={{
+              marginBottom: "200px"
+            }}
+          >
+            second element inside container
+          </Element>
+        </Element>
+    // <p style={{color: "white", fontSize: "20px", padding: "30px", paddingRight: "130px", overflow: "scroll" }}>
+    //
+    // </p>
+
+
+
+
+
     <div class="hl" style = {{alignSelf: "center"}}></div>
     </div>
     </Col>

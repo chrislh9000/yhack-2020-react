@@ -72,7 +72,7 @@ class Audioplayer extends React.Component {
       }} src='/Play.png' />
       </IconButton>
 
-      <IconButton onClick={() => this.handlePin()}>
+      <IconButton onClick={() => this.fastForward()}>
       <img style={{
         height: 25,
         width: 25,
