@@ -13,19 +13,21 @@ import FormControl from 'react-bootstrap/FormControl'
 import Search from './SearchPage'
 import PlayBox from './SearchBar'
 import TextField from '@material-ui/core/TextField'
+import PinIcon from './PinIcon'
 
 class Discussion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       audioStamp: 0,
+      audioTrascript: "",
     };
+    
   }
 
   componentDidMount = (e) => {
-    const proxyurl = "https://cors-anywhere.herokuapp.com/";
     const url = 'http://localhost:3000/db/getTranscript'
-    fetch("https://api.github.com/users", {
+    fetch(url, {
       method: 'GET',
       credentials: 'same-origin',
       headers: {
@@ -36,12 +38,21 @@ class Discussion extends React.Component {
     .then((json) => {
       console.log("SUCCESS!!!");
       console.log(json);
+      this.setState({
+        audioTrascript: json
+      })
+      console.log("audioStamp", this.state.audioTranscript)
     })
     .catch((err)=> {
       console.log('Error: ', err);
     });
   }
   render() {
+    // const audioTranscript = this.state.audioTrascript.map((transcript, i) => (
+    //   <div key="text">
+    //     <p> {this.state.audioTrascript} </p>
+    //   </div>
+    // ))
     //pre-rendering code
     return (
       <Container fluid className="discussion_background" style={{ backgroundColor: "#353B74" }}>
@@ -85,18 +96,24 @@ class Discussion extends React.Component {
 
       </Col>
       <Col id="middle" xs={3} style={{
-        borderRadius: "30px 0px 0px 30px", backgroundColor: "#4F57AA", boxShadow: "12px 0 15px -4px rgba(0,0,0,0.5), -12px 0 8px -4px rgba(0,0,0,0.5)"
+        display: "flex", borderRadius: "30px 0px 0px 30px", backgroundColor: "#4F57AA", boxShadow: "12px 0 15px -4px rgba(0,0,0,0.5), -12px 0 8px -4px rgba(0,0,0,0.5)"
       }}>
-      <div style={{ height: "100px" }
+      <div style={{ }
     } >
-    <p style={{ color: "white", fontSize: "20px", padding: "30px", paddingRight: "130px", overFlow: "scroll", height: "100px" }}> Hello dog my name is ... David Wang  Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang
+    <p style={{ height: "55.5%", color: "white", fontSize: "20px", padding: "30px", paddingRight: "130px", overFlow: "scroll" }}> Hello dog my name is ... David Wang  Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang
     Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang
 
 
     </p>
+
+    <div class="hl" style = {{alignSelf: "center"}}></div>
     </div>
+    
     </Col>
-    <Col xs={4}>
+    <Col xs={4} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center"}}>
+      <PinIcon/>
+      <div style = {{alignSelf: "flex-start"}}class="arrow-right"></div>
+      <div></div>
     </Col>
     <Col id="far_right" xs={3} style={{ justifyContent: "space-between", display: 'flex', flexDirection: 'column', backgroundColor: "#5C719B" }}>
     <Row>
