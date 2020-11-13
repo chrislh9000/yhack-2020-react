@@ -4,12 +4,14 @@ import Navbar from 'react-bootstrap/Navbar'
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import '../assets/css/App.css';
 import ReactPlayer from 'react-player'
 import podcast from '../assets/election_audio.mp3'
 import IconButton from '@material-ui/core/Button';
 import Button from '@material-ui/core/Button'
+import Scroll from "react-scroll"
+var Link = Scroll.Link;
 // import DeleteIcon from '@material-ui/icons';
 
 class Audioplayer extends React.Component {
@@ -64,6 +66,15 @@ class Audioplayer extends React.Component {
       }} src='/back.png' />
       </IconButton>
 
+      <Link
+          activeClass="active"
+          to="secondInsideContainer"
+          spy={true}
+          smooth={true}
+          duration={15000}
+          containerId="containerElement"
+          style={{ display: "inline-block", margin: "20px" }}
+        >
       <IconButton onClick={() => this.handlePlayorpause()}>
       <img style={{
         height: 42,
@@ -71,6 +82,7 @@ class Audioplayer extends React.Component {
         opacity: 1
       }} src='/Play.png' />
       </IconButton>
+      </Link>
 
       <IconButton onClick={() => this.fastForward()}>
       <img style={{
