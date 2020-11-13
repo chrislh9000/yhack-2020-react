@@ -55,16 +55,16 @@ class Discussion extends React.Component {
     // ))
     //pre-rendering code
     return (
-      <Container fluid className="discussion_background" style={{ backgroundColor: "#353B74" }}>
+      <Container fluid className="discussion_background main-back" style={{ height: "100%" /*backgroundColor: "#353B74"*/}}>
       <Row>
-      <Col className="pl-0 pr-0" id="far_left" xs={2} style={{ display: "flex", alignItems: "center", flexDirection: "column", backgroundColor: "#5C719B" }}>
+      <Col className="pl-0 pr-0" id="far_left" xs={2} style={{ justifyContent: "flex-start", display: "flex", alignItems: "center", flexDirection: "column", backgroundColor: "#5C719B" }}>
       <Row>
       <p style={{ color: "white", fontSize: "30px" }}>PINCAST</p>
       </Row>
       <Row>
       <Search />
       </Row>
-      <Container style={{ padding: "10px" }}>
+      <Container className = "mb-1" style={{}}>
       <Row className="ml-4">
       <p style={{ color: "white", fontSize: "16px" }}>Home</p>
       </Row>
@@ -89,19 +89,20 @@ class Discussion extends React.Component {
       <Row className="ml-4">
       <p style={{ color: "white", fontSize: "16px" }}>New Releases</p>
       </Row>
-      <Row>
-      <PlayBox />
-      </Row>
+      {/* <Row>
+      
+      </Row> */}
       </Container>
+      <PlayBox />
 
       </Col>
       <Col id="middle" xs={3} style={{
-        display: "flex", borderRadius: "30px 0px 0px 30px", backgroundColor: "#4F57AA", boxShadow: "12px 0 15px -4px rgba(0,0,0,0.5), -12px 0 8px -4px rgba(0,0,0,0.5)"
-      }}>
-      <div style={{ }
+       display: "flex", borderRadius: "30px 0px 0px 30px", backgroundColor: "#4F57AA", boxShadow: "12px 0 15px -4px rgba(0,0,0,0.5), -12px 0 8px -4px rgba(0,0,0,0.5)",
+       }}>
+      <div style={{}
     } >
-    <p style={{ height: "55.5%", color: "white", fontSize: "20px", padding: "30px", paddingRight: "130px", overFlow: "scroll" }}> Hello dog my name is ... David Wang  Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang
-    Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang
+    <p style={{ height: "48%", color: "white", fontSize: "20px", padding: "30px", overFlow: "scroll" }}> Hello dog my name is ... David Wang  Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang
+    Hello dog my name isid Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang
 
 
     </p>
@@ -110,10 +111,10 @@ class Discussion extends React.Component {
     </div>
     
     </Col>
-    <Col xs={4} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center"}}>
+    <Col xs={4} style={{ paddingRight: "0px", paddingLeft: "2px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+      
+      <div style = {{}}class="arrow-right"></div>
       <PinIcon/>
-      <div style = {{alignSelf: "flex-start"}}class="arrow-right"></div>
-      <div></div>
     </Col>
     <Col id="far_right" xs={3} style={{ justifyContent: "space-between", display: 'flex', flexDirection: 'column', backgroundColor: "#5C719B" }}>
     <Row>

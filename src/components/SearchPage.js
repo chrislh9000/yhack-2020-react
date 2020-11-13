@@ -7,7 +7,7 @@ class Search extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            list: ["Go to the store", "Wash the dishes", "Learn some code"]
+            list: []
         };
         this.addItem = this.addItem.bind(this);
         this.removeItem = this.removeItem.bind(this);

@@ -6,22 +6,22 @@ import Button from 'react-bootstrap/Button';
 
 function PinIcon() {
   return(
-    // <div className= "ic"
+    // <div 
     //   style={{
-    //     alignItems: 'center',
+    //     height: "10"
     //   }}
     // >
       <a href = "https://google.com">
-      <Button className = "butt" style = {{backgroundColor: "#2C3263", borderColor: "#2C3263"}}>
-          <img style = {{width: 60, height: 60, paddingTop: 10}} src="/whitepin.png" />
-        <p style={{
+      <Button className = "butt" style = {{ borderRadius: "30px 0px 0px 30px", backgroundColor: "black", borderColor: "black"}}>
+          <img style = {{width: 60, height: 70, paddingTop: 10}} src="/whitepin.png" />
+        <p className = "mt-1" style={{
           color: 'white', 
           fontSize: 13,}}> 
             PIN IT 
         </p>
       </Button>
       </a>
-    // </div>
+    //  </div>
   );
 }
 

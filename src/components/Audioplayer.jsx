@@ -47,7 +47,7 @@ class Audioplayer extends React.Component {
   render() {
 
     return (
-      <Row className="mt-4 mb-4" style={{ flexDirection: 'row', display: 'flex', justifyContent: "space-evenly", alignItems: "center"}}>
+      <Row className="mt-4" style={{ flexDirection: 'row', display: 'flex', justifyContent: "space-evenly", alignItems: "center"}}>
       <IconButton onClick={() => this.fastRewind()}>
           <img style={{
               height: 25,
@@ -73,8 +73,9 @@ class Audioplayer extends React.Component {
         <ReactPlayer
           ref={this.ref}
           url= {podcast}
-          width="400px"
-          height="50px"
+          height="20"
+          // width="400px"
+          // height="50px"
           playing={this.state.playpause}
           controls={false}
         />
