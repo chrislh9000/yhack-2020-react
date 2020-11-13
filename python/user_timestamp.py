@@ -138,7 +138,7 @@ def process_timestamp(jsons, time):
 
 
 sec = timedelta(0,10,0,1)
-print(process_timestamp(response, 12.0))
+print(process_timestamp(response, 26.0))
 
 
 

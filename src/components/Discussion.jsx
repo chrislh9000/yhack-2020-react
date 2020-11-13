@@ -134,43 +134,40 @@ class Discussion extends React.Component {
       <Row className="ml-4">
       <p style={{ color: "white", fontSize: "16px" }}>New Releases</p>
       </Row>
-
       </Container>
       <PlayBox handlePin={this.handlePin} />
 
       </Col>
       <Col id="middle" xs={3} style={{
-       height: "30", minHeight: "50%", height: "1080px", overflow: "scroll",display: "flex", borderRadius: "30px 0px 0px 30px", backgroundColor: "#4F57AA", boxShadow: "12px 0 15px -4px rgba(0,0,0,0.5), -12px 0 8px -4px rgba(0,0,0,0.5)",
+           height: "30", minHeight: "50%", height: "850px", overflow: "scroll",display: "flex", borderRadius: "30px 0px 0px 30px", backgroundColor: "#4F57AA", boxShadow: "12px 0 15px -4px rgba(0,0,0,0.5), -12px 0 8px -4px rgba(0,0,0,0.5)",
        }}>
-      <div style={{ display: "flex", flexDirection: "column", overflow: "scroll"}} >
-
-      <Link
+      {/* <div style={{ display: "flex", flexDirection: "column", overflow: "scroll"}} > */}
+       <div class="hl" style = {{alignSelf: "center", position: "absolute"}}></div>
+      {/* <Link
           activeClass="active"
-          to="firstInsideContainer"
+          to="secondInsideContainer"
           spy={true}
           smooth={true}
-          duration={1000}
+          duration={15000}
           containerId="containerElement"
           style={{ display: "inline-block", margin: "20px" }}
         >
           Go to first element inside container
-        </Link>
+        </Link> */}
         <Element
           name="test7"
           className="element"
           id="containerElement"
           style={{
             position: "relative",
-            height: "200px",
+            height: "800px",
             overflow: "scroll",
-            marginBottom: "100px"
+            marginTop: "20px"
           }}
         >
-          test 7 (duration and container)
           <Element
             name="firstInsideContainer"
             style={{
-              marginBottom: "200px"
             }}
           >
             {this.state.audioTranscript}
@@ -179,25 +176,24 @@ class Discussion extends React.Component {
           <Element
             name="secondInsideContainer"
             style={{
-              marginBottom: "200px"
             }}
           >
-            second element inside container
           </Element>
         </Element>
-    // <p style={{color: "white", fontSize: "20px", padding: "30px", paddingRight: "130px", overflow: "scroll" }}>
+    {/* // <p style={{color: "white", fontSize: "20px", padding: "30px", paddingRight: "130px", overflow: "scroll" }}>
     //
-    // </p>
+    // </p> */}
 
 
 
 
 
-    <div class="hl" style = {{alignSelf: "center"}}></div>
-    </div>
+    
+    {/* </div> */}
     </Col>
-    <Col xs={4} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center"}}>
-    <Button onClick={(e) => this.makePin(e)} className = "butt" style = {{backgroundColor: "#2C3263", borderColor: "#2C3263"}}>
+    <Col xs={4} style={{ paddingLeft: "0px", paddingRight: "0px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+    <div style = {{}}class="arrow-right"></div>
+    <Button onClick={(e) => this.makePin(e)} className = "butt" style = {{borderRadius: "30px 0px 0px 30px", backgroundColor: "#2C3263", borderColor: "#2C3263"}}>
     <img style = {{width: 60, height: 60, paddingTop: 10}} src="/whitepin.png" />
     <p style={{
       color: 'white',
@@ -205,8 +201,6 @@ class Discussion extends React.Component {
       PIN IT
       </p>
       </Button>
-      <div style = {{alignSelf: "flex-start"}}class="arrow-right"></div>
-      <div></div>
       {pinArr}
       </Col>
       <Col id="far_right" xs={3} style={{ justifyContent: "space-between", display: 'flex', flexDirection: 'column', backgroundColor: "#5C719B" }}>
