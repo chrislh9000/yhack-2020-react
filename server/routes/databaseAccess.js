@@ -45,9 +45,10 @@ router.get('/getTranscript', (req, res) => {
   res.send(JSON.stringify(output))
 })
 
-router.get('/getPodcast', (req, res) => {
 
-  axios.get('http://localhost:5000/podcast')
+router.get('/getTags', (req, res) => {
+
+  axios.get('http://localhost:5000/podcast/timestamp')
   .then(function (response) {
     console.log("success")
     console.log(response.data);

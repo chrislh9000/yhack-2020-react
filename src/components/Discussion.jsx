@@ -22,7 +22,7 @@ class Discussion extends React.Component {
       audioStamp: 0,
       audioTrascript: "",
     };
-    
+
   }
 
   componentDidMount = (e) => {
@@ -41,7 +41,6 @@ class Discussion extends React.Component {
       this.setState({
         audioTrascript: json
       })
-      console.log("audioStamp", this.state.audioTranscript)
     })
     .catch((err)=> {
       console.log('Error: ', err);
@@ -54,6 +53,7 @@ class Discussion extends React.Component {
     //   </div>
     // ))
     //pre-rendering code
+    console.log("WHAATT", this.state.audioTrascript)
     return (
       <Container fluid className="discussion_background" style={{ backgroundColor: "#353B74" }}>
       <Row>
@@ -100,15 +100,11 @@ class Discussion extends React.Component {
       }}>
       <div style={{ }
     } >
-    <p style={{ height: "55.5%", color: "white", fontSize: "20px", padding: "30px", paddingRight: "130px", overFlow: "scroll" }}> Hello dog my name is ... David Wang  Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang
-    Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang
-
-
+    <p style={{ height: "55.5%", color: "white", fontSize: "20px", padding: "30px", paddingRight: "130px", overFlow: "scroll" }}>
+    {this.state.audioTranscript}
     </p>
-
     <div class="hl" style = {{alignSelf: "center"}}></div>
     </div>
-    
     </Col>
     <Col xs={4} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center"}}>
       <PinIcon/>

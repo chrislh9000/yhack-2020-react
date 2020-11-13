@@ -1,5 +1,8 @@
 from flask import Flask
 from flask import jsonify
+from user_timestamp import *
+from datetime import timedelta
+import json
 
 
 app = Flask(__name__)
@@ -19,9 +22,18 @@ tasks = [
     }
 ]
 
-@app.route('/podcast')
+@app.route('/podcast/timestamp')
 def index():
-    
+    f = open('data.json',)
+    response = json.load(f)
+    f.close()
+    res = process_timestamp(response, 50.0)
+    res3 = []
+    for i in res:
+        res3.append(i)
+
+    return json.dumps(res3)
+
 
 
 if __name__ == "__main__":
