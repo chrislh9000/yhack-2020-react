@@ -19,11 +19,13 @@ f.close()
 fulltext = ""
 for result in response["response"]["results"]:
     # The first alternative is the most likely one for this portion.
+    if "transcript" not in result["alternatives"][0]:
+        break
 
-    print("\n\n\n\n\n\n\n\n")
-    print(result["alternatives"][0])
-    print(u"Transcript: {}".format(result["alternatives"][0]["words"]))
-    
+    # print("\n\n\n\n\n\n\n\n")
+    # print(result["alternatives"][0])
+    # print(u"Transcript: {}".format(result["alternatives"][0]["words"]))
+
     fulltext += result["alternatives"][0]["transcript"]
     fulltext += "\n\n"
     print("Confidence: {}".format(result["alternatives"][0]["confidence"]))
