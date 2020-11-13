@@ -11,6 +11,7 @@ import Navbar from './Navbar'
 import Pinpage from './Pinpage'
 import Discussion from './Discussion'
 import Audioplayer from './Audioplayer'
+import PinIcon from './PinIcon'
 
 export default function App() {
   return (
@@ -56,7 +57,8 @@ export default function App() {
 }
 
 function Home() {
-  return <h2>Wut</h2>;
+  // return <h2>Wut</h2>;
+  return <PinIcon/>
 }
 
 function About() {
