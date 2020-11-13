@@ -18,11 +18,14 @@ def parsewiki(url):
 
     body_ps = parsed.find("div", id="bodyContent")
     body_ps = body_ps.find_all('p')
+    # print(body_ps)
     p = body_ps[0].getText()
+    if len(p) < 50:
+        p = body_ps[1].getText()
     return (p, final['src'][2:])
     # return parsed.select('table[class*="infobox"]')
 
 
-URL = 'https://en.wikipedia.org/wiki/Miami'
+URL = 'https://en.wikipedia.org/wiki/Shanghai_American_School'
 
 print(parsewiki(URL))
