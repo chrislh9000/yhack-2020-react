@@ -131,7 +131,7 @@ def process_timestamp(jsons, time):
     wikis = []
     print(props)
     for url in props[1]:
-        if url[:3] == "http":
+        if url[:4] == "http":
             wikis.append(parsewiki(url))
 
     res = {time: [props[0], beg_start, s_end, sentence, wikis]}
@@ -140,7 +140,7 @@ def process_timestamp(jsons, time):
 
 
 sec = timedelta(0,10,0,1)
-print(process_timestamp(response, 53.0))
+print(process_timestamp(response, 16.0))
 
 
 

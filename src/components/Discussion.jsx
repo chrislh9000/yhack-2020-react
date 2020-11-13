@@ -137,14 +137,14 @@ class Discussion extends React.Component {
       <PlayBox handlePin={this.handlePin} />
 
       </Col>
-      <Col id="middle" xs={3} style={{
-       height: "30", minHeight: "50%", overflow: "scroll",display: "flex", borderRadius: "30px 0px 0px 30px", backgroundColor: "#4F57AA", boxShadow: "12px 0 15px -4px rgba(0,0,0,0.5), -12px 0 8px -4px rgba(0,0,0,0.5)",
+      <Col className= "midcontainer" mid="middle" xs={3} style={{
+       flex-direction: "column", height: "30", minHeight: "50%", overflow: "scroll",display: "flex", borderRadius: "30px 0px 0px 30px", backgroundColor: "#4F57AA", boxShadow: "12px 0 15px -4px rgba(0,0,0,0.5), -12px 0 8px -4px rgba(0,0,0,0.5)",
        }}>
       <div style={{ display: "flex", flexDirection: "column", overflow: "scroll"}
     } >
-    <p style={{ height: "55.5%", color: "white", fontSize: "20px", padding: "30px", paddingRight: "130px", overFlow: "scroll" }}>
+    {/* <p style={{ height: "55.5%", color: "white", fontSize: "20px", padding: "30px", paddingRight: "130px", overFlow: "scroll" }}>
     {this.state.audioTranscript}
-    </p>
+    </p> */}
     <div class="hl" style = {{alignSelf: "center"}}></div>
     </div>
     </Col>
