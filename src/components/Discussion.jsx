@@ -15,6 +15,7 @@ import PlayBox from './SearchBar'
 import TextField from '@material-ui/core/TextField'
 import PinIcon from './PinIcon'
 import Button from 'react-bootstrap/Button';
+import Pin from './Pin'
 
 class Discussion extends React.Component {
   constructor(props) {
@@ -81,7 +82,7 @@ class Discussion extends React.Component {
     //pre-rendering code
     const pinArr = this.state.pins.map((pin, i) => (
       <div key={pin.pinId}>
-      <p> PinArr </p>
+      <Pin title={pin.title} timestamp={pin.timeStamp} tags={pin.tags}/>
       </div>
     ));
 
