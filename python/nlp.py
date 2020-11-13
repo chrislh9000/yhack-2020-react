@@ -30,8 +30,8 @@ for result in response["response"]["results"]:
     fulltext += "\n\n"
     print("Confidence: {}".format(result["alternatives"][0]["confidence"]))
 
-with open('full-output.txt', 'w') as f:
-    print(fulltext, file=f)
+# with open('full-output.txt', 'w') as f:
+#     print(fulltext, file=f)
 
 document = 'full-output.txt'
 
@@ -111,8 +111,6 @@ def topics():
                         str(topics_response.getNumberOfAppearances(entity)) + "\n")
 
                     if ("semld_list" in entity.keys()):
-
-                        print("nigger")
                         print(entity["semld_list"][0])
 
 

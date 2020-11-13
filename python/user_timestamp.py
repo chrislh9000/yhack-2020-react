@@ -21,7 +21,7 @@ def count_results(jsons):
         count += 1
     return count
 
-print(count_results(response))
+# print(count_results(response))
 
 def count_words(result):
     count = 0
@@ -45,7 +45,7 @@ def search_for_proper(sentence, entity_dict):
     wiki_links = set()
     res = []
     res2 = []
-    print(entity_dict)
+    # print(entity_dict)
     for key in entity_dict:
         if key.lower() in sent:
             for tag in entity_dict[key][0]:
@@ -131,7 +131,8 @@ def process_timestamp(jsons, time):
     wikis = []
     print(props)
     for url in props[1]:
-        if url[:3] == "http":
+        if url[:4] == "http":
+            print("HELLO DOG")
             wikis.append(parsewiki(url))
 
     res = {time: [props[0], beg_start, s_end, sentence, wikis]}
@@ -140,7 +141,7 @@ def process_timestamp(jsons, time):
 
 
 sec = timedelta(0,10,0,1)
-print(process_timestamp(response, 53.0))
+print(process_timestamp(response, 25.0))
 
 
 
