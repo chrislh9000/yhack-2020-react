@@ -19,13 +19,13 @@ class Discussion extends React.Component {
     super(props);
     this.state = {
       audioStamp: 0,
+      audioTrascript: "",
     };
   }
 
   componentDidMount = (e) => {
-    const proxyurl = "https://cors-anywhere.herokuapp.com/";
     const url = 'http://localhost:3000/db/getTranscript'
-    fetch("https://api.github.com/users", {
+    fetch(url, {
       method: 'GET',
       credentials: 'same-origin',
       headers: {
@@ -36,12 +36,21 @@ class Discussion extends React.Component {
     .then((json) => {
       console.log("SUCCESS!!!");
       console.log(json);
+      this.setState({
+        audioTrascript: json
+      })
+      console.log("audioStamp", this.state.audioTranscript)
     })
     .catch((err)=> {
       console.log('Error: ', err);
     });
   }
   render() {
+    // const audioTranscript = this.state.audioTrascript.map((transcript, i) => (
+    //   <div key="text">
+    //     <p> {this.state.audioTrascript} </p>
+    //   </div>
+    // ))
     //pre-rendering code
     return (
       <Container fluid className="discussion_background" style={{ backgroundColor: "#353B74" }}>
@@ -85,14 +94,12 @@ class Discussion extends React.Component {
 
       </Col>
       <Col id="middle" xs={3} style={{
-        borderRadius: "30px 0px 0px 30px", backgroundColor: "#4F57AA", boxShadow: "12px 0 15px -4px rgba(0,0,0,0.5), -12px 0 8px -4px rgba(0,0,0,0.5)"
+        borderRadius: "30px 0px 0px 30px", backgroundColor: "#4F57AA", boxShadow: "12px 0 15px -4px rgba(0,0,0,0.5), -12px 0 8px -4px rgba(0,0,0,0.5)", overflow: "scroll"
       }}>
       <div style={{ height: "100px" }
     } >
-    <p style={{ color: "white", fontSize: "20px", padding: "30px", paddingRight: "130px", overFlow: "scroll", height: "100px" }}> Hello dog my name is ... David Wang  Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang
-    Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang Hello dog my name is ... David Wang
-
-
+    <p style={{ color: "white", fontSize: "20px", padding: "30px", paddingRight: "130px", overFlow: "scroll", height: "100px" }}>
+    {this.state.audioTrascript}
     </p>
     </div>
     </Col>
