@@ -42,7 +42,7 @@ router.get('/getTranscript', (req, res) => {
 
  Alex burns on where the election stands and the remaining paths to Victory. We were getting ready to win this election.
   `
-  res.send(output)
+  res.send(JSON.stringify(output))
 })
 
 router.get('/getPodcast', (req, res) => {

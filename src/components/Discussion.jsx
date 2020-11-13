@@ -20,14 +20,14 @@ class Discussion extends React.Component {
     super(props);
     this.state = {
       audioStamp: 0,
+      audioTrascript: "",
     };
     
   }
 
   componentDidMount = (e) => {
-    const proxyurl = "https://cors-anywhere.herokuapp.com/";
     const url = 'http://localhost:3000/db/getTranscript'
-    fetch("https://api.github.com/users", {
+    fetch(url, {
       method: 'GET',
       credentials: 'same-origin',
       headers: {
@@ -38,12 +38,21 @@ class Discussion extends React.Component {
     .then((json) => {
       console.log("SUCCESS!!!");
       console.log(json);
+      this.setState({
+        audioTrascript: json
+      })
+      console.log("audioStamp", this.state.audioTranscript)
     })
     .catch((err)=> {
       console.log('Error: ', err);
     });
   }
   render() {
+    // const audioTranscript = this.state.audioTrascript.map((transcript, i) => (
+    //   <div key="text">
+    //     <p> {this.state.audioTrascript} </p>
+    //   </div>
+    // ))
     //pre-rendering code
     return (
       <Container fluid className="discussion_background" style={{ backgroundColor: "#353B74" }}>
