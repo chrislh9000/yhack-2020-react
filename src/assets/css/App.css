@@ -102,3 +102,8 @@
     transform: rotate(360deg);
   }
 }
+
+@font-face {
+  font-family: "Euclid Flex";
+  src: local("Euclid Flex"), url(../../fonts/EuclidFlexLight.ttf) format('truetype');
+}
