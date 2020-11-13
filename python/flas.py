@@ -24,15 +24,15 @@ tasks = [
 
 @app.route('/podcast/timestamp')
 def index():
-    f = open('data.json',)
+    f = open('full_data.json',)
     response = json.load(f)
     f.close()
-    res = process_timestamp(response, 50.0)
+    res = process_timestamp(response, 16.0)
     res3 = []
     for i in res:
         res3.append(i)
 
-    return json.dumps(res3)
+    return json.dumps(res)
 
 
 

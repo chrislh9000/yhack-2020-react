@@ -24,8 +24,3 @@ def parsewiki(url):
         p = body_ps[1].getText()
     return (p, final['src'][2:])
     # return parsed.select('table[class*="infobox"]')
-
-
-URL = 'https://en.wikipedia.org/wiki/Shanghai_American_School'
-
-print(parsewiki(URL))
