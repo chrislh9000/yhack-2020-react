@@ -5,6 +5,7 @@ from beg_sentence import *
 import string
 import json
 import datetime
+from wikiparser import *
 
 f = open('data.json',)
 
@@ -13,10 +14,10 @@ f.close()
 ########################################################################################
 # math helpers                                                                         #
 ########################################################################################
-def count_results(json):
+def count_results(jsons):
     count = 0
-    # for i in json.results:
-    for i in json["response"]["results"]:
+    # for i in jsons.results:
+    for i in jsons["response"]["results"]:
         count += 1
     return count
 
@@ -39,26 +40,44 @@ def in_range_time(pin_time, start_time, end_time):
 ########################################################################################
 
 def search_for_proper(sentence, entity_dict):
-    sent = sentence.split(" ")
+    sent = sentence.lower()
     tags = set()
+    wiki_links = set()
+    res = []
+    res2 = []
+
+    for key in entity_dict:
+        if key.lower() in sent:
+            for tag in entity_dict[key][0]:
+                tags.add(tag)
+                wiki_links.add(entity_dict[key][2])
+    
+            
+
     # print(sent)
-    for word in sent:
-        if word == "":
-            continue
-        if word[-1] == ".":
-            word = word[:-1]
-        for key in entity_dict:
-            if key.lower() == word.lower():
-                for tag in entity_dict[key][0]:
-                    tags.add(tag)
-    return tags
+    # for word in sent:
+    #     if word == "":
+    #         continue
+    #     if word[-1] == ".":
+    #         word = word[:-1]
+    #     for key in entity_dict:
+    #         print(key)
+    #         if key.lower() == word.lower():
+    #             for tag in entity_dict[key][0]:
+    #                 tags.add(tag)
+    #                 wiki_links.add(entity_dict[key][2])
+    for i in tags:
+        res.append(i)
+    for j in wiki_links:
+        res2.append(j)
+    return (res, res2)
 # print(search_for_proper("Hi im a hi.", {"hi": [["hi", "hi"],1] , "im":[["me"],1],}))
 
 # TODO: num appears
 
 # based on pinned time, searches for word
-def find_start_end_time(json, time):
-    response = json
+def find_start_end_time(jsons, time):
+    response = jsons
 
     res_count = count_results(response)
     # print(res_count)
@@ -97,22 +116,31 @@ def find_start_end_time(json, time):
 
 print(find_start_end_time(response, 1.0))
 
-def process_timestamp(json, time):
-    response = json
+def process_timestamp(jsons, time):
+    response = jsons
 
-    pin_word, start_t, end_t, word_object = find_start_end_time(json, time)
+    pin_word, start_t, end_t, word_object = find_start_end_time(jsons, time)
     if pin_word == start_t == end_t == word_object == 0:
         print("pinned something before they even said something you fucking idiot")
         return
-    beg_word, beg_start, beg_end, sentence = get_beg_sentence(response, word_object)
+    beg_word, beg_start, beg_end, sentence, s_end = get_beg_sentence(response, word_object)
     topics_response, entities = topics()
     entity_dict = entity_filter_search(entities, topics_response)
-    tags = search_for_proper(sentence, entity_dict)
-    return tags
+    props = search_for_proper(sentence, entity_dict)
+    wikis = []
+    for url in props[1]:
+        if url == "":
+            continue
+        wikis.append(parsewiki(url))
+
+    res = {time: [props[0], beg_start, s_end, sentence, wikis]}
+    print(type(props[0]), type(beg_start), type( s_end), type(sentence), type(time), type(wikis))
+    return json.dumps(res)
 
 
 sec = timedelta(0,10,0,1)
 print(process_timestamp(response, 25.0))
+
 
 
 

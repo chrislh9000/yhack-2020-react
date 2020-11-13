@@ -8,6 +8,8 @@ def get_beg_sentence(json, beg_word):
     beg_end = 0
     sentence = ""
     #TODO: nanos edge case
+
+    s_end = 0
     for result in response["response"]["results"]:
         #test cases
         
@@ -35,13 +37,15 @@ def get_beg_sentence(json, beg_word):
                     sentence = sentence + " " + entry["word"]
                     cur = cur + 1
                     entry = result["alternatives"][0]["words"][cur]
+                if entry["word"][-1] == '.':
+                    s_end = entry["endTime"]
                 sentence = sentence + " " + entry["word"]
 
                 break
         if flag:
             break
 
-    return (beg_word, beg_start, beg_end, sentence)
+    return (beg_word, beg_start, beg_end, sentence, s_end)
 
 f = open('data.json',)
 response = json.load(f)
