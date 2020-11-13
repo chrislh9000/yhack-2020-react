@@ -84,7 +84,7 @@ def entity_filter_search(entities, topics_response):
         else:
             # create new key in dict
             entity_dict[topic] = [tags_list, num_appear, wiki]
-    
+
 
     return entity_dict
 
@@ -111,7 +111,10 @@ def topics():
                         str(topics_response.getNumberOfAppearances(entity)) + "\n")
 
                     if ("semld_list" in entity.keys()):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 634e7e0b7710d9a3c4a93d5246b2de0b45345b6a
                         print(entity["semld_list"][0])
 
 

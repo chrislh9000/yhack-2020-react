@@ -52,9 +52,9 @@ def search_for_proper(sentence, entity_dict):
                 tags.add(tag)
                 wiki_links.add(entity_dict[key][2])
 
-                
-    
-            
+
+
+
 
     # print(sent)
     # for word in sent:
@@ -90,7 +90,7 @@ def find_start_end_time(jsons, time):
         # print(result.alternatives[0].words[0], result.alternatives[0].words[-1])
 
         result = response["response"]["results"][j]
-        
+
         start_t = result["alternatives"][0]["words"][0]["startTime"]
         if j == res_count - 1:
             end_t = result["alternatives"][0]["words"][-1]["endTime"]
@@ -140,7 +140,7 @@ def process_timestamp(jsons, time):
 
 
 sec = timedelta(0,10,0,1)
-print(process_timestamp(response, 16.0))
+print(process_timestamp(response, 12.0))
 
 
 
