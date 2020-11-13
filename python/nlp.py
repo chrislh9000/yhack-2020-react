@@ -23,6 +23,7 @@ for result in response["response"]["results"]:
     print("\n\n\n\n\n\n\n\n")
     print(result["alternatives"][0])
     print(u"Transcript: {}".format(result["alternatives"][0]["words"]))
+    
     fulltext += result["alternatives"][0]["transcript"]
     fulltext += "\n\n"
     print("Confidence: {}".format(result["alternatives"][0]["confidence"]))
