@@ -21,7 +21,7 @@ def count_results(jsons):
         count += 1
     return count
 
-print(count_results(response))
+# print(count_results(response))
 
 def count_words(result):
     count = 0
@@ -45,16 +45,16 @@ def search_for_proper(sentence, entity_dict):
     wiki_links = set()
     res = []
     res2 = []
-    print(entity_dict)
+    # print(entity_dict)
     for key in entity_dict:
         if key.lower() in sent:
             for tag in entity_dict[key][0]:
                 tags.add(tag)
                 wiki_links.add(entity_dict[key][2])
 
-                
-    
-            
+
+
+
 
     # print(sent)
     # for word in sent:
@@ -90,7 +90,7 @@ def find_start_end_time(jsons, time):
         # print(result.alternatives[0].words[0], result.alternatives[0].words[-1])
 
         result = response["response"]["results"][j]
-        
+
         start_t = result["alternatives"][0]["words"][0]["startTime"]
         if j == res_count - 1:
             end_t = result["alternatives"][0]["words"][-1]["endTime"]
@@ -100,7 +100,7 @@ def find_start_end_time(jsons, time):
         end_t = float(end_t[:-1])
         start_t = float(start_t[:-1])
         if in_range_time(time, start_t, end_t):
-            print(result)
+            # print(result)
             count = count_words(result)
             for i in range(count):
                 word_start = result["alternatives"][0]["words"][i]["startTime"]
@@ -129,18 +129,16 @@ def process_timestamp(jsons, time):
     entity_dict = entity_filter_search(entities, topics_response)
     props = search_for_proper(sentence, entity_dict)
     wikis = []
-    print(props)
     for url in props[1]:
-        if url[:3] == "http":
+        if url[:4] == "http":
             wikis.append(parsewiki(url))
 
     res = {time: [props[0], beg_start, s_end, sentence, wikis]}
-    print(type(props[0]), type(beg_start), type( s_end), type(sentence), type(time), type(wikis))
     return json.dumps(res)
 
 
 sec = timedelta(0,10,0,1)
-print(process_timestamp(response, 53.0))
+print(process_timestamp(response, 26.0))
 
 
 
