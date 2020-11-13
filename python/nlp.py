@@ -62,6 +62,9 @@ def entity_filter_search(entities, topics_response):
         topic = topics_response.getTopicForm(entity)
         ontology = topics_response.getOntoType(entity)
         num_appear = topics_response.getNumberOfAppearances(entity)
+        wiki = ""
+        if "semld_list" in entity.keys():
+            wiki = entity["semld_list"][0]
         tags_list = ontology.split(">")
 
         # remove "Top"
@@ -80,9 +83,11 @@ def entity_filter_search(entities, topics_response):
             entity_dict[topic][1] += num_appear
         else:
             # create new key in dict
-            entity_dict[topic] = [tags_list, num_appear]
+            entity_dict[topic] = [tags_list, num_appear, wiki]
+    
 
     return entity_dict
+
 
 def topics():
     try:
@@ -97,13 +102,19 @@ def topics():
             entities = topics_response.getEntities()
             if entities:
                 print("\t Found entities")
-                # print("\tEntities detected (" + str(len(entities)) + "):\n")
+                print("\tEntities detected (" + str(len(entities)) + "):\n")
+                print(entities)
+                for entity in entities:
+                    print("\t\t" + topics_response.getTopicForm(entity) + ' --> ' +
+                        topics_response.getTypeLastNode(topics_response.getOntoType(entity)) + ' --> ' +
+                        topics_response.getOntoType(entity) + ' --> ' +
+                        str(topics_response.getNumberOfAppearances(entity)) + "\n")
 
-                # for entity in entities:
-                #     print("\t\t" + topics_response.getTopicForm(entity) + ' --> ' +
-                #         topics_response.getTypeLastNode(topics_response.getOntoType(entity)) + ' --> ' +
-                #         topics_response.getOntoType(entity) + ' --> ' +
-                #         str(topics_response.getNumberOfAppearances(entity)) +"\n")
+                    if ("semld_list" in entity.keys()):
+
+                        print("nigger")
+                        print(entity["semld_list"][0])
+
 
 
             else:
