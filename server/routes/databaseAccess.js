@@ -32,7 +32,7 @@ router.post('/test', (req, res) => {
 
 router.get('/getTranscript', (req, res) => {
   console.log("TRANSCRIPT REQUEST RECEIVED")
-  const output = `I'm here to tell you tonight. We believe we're on track to win this election.
+  const output = `I'm here to tell you tonight. We believe we're on track to win this election.       
 
  From The New York Times. I'm Michael borrow. This is a daily today. So we'll be going to the US Supreme Court. We want all voting to start. It ain't over till every vote is counted. Every ballot is counted Joe Biden is calling for patients and President Trump is threatening legal action as millions of votes are still uncounted. We don't want them to find any ballots at
 
