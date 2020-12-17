@@ -20,7 +20,6 @@ class Pinpage extends React.Component {
     return(
       <div>
 
-      <h1> David is Gey </h1>
       <Navibar />
 
       </div>

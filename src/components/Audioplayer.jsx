@@ -10,8 +10,8 @@ import ReactPlayer from 'react-player'
 import podcast from '../assets/election_audio.mp3'
 import IconButton from '@material-ui/core/Button';
 import Button from '@material-ui/core/Button'
-import Scroll from "react-scroll"
-var Link = Scroll.Link;
+// import Scroll from "react-scroll"
+// var Link = Scroll.Link;
 // import DeleteIcon from '@material-ui/icons';
 
 class Audioplayer extends React.Component {
@@ -58,37 +58,27 @@ class Audioplayer extends React.Component {
   render() {
 
     return (
-      <Row className="mt-4" style={{ flexDirection: 'row', display: 'flex', justifyContent: "space-evenly", alignItems: "center"}}>
-      <IconButton onClick={() => this.fastRewind()}>
+      <Row className="mt-2 mb-4" style={{ flexDirection: 'row', display: 'flex', justifyContent: "space-between", alignItems: "center", width: "140px"}}>
+      <IconButton onClick={() => this.fastRewind()} style = {{minWidth: "0px"}} className = "pl-0">
       <img style={{
-        height: 25,
-        width: 25,
+        height: 18,
+        width: 18,
       }} src='/back.png' />
       </IconButton>
 
-      <Link
-          activeClass="active"
-          to="secondInsideContainer"
-          spy={true}
-          smooth={true}
-          ignoreCancelEvents={true}
-          duration={300000}
-          containerId="containerElement"
-          style={{ display: "inline-block", margin: "20px" }}
-        >
-      <IconButton onClick={() => this.handlePlayorpause()}>
+
+      <IconButton onClick={() => this.handlePlayorpause()} className = "pr-0 pl-0 mt-2 mb-2">
       <img style={{
-        height: 42,
-        width: 42,
+        height: 32,
+        width: 32,
         opacity: 1
       }} src='/Play.png' />
       </IconButton>
-      </Link>
 
-      <IconButton onClick={() => this.fastForward()}>
+      <IconButton onClick={() => this.fastForward()} style = {{minWidth: "0px"}} className = "pr-0">
       <img style={{
-        height: 25,
-        width: 25,
+        height: 18,
+        width: 18,
       }} src='/next.png' />
       </IconButton>
 
@@ -96,7 +86,7 @@ class Audioplayer extends React.Component {
       ref={this.ref}
       url= {podcast}
       width="400px"
-      height="50px"
+      height="0px"
       playing={this.state.playpause}
       controls={false}
       />
