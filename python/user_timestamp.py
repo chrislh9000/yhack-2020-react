@@ -58,23 +58,6 @@ def search_for_proper(sentence, entity_dict):
             for tag in entity_dict[key][0]:
                 tags.add(tag)
                 wiki_links.add(entity_dict[key][2])
-
-                
-    
-            
-
-    # print(sent)
-    # for word in sent:
-    #     if word == "":
-    #         continue
-    #     if word[-1] == ".":
-    #         word = word[:-1]
-    #     for key in entity_dict:
-    #         print(key)
-    #         if key.lower() == word.lower():
-    #             for tag in entity_dict[key][0]:
-    #                 tags.add(tag)
-    #                 wiki_links.add(entity_dict[key][2])
     for i in tags:
         res.append(i)
     for j in wiki_links:
@@ -93,7 +76,7 @@ def find_start_end_time(jsons, time):
     for j in range(res_count):
 
         result = response["response"]["results"][j]
-        
+
         start_t = result["alternatives"][0]["words"][0]["startTime"]
         if j == res_count - 1:
             end_t = result["alternatives"][0]["words"][-1]["endTime"]
@@ -103,7 +86,7 @@ def find_start_end_time(jsons, time):
         end_t = float(end_t[:-1])
         start_t = float(start_t[:-1])
         if in_range_time(time, start_t, end_t):
-            print(result)
+            # print(result)
             count = count_words(result)
             for i in range(count):
                 word_start = result["alternatives"][0]["words"][i]["startTime"]
@@ -211,14 +194,12 @@ def process_timestamp(jsons, time):
     entity_dict = entity_filter_search(entities, topics_response)
     props = search_for_proper(sentence, entity_dict)
     wikis = []
-    print(props)
     for url in props[1]:
         if url[:4] == "http":
             print("HELLO DOG")
             wikis.append(parsewiki(url))
 
     res = {time: [props[0], beg_start, s_end, sentence, wikis]}
-    print(type(props[0]), type(beg_start), type( s_end), type(sentence), type(time), type(wikis))
     return json.dumps(res)
 
 
@@ -228,43 +209,3 @@ sec = timedelta(0,10,0,1)
 print(find_start_end_time2(response, 51.0))
 # print(process_timestamp(response, 25.0))
 
-
-
-
-
-
-def binary_search(arr, low, high, x):
-
-    # Check base case
-    if high >= low:
-
-        mid = (high + low) // 2
-
-        # If element is present at the middle itself
-        if arr[mid] == x:
-            return mid
-
-        # If element is smaller than mid, then it can only
-        # be present in left subarray
-        elif arr[mid] > x:
-            return binary_search(arr, low, mid - 1, x)
-
-        # Else the element can only be present in right subarray
-        else:
-            return binary_search(arr, mid + 1, high, x)
-
-    else:
-        # Element is not present in the array
-        return -1
-
-# # Test array
-# arr = [ 2, 3, 4, 10, 40 ]
-# x = 10
-
-# # Function call
-# result = binary_search(arr, 0, len(arr)-1, x)
-
-# if result != -1:
-#     print("Element is present at index", str(result))
-# else:
-#     print("Element is not present in array")

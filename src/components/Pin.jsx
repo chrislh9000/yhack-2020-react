@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
+import Accordion from 'react-bootstrap/Accordion'
 
 class Pin extends React.Component {
   constructor(props) {
@@ -16,15 +17,28 @@ class Pin extends React.Component {
 
   render () {
     return (
-      <Card style={{ width: '18rem', backgroundColor: "#82A7C2", borderColor: "#82A7C2"}}>
+      <Card style={{ display: "flex", flexDirection: "row", width: '32rem', backgroundColor: "#82A7C2", borderColor: "#82A7C2", marginTop: "30px"}}>
       <Card.Body>
       <Card.Title style={{color: "white"}}>{this.props.title}</Card.Title>
       <Card.Subtitle style={{color: "white"}} className="mb-2">{this.props.timestamp}</Card.Subtitle>
-      <Card.Text style={{color: "white"}}>
-      Pin Text
-      </Card.Text>
+      <Accordion>
+      <Card>
+      <Card.Header>
+      <Accordion.Toggle as={Button} variant="link" style={{color: 'black'}} eventKey="1">
+      {this.props.accordion_title}
+      </Accordion.Toggle>
+      </Card.Header>
+      <Accordion.Collapse eventKey="1">
+      <Card.Body>
+      {this.props.accordion_body}
       </Card.Body>
+      </Accordion.Collapse>
       </Card>
+      </Accordion>
+      </Card.Body>
+      <img style={{maxHeight: "200px"}}  src={this.props.accordion_img} />
+      </Card>
+
     )
   }      // </div>
 }

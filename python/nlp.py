@@ -84,7 +84,7 @@ def entity_filter_search(entities, topics_response):
         else:
             # create new key in dict
             entity_dict[topic] = [tags_list, num_appear, wiki]
-    
+
 
     return entity_dict
 
