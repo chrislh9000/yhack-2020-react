@@ -21,6 +21,13 @@ def count_results(jsons):
         count += 1
     return count
 
+def bet_count(jsons):
+    count = 0
+    # for i in jsons.results:
+    for i in jsons["response"]["results"]:
+        count += 1
+    return count - 1
+
 # print(count_results(response))
 
 def count_words(result):
@@ -51,23 +58,6 @@ def search_for_proper(sentence, entity_dict):
             for tag in entity_dict[key][0]:
                 tags.add(tag)
                 wiki_links.add(entity_dict[key][2])
-
-
-
-
-
-    # print(sent)
-    # for word in sent:
-    #     if word == "":
-    #         continue
-    #     if word[-1] == ".":
-    #         word = word[:-1]
-    #     for key in entity_dict:
-    #         print(key)
-    #         if key.lower() == word.lower():
-    #             for tag in entity_dict[key][0]:
-    #                 tags.add(tag)
-    #                 wiki_links.add(entity_dict[key][2])
     for i in tags:
         res.append(i)
     for j in wiki_links:
@@ -84,10 +74,6 @@ def find_start_end_time(jsons, time):
     res_count = count_results(response)
     # print(res_count)
     for j in range(res_count):
-        # print("\n\n\n")
-        # print("\t\t" + str(time))
-
-        # print(result.alternatives[0].words[0], result.alternatives[0].words[-1])
 
         result = response["response"]["results"][j]
 
@@ -116,11 +102,90 @@ def find_start_end_time(jsons, time):
                             result["alternatives"][0]["words"][i]["endTime"],
                             result["alternatives"][0]["words"][i])
 
+def binary_phrase(response, lo, hi, x, res_count):
+    # Check base case
+    print(hi, lo, x)
+    if hi >= lo:
+
+        mid = (hi + lo) // 2
+        
+        result = response["response"]["results"][mid]
+
+        start = result["alternatives"][0]["words"][0]["startTime"]
+        if mid == res_count:
+            end = result["alternatives"][0]["words"][-1]["endTime"]
+        else:
+            end = response["response"]["results"][mid+1]["alternatives"][0]["words"][0]["startTime"]
+
+        # If element is present at the middle itself
+
+        end = float(end[:-1])
+        start = float(start[:-1])
+        
+        if in_range_time(x, start, end):
+            return mid
+
+        # If element is smaller than mid, then it can only
+        # be present in left subarray
+        elif start > x:
+            return binary_phrase(response, lo, mid - 1, x, res_count)
+
+        # Else the element can only be present in right subarray
+        else:
+            return binary_phrase(response, mid + 1, hi, x, res_count)
+
+    else:
+        # Element is not present in the array
+        return -1
+
+def binary_word(response, lo, hi, x, res_count, phrase):
+    if hi >= lo:
+
+        mid = (hi + lo) // 2
+        
+        result = response["response"]["results"][phrase]
+
+        start = result["alternatives"][0]["words"][mid]["startTime"]
+        if mid == res_count:
+            end = result["alternatives"][0]["words"][mid]["endTime"]
+        else:
+            end = result["alternatives"][0]["words"][mid+1]["startTime"]
+
+        # If element is present at the middle itself
+
+        end = float(end[:-1])
+        start = float(start[:-1])
+        
+        if in_range_time(x, start, end):
+            return mid
+
+        # If element is smaller than mid, then it can only
+        # be present in left subarray
+        elif start > x:
+            return binary_word(response, lo, mid - 1, x, res_count, phrase)
+
+        # Else the element can only be present in right subarray
+        else:
+            return binary_word(response, mid + 1, hi, x, res_count, phrase)
+
+    else:
+        # Element is not present in the array
+        return -1
+
+def find_start_end_time2(jsons, time):
+    response = jsons
+
+    count = bet_count(response) 
+    phrase = binary_phrase(response, 0, count, time, count)
+    ct = count_words(response["response"]["results"][phrase])
+    word = binary_word(response, 0, ct, time, ct, phrase)
+    res = response["response"]["results"][phrase]["alternatives"][0]["words"][word]
+    return (res["word"], res["startTime"], res["endTime"], res)
 
 def process_timestamp(jsons, time):
     response = jsons
 
-    pin_word, start_t, end_t, word_object = find_start_end_time(jsons, time)
+    pin_word, start_t, end_t, word_object = find_start_end_time2(jsons, time)
     if pin_word == start_t == end_t == word_object == 0:
         print("pinned something before they even said something you fucking idiot")
         return
@@ -131,6 +196,7 @@ def process_timestamp(jsons, time):
     wikis = []
     for url in props[1]:
         if url[:4] == "http":
+            print("HELLO DOG")
             wikis.append(parsewiki(url))
 
     res = {time: [props[0], beg_start, s_end, sentence, wikis]}
@@ -138,45 +204,8 @@ def process_timestamp(jsons, time):
 
 
 sec = timedelta(0,10,0,1)
-print(process_timestamp(response, 26.0))
 
 
+print(find_start_end_time2(response, 51.0))
+# print(process_timestamp(response, 25.0))
 
-
-
-
-def binary_search(arr, low, high, x):
-
-    # Check base case
-    if high >= low:
-
-        mid = (high + low) // 2
-
-        # If element is present at the middle itself
-        if arr[mid] == x:
-            return mid
-
-        # If element is smaller than mid, then it can only
-        # be present in left subarray
-        elif arr[mid] > x:
-            return binary_search(arr, low, mid - 1, x)
-
-        # Else the element can only be present in right subarray
-        else:
-            return binary_search(arr, mid + 1, high, x)
-
-    else:
-        # Element is not present in the array
-        return -1
-
-# # Test array
-# arr = [ 2, 3, 4, 10, 40 ]
-# x = 10
-
-# # Function call
-# result = binary_search(arr, 0, len(arr)-1, x)
-
-# if result != -1:
-#     print("Element is present at index", str(result))
-# else:
-#     print("Element is not present in array")

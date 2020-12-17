@@ -48,7 +48,7 @@ def transcribe_gcs(gcs_uri):
     print("=======OPERATION=======")
     # print(operation.metadata)
 
-    # response = operation.result(timeout=1000)
+    response = operation.result(timeout=1000)
 
     print("\n\n\n")
     # print(response["name"])
