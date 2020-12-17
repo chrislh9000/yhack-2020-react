@@ -1,0 +1,1515 @@
+{
+    "name": "3159304132252277599",
+    "metadata": {
+        "@type": "type.googleapis.com/google.cloud.speech.v1.LongRunningRecognizeMetadata",
+        "progressPercent": 100,
+        "startTime": "2020-11-10T06:24:00.236348Z",
+        "lastUpdateTime": "2020-11-10T06:24:12.050601Z",
+        "uri": "gs://sample_audio_v1/trimmed-daily.flac"
+    },
+    "done": true,
+    "response": {
+        "@type": "type.googleapis.com/google.cloud.speech.v1.LongRunningRecognizeResponse",
+        "results": [
+            {
+                "alternatives": [
+                    {
+                        "transcript": "I'm here to tell you tonight. We believe we're on track to win this election.",
+                        "confidence": 0.8888633,
+                        "words": [
+                            {
+                                "startTime": "1.700s",
+                                "endTime": "2s",
+                                "word": "I'm"
+                            },
+                            {
+                                "startTime": "2s",
+                                "endTime": "2.200s",
+                                "word": "here"
+                            },
+                            {
+                                "startTime": "2.200s",
+                                "endTime": "2.300s",
+                                "word": "to"
+                            },
+                            {
+                                "startTime": "2.300s",
+                                "endTime": "2.600s",
+                                "word": "tell"
+                            },
+                            {
+                                "startTime": "2.600s",
+                                "endTime": "2.700s",
+                                "word": "you"
+                            },
+                            {
+                                "startTime": "2.700s",
+                                "endTime": "3.400s",
+                                "word": "tonight."
+                            },
+                            {
+                                "startTime": "3.800s",
+                                "endTime": "3.900s",
+                                "word": "We"
+                            },
+                            {
+                                "startTime": "3.900s",
+                                "endTime": "4.400s",
+                                "word": "believe"
+                            },
+                            {
+                                "startTime": "4.400s",
+                                "endTime": "4.500s",
+                                "word": "we're"
+                            },
+                            {
+                                "startTime": "4.500s",
+                                "endTime": "4.700s",
+                                "word": "on"
+                            },
+                            {
+                                "startTime": "4.700s",
+                                "endTime": "5s",
+                                "word": "track"
+                            },
+                            {
+                                "startTime": "5s",
+                                "endTime": "5.200s",
+                                "word": "to"
+                            },
+                            {
+                                "startTime": "5.200s",
+                                "endTime": "5.300s",
+                                "word": "win"
+                            },
+                            {
+                                "startTime": "5.300s",
+                                "endTime": "5.500s",
+                                "word": "this"
+                            },
+                            {
+                                "startTime": "5.500s",
+                                "endTime": "6.200s",
+                                "word": "election."
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "alternatives": [
+                    {
+                        "transcript": " From The New York Times. I'm Michael borrow. This is a daily today. So we'll be going to the US Supreme Court. We want all voting to start. It ain't over till every vote is counted. Every ballot is counted Joe Biden is calling for patients and President Trump is threatening legal action as millions of votes are still uncounted. We don't want them to find any ballots at",
+                        "confidence": 0.9069351,
+                        "words": [
+                            {
+                                "startTime": "7.400s",
+                                "endTime": "7.500s",
+                                "word": "From"
+                            },
+                            {
+                                "startTime": "7.500s",
+                                "endTime": "7.600s",
+                                "word": "The"
+                            },
+                            {
+                                "startTime": "7.600s",
+                                "endTime": "7.700s",
+                                "word": "New"
+                            },
+                            {
+                                "startTime": "7.700s",
+                                "endTime": "7.900s",
+                                "word": "York"
+                            },
+                            {
+                                "startTime": "7.900s",
+                                "endTime": "8.400s",
+                                "word": "Times."
+                            },
+                            {
+                                "startTime": "8.700s",
+                                "endTime": "8.900s",
+                                "word": "I'm"
+                            },
+                            {
+                                "startTime": "8.900s",
+                                "endTime": "9.200s",
+                                "word": "Michael"
+                            },
+                            {
+                                "startTime": "9.200s",
+                                "endTime": "9.800s",
+                                "word": "borrow."
+                            },
+                            {
+                                "startTime": "10.600s",
+                                "endTime": "11.200s",
+                                "word": "This"
+                            },
+                            {
+                                "startTime": "11.400s",
+                                "endTime": "11.500s",
+                                "word": "is"
+                            },
+                            {
+                                "startTime": "11.500s",
+                                "endTime": "11.600s",
+                                "word": "a"
+                            },
+                            {
+                                "startTime": "11.600s",
+                                "endTime": "12.100s",
+                                "word": "daily"
+                            },
+                            {
+                                "startTime": "12.800s",
+                                "endTime": "13.400s",
+                                "word": "today."
+                            },
+                            {
+                                "startTime": "13.900s",
+                                "endTime": "14.100s",
+                                "word": "So"
+                            },
+                            {
+                                "startTime": "14.100s",
+                                "endTime": "14.300s",
+                                "word": "we'll"
+                            },
+                            {
+                                "startTime": "14.300s",
+                                "endTime": "14.400s",
+                                "word": "be"
+                            },
+                            {
+                                "startTime": "14.400s",
+                                "endTime": "14.900s",
+                                "word": "going"
+                            },
+                            {
+                                "startTime": "14.900s",
+                                "endTime": "15.300s",
+                                "word": "to"
+                            },
+                            {
+                                "startTime": "15.300s",
+                                "endTime": "15.800s",
+                                "word": "the"
+                            },
+                            {
+                                "startTime": "15.800s",
+                                "endTime": "16.100s",
+                                "word": "US"
+                            },
+                            {
+                                "startTime": "16.100s",
+                                "endTime": "16.600s",
+                                "word": "Supreme"
+                            },
+                            {
+                                "startTime": "16.600s",
+                                "endTime": "17.300s",
+                                "word": "Court."
+                            },
+                            {
+                                "startTime": "17.700s",
+                                "endTime": "17.900s",
+                                "word": "We"
+                            },
+                            {
+                                "startTime": "17.900s",
+                                "endTime": "18.200s",
+                                "word": "want"
+                            },
+                            {
+                                "startTime": "18.200s",
+                                "endTime": "18.900s",
+                                "word": "all"
+                            },
+                            {
+                                "startTime": "19.300s",
+                                "endTime": "19.700s",
+                                "word": "voting"
+                            },
+                            {
+                                "startTime": "19.700s",
+                                "endTime": "19.900s",
+                                "word": "to"
+                            },
+                            {
+                                "startTime": "19.900s",
+                                "endTime": "20.600s",
+                                "word": "start."
+                            },
+                            {
+                                "startTime": "20.900s",
+                                "endTime": "21s",
+                                "word": "It"
+                            },
+                            {
+                                "startTime": "21s",
+                                "endTime": "21.200s",
+                                "word": "ain't"
+                            },
+                            {
+                                "startTime": "21.200s",
+                                "endTime": "21.500s",
+                                "word": "over"
+                            },
+                            {
+                                "startTime": "21.500s",
+                                "endTime": "21.700s",
+                                "word": "till"
+                            },
+                            {
+                                "startTime": "21.700s",
+                                "endTime": "22.100s",
+                                "word": "every"
+                            },
+                            {
+                                "startTime": "22.100s",
+                                "endTime": "22.400s",
+                                "word": "vote"
+                            },
+                            {
+                                "startTime": "22.400s",
+                                "endTime": "22.600s",
+                                "word": "is"
+                            },
+                            {
+                                "startTime": "22.600s",
+                                "endTime": "23.100s",
+                                "word": "counted."
+                            },
+                            {
+                                "startTime": "23.100s",
+                                "endTime": "23.500s",
+                                "word": "Every"
+                            },
+                            {
+                                "startTime": "23.500s",
+                                "endTime": "23.900s",
+                                "word": "ballot"
+                            },
+                            {
+                                "startTime": "23.900s",
+                                "endTime": "24s",
+                                "word": "is"
+                            },
+                            {
+                                "startTime": "24s",
+                                "endTime": "24.700s",
+                                "word": "counted"
+                            },
+                            {
+                                "startTime": "24.700s",
+                                "endTime": "25.100s",
+                                "word": "Joe"
+                            },
+                            {
+                                "startTime": "25.100s",
+                                "endTime": "25.600s",
+                                "word": "Biden"
+                            },
+                            {
+                                "startTime": "25.600s",
+                                "endTime": "25.800s",
+                                "word": "is"
+                            },
+                            {
+                                "startTime": "25.800s",
+                                "endTime": "26.300s",
+                                "word": "calling"
+                            },
+                            {
+                                "startTime": "26.300s",
+                                "endTime": "26.500s",
+                                "word": "for"
+                            },
+                            {
+                                "startTime": "26.500s",
+                                "endTime": "27.200s",
+                                "word": "patients"
+                            },
+                            {
+                                "startTime": "27.500s",
+                                "endTime": "27.800s",
+                                "word": "and"
+                            },
+                            {
+                                "startTime": "27.800s",
+                                "endTime": "28.300s",
+                                "word": "President"
+                            },
+                            {
+                                "startTime": "28.300s",
+                                "endTime": "28.800s",
+                                "word": "Trump"
+                            },
+                            {
+                                "startTime": "28.800s",
+                                "endTime": "29s",
+                                "word": "is"
+                            },
+                            {
+                                "startTime": "29s",
+                                "endTime": "29.700s",
+                                "word": "threatening"
+                            },
+                            {
+                                "startTime": "29.700s",
+                                "endTime": "30.100s",
+                                "word": "legal"
+                            },
+                            {
+                                "startTime": "30.100s",
+                                "endTime": "30.600s",
+                                "word": "action"
+                            },
+                            {
+                                "startTime": "30.900s",
+                                "endTime": "31.200s",
+                                "word": "as"
+                            },
+                            {
+                                "startTime": "31.200s",
+                                "endTime": "31.900s",
+                                "word": "millions"
+                            },
+                            {
+                                "startTime": "31.900s",
+                                "endTime": "32.100s",
+                                "word": "of"
+                            },
+                            {
+                                "startTime": "32.100s",
+                                "endTime": "32.600s",
+                                "word": "votes"
+                            },
+                            {
+                                "startTime": "32.600s",
+                                "endTime": "32.800s",
+                                "word": "are"
+                            },
+                            {
+                                "startTime": "32.800s",
+                                "endTime": "33.300s",
+                                "word": "still"
+                            },
+                            {
+                                "startTime": "33.300s",
+                                "endTime": "34.300s",
+                                "word": "uncounted."
+                            },
+                            {
+                                "startTime": "34.600s",
+                                "endTime": "34.700s",
+                                "word": "We"
+                            },
+                            {
+                                "startTime": "34.700s",
+                                "endTime": "34.900s",
+                                "word": "don't"
+                            },
+                            {
+                                "startTime": "34.900s",
+                                "endTime": "35.100s",
+                                "word": "want"
+                            },
+                            {
+                                "startTime": "35.100s",
+                                "endTime": "35.300s",
+                                "word": "them"
+                            },
+                            {
+                                "startTime": "35.300s",
+                                "endTime": "35.500s",
+                                "word": "to"
+                            },
+                            {
+                                "startTime": "35.500s",
+                                "endTime": "36s",
+                                "word": "find"
+                            },
+                            {
+                                "startTime": "36s",
+                                "endTime": "36.200s",
+                                "word": "any"
+                            },
+                            {
+                                "startTime": "36.200s",
+                                "endTime": "36.800s",
+                                "word": "ballots"
+                            },
+                            {
+                                "startTime": "36.800s",
+                                "endTime": "37s",
+                                "word": "at"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "alternatives": [
+                    {
+                        "transcript": " Four o'clock in the morning and add them to the list. Okay.",
+                        "confidence": 0.86847025,
+                        "words": [
+                            {
+                                "startTime": "37.700s",
+                                "endTime": "37.900s",
+                                "word": "Four"
+                            },
+                            {
+                                "startTime": "37.900s",
+                                "endTime": "38.300s",
+                                "word": "o'clock"
+                            },
+                            {
+                                "startTime": "38.300s",
+                                "endTime": "38.400s",
+                                "word": "in"
+                            },
+                            {
+                                "startTime": "38.400s",
+                                "endTime": "38.500s",
+                                "word": "the"
+                            },
+                            {
+                                "startTime": "38.500s",
+                                "endTime": "39s",
+                                "word": "morning"
+                            },
+                            {
+                                "startTime": "39s",
+                                "endTime": "39.200s",
+                                "word": "and"
+                            },
+                            {
+                                "startTime": "39.200s",
+                                "endTime": "39.400s",
+                                "word": "add"
+                            },
+                            {
+                                "startTime": "39.400s",
+                                "endTime": "39.600s",
+                                "word": "them"
+                            },
+                            {
+                                "startTime": "39.600s",
+                                "endTime": "39.800s",
+                                "word": "to"
+                            },
+                            {
+                                "startTime": "39.800s",
+                                "endTime": "39.900s",
+                                "word": "the"
+                            },
+                            {
+                                "startTime": "39.900s",
+                                "endTime": "40.500s",
+                                "word": "list."
+                            },
+                            {
+                                "startTime": "40.600s",
+                                "endTime": "41.200s",
+                                "word": "Okay."
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "alternatives": [
+                    {
+                        "transcript": " It's going to take time to count the votes. We're going to win, Pennsylvania.",
+                        "confidence": 0.7915592,
+                        "words": [
+                            {
+                                "startTime": "44.100s",
+                                "endTime": "44.200s",
+                                "word": "It's"
+                            },
+                            {
+                                "startTime": "44.200s",
+                                "endTime": "44.300s",
+                                "word": "going"
+                            },
+                            {
+                                "startTime": "44.300s",
+                                "endTime": "44.400s",
+                                "word": "to"
+                            },
+                            {
+                                "startTime": "44.400s",
+                                "endTime": "44.700s",
+                                "word": "take"
+                            },
+                            {
+                                "startTime": "44.700s",
+                                "endTime": "44.900s",
+                                "word": "time"
+                            },
+                            {
+                                "startTime": "44.900s",
+                                "endTime": "45s",
+                                "word": "to"
+                            },
+                            {
+                                "startTime": "45s",
+                                "endTime": "45.300s",
+                                "word": "count"
+                            },
+                            {
+                                "startTime": "45.300s",
+                                "endTime": "45.400s",
+                                "word": "the"
+                            },
+                            {
+                                "startTime": "45.400s",
+                                "endTime": "45.700s",
+                                "word": "votes."
+                            },
+                            {
+                                "startTime": "45.700s",
+                                "endTime": "45.800s",
+                                "word": "We're"
+                            },
+                            {
+                                "startTime": "45.800s",
+                                "endTime": "46s",
+                                "word": "going"
+                            },
+                            {
+                                "startTime": "46s",
+                                "endTime": "46.100s",
+                                "word": "to"
+                            },
+                            {
+                                "startTime": "46.100s",
+                                "endTime": "46.400s",
+                                "word": "win,"
+                            },
+                            {
+                                "startTime": "46.400s",
+                                "endTime": "47.400s",
+                                "word": "Pennsylvania."
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "alternatives": [
+                    {
+                        "transcript": " Alex burns on where the election stands and the remaining paths to Victory. We were getting ready to win this election.",
+                        "confidence": 0.8158342,
+                        "words": [
+                            {
+                                "startTime": "48.600s",
+                                "endTime": "49.100s",
+                                "word": "Alex"
+                            },
+                            {
+                                "startTime": "49.100s",
+                                "endTime": "49.600s",
+                                "word": "burns"
+                            },
+                            {
+                                "startTime": "49.600s",
+                                "endTime": "50.100s",
+                                "word": "on"
+                            },
+                            {
+                                "startTime": "50.100s",
+                                "endTime": "50.400s",
+                                "word": "where"
+                            },
+                            {
+                                "startTime": "50.400s",
+                                "endTime": "50.600s",
+                                "word": "the"
+                            },
+                            {
+                                "startTime": "50.600s",
+                                "endTime": "51.200s",
+                                "word": "election"
+                            },
+                            {
+                                "startTime": "51.200s",
+                                "endTime": "51.800s",
+                                "word": "stands"
+                            },
+                            {
+                                "startTime": "52.400s",
+                                "endTime": "52.800s",
+                                "word": "and"
+                            },
+                            {
+                                "startTime": "52.800s",
+                                "endTime": "53s",
+                                "word": "the"
+                            },
+                            {
+                                "startTime": "53s",
+                                "endTime": "53.800s",
+                                "word": "remaining"
+                            },
+                            {
+                                "startTime": "53.800s",
+                                "endTime": "54.400s",
+                                "word": "paths"
+                            },
+                            {
+                                "startTime": "54.400s",
+                                "endTime": "54.700s",
+                                "word": "to"
+                            },
+                            {
+                                "startTime": "54.700s",
+                                "endTime": "55.200s",
+                                "word": "Victory."
+                            },
+                            {
+                                "startTime": "55.300s",
+                                "endTime": "55.600s",
+                                "word": "We"
+                            },
+                            {
+                                "startTime": "55.600s",
+                                "endTime": "55.800s",
+                                "word": "were"
+                            },
+                            {
+                                "startTime": "55.800s",
+                                "endTime": "56.300s",
+                                "word": "getting"
+                            },
+                            {
+                                "startTime": "56.300s",
+                                "endTime": "56.600s",
+                                "word": "ready"
+                            },
+                            {
+                                "startTime": "56.600s",
+                                "endTime": "56.900s",
+                                "word": "to"
+                            },
+                            {
+                                "startTime": "56.900s",
+                                "endTime": "57.100s",
+                                "word": "win"
+                            },
+                            {
+                                "startTime": "57.100s",
+                                "endTime": "57.300s",
+                                "word": "this"
+                            },
+                            {
+                                "startTime": "57.300s",
+                                "endTime": "57.900s",
+                                "word": "election."
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "alternatives": [
+                    {
+                        "words": [
+                            {
+                                "startTime": "1.700s",
+                                "endTime": "2s",
+                                "word": "I'm",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "2s",
+                                "endTime": "2.200s",
+                                "word": "here",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "2.200s",
+                                "endTime": "2.300s",
+                                "word": "to",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "2.300s",
+                                "endTime": "2.600s",
+                                "word": "tell",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "2.600s",
+                                "endTime": "2.700s",
+                                "word": "you",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "2.700s",
+                                "endTime": "3.400s",
+                                "word": "tonight.",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "3.800s",
+                                "endTime": "3.900s",
+                                "word": "We",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "3.900s",
+                                "endTime": "4.400s",
+                                "word": "believe",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "4.400s",
+                                "endTime": "4.500s",
+                                "word": "we're",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "4.500s",
+                                "endTime": "4.700s",
+                                "word": "on",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "4.700s",
+                                "endTime": "5s",
+                                "word": "track",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "5s",
+                                "endTime": "5.200s",
+                                "word": "to",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "5.200s",
+                                "endTime": "5.300s",
+                                "word": "win",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "5.300s",
+                                "endTime": "5.500s",
+                                "word": "this",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "5.500s",
+                                "endTime": "6.200s",
+                                "word": "election.",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "7.400s",
+                                "endTime": "7.500s",
+                                "word": "From",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "7.500s",
+                                "endTime": "7.600s",
+                                "word": "The",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "7.600s",
+                                "endTime": "7.700s",
+                                "word": "New",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "7.700s",
+                                "endTime": "7.900s",
+                                "word": "York",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "7.900s",
+                                "endTime": "8.400s",
+                                "word": "Times.",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "8.700s",
+                                "endTime": "8.900s",
+                                "word": "I'm",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "8.900s",
+                                "endTime": "9.200s",
+                                "word": "Michael",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "9.200s",
+                                "endTime": "9.800s",
+                                "word": "borrow.",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "10.600s",
+                                "endTime": "11.200s",
+                                "word": "This",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "11.400s",
+                                "endTime": "11.500s",
+                                "word": "is",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "11.500s",
+                                "endTime": "11.600s",
+                                "word": "a",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "11.600s",
+                                "endTime": "12.100s",
+                                "word": "daily",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "12.800s",
+                                "endTime": "13.400s",
+                                "word": "today.",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "13.900s",
+                                "endTime": "14.100s",
+                                "word": "So",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "14.100s",
+                                "endTime": "14.300s",
+                                "word": "we'll",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "14.300s",
+                                "endTime": "14.400s",
+                                "word": "be",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "14.400s",
+                                "endTime": "14.900s",
+                                "word": "going",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "14.900s",
+                                "endTime": "15.300s",
+                                "word": "to",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "15.300s",
+                                "endTime": "15.800s",
+                                "word": "the",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "15.800s",
+                                "endTime": "16.100s",
+                                "word": "US",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "16.100s",
+                                "endTime": "16.600s",
+                                "word": "Supreme",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "16.600s",
+                                "endTime": "17.300s",
+                                "word": "Court.",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "17.700s",
+                                "endTime": "17.900s",
+                                "word": "We",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "17.900s",
+                                "endTime": "18.200s",
+                                "word": "want",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "18.200s",
+                                "endTime": "18.900s",
+                                "word": "all",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "19.300s",
+                                "endTime": "19.700s",
+                                "word": "voting",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "19.700s",
+                                "endTime": "19.900s",
+                                "word": "to",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "19.900s",
+                                "endTime": "20.600s",
+                                "word": "start.",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "20.900s",
+                                "endTime": "21s",
+                                "word": "It",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "21s",
+                                "endTime": "21.200s",
+                                "word": "ain't",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "21.200s",
+                                "endTime": "21.500s",
+                                "word": "over",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "21.500s",
+                                "endTime": "21.700s",
+                                "word": "till",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "21.700s",
+                                "endTime": "22.100s",
+                                "word": "every",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "22.100s",
+                                "endTime": "22.400s",
+                                "word": "vote",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "22.400s",
+                                "endTime": "22.600s",
+                                "word": "is",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "22.600s",
+                                "endTime": "23.100s",
+                                "word": "counted.",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "23.100s",
+                                "endTime": "23.500s",
+                                "word": "Every",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "23.500s",
+                                "endTime": "23.900s",
+                                "word": "ballot",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "23.900s",
+                                "endTime": "24s",
+                                "word": "is",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "24s",
+                                "endTime": "24.700s",
+                                "word": "counted",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "24.700s",
+                                "endTime": "25.100s",
+                                "word": "Joe",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "25.100s",
+                                "endTime": "25.600s",
+                                "word": "Biden",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "25.600s",
+                                "endTime": "25.800s",
+                                "word": "is",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "25.800s",
+                                "endTime": "26.300s",
+                                "word": "calling",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "26.300s",
+                                "endTime": "26.500s",
+                                "word": "for",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "26.500s",
+                                "endTime": "27.200s",
+                                "word": "patients",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "27.500s",
+                                "endTime": "27.800s",
+                                "word": "and",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "27.800s",
+                                "endTime": "28.300s",
+                                "word": "President",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "28.300s",
+                                "endTime": "28.800s",
+                                "word": "Trump",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "28.800s",
+                                "endTime": "29s",
+                                "word": "is",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "29s",
+                                "endTime": "29.700s",
+                                "word": "threatening",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "29.700s",
+                                "endTime": "30.100s",
+                                "word": "legal",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "30.100s",
+                                "endTime": "30.600s",
+                                "word": "action",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "30.900s",
+                                "endTime": "31.200s",
+                                "word": "as",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "31.200s",
+                                "endTime": "31.900s",
+                                "word": "millions",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "31.900s",
+                                "endTime": "32.100s",
+                                "word": "of",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "32.100s",
+                                "endTime": "32.600s",
+                                "word": "votes",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "32.600s",
+                                "endTime": "32.800s",
+                                "word": "are",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "32.800s",
+                                "endTime": "33.300s",
+                                "word": "still",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "33.300s",
+                                "endTime": "34.300s",
+                                "word": "uncounted.",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "34.600s",
+                                "endTime": "34.700s",
+                                "word": "We",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "34.700s",
+                                "endTime": "34.900s",
+                                "word": "don't",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "34.900s",
+                                "endTime": "35.100s",
+                                "word": "want",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "35.100s",
+                                "endTime": "35.300s",
+                                "word": "them",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "35.300s",
+                                "endTime": "35.500s",
+                                "word": "to",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "35.500s",
+                                "endTime": "36s",
+                                "word": "find",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "36s",
+                                "endTime": "36.200s",
+                                "word": "any",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "36.200s",
+                                "endTime": "36.800s",
+                                "word": "ballots",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "36.800s",
+                                "endTime": "37s",
+                                "word": "at",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "37.700s",
+                                "endTime": "37.900s",
+                                "word": "Four",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "37.900s",
+                                "endTime": "38.300s",
+                                "word": "o'clock",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "38.300s",
+                                "endTime": "38.400s",
+                                "word": "in",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "38.400s",
+                                "endTime": "38.500s",
+                                "word": "the",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "38.500s",
+                                "endTime": "39s",
+                                "word": "morning",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "39s",
+                                "endTime": "39.200s",
+                                "word": "and",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "39.200s",
+                                "endTime": "39.400s",
+                                "word": "add",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "39.400s",
+                                "endTime": "39.600s",
+                                "word": "them",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "39.600s",
+                                "endTime": "39.800s",
+                                "word": "to",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "39.800s",
+                                "endTime": "39.900s",
+                                "word": "the",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "39.900s",
+                                "endTime": "40.500s",
+                                "word": "list.",
+                                "speakerTag": 1
+                            },
+                            {
+                                "startTime": "40.600s",
+                                "endTime": "41.200s",
+                                "word": "Okay.",
+                                "speakerTag": 1
+                            },
+                            {
+                                "startTime": "44.100s",
+                                "endTime": "44.200s",
+                                "word": "It's",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "44.200s",
+                                "endTime": "44.300s",
+                                "word": "going",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "44.300s",
+                                "endTime": "44.400s",
+                                "word": "to",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "44.400s",
+                                "endTime": "44.700s",
+                                "word": "take",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "44.700s",
+                                "endTime": "44.900s",
+                                "word": "time",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "44.900s",
+                                "endTime": "45s",
+                                "word": "to",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "45s",
+                                "endTime": "45.300s",
+                                "word": "count",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "45.300s",
+                                "endTime": "45.400s",
+                                "word": "the",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "45.400s",
+                                "endTime": "45.700s",
+                                "word": "votes.",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "45.700s",
+                                "endTime": "45.800s",
+                                "word": "We're",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "45.800s",
+                                "endTime": "46s",
+                                "word": "going",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "46s",
+                                "endTime": "46.100s",
+                                "word": "to",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "46.100s",
+                                "endTime": "46.400s",
+                                "word": "win,",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "46.400s",
+                                "endTime": "47.400s",
+                                "word": "Pennsylvania.",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "48.600s",
+                                "endTime": "49.100s",
+                                "word": "Alex",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "49.100s",
+                                "endTime": "49.600s",
+                                "word": "burns",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "49.600s",
+                                "endTime": "50.100s",
+                                "word": "on",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "50.100s",
+                                "endTime": "50.400s",
+                                "word": "where",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "50.400s",
+                                "endTime": "50.600s",
+                                "word": "the",
+                                "speakerTag": 2
+                            },
+                            {
+                                "startTime": "50.600s",
+                                "endTime": "51.200s",
+                                "word": "election",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "51.200s",
+                                "endTime": "51.800s",
+                                "word": "stands",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "52.400s",
+                                "endTime": "52.800s",
+                                "word": "and",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "52.800s",
+                                "endTime": "53s",
+                                "word": "the",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "53s",
+                                "endTime": "53.800s",
+                                "word": "remaining",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "53.800s",
+                                "endTime": "54.400s",
+                                "word": "paths",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "54.400s",
+                                "endTime": "54.700s",
+                                "word": "to",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "54.700s",
+                                "endTime": "55.200s",
+                                "word": "Victory.",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "55.300s",
+                                "endTime": "55.600s",
+                                "word": "We",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "55.600s",
+                                "endTime": "55.800s",
+                                "word": "were",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "55.800s",
+                                "endTime": "56.300s",
+                                "word": "getting",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "56.300s",
+                                "endTime": "56.600s",
+                                "word": "ready",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "56.600s",
+                                "endTime": "56.900s",
+                                "word": "to",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "56.900s",
+                                "endTime": "57.100s",
+                                "word": "win",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "57.100s",
+                                "endTime": "57.300s",
+                                "word": "this",
+                                "speakerTag": 3
+                            },
+                            {
+                                "startTime": "57.300s",
+                                "endTime": "57.900s",
+                                "word": "election.",
+                                "speakerTag": 3
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

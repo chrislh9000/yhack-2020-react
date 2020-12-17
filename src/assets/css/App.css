@@ -1,0 +1,135 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.navbar_logo {
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.navbar_logo_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.discussion_background {
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+
+.playlist_logo {
+  height: 120px;
+}
+
+.ic {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.butt {
+  height: 300px;
+  width: 140px;
+  border-radius: 30px 0px 0px 30px;
+  border-width: 0;
+  box-shadow: 0px 8px 6px -12px rgba(0, 0, 0, 0.5),
+    -12px 0 8px -4px rgba(0, 0, 0, 0.5);
+  /* background-color: black; */
+  opacity: 0.6;
+}
+
+.vl {
+  border-left: 2px solid white;
+  height: 200px;
+}
+
+.hl {
+  border-top: 2px solid white;
+  width: 100%;
+}
+
+.vl2 {
+  border-left: 2px solid white;
+  height: 100px;
+}
+
+.arrow-right {
+  width: 0;
+  height: 0;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-right: 12px solid white;
+}
+
+.main-back {
+  height: 100vh;
+  width: 100vw;
+  background-image: linear-gradient(
+    90deg,
+    #5c719b 33.33%,
+    #565eb2 33.33%,
+    /* linear-gradient(#565eb2, #161a39) 66.66%, */ #161a39 66.66%
+  );
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  margin: 0px;
+}
+
+.midcontainer {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.EuclidFlexMedium {
+  font-family: "EuclidFlexMedium";
+}
+
+.EuclidFlexLight {
+  font-family: "EuclidFlexLight";
+}
+
+.EuclidFlexRegular {
+  font-family: "EuclidFlexRegular";
+}
