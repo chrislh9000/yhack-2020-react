@@ -1,15 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router } from 'react-router';
-import routes from './routes';
 import './index.css';
-import App from './components/App';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Music from './Music';
-import Tog from './components/Reflection';
-import Search from './components/SearchPage'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import PlayBox from './components/SearchBar'
 
 ReactDOM.render(
   <React.StrictMode>
