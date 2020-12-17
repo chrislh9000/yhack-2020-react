@@ -36,7 +36,7 @@ class Audioplayer extends React.Component {
   }
 
   componentDidMount = (e) => {
-    this.interval = setInterval(() => this.props.handlePin(this.player.getCurrentTime()), 5000);
+    this.interval = setInterval(() => this.props.handlePin(this.player.getCurrentTime()), 1000);
   }
 
   componentWillUnmount() {
@@ -71,7 +71,8 @@ class Audioplayer extends React.Component {
           to="secondInsideContainer"
           spy={true}
           smooth={true}
-          duration={15000}
+          ignoreCancelEvents={true}
+          duration={300000}
           containerId="containerElement"
           style={{ display: "inline-block", margin: "20px" }}
         >
