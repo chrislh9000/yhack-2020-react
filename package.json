@@ -20,6 +20,12 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "react": "^17.0.1",
+<<<<<<< HEAD
+=======
+    "react-addons-css-transition-group": "^15.6.2",
+    "react-audio-player": "^0.14.0",
+    "react-bootstrap": "^1.4.0",
+>>>>>>> c923cc7640d619d03d92ccb7bb56b575b4de1ce7
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.0",
     "web-vitals": "^0.2.4"

@@ -17,7 +17,7 @@ class Pin extends React.Component {
 
   render () {
     return (
-      <Card style={{ display: "flex", flexDirection: "row", width: '30rem', backgroundColor: "#82A7C2", borderColor: "#82A7C2", marginTop: "30px"}}>
+      <Card style={{ display: "flex", flexDirection: "row", width: '32rem', backgroundColor: "#82A7C2", borderColor: "#82A7C2", marginTop: "30px"}}>
       <Card.Body>
       <Card.Title style={{color: "white"}}>{this.props.title}</Card.Title>
       <Card.Subtitle style={{color: "white"}} className="mb-2">{this.props.timestamp}</Card.Subtitle>

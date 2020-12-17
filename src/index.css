@@ -17,13 +17,13 @@ code {
   src: local("Euclid Flex"), url(./fonts/EuclidFlexLight.ttf) format("truetype");
 }
 
-/* @font-face {
+@font-face {
   font-family: "Euclid Flex";
   src: local("Euclid Flex"),
-    url(./fonts/EuclidFlex-Regular.otf) format("truetype");
+    url(./fonts/EuclidFlex-Regular.otf) format("opentype");
 }
 @font-face {
   font-family: "Euclid Flex";
   src: local("Euclid Flex"),
-    url(./fonts/EuclidFlexMedium.otf) format("truetype");
-} */
+    url(./fonts/EuclidFlexMedium.otf) format("opentype");
+}

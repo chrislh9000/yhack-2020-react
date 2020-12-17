@@ -17,6 +17,7 @@ import PinIcon from './PinIcon'
 import Button from 'react-bootstrap/Button';
 import Pin from './Pin'
 import Logo from './Logo'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import Scroll from "react-scroll"
 var Link = Scroll.Link;
@@ -59,6 +60,7 @@ class Discussion extends React.Component {
     var newPin = {
       pinId: pinId,
       timeStamp: this.state.pinOrder == 0 ? "0:16" : "0:28",
+      pinSecs: this.state.pinOrder == 0 ? 28 : 40,
       title: "The Daily: An Unfinished Election",
       tags: ["Joe Biden", "Donald Trump"],
       accordion_title: this.state.pinOrder == 0 ? "Supreme Court" : "Joe Biden",
@@ -104,8 +106,9 @@ class Discussion extends React.Component {
     //   </div>
     // ))
     //pre-rendering code
+    console.log("AUDIOSTAMP=====", this.state.pinTime)
     const pinArr = this.state.pins.map((pin, i) => (
-      <div key={pin.pinId}>
+      <div style={{opacity: pin.pinSecs - this.state.pinTime}} key={pin.pinId}>
       <Pin title={pin.title} timestamp={pin.timeStamp} tags={pin.tags} accordion_title={pin.accordion_title} accordion_body={pin.accordion_body} accordion_img={pin.accordion_img}/>
       </div>
     ));
@@ -129,28 +132,28 @@ class Discussion extends React.Component {
       </Row>
       <Container className = "mb-1" style={{}}>
       <Row className="ml-4">
-      <p className = "EuclidFlexMedium" style={{ color: "white", fontSize: "16px"}}>Home</p>
+      <p className = "title" style={{ color: "white", fontSize: "16px"}}>Home</p>
       </Row>
       <Row className="ml-4">
-      <p className = "EuclidFlexMedium" style={{ color: "white"}}>Search</p>
+      <p className = "title" style={{ color: "white", fontSize: "16px"}}>Search</p>
       </Row>
       <Row className="ml-4">
-      <p className = "EuclidFlexMedium" style={{ color: "white"}}>Pins</p>
+      <p className = "title" style={{ color: "white", fontSize: "16px"}}>Pins</p>
       </Row>
       <Row className="ml-4">
-      <p className = "EuclidFlexMedium" style={{ color: "white"}}>Profile</p>
+      <p className = "title" style={{ color: "white", fontSize: "16px"}}>Profile</p>
       </Row>
       <Row className="ml-4">
-      <p className = "EuclidFlexMedium" style={{ color: "white"}}>Saved Podcasts</p>
+      <p className = "title" style={{ color: "white", fontSize: "16px"}}>Saved Podcasts</p>
       </Row>
       <Row className="ml-4">
-      <p className = "EuclidFlexMedium" style={{ color: "white"}}>Followed</p>
+      <p className = "title" style={{ color: "white", fontSize: "16px"}}>Followed</p>
       </Row>
       <Row className="ml-4">
-      <p className = "EuclidFlexMedium" style={{ color: "white"}}>Discovered</p>
+      <p className = "title" style={{ color: "white", fontSize: "16px"}}>Discovered</p>
       </Row>
       <Row className="ml-4">
-      <p className = "EuclidFlexMedium" style={{ color: "white"}}>New Releases</p>
+      <p className = "title" style={{ color: "white", fontSize: "16px"}}>New Releases</p>
       </Row>
       </Container>
       <PlayBox handlePin={this.handlePin} />
@@ -161,13 +164,9 @@ class Discussion extends React.Component {
        }}>
       <div style={{ display: "flex", flexDirection: "column", overflow: "scroll"}
     } >
-    <p className = "sidebarText" style={{ height: "55.5%", color: "white", fontSize: "20px", padding: "30px", paddingRight: "130px", overFlow: "scroll" }}>
-    {this.state.audioTranscript}
-    </p>
-    <div class="hl" style = {{alignSelf: "center"}}></div>
+
     </div>
       {/* <div style={{ display: "flex", flexDirection: "column", overflow: "scroll"}} > */}
-       <div class="hl" style = {{alignSelf: "center", position: "absolute"}}></div>
         <Element
           name="test7"
           className="element"
@@ -185,10 +184,11 @@ class Discussion extends React.Component {
             name="firstInsideContainer"
             style={{
               color: "#D1D1D1",
-              fontSize: "14px",
+              fontSize: "18px",
               fontWeight: "300",
             }}
           >
+
             <br></br>
             <br></br>
             <br></br>
@@ -204,21 +204,10 @@ class Discussion extends React.Component {
             <br></br>
             <br></br>
             <br></br>
+            <p>I'm here to tell you tonight, we believe we're on track to win this election. From The New York Times, I'm Michael Barbaro. This is the daily. Today. </p>
             <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <p>I'm here to tell you tonight, we believe we're on track to win this election.  </p>
-            <br></br>
-<p>From The New York Times, I'm Michael Barbaro. This is the daily. Today. </p>
-<br></br>
 <p>So we'll be going to the US Supreme Court. We want all voting to stop. It ain't over till every vote is counted. Every ballot is counted.</p>
+<br></br>
 <br></br>
 <p>Joe Biden is calling for patience and President Trump is threatening legal action as millions of votes are still uncounted. </p>
 <br></br>
@@ -422,8 +411,9 @@ class Discussion extends React.Component {
     <Col xs={4} style={{ paddingLeft: "0px", paddingRight: "0px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
     <Container style={{ display: "flex", flexDirection: "column"}}>
     {pinArr}
+
     </Container>
-    <div style = {{}}class="arrow-right"></div>
+
     <Button onClick={(e) => this.makePin(e)} className = "butt" style = {{borderRadius: "30px 0px 0px 30px", backgroundColor: "#2C3263", borderColor: "#2C3263"}}>
     <img style = {{width: 60, height: 60, paddingTop: 10}} src="/whitepin.png" />
     <p style={{
@@ -436,28 +426,28 @@ class Discussion extends React.Component {
       <Col id="far_right" xs={3} style={{ justifyContent: "space-between", display: 'flex', flexDirection: 'column', backgroundColor: "#5C719B" }}>
       <Row>
       <div id="comment" className="mt-4 ml-5 mr-4">
-      <p className="mb-1" style={{ color: "white", fontSize: "11px" }}>
+      <p className="mb-1 title" style={{ color: "white", fontSize: "11px" }}>
       David_Wang 2h
       </p>
-      <p className = "EuclidFlexLight" style={{ color: "white", fontSize: "12px" }}>Also: Justin reviews the outlook for convertibles and discusses how investors can consider taking advantage of the asset...</p>
-      <p className = "EuclidFlexLight" style={{ color: "white", fontSize: "9px", textAlign: "right" }}>Reply</p>
+      <p className = "title" style={{ color: "white", fontSize: "12px" }}>The fact that Trump is calling for vote counting to be stopped is frankly ridiculous</p>
+      <p className = "title" style={{ color: "white", fontSize: "9px", textAlign: "right" }}>Reply</p>
       <Row display="flex" className="ml-1">
       <div class="vl"></div>
       <Col>
       <div id="replies">
-      <p className="mb-1" style={{ color: "white", fontSize: "9px" }}>
-      David_Wang 2h
+      <p className="mb-1 title" style={{ color: "white", fontSize: "9px" }}>
+      John_Smith 1h
       </p>
-      <p style={{ color: "white", fontSize: "12px" }}>Also: Justin reviews the outlook for convertibles and discusses how investors can consider taking advantage of the asset...</p>
-      <p style={{ color: "white", fontSize: "9px", textAlign: "right" }}>Reply</p>
+      <p className = "title" style={{ color: "white", fontSize: "12px" }}>I mean I agree that vote counting should be done in principle but Trump is leading by such wide margins in so many states...</p>
+      <p className = "title" style={{ color: "white", fontSize: "9px", textAlign: "right" }}>Reply</p>
       </div>
 
       <div id="replies">
-      <p className="mb-1" style={{ color: "white", fontSize: "9px" }}>
-      David_Wang 2h
+      <p className="mb-1 title" style={{ color: "white", fontSize: "9px" }}>
+      David_Wang 28m
       </p>
-      <p style={{ color: "white", fontSize: "12px" }}>Also: Justin reviews the outlook for convertibles and discusses how investors can consider taking advantage of the asset...</p>
-      <p style={{ color: "white", fontSize: "9px", textAlign: "right" }}>Reply</p>
+      <p className = "title" style={{ color: "white", fontSize: "12px" }}>He may be leading right now, but the remaining mail-in ballots are expected to heavily favor Biden!</p>
+      <p className = "title" style={{ color: "white", fontSize: "9px", textAlign: "right" }}>Reply</p>
       </div>
 
 
@@ -465,20 +455,20 @@ class Discussion extends React.Component {
       </Row>
       </div>
       <div id="comment" className="mt-4 ml-5 mr-4">
-      <p className="mb-1" style={{ color: "white", fontSize: "9px" }}>
-      David_Wang 2h
+      <p className="mb-1 title" style={{ color: "white", fontSize: "9px" }}>
+      Alex_Johnson 28m
       </p>
-      <p style={{ color: "white", fontSize: "12px" }}>Also: Justin reviews the outlook for convertibles and discusses how investors can consider taking advantage of the asset...</p>
-      <p style={{ color: "white", fontSize: "9px", textAlign: "right" }}>Reply</p>
+      <p className = "title" style={{ color: "white", fontSize: "12px" }}>Listening to this at 3am as soon as it came out... honestly can't sleep until election results come out</p>
+      <p className = "title" style={{ color: "white", fontSize: "9px", textAlign: "right" }}>Reply</p>
       <Row display="flex" className="ml-1">
       <div class="vl2"></div>
       <Col>
       <div id="replies">
-      <p className="mb-1" style={{ color: "white", fontSize: "9px" }}>
-      David_Wang 2h
+      <p className="mb-1 title" style={{ color: "white", fontSize: "9px" }}>
+      Bryce_Clarkson3 16m
       </p>
-      <p style={{ color: "white", fontSize: "12px" }}>Also: Justin reviews the outlook for convertibles and discusses how investors can consider taking advantage of the asset...</p>
-      <p style={{ color: "white", fontSize: "9px", textAlign: "right" }}>Reply</p>
+      <p className = "title" style={{ color: "white", fontSize: "12px" }}>Same here</p>
+      <p className = "title" style={{ color: "white", fontSize: "9px", textAlign: "right" }}>Reply</p>
       </div>
 
 
