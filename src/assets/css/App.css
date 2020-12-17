@@ -61,12 +61,13 @@
 }
 
 .butt {
-  height: 140px;
-  width: 190px;
-  border-radius: 7%;
+  height: 300px;
+  width: 140px;
+  border-radius: 30px 0px 0px 30px;
   border-width: 0;
-  box-shadow: 4px 4px 5px rgb(0, 0, 0);
-  background-color: black;
+  box-shadow: 0px 8px 6px -12px rgba(0, 0, 0, 0.5),
+    -12px 0 8px -4px rgba(0, 0, 0, 0.5);
+  /* background-color: black; */
   opacity: 0.6;
 }
 
@@ -92,6 +93,25 @@
   border-bottom: 12px solid transparent;
 
   border-right: 12px solid white;
+}
+
+.main-back {
+  height: 100vh;
+  width: 100vw;
+  background-image: linear-gradient(
+    90deg,
+    #5c719b 33.33%,
+    #565eb2 33.33%,
+    /* linear-gradient(#565eb2, #161a39) 66.66%, */ #161a39 66.66%
+  );
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  margin: 0px;
+}
+
+.midcontainer {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
 }
 
 @keyframes App-logo-spin {
