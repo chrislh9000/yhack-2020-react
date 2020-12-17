@@ -28,9 +28,12 @@
   color: #61dafb;
 }
 
-.title {
+.sidebar-title {
   font-family: EuclidFlex;
   color: white;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.125;
 }
 
 .example-enter {
@@ -60,9 +63,7 @@
   }
 }
 
-
-.title{
+.title {
   font-family: EuclidFlexMedium;
   color: white;
-  
 }

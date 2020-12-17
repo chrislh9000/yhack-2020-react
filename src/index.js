@@ -9,7 +9,6 @@ import Music from "./Music";
 import Tog from "./components/Reflection";
 import Search from "./components/SearchPage";
 import "bootstrap/dist/css/bootstrap.min.css";
-import PlayBox from "./components/SearchBar";
 import Discussion from "./components/Discussion";
 
 ReactDOM.render(
