@@ -1,21 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Router } from 'react-router';
-import routes from './routes';
-import './index.css';
-import App from './components/App';
-import reportWebVitals from './reportWebVitals';
-import Music from './Music';
-import Tog from './components/Reflection';
-import Search from './components/SearchPage'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import PlayBox from './components/SearchBar'
+import React from "react";
+import ReactDOM from "react-dom";
+import { Router } from "react-router";
+import routes from "./routes";
+import "./index.css";
+import App from "./components/App";
+import reportWebVitals from "./reportWebVitals";
+import Music from "./Music";
+import Tog from "./components/Reflection";
+import Search from "./components/SearchPage";
+import "bootstrap/dist/css/bootstrap.min.css";
+import PlayBox from "./components/SearchBar";
+import Discussion from "./components/Discussion";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Discussion />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
