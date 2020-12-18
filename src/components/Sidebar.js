@@ -3,6 +3,12 @@ import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import "../assets/css/App.css";
+import { Link } from "react-router-dom";
+import UserView from "./UserView";
+import SidebarLinks from "./SidebarLinks";
+import LogoHome from "./LogoHome";
+import Search from "./SearchPage";
+import PlayBox from "./PlayBox";
 
 class Sidebar extends React.Component {
   constructor(props) {
@@ -12,34 +18,18 @@ class Sidebar extends React.Component {
     //pre-rendering code
 
     return (
-      <div>
-        <Container className="mb-1 ml-4">
-          <Row>
-            <p className="sidebar-title">Home</p>
+      <Col className="pl-0 pr-0 far-left" xs={2}>
+        <Col className="pl-0 far-left-top">
+          <LogoHome />
+          <Row style={{ paddingLeft: "1.5rem" }}>
+            <Search />
+            <UserView className="ml-4" style={{ alignSelf: "left" }} />
+
+            <SidebarLinks />
           </Row>
-          <Row>
-            <p className="sidebar-title">Search</p>
-          </Row>
-          <Row>
-            <p className="sidebar-title">Pins</p>
-          </Row>
-          <Row>
-            <p className="sidebar-title">Profile</p>
-          </Row>
-          <Row>
-            <p className="sidebar-title">Saved Podcasts</p>
-          </Row>
-          <Row>
-            <p className="sidebar-title">Followed</p>
-          </Row>
-          <Row>
-            <p className="sidebar-title">Discovered</p>
-          </Row>
-          <Row>
-            <p className="sidebar-title">New Releases</p>
-          </Row>
-        </Container>
-      </div>
+        </Col>
+        <PlayBox handlePin={this.props.handlePin} />
+      </Col>
     );
   }
 }

@@ -1,73 +1,81 @@
-import '../assets/css/App.css';
+import "../assets/css/App.css";
 
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
-import Navbar from './Navbar'
-import Pinpage from './Pinpage'
-import Discussion from './Discussion'
-import Audioplayer from './Audioplayer'
-import PinIcon from './PinIcon'
-import Pin from './Pin'
+import { HashRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Navbar from "./Navbar";
+import Pinpage from "./Pinpage";
+import Discussion from "./Discussion";
+import Audioplayer from "./Audioplayer";
+import PinIcon from "./PinIcon";
+import Pin from "./Pin";
+import Sidebar from "./Sidebar";
+import About from "./About";
 
-export default function App() {
-  return (
-    <Router>
-      <div>
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { pinTime: 0 };
+  }
 
-        {/* A <Switch> looks through its children <Route>s and
+  handlePin = (pin) => {
+    this.setState({
+      pinTime: pin,
+    });
+  };
+
+  render() {
+    return (
+      <Router>
+        <div>
+          {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-        <Switch>
+          <Switch>
+            <Route path="/pinning">
+              <Pin />
+            </Route>
 
-        <Route path="/pinning">
-          <Pin />
-        </Route>
+            <Route path="/podcast">
+              <Podcast />
+            </Route>
 
-        <Route path="/podcast">
-          <Podcast />
-        </Route>
+            <Route path="/pins_page">
+              <Pinpage />
+            </Route>
 
-        <Route path="/pins_page">
-          <Pinpage />
-        </Route>
+            <Route path="/discussion">
+              <Discussion />
+            </Route>
 
-        <Route path="/discussion">
-          <Discussion />
-        </Route>
+            <Route path="/navbar">
+              <Navbar />
+            </Route>
 
-        <Route path="/navbar">
-          <Navbar />
-        </Route>
+            <Route path="/about">
+              <About pinTime={this.state.pinTime} handlePin={this.handlePin} />
+            </Route>
 
-          <Route path="/about">
-            <About />
-          </Route>
+            <Route path="/users">
+              <Users />
+            </Route>
 
-          <Route path="/users">
-            <Users />
-          </Route>
-
-          <Route path="/">
-            <Home />
-          </Route>
-
-        </Switch>
-      </div>
-    </Router>
-  );
+            <Route path="/">
+              <Discussion
+                pinTime={this.state.pinTime}
+                handlePin={this.handlePin}
+              />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    );
+  }
 }
+
+export default App;
 
 function Home() {
   // return <h2>Wut</h2>;
-  return <PinIcon/>
-}
-
-function About() {
-  return <h2>About</h2>;
+  return <PinIcon />;
 }
 
 function Users() {
@@ -75,5 +83,5 @@ function Users() {
 }
 
 function Podcast() {
-  return <Audioplayer />
+  return <Audioplayer />;
 }

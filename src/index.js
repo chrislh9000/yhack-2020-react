@@ -13,7 +13,7 @@ import Discussion from "./components/Discussion";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Discussion />
+    <App />
   </React.StrictMode>,
   document.getElementById("root")
 );
