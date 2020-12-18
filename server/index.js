@@ -15,6 +15,7 @@ import authRouter from './routes/auth.js';
 import sha256 from 'crypto-js/sha256';
 import hex from 'crypto-js/enc-hex'
 import CryptoJS from 'crypto-js';
+import cloudinaryRoutes from './routes/cloudinary.js'
 
 // ========== Basic connections and server initialization =============
 
@@ -82,6 +83,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', authRouter(passport));
+app.use('/cloudinary', cloudinaryRoutes)
 
 // ========== Port init =============
 const port = process.env.PORT || 3000;
