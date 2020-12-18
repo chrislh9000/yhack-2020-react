@@ -47,8 +47,10 @@ class Discussion extends React.Component {
       {id: 5, timestamp: 10.0, text: "suck on these big butt, suck on these fat butt, suck on these fat butt", height: 0, y: 0},
       {id: 6, timestamp: 12.0, text: "suck on these titties, suck on these titties", height: 0, y:0},
       {id: 7, timestamp: 14.0, text: "suck on these fat boobs, suck on these fat boobs, suck on these fat boobs", height: 0, y: 0},
-      {id: 8, timestamp: 16.0, text: "suck on these big butt, suck on these fat butt, suck on these fat butt", height: 0, y: 0} ]
+      {id: 8, timestamp: 16.0, text: "suck on these big butt, suck on these fat butt, suck on these fat butt", height: 0, y: 0} ],
+      cc_load: false,
     };
+
   }
 
   // handlePin = (pin) => {
@@ -140,6 +142,7 @@ class Discussion extends React.Component {
           console.log("======Y POS=======", this.state.cc_comps[i]['y']);
         }
       }
+      this.setState({cc_load: true})
 
   }
 
@@ -187,7 +190,7 @@ class Discussion extends React.Component {
 
     const ccArr = this.state.cc_comps.map((comp, i) => (
       <div className ={this.state.mainComp === i? "cctext-highlighted" : "cctext"} style={{position: 'absolute', top: this.state.cc_comps[i]['y']}} ref={"caption".concat(String(comp.id))} key={comp.id}>
-      <CCC ccText={comp.text}  />
+        <CCC ccText={comp.text}  /> 
       </div>
     ));
 
