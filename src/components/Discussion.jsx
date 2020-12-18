@@ -4,7 +4,6 @@ import Navbar from 'react-bootstrap/Navbar'
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-// import { Link } from 'react-router-dom'
 import '../assets/css/App.css';
 import Navibar from './Navbar.jsx'
 import Form from 'react-bootstrap/Form'
@@ -24,8 +23,6 @@ import LogoHome from "./LogoHome"
 import PinButton from "./PinButton"
 import Comments from "./Comments"
 import AddComment from "./AddComment"
-
-// import Scroll from "react-scroll"
 
 
 class Discussion extends React.Component {
@@ -52,10 +49,8 @@ class Discussion extends React.Component {
   makePin = (pinTime) => {
     console.log("======MAKING PinTime========")
     console.log("=======Pinorder=====", this.state.pinOrder)
-    //get timestamp from audio
     var timestamp = this.state.pinTime;
     console.log("timestamp", timestamp)
-    //create pins object
     var pinId = Math.random() * 10000
     var newPin = {
       pinId: pinId,
@@ -75,7 +70,6 @@ class Discussion extends React.Component {
       pinOrder: 1,
     })
 
-    //send request to backend, update database with pin
   }
 
 
@@ -100,12 +94,6 @@ class Discussion extends React.Component {
     });
   }
   render() {
-    // const audioTranscript = this.state.audioTrascript.map((transcript, i) => (
-    //   <div key="text">
-    //     <p> {this.state.audioTrascript} </p>
-    //   </div>
-    // ))
-    //pre-rendering code
     console.log("AUDIOSTAMP=====", this.state.pinTime)
     const pinArr = this.state.pins.map((pin, i) => (
       <div style={{opacity: pin.pinSecs - this.state.pinTime}} key={pin.pinId}>
@@ -115,40 +103,41 @@ class Discussion extends React.Component {
 
     return (
       <Container fluid className="discussion_background main-back">
-      <Row>
-      <Col className="pl-0 pr-0 far-left" xs={2}>
-      <Col className="pl-0 far-left-top" >
-      <LogoHome/>
-      <Row style = {{paddingLeft: "1.5rem"}}>
-      <Search/>
-      <UserView className = "ml-4" style = {{alignSelf: "left"}}></UserView>
-
-      <Sidebar></Sidebar>
-      </Row>
-      </Col>
-      <PlayBox handlePin={this.handlePin} />
-
-      </Col>
+        <Row>
 
 
-      <Col className="middle" xs={4}>
-        
-      </Col>
-    <Col xs={3} style={{ paddingLeft: "0px", paddingRight: "0px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
-      <Container style={{ display: "flex", flexDirection: "column"}}>
-      {pinArr}
+          <Col className="pl-0 pr-0 far-left" xs={2}>
+            <Col className="pl-0 far-left-top" >
+              <LogoHome/>
+              <Row style = {{paddingLeft: "1.5rem"}}>
+                <Search/>
+                <UserView className = "ml-4" style = {{alignSelf: "left"}}/>
 
-      </Container>
+                <Sidebar/>
+              </Row>
+            </Col>
+            <PlayBox handlePin={this.handlePin} />
+          </Col>
 
-      <PinButton makePin = {this.makePin}/>
-      </Col>
+
+          <Col className="middle" xs={4}>
+          </Col>
 
 
-      <Col id="far_right" xs={3} style={{ justifyContent: "space-between", display: 'flex', flexDirection: 'column', backgroundColor: "#5C719B" }}>
-      <Comments/>
-      <AddComment/>
-      </Col>
-      </Row>
+          <Col xs={3} style={{ paddingLeft: "0px", paddingRight: "0px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+            <Container style={{ display: "flex", flexDirection: "column"}}>
+              {pinArr}
+            </Container>
+            <PinButton makePin = {this.makePin}/>
+          </Col>
+
+
+          <Col id="far_right" xs={3} style={{ justifyContent: "space-between", display: 'flex', flexDirection: 'column', backgroundColor: "#5C719B" }}>
+            <Comments/>
+            <AddComment/>
+          </Col>
+
+        </Row>
       </Container >
 
 
