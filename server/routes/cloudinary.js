@@ -25,7 +25,7 @@ router.get('/uploadPodcast', (req, res) => {
 })
 
 
-router.get('/downloadPodcast', (req, res) => {
+router.get('/downloadPodcast:podcastid', (req, res) => {
   cloudinary.v2.api.resources(
     { resource_type: 'video' },
     function(error, result) {
@@ -43,6 +43,13 @@ router.get('/downloadPodcast', (req, res) => {
         // modify user schema to add the podcast id to downloadedpodcasts
       });
     })
+  })
+
+  router.get('/deletePodcast:podcastid', (req, res) => {
+    // TODO: delete podcast from local app storage
+
+
+    // TODO: update user schema's downloadedpodcasts and delete the podcast
   })
 
 

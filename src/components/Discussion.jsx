@@ -24,6 +24,7 @@ import LogoHome from "./LogoHome"
 import PinButton from "./PinButton"
 import Comments from "./Comments"
 import AddComment from "./AddComment"
+import CCC from './CCC'
 
 // import Scroll from "react-scroll"
 
@@ -39,6 +40,10 @@ class Discussion extends React.Component {
       accordion_title: "Supreme Court",
       accordion_body: "",
       pinOrder: 0,
+      windowWidth: window.innerWidth,
+      cc_comps: [{id: 1, timestamp: 0.0, text: "suck on these titties, suck on these titties"},
+      {id: 2, timestamp: 5.0, text: "suck on these fat boobs, suck on these fat boobs, suck on these fat boobs"},
+      {id: 3, timestamp: 10.0, text: "suck on these big butt, suck on these fat butt, suck on these fat butt"}]
     };
 
   }
@@ -78,9 +83,17 @@ class Discussion extends React.Component {
     //send request to backend, update database with pin
   }
 
-
+  handleResize = (e) => {
+    this.setState({ windowWidth: window.innerWidth });
+  };
 
   componentDidMount = (e) => {
+
+    let { clientHeight, clientWidth } = this.refs.caption1
+    console.log(clientWidth, clientHeight)
+
+    console.log("WINDOW SIZE=====", this.state.windowWidth)
+    window.addEventListener("resize", this.handleResize);
     const url = 'http://localhost:3000/db/getTranscript'
     fetch(url, {
       method: 'GET',
@@ -99,17 +112,22 @@ class Discussion extends React.Component {
       console.log('Error: ', err);
     });
   }
+
+  componentWillUnmount = (e) => {
+    window.addEventListener("resize", this.handleResize);
+  }
+
+
   render() {
-    // const audioTranscript = this.state.audioTrascript.map((transcript, i) => (
-    //   <div key="text">
-    //     <p> {this.state.audioTrascript} </p>
-    //   </div>
-    // ))
-    //pre-rendering code
-    console.log("AUDIOSTAMP=====", this.state.pinTime)
     const pinArr = this.state.pins.map((pin, i) => (
       <div style={{opacity: pin.pinSecs - this.state.pinTime}} key={pin.pinId}>
       <Pin title={pin.title} timestamp={pin.timeStamp} tags={pin.tags} accordion_title={pin.accordion_title} accordion_body={pin.accordion_body} accordion_img={pin.accordion_img}/>
+      </div>
+    ));
+
+    const ccArr = this.state.cc_comps.map((comp, i) => (
+      <div ref={"caption".concat(String(comp.id))} key={comp.id}>
+      <CCC ccText={comp.text} />
       </div>
     ));
 
@@ -131,10 +149,10 @@ class Discussion extends React.Component {
       </Col>
 
 
-      <Col className="middle" xs={4}>
-        
+      <Col className="middle" xs={4} style={{display: "flex", flexDirection: "column"}}>
+      {ccArr}
       </Col>
-    <Col xs={3} style={{ paddingLeft: "0px", paddingRight: "0px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+      <Col xs={3} style={{ paddingLeft: "0px", paddingRight: "0px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
       <Container style={{ display: "flex", flexDirection: "column"}}>
       {pinArr}
 
