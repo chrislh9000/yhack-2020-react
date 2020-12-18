@@ -40,6 +40,7 @@ class Discussion extends React.Component {
       accordion_title: "Supreme Court",
       accordion_body: "",
       pinOrder: 0,
+      mainComp: 0,
       windowWidth: window.innerWidth,
       windowHeight: window.innerHeight,
       cc_comps: [{id: 0, timestamp: 0.0, text: "suck on these titties, suck on these titties", height: 0, y:0},
@@ -90,6 +91,14 @@ class Discussion extends React.Component {
       windowHeight: window.innerHeight
     });
   };
+
+  handleScroll = (e) => {
+    // check audio timestamp against the interval of podcasts
+    // if audiostamp >= cc_comp timestamp i+1
+    // setstate mainComp to the corresponding cc_component
+    // reposition the mainComp cc_component to the middle
+    // change height for other comps accordingly
+  }
 
   componentDidMount = (e) => {
     for (var i=0; i<this.state.cc_comps.length; i++) {
