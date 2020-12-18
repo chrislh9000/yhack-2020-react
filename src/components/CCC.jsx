@@ -20,7 +20,7 @@ class CCC extends React.Component {
 
   render() {
     return (
-      <Row xs="1" style={{padding: "10px", color: "white", fontSize: "20px"}}>
+      <Row xs="1" style={{padding: "2%", color: "white", fontSize: "20px"}}>
       <Col>
       {this.props.ccText}
       </Col>

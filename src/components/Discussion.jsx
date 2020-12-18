@@ -41,9 +41,10 @@ class Discussion extends React.Component {
       accordion_body: "",
       pinOrder: 0,
       windowWidth: window.innerWidth,
-      cc_comps: [{id: 1, timestamp: 0.0, text: "suck on these titties, suck on these titties"},
-      {id: 2, timestamp: 5.0, text: "suck on these fat boobs, suck on these fat boobs, suck on these fat boobs"},
-      {id: 3, timestamp: 10.0, text: "suck on these big butt, suck on these fat butt, suck on these fat butt"}]
+      windowHeight: window.innerHeight,
+      cc_comps: [{id: 0, timestamp: 0.0, text: "suck on these titties, suck on these titties", height: 0, y:0},
+      {id: 1, timestamp: 5.0, text: "suck on these fat boobs, suck on these fat boobs, suck on these fat boobs", height: 0, y: 0},
+      {id: 2, timestamp: 10.0, text: "suck on these big butt, suck on these fat butt, suck on these fat butt", height: 0, y: 0} ]
     };
 
   }
@@ -84,15 +85,27 @@ class Discussion extends React.Component {
   }
 
   handleResize = (e) => {
-    this.setState({ windowWidth: window.innerWidth });
+    this.setState({
+      windowWidth: window.innerWidth,
+      windowHeight: window.innerHeight
+    });
   };
 
   componentDidMount = (e) => {
+    for (var i=0; i<this.state.cc_comps.length; i++) {
+      var str = "caption".concat(String(i))
+      let { clientHeight, clientWidth } = this.refs[str]
+      // === feed client height into the cc_comps objects
+      this.state.cc_comps[i]['height'] = clientHeight
 
-    let { clientHeight, clientWidth } = this.refs.caption1
-    console.log(clientWidth, clientHeight)
-
-    console.log("WINDOW SIZE=====", this.state.windowWidth)
+      if (i == 0){
+        this.state.cc_comps[i]['y'] = this.state.windowHeight / 2
+        console.log("======Y POS=======", this.state.cc_comps[i]['y']);
+      } else {
+        this.state.cc_comps[i]['y'] = this.state.cc_comps[i-1]['y'] + this.state.cc_comps[i-1]['height']
+        console.log("======Y POS=======", this.state.cc_comps[i]['y']);
+      }
+    }
     window.addEventListener("resize", this.handleResize);
     const url = 'http://localhost:3000/db/getTranscript'
     fetch(url, {
@@ -119,6 +132,7 @@ class Discussion extends React.Component {
 
 
   render() {
+    // console.log(this.state.innerWidth)
     const pinArr = this.state.pins.map((pin, i) => (
       <div style={{opacity: pin.pinSecs - this.state.pinTime}} key={pin.pinId}>
       <Pin title={pin.title} timestamp={pin.timeStamp} tags={pin.tags} accordion_title={pin.accordion_title} accordion_body={pin.accordion_body} accordion_img={pin.accordion_img}/>
@@ -126,7 +140,7 @@ class Discussion extends React.Component {
     ));
 
     const ccArr = this.state.cc_comps.map((comp, i) => (
-      <div ref={"caption".concat(String(comp.id))} key={comp.id}>
+      <div style={{position: 'absolute', top: this.state.cc_comps[i]['y']}}ref={"caption".concat(String(comp.id))} key={comp.id}>
       <CCC ccText={comp.text} />
       </div>
     ));
