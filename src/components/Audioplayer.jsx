@@ -8,7 +8,7 @@ import Row from 'react-bootstrap/Row'
 import '../assets/css/App.css';
 import ReactPlayer from 'react-player'
 import podcast from '../assets/podcasts/election_audio.mp3'
-import IconButton from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/Button'
 import Button from '@material-ui/core/Button'
 // import Scroll from "react-scroll"
 // var Link = Scroll.Link;
@@ -26,7 +26,7 @@ class Audioplayer extends React.Component {
   handlePlayorpause = () => {
 
     this.setState({playpause: !this.state.playpause})
-    console.log(this.state.playpause)
+    this.state.playpause ? this.props.message("PAUSED") : this.props.message("NOW PLAYING")
   }
 
   handlePin = () => {
@@ -59,7 +59,7 @@ class Audioplayer extends React.Component {
 
     return (
       <Row className="mt-2 mb-4" style={{ flexDirection: 'row', display: 'flex', justifyContent: "space-between", alignItems: "center", width: "140px"}}>
-      <IconButton onClick={() => this.fastRewind()} style = {{minWidth: "0px"}} className = "pl-0">
+      <IconButton onClick={() => this.fastRewind()} disableTouchRipple={true} style = {{minWidth: "0px", outline: "none", backgroundColor: "transparent"}} className = "pl-0">
       <img style={{
         height: 18,
         width: 18,
@@ -67,15 +67,15 @@ class Audioplayer extends React.Component {
       </IconButton>
 
 
-      <IconButton onClick={() => this.handlePlayorpause()} className = "pr-0 pl-0 mt-2 mb-2">
+      <IconButton onClick={() => this.handlePlayorpause()} disableTouchRipple={true} style = {{outline: "none", backgroundColor: "transparent"}} className = "pr-0 pl-0 mt-2 mb-2">
       <img style={{
         height: 32,
         width: 32,
         opacity: 1
-      }} src='/Play.png' />
+      }} src={this.state.playpause ? '/pause.png': "/play.png"} />
       </IconButton>
 
-      <IconButton onClick={() => this.fastForward()} style = {{minWidth: "0px"}} className = "pr-0">
+      <IconButton onClick={() => this.fastForward()} style = {{minWidth: "0px", outline: "none", backgroundColor: "transparent"}} disableTouchRipple={true} className = "pr-0">
       <img style={{
         height: 18,
         width: 18,

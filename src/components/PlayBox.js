@@ -10,8 +10,13 @@ import Audioplayer from "./Audioplayer";
 class PlayBox extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { message: "" };
   }
+
+  changeMessage = (msg) => {
+    this.setState({ message: msg });
+  };
+
   render() {
     return (
       <Container
@@ -39,8 +44,7 @@ class PlayBox extends React.Component {
               marginBottom: "0.3rem",
             }}
           >
-            {" "}
-            NOW PLAYING{" "}
+            {this.state.message}
           </div>
           <img
             style={{
@@ -52,7 +56,10 @@ class PlayBox extends React.Component {
             }}
             src="/TheDaily.png"
           />
-          <Audioplayer handlePin={this.props.handlePin} />
+          <Audioplayer
+            message={this.changeMessage}
+            handlePin={this.props.handlePin}
+          />
         </Col>
       </Container>
     );
