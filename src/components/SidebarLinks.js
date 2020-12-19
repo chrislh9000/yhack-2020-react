@@ -29,7 +29,9 @@ class SidebarLinks extends React.Component {
             </Link>
           </Row>
           <Row>
+            <Link to="/register">
             <p className="sidebar-title">Profile</p>
+            </Link>
           </Row>
           <Row>
             <p className="sidebar-title">Saved Podcasts</p>

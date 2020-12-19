@@ -16,7 +16,10 @@ class About extends React.Component {
   }
 
   render() {
-    return <Sidebar handlePin={this.props.handlePin}></Sidebar>;
+    return (
+      <Sidebar handlePin={this.props.handlePin}>
+      </Sidebar>
+    )
   }
 }
 

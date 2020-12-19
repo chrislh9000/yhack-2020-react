@@ -10,6 +10,8 @@ import PinIcon from "./PinIcon";
 import Pin from "./Pin";
 import Sidebar from "./Sidebar";
 import About from "./About";
+import Register from './Register'
+import Login from './Login'
 
 class App extends React.Component {
   constructor(props) {
@@ -57,6 +59,15 @@ class App extends React.Component {
             <Route path="/users">
               <Users />
             </Route>
+
+            <Route path="/register">
+              <Register />
+            </Route>
+
+            <Route path="/login">
+              <Login />
+            </Route>
+
 
             <Route path="/">
               <Discussion
