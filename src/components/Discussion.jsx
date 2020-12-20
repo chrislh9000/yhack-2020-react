@@ -22,6 +22,8 @@ import CCC from './CCC'
 import Sidebar from "./Sidebar"
 
 
+
+
 import {animateScroll} from 'react-scroll'
 
 
@@ -49,6 +51,7 @@ class Discussion extends React.Component {
       {id: 7, timestamp: 14.0, text: "suck on these fat boobs, suck on these fat boobs, suck on these fat boobs", height: 0, y: 0},
       {id: 8, timestamp: 16.0, text: "suck on these big butt, suck on these fat butt, suck on these fat butt", height: 0, y: 0} ],
       cc_load: false,
+      currPos: 0
     };
 
   }
@@ -122,9 +125,11 @@ class Discussion extends React.Component {
     console.log("END OF WOS===")
     // iterate through all cc_comps
     let shiftHeight = this.state.cc_comps[this.state.mainComp]['height'] / 2 + this.state.cc_comps[this.state.mainComp + 1]['height'] / 2 //height that everything needs to be shifted height
-    for (var i = 0; i < this.state.cc_comps.length; i++) {
-      this.state.cc_comps[i]['y'] = this.state.cc_comps[i]['y'] - shiftHeight
-    }
+    // for (var i = 0; i < this.state.cc_comps.length; i++) {
+    //   this.state.cc_comps[i]['y'] = this.state.cc_comps[i]['y'] - shiftHeight
+    // }
+    animateScroll.scrollTo(this.state.currPos + shiftHeight, {containerId: "midcol"});
+    this.setState({currPos: this.state.currPos + shiftHeight})
   }
 
   initHeightPos = (e) => {
@@ -215,7 +220,7 @@ class Discussion extends React.Component {
 
 
 
-          <Col className="middle" xs={4} style={{display: "flex", flexDirection: "column"}}>
+          <Col id = "midcol" className="middle" xs={4} style={{display: "flex", flexDirection: "column"}}>
             {ccArr}
           </Col>
           <Col xs={3} style={{ paddingLeft: "0px", paddingRight: "0px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
