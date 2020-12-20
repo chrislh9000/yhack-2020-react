@@ -5,6 +5,7 @@ from user_timestamp import *
 from datetime import timedelta
 from beg_sentence import *
 import json
+from longrunning_json import *
 
 
 
@@ -43,18 +44,23 @@ def transcribe_gcs(gcs_uri):
 
     response = json.load(f)
     f.close()
+    response_goog = operation.result(timeout=1000)
     # print(response["name"])
     print("Waiting for operation to complete...")
     print("=======OPERATION=======")
     # print(operation.metadata)
+    print(response_goog)
 
-    response = operation.result(timeout=1000)
 
-    print("\n\n\n")
-    # print(response["name"])
+    filename = gcs_uri.split("/")[3].split(".")[0] + ".json"
+    with open(filename, 'w') as outfile:
+        json.dump(json_creater(response_goog), outfile)
 
-    print(response["response"]["results"])
-    print("\n\n\n")
+    # print("\n\n\n")
+    # # print(response["name"])
+
+    # print(response["response"]["results"])
+    # print("\n\n\n")
     with open('full-json.json', 'w') as f:
         print(response, file=f)
         # print(response.metadata)
@@ -101,7 +107,7 @@ def transcribe_gcs(gcs_uri):
     # return response
 
 # response = transcribe_gcs("gs://sample_audio_v1/trimmed-daily.flac")
-transcribe_gcs("gs://full_audio/daily_sample.flac")
+transcribe_gcs("gs://yhack_audio/trimmed-daily.flac")
 # beg_word = response.results[1].alternatives[0].words[9]
 # print(response)
 
