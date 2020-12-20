@@ -199,6 +199,10 @@
   height: 100vh;
 }
 
+.middle::-webkit-scrollbar {
+  display: none;
+}
+
 .cctext {
   padding: 2%;
   color: gray;
