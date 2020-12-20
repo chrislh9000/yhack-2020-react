@@ -31,6 +31,9 @@ class Login extends React.Component {
   }
 
   handleLogin = (e) => {
+    console.log("=====LOGGING IN======")
+    console.log("username====", this.state.username)
+    console.log("password====", this.state.password)
     e.preventDefault();
     fetch('http://localhost:3000/login', {
       method: 'POST',
@@ -50,7 +53,8 @@ class Login extends React.Component {
           loggedIn: true,
           user: json.user,
         });
-        this.props.socket.emit('user', json.user);
+        console.log("SUCCESSful login")
+        console.log(this.state.user);
       } else {
         console.log('error: invalid login info', json.err);
       }
@@ -79,7 +83,7 @@ class Login extends React.Component {
       <Link to="/register">
       <Button className="center-block" variant="contained" color="primary">Go to Registration</Button>
       </Link>
-      <Link to="/">
+      <Link to="/discussion">
       <Button style={{marginTop: '10px'}} className="center-block" variant="contained" color="primary">Back to Discussions</Button>
       </Link>
       </Grid>

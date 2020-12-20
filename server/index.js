@@ -48,6 +48,10 @@ app.use(session({
   store: new MongoStore({mongooseConnection: mongoose.connection}),
 }));
 
+//====== initializing passport middleware ======
+app.use(passport.initialize());
+app.use(passport.session());
+
 passport.serializeUser(function(user, done) {
   done(null, user._id);
 });
@@ -58,30 +62,30 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-passport.use(new LocalStrategy(function(username, password, done) {
-  // Find the user with the given username
-  User.findOne({ username: username }, function (err, user) {
-    // if there's an error, finish trying to authenticate (auth failed)
-    if (err) {
-      console.log(err);
-      return done(err);
-    } else if (!user) {
-      console.log(user);
-      return done(null, false);
-    } else {
-      var hashedPassword = hashPassword(password);
-      if (user.hashedPassword !== hashedPassword) {
-        return done(null, false);
-      } else {
+passport.use(new LocalStrategy(
+  (username, password, done) => {
+    console.log("====USERNAME====", username)
+    console.log("====PASSWORD====", password)
+    console.log("====HASHED PASSWORD====", hashPassword(password))
+    User.findOne({ username: username })
+    .then((user) => {
+      if (!user) {
+        console.log("====NO USER FOUND=====")
+        return done(null);
+      } else if (user.password === sha256(password).toString()) {
+        console.log("====USER FOUND!!!!=====")
         return done(null, user);
+      } else {
+        console.log("====NULL USER=====")
+        return done(null);
       }
-    }
-  });
-}));
+    })
+    .catch((err) => {
+      return done(err);
+    });
+  }
+));
 
-//====== initializing passport middleware ======
-app.use(passport.initialize());
-app.use(passport.session());
 app.use('/', authRouter(passport));
 app.use('/cloudinary', cloudinaryRoutes)
 
