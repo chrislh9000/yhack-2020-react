@@ -14,9 +14,21 @@ const UserSchema = new Schema({
   }
 });
 
+const GcloudResponseSchema = new Schema({
+  id: {
+    type: String,
+    required: true
+  },
+  response: {
+    type: Object
+  }
+});
+
 const User = mongoose.model('User', UserSchema);
+const GcloudResponse = mongoose.model('GcloudResponse', GcloudResponseSchema);
 
 
 export default {
-  User: User
+  User: User,
+  GcloudResponse: GcloudResponse
 };

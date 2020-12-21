@@ -12,10 +12,14 @@ import models from "./models.js";
 const User = models.User;
 import dbRouter from "./routes/databaseAccess.js";
 import authRouter from "./routes/auth.js";
+import transcriptRoutes from "./routes/transcript.js";
 import sha256 from "crypto-js/sha256";
 import hex from "crypto-js/enc-hex";
 import CryptoJS from "crypto-js";
 import cloudinaryRoutes from "./routes/cloudinary.js";
+import cors from 'cors'
+const allowedOrigins = ['http://localhost:3000',
+                      'http://localhost:5000'];
 
 // ========== Basic connections and server initialization =============
 
@@ -35,6 +39,19 @@ const app = express();
 const server = require("http").Server(app);
 
 // ========== Middleware =============
+app.use(cors({
+  origin: function(origin, callback){
+    // allow requests with no origin
+    // (like mobile apps or curl requests)
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){
+      var msg = 'The CORS policy for this site does not ' +
+                'allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  }
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/db", dbRouter);
@@ -91,9 +108,10 @@ passport.use(new LocalStrategy(
 
 app.use('/', authRouter(passport));
 app.use('/cloudinary', cloudinaryRoutes)
+app.use('/transcript', transcriptRoutes)
 
 // ========== Port init =============
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 // app.listen(port, () => {
 //   console.log(`Server listening on port: ${port}`);
 // });
