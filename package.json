@@ -23,6 +23,7 @@
     "crypto": "^1.0.1",
     "crypto-js": "^4.0.0",
     "electron": "^11.1.0",
+    "electron-forge": "^5.2.4",
     "electron-is-dev": "^1.2.0",
     "express-session": "^1.17.1",
     "mongoose": "^5.10.13",

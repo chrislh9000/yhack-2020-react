@@ -2,6 +2,7 @@ import express from 'express';
 import models from '../models.js';
 const router = express.Router();
 import CryptoJS from 'crypto-js';
+import sha256 from 'crypto-js/sha256';
 const User = models.User;
 
 function hashPassword(password) {
@@ -21,7 +22,7 @@ module.exports = (passport) => {
     } else {
       const newUser = new User ({
         username: req.body.username,
-        password: hashPassword(req.body.password)
+        password: sha256(req.body.password).toString()
       })
       newUser.save()
       .then(() => {
@@ -40,10 +41,12 @@ module.exports = (passport) => {
   router.post('/login', (req, res, next) => {
     passport.authenticate('local', (err, user) => {
       if (err || !user) {
+        console.log("ERROR===== no user at all")
         res.status(500).json({ success: false, message: 'err or bad user/pass' });
       } else {
         req.login(user, (err) => {
           if (err) {
+            console.log("ERROR===== req login works at least")
             res.status(500).json({ success: false, err: err });
           } else {
             res.status(200).json({ success: true, user: req.user });
@@ -52,6 +55,10 @@ module.exports = (passport) => {
       }
     })(req, res, next);
   });
+
+  router.get('/crypto', (req, res, next) => {
+    console.log(sha256("123").toString())
+  })
 
   return router;
 
