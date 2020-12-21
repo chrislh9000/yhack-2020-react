@@ -11,6 +11,7 @@ class PlayBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = { message: "" };
+    console.log("niggggggggggggg", this.props.pintime)
   }
 
   changeMessage = (msg) => {
@@ -59,6 +60,7 @@ class PlayBox extends React.Component {
           <Audioplayer
             message={this.changeMessage}
             handlePin={this.props.handlePin}
+            pinTime={this.props.pinTime}
           />
         </Col>
       </Container>

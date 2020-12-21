@@ -51,9 +51,9 @@ class Discussion extends React.Component {
       {id: 7, timestamp: 14.0, text: "suck on these fat boobs, suck on these fat boobs, suck on these fat boobs", height: 0, y: 0},
       {id: 8, timestamp: 16.0, text: "suck on these big butt, suck on these fat butt, suck on these fat butt", height: 0, y: 0} ],
       cc_load: false,
-      currPos: 0
+      currPos: 0,
+      ccTime: [0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0]
     };
-
   }
 
   handleResize = (e) => {
@@ -65,16 +65,16 @@ class Discussion extends React.Component {
 
   handleScroll = (e) => {
     if (this.state.mainComp >= this.state.cc_comps.length - 1) {
-      console.log("END OF TRANCRIPT===")
+      // console.log("END OF TRANCRIPT===")
       this.setState({
         mainComp: this.state.mainComp
       })
     } else {
-      console.log("COOLIOOOO===")
+      // console.log("COOLIOOOO===")
       // check audio timestamp against the interval of podcasts
-      // if audiostamp >= cc_comp timestamp i+1
+
       if (this.props.pinTime >= this.state.cc_comps[this.state.mainComp + 1]['timestamp']) {
-        console.log("SHIFTINGG===")
+        // console.log("SHIFTINGG===")
         // shift the heights
         this.shiftHeights()
         // reset the mainComp
@@ -90,7 +90,7 @@ class Discussion extends React.Component {
   }
 
   shiftHeights = (e) => {
-    console.log("END OF WOS===")
+    // console.log("END OF WOS===")
     // iterate through all cc_comps
     let shiftHeight = this.state.cc_comps[this.state.mainComp]['height'] / 2 + this.state.cc_comps[this.state.mainComp + 1]['height'] / 2 //height that everything needs to be shifted height
     // for (var i = 0; i < this.state.cc_comps.length; i++) {
@@ -153,7 +153,7 @@ class Discussion extends React.Component {
 
 
   render() {
-    console.log("AUDIOSTAMP=====", this.props.pinTime)
+    // console.log("AUDIOSTAMP=====", this.props.pinTime)
     // console.log(this.state.innerWidth)
     const pinArr = this.state.pins.map((pin, i) => (
       <div style={{opacity: pin.pinSecs - this.props.pinTime}} key={pin.pinId}>
@@ -163,7 +163,7 @@ class Discussion extends React.Component {
 
     const ccArr = this.state.cc_comps.map((comp, i) => (
       <div className ={this.state.mainComp === i? "cctext-highlighted" : "cctext"} style={{position: 'absolute', top: this.state.cc_comps[i]['y']}} ref={"caption".concat(String(comp.id))} key={comp.id}>
-        <CCC ccText={comp.text} ccID={comp.id} /> 
+        <CCC ccText={comp.text} ccID={comp.id} handlePin={this.props.handlePin} ccTime={this.state.ccTime}/> 
       </div>
     ));
 
@@ -171,7 +171,7 @@ class Discussion extends React.Component {
       <Container fluid className="discussion_background main-back">
         <Row>
 
-          <Sidebar handlePin={this.props.handlePin}></Sidebar>
+          <Sidebar handlePin={this.props.handlePin} pinTime={this.props.pinTime}></Sidebar>
 
           {/* <Col className="pl-0 pr-0 far-left" xs={2}>
             <Col className="pl-0 far-left-top" >

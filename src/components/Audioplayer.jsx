@@ -10,6 +10,7 @@ import ReactPlayer from 'react-player'
 import podcast from '../assets/podcasts/election_audio.mp3'
 import IconButton from '@material-ui/core/Button'
 import Button from '@material-ui/core/Button'
+import { number } from 'prop-types';
 // import Scroll from "react-scroll"
 // var Link = Scroll.Link;
 // import DeleteIcon from '@material-ui/icons';
@@ -18,13 +19,11 @@ class Audioplayer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      playpause: false,
-      seeking: 100
+      playpause: false
     }
   }
 
   handlePlayorpause = () => {
-
     this.setState({playpause: !this.state.playpause})
     this.state.playpause ? this.props.message("PAUSED") : this.props.message("NOW PLAYING")
   }
@@ -37,6 +36,7 @@ class Audioplayer extends React.Component {
 
   componentDidMount = (e) => {
     this.interval = setInterval(() => this.props.handlePin(this.player.getCurrentTime()), 1000);
+    console.log("componentDidmount", this.props.pinTime)
   }
 
   componentWillUnmount() {
@@ -44,11 +44,27 @@ class Audioplayer extends React.Component {
   }
 
   fastRewind = () => {
-    this.player.seekTo(parseFloat(this.player.getCurrentTime() - 10))
+    // this.player.seekTo(parseFloat(this.player.getCurrentTime() - 10))
+    this.seekToTime(this.player.getCurrentTime() - 10)
   }
 
   fastForward = () => {
-    this.player.seekTo(parseFloat(this.player.getCurrentTime() + 10))
+    // this.player.seekTo(parseFloat(this.player.getCurrentTime() + 10))
+    this.seekToTime(this.player.getCurrentTime() + 10)
+  }
+
+  seekToTime = (time) => {
+    if (this.props.pinTime > 0){
+      this.player.seekTo(time)
+    }
+    
+  }
+
+  componentDidUpdate(prevProps) {
+    console.log("componentdidupdate       ==========",this.props.pinTime)
+    if (this.props.pinTime !== this.player.getCurrentTime()) {
+        this.seekToTime(this.props.pinTime)
+    }
   }
 
   ref = player => {
