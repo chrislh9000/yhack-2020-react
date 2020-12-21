@@ -37,11 +37,13 @@
     "react-audio-player": "^0.14.0",
     "react-bootstrap": "^1.4.0",
     "react-dom": "^17.0.1",
+    "react-ds": "^1.13.0",
     "react-player": "^2.6.2",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
     "react-scroll": "^1.8.1",
+    "react-selectable-fast": "^3.4.0",
     "react-toggle": "^4.1.1",
     "wait-on": "^5.2.0",
     "web-vitals": "^0.2.4"

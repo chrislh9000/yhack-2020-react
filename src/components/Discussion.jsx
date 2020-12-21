@@ -23,7 +23,6 @@ import Sidebar from "./Sidebar"
 
 
 
-
 import {animateScroll} from 'react-scroll'
 
 
@@ -221,6 +220,7 @@ class Discussion extends React.Component {
 
 
           <Col id = "midcol" className="middle" xs={4} style={{display: "flex", flexDirection: "column"}}>
+
             {ccArr}
           </Col>
           <Col xs={3} style={{ paddingLeft: "0px", paddingRight: "0px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>

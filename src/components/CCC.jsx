@@ -20,9 +20,11 @@ class CCC extends React.Component {
 
   render() {
     return (
+      <Row >
       <Col>
       {this.props.ccText}
       </Col>
+      </Row>
     );
   }
 
