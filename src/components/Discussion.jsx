@@ -56,38 +56,6 @@ class Discussion extends React.Component {
 
   }
 
-  // handlePin = (pin) => {
-  //   this.setState({
-  //     pinTime: pin,
-  //   })
-  // }
-
-  // makePin = (pinTime) => {
-  //   console.log("======MAKING PinTime========")
-  //   console.log("=======Pinorder=====", this.state.pinOrder)
-  //   var timestamp = this.state.pinTime;
-  //   console.log("timestamp", timestamp)
-  //   var pinId = Math.random() * 10000
-  //   var newPin = {
-  //     pinId: pinId,
-  //     timeStamp: this.state.pinOrder == 0 ? "0:16" : "0:28",
-  //     pinSecs: this.state.pinOrder == 0 ? 28 : 40,
-  //     title: "The Daily: An Unfinished Election",
-  //     tags: ["Joe Biden", "Donald Trump"],
-  //     accordion_title: this.state.pinOrder == 0 ? "Supreme Court" : "Joe Biden",
-  //     accordion_body: this.state.pinOrder == 0 ? `The Supreme Court of the United States (SCOTUS) is the highest court in the federal judiciary of the United States of America. It has ultimate (and largely discretionary) appellate jurisdiction over all federal and state court cases that involve a point of federal law, and original jurisdiction over a narrow range of cases, specifically "all Cases affecting Ambassadors, other public Ministers and Consuls, and those in which a State shall be Party".[2] The Court holds the power of judicial review, the ability to invalidate a statute for violating a provision of the Constitution.` :
-  //     "Joseph Robinette Biden Jr.; born November 20, 1942) is an American politician and the president-elect of the United States. Having defeated incumbent Donald Trump in the 2020 United States presidential election, he will be inaugurated as the 46th president on January 20, 2021. A member of the Democratic Party, Biden served as the 47th vice president from 2009 to 2017 and a United States senator for Delaware from 1973 to 2009",
-  //     accordion_img: this.state.pinOrder == 0 ? "/Supreme_court.svg.png" : "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Joe_Biden_official_portrait_2013.jpg/220px-Joe_Biden_official_portrait_2013.jpg"
-  //   }
-
-  //   this.state.pins.push(newPin)
-
-  //   this.setState({
-  //     pinOrder: 1,
-  //   })
-
-  // }
-
   handleResize = (e) => {
     this.setState({
       windowWidth: window.innerWidth,
@@ -195,7 +163,7 @@ class Discussion extends React.Component {
 
     const ccArr = this.state.cc_comps.map((comp, i) => (
       <div className ={this.state.mainComp === i? "cctext-highlighted" : "cctext"} style={{position: 'absolute', top: this.state.cc_comps[i]['y']}} ref={"caption".concat(String(comp.id))} key={comp.id}>
-        <CCC ccText={comp.text}  /> 
+        <CCC ccText={comp.text} ccID={comp.id} /> 
       </div>
     ));
 

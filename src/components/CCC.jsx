@@ -15,13 +15,40 @@ class CCC extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      hover: false,
+      button: []
+    }
+  }
+  toggleHoverEnter = () => {
+    this.setState({hover:true})
+    console.log("helo nigs")
+    console.log(this.props.ccID)
+    this.renderButton()
+  }
+
+  toggleHoverLeave = () => {
+    this.setState({hover:false})
+    console.log("cya nigs")
+    console.log(this.props.ccID)
+    this.renderButton()
+  }
+
+  handlePlay = () => {
+    console.log(this.props.ccID)
+  }
+  renderButton = () => {
+    if (this.state.hover) {
+      return <button onClick={this.handlePlay}>></button>
+    } else {
+      return <div></div>
     }
   }
 
   render() {
     return (
-      <Col>
-      {this.props.ccText}
+      <Col onMouseEnter={this.toggleHoverEnter} onMouseLeave={this.toggleHoverLeave}>
+        {this.props.ccText}
+        {this.renderButton()}
       </Col>
     );
   }
