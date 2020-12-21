@@ -31,11 +31,8 @@ class Login extends React.Component {
   }
 
   handleLogin = (e) => {
-    console.log("=====LOGGING IN======")
-    console.log("username====", this.state.username)
-    console.log("password====", this.state.password)
     e.preventDefault();
-    fetch('http://localhost:3000/login', {
+    fetch('http://localhost:5000/login', {
       method: 'POST',
       credentials: 'same-origin',
       headers: {

@@ -34,7 +34,7 @@ class Register extends React.Component {
 
   handleRegister = (e) => {
     e.preventDefault();
-    fetch('http://localhost:3000/register', {
+    fetch('http://localhost:5000/register', {
       method: 'POST',
       credentials: 'same-origin',
       headers: {

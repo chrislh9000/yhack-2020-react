@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import cloudinary from 'cloudinary';
 import http from 'http';
 import fs from 'fs';
+import models from '../models.js';
 
 cloudinary.config({
   cloud_name: 'pincast',
@@ -51,6 +52,9 @@ router.get('/downloadPodcast:podcastid', (req, res) => {
 
     // TODO: update user schema's downloadedpodcasts and delete the podcast
   })
+
+// ==== TRANSCRIPT ROUTES ======
+
 
 
 
