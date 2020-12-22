@@ -1,5 +1,4 @@
 import express from 'express';
-import crypto from 'crypto';
 import models from '../models.js';
 
 const router = express.Router();
@@ -8,10 +7,6 @@ const Test = models.Test;
 const axios = require('axios');
 
 var request = require('ajax-request');
-
-function hashPassword(password) {
-  return CryptoJS.AES.encrypt(password, 'secret key 123').toString();
-}
 
 router.get('/getTranscript', (req, res) => {
   console.log("TRANSCRIPT REQUEST RECEIVED")

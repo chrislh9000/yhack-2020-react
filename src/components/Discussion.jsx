@@ -47,14 +47,14 @@ class Discussion extends React.Component {
       cc_comps: [],
       cc_load: false,
       currPos: 0,
-      selectedElements: [], 
+      selectedElements: [],
       showComponent: false,
       cursorPos: null,
     };
   }
 
 
-  
+
 
   // handlePin = (pin) => {
   //   this.setState({
@@ -250,6 +250,7 @@ class Discussion extends React.Component {
   }
 
   componentDidUpdate = (e) => {
+    console.log("==========UPDATING==========")
     if (this.state.cc_comps){
       if (this.state.mainComp < this.state.cc_comps.length - 1) {
         this.handleScroll()
@@ -269,7 +270,7 @@ class Discussion extends React.Component {
       //   console.log(selected)
       //   return (
       //       <div className ={this.state.mainComp === i? "cctext-highlighted" : "cctext"} style={{position: 'absolute', top: comp['y']}} ref={"caption".concat(String(comp.id))} key={comp.id}>
-      //         <SelectableComponent ccID={comp.id} handlePin={this.props.handlePin} handleMainComp={this.handleMainComp} key={i} selected={selected} selectableKey={comp.id} ccText={comp.text}  /> 
+      //         <SelectableComponent ccID={comp.id} handlePin={this.props.handlePin} handleMainComp={this.handleMainComp} key={i} selected={selected} selectableKey={comp.id} ccText={comp.text}  />
       //       </div>
       //   );
       //   })
@@ -303,7 +304,7 @@ class Discussion extends React.Component {
       <Sidebar handlePin={this.props.handlePin} pinTime={this.props.pinTime} handleWind={this.handleWind}></Sidebar>
 
 
-          
+
           <Col id = "midcol" className="middle" xs={4} style={{display: "flex", flexDirection: "column"}}>
           <SelectableGroup className= "selectGroup" onNonItemClick = {this.clearSelections} onSelection={this.handleSelection} onEndSelection={this.handleHighlight}>
           <ReactCursorPosition>
@@ -311,7 +312,7 @@ class Discussion extends React.Component {
             let selected = this.state.selectedElements.indexOf(i) > -1;
             return (
                 <div className ={this.state.mainComp === i? "cctext-highlighted" : "cctext"} style={{position: 'absolute', top: comp['y']}} ref={"caption".concat(String(comp.id))} key={comp.id}>
-                  <SelectableComponent key={i} selected={selected} selectableKey={comp.id} ccText={comp.text}  /> 
+                  <SelectableComponent key={i} selected={selected} selectableKey={comp.id} ccText={comp.text}  />
                 </div>
             );
             })}
@@ -323,7 +324,7 @@ class Discussion extends React.Component {
             </ReactCursorPosition>
             </SelectableGroup>
           </Col>
-          
+
           <Col xs={3} style={{ paddingLeft: "0px", paddingRight: "0px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
             <Container style={{ display: "flex", flexDirection: "column"}}>
               {pinArr}

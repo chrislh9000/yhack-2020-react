@@ -30,7 +30,7 @@ const GcloudResponseSchema = new Schema({
 });
 
 const PinSchema = new Schema({
-  test : {
+  text : {
     type: String,
     required: true
   },
@@ -50,7 +50,7 @@ const PinSchema = new Schema({
   podcast: {
     type: Schema.Types.ObjectId,
     ref: 'Podcast',
-    required: true
+    required: false
   }
 })
 
