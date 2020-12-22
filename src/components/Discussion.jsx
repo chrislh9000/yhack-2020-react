@@ -101,6 +101,13 @@ class Discussion extends React.Component {
     });
   };
 
+  disableHighlght = () => {
+    this.setState({
+      showComponent: false,
+    });
+    this.clearSelections();
+  };
+
   handleResize = (e) => {
     this.setState({
       windowWidth: window.innerWidth,
@@ -174,11 +181,6 @@ class Discussion extends React.Component {
     } else {
       // check audio timestamp against the interval of podcasts
       // if audiostamp >= cc_comp timestamp i+1
-      console.log(
-        "ni puss",
-        this.props.pinTime,
-        this.state.cc_comps[this.state.mainComp + 1]["timestamp"]
-      );
 
       if (
         this.props.pinTime >=
@@ -318,69 +320,74 @@ class Discussion extends React.Component {
             pinTime={this.props.pinTime}
             playpause={this.props.playpause}
           />
-
-          <Col
-            id="midcol"
-            className="middle"
-            xs={4}
-            style={{ display: "flex", flexDirection: "column" }}
-          >
-            <SelectableGroup
-              className="selectGroup"
-              onNonItemClick={this.clearSelections}
-              onSelection={this.handleSelection}
-              onEndSelection={this.handleHighlight}
+          <Col xs={7} className="pr-0 pl-0">
+            <ReactCursorPosition
+              style={{ display: "flex", flexDirection: "row" }}
             >
-              <ReactCursorPosition>
-                {this.state.cc_comps.map((comp, i) => {
-                  let selected = this.state.selectedElements.indexOf(i) > -1;
-                  return (
-                    <div
-                      className={
-                        this.state.mainComp === i
-                          ? "cctext-highlighted"
-                          : "cctext"
-                      }
-                      style={{ position: "absolute", top: comp["y"] }}
-                      ref={"caption".concat(String(comp.id))}
-                      key={comp.id}
-                    >
-                      <SelectableComponent
-                        handleMainComp={this.handleMainComp}
-                        ccID={comp.id}
-                        key={i}
-                        selected={selected}
-                        selectableKey={comp.id}
-                        ccText={comp.text}
-                        seekToTime={this.props.seekToTime}
-                        time={comp.timestamp}
-                      />
-                    </div>
-                  );
-                })}
+              <Col
+                id="midcol"
+                className="middle"
+                xs={7}
+                style={{ display: "flex", flexDirection: "column" }}
+              >
+                <SelectableGroup
+                  className="selectGroup"
+                  onNonItemClick={this.clearSelections}
+                  onSelection={this.handleSelection}
+                  onEndSelection={this.handleHighlight}
+                >
+                  {this.state.cc_comps.map((comp, i) => {
+                    let selected = this.state.selectedElements.indexOf(i) > -1;
+                    return (
+                      <div
+                        className={
+                          this.state.mainComp === i
+                            ? "cctext-highlighted"
+                            : "cctext"
+                        }
+                        style={{ position: "absolute", top: comp["y"] }}
+                        ref={"caption".concat(String(comp.id))}
+                        key={comp.id}
+                      >
+                        <SelectableComponent
+                          handleMainComp={this.handleMainComp}
+                          ccID={comp.id}
+                          key={i}
+                          selected={selected}
+                          selectableKey={comp.id}
+                          ccText={comp.text}
+                          seekToTime={this.props.seekToTime}
+                          time={comp.timestamp}
+                        />
+                      </div>
+                    );
+                  })}
+                </SelectableGroup>
+              </Col>
 
-                {/* {this.state.showComponent ?
-              <HighlightMenu style = {{height: "100%", width: "100%"}}/> : null
-            } */}
-              </ReactCursorPosition>
-            </SelectableGroup>
-          </Col>
-
-          <Col
-            xs={3}
-            style={{
-              paddingLeft: "0px",
-              paddingRight: "0px",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Container style={{ display: "flex", flexDirection: "column" }}>
-              {pinArr}
-            </Container>
-            <PinButton makePin={this.makePin} />
+              <Col
+                xs={5}
+                style={{
+                  paddingLeft: "0px",
+                  paddingRight: "0px",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Container style={{ display: "flex", flexDirection: "column" }}>
+                  {pinArr}
+                </Container>
+                <PinButton makePin={this.makePin} />
+              </Col>
+              {this.state.showComponent ? (
+                <HighlightMenu
+                  disableHighlight={this.disableHighlght}
+                  style={{ height: "100%", width: "100%" }}
+                />
+              ) : null}
+            </ReactCursorPosition>
           </Col>
 
           <Col
