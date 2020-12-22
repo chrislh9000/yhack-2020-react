@@ -136,7 +136,7 @@ class Discussion extends React.Component {
         if (timestamp <= this.state.cc_comps[i]["timestamp"]) {
           cc_id = i - 1;
         }
-      }
+      }   
     } else if (
       this.state.cc_comps[this.state.mainComp]["timestamp"] >= timestamp
     ) {
