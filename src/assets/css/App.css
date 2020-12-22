@@ -214,3 +214,36 @@
   color: white;
   font-size: 20px;
 }
+
+.testSelect {
+  background: black;
+}
+
+.testUnselect {
+  background: white;
+  color: blue;
+}
+
+.selectGroup {
+  height: 100vh;
+}
+
+.exampleBox {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border 0.2s ease-in-out;
+}
+
+.exampleBox:hover {
+  border-color: #337ab7;
+}
+
+.exampleBox__label {
+  text-align: center;
+  font: 16px/1.5 Helvetica, Arial;
+}

@@ -18,9 +18,13 @@ class CCC extends React.Component {
     }
   }
 
+  
+
   render() {
     return (
-      <Row >
+      <Row className={
+        this.props.selected ? "testSelect" : ""
+      }>
       <Col>
       {this.props.ccText}
       </Col>

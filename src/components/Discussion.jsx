@@ -21,9 +21,13 @@ import AddComment from "./AddComment"
 import CCC from './CCC'
 import Sidebar from "./Sidebar"
 
+import HighlightMenu from "./HighlightMenu"
+import { SelectableGroup, createSelectable } from 'react-selectable'
 
-
+import ReactCursorPosition from "react-cursor-position";
 import {animateScroll} from 'react-scroll'
+
+const SelectableComponent = createSelectable(CCC);
 
 
 class Discussion extends React.Component {
@@ -50,10 +54,16 @@ class Discussion extends React.Component {
       {id: 7, timestamp: 14.0, text: "suck on these fat boobs, suck on these fat boobs, suck on these fat boobs", height: 0, y: 0},
       {id: 8, timestamp: 16.0, text: "suck on these big butt, suck on these fat butt, suck on these fat butt", height: 0, y: 0} ],
       cc_load: false,
-      currPos: 0
+      currPos: 0,
+      selectedElements: [], 
+      showComponent: false,
+      cursorPos: null,
     };
 
   }
+
+
+  
 
   // handlePin = (pin) => {
   //   this.setState({
@@ -87,6 +97,24 @@ class Discussion extends React.Component {
 
   // }
 
+  handleSelection = (text) => {
+    this.setState({
+      selectedElements: text,
+    });
+  };
+
+  clearSelections = () => {
+    this.setState({
+      selectedElements: []
+    })
+  }
+
+  handleHighlight = () => {
+    this.setState({
+      showComponent: true
+    })
+  }
+
   handleResize = (e) => {
     this.setState({
       windowWidth: window.innerWidth,
@@ -101,7 +129,6 @@ class Discussion extends React.Component {
         mainComp: this.state.mainComp
       })
     } else {
-      console.log("COOLIOOOO===")
       // check audio timestamp against the interval of podcasts
       // if audiostamp >= cc_comp timestamp i+1
       if (this.props.pinTime >= this.state.cc_comps[this.state.mainComp + 1]['timestamp']) {
@@ -120,13 +147,12 @@ class Discussion extends React.Component {
     }
   }
 
+  
+
   shiftHeights = (e) => {
     console.log("END OF WOS===")
     // iterate through all cc_comps
     let shiftHeight = this.state.cc_comps[this.state.mainComp]['height'] / 2 + this.state.cc_comps[this.state.mainComp + 1]['height'] / 2 //height that everything needs to be shifted height
-    // for (var i = 0; i < this.state.cc_comps.length; i++) {
-    //   this.state.cc_comps[i]['y'] = this.state.cc_comps[i]['y'] - shiftHeight
-    // }
     animateScroll.scrollTo(this.state.currPos + shiftHeight, {containerId: "midcol"});
     this.setState({currPos: this.state.currPos + shiftHeight})
   }
@@ -134,6 +160,8 @@ class Discussion extends React.Component {
   initHeightPos = (e) => {
       for (var i=0; i<this.state.cc_comps.length; i++) {
         var str = "caption".concat(String(i))
+        console.log("=======str========", str)
+        console.log(this.refs[str])
         let { clientHeight, clientWidth } = this.refs[str]
         // === feed client height into the cc_comps objects
         this.state.cc_comps[i]['height'] = clientHeight
@@ -184,17 +212,10 @@ class Discussion extends React.Component {
 
 
   render() {
-    console.log("AUDIOSTAMP=====", this.props.pinTime)
-    // console.log(this.state.innerWidth)
+    console.log("========SELECTED=======", this.state.selectedElements)
     const pinArr = this.state.pins.map((pin, i) => (
       <div style={{opacity: pin.pinSecs - this.props.pinTime}} key={pin.pinId}>
       <Pin title={pin.title} timestamp={pin.timeStamp} tags={pin.tags} accordion_title={pin.accordion_title} accordion_body={pin.accordion_body} accordion_img={pin.accordion_img}/>
-      </div>
-    ));
-
-    const ccArr = this.state.cc_comps.map((comp, i) => (
-      <div className ={this.state.mainComp === i? "cctext-highlighted" : "cctext"} style={{position: 'absolute', top: this.state.cc_comps[i]['y']}} ref={"caption".concat(String(comp.id))} key={comp.id}>
-        <CCC ccText={comp.text}  /> 
       </div>
     ));
 
@@ -204,25 +225,27 @@ class Discussion extends React.Component {
 
           <Sidebar handlePin={this.props.handlePin}></Sidebar>
 
-          {/* <Col className="pl-0 pr-0 far-left" xs={2}>
-            <Col className="pl-0 far-left-top" >
-              <LogoHome/>
-              <Row style = {{paddingLeft: "1.5rem"}}>
-                <Search/>
-                <UserView className = "ml-4" style = {{alignSelf: "left"}}/>
 
-                <SidebarLinks/>
-              </Row>
-            </Col>
-            <PlayBox handlePin={this.handlePin} />
-          </Col> */}
-
-
-
+          
           <Col id = "midcol" className="middle" xs={4} style={{display: "flex", flexDirection: "column"}}>
+          <SelectableGroup className= "selectGroup" onNonItemClick = {this.clearSelections} onSelection={this.handleSelection} onEndSelection= {this.handleHighlight}>
+          <ReactCursorPosition>
+            {this.state.cc_comps.map((comp, i) => {
+            let selected = this.state.selectedElements.indexOf(i) > -1;
+            return (
+                <div className ={this.state.mainComp === i? "cctext-highlighted" : "cctext"} style={{position: 'absolute', top: comp['y']}} ref={"caption".concat(String(comp.id))} key={comp.id}>
+                  <SelectableComponent key={i} selected={selected} selectableKey={comp.id} ccText={comp.text}  /> 
+                </div>
+            );
+            })}
 
-            {ccArr}
+            {this.state.showComponent ?
+              <HighlightMenu style = {{height: "100%", width: "100%"}}/> : null
+            }
+            </ReactCursorPosition>
+            </SelectableGroup>
           </Col>
+          
           <Col xs={3} style={{ paddingLeft: "0px", paddingRight: "0px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
             <Container style={{ display: "flex", flexDirection: "column"}}>
               {pinArr}
