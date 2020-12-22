@@ -10,14 +10,82 @@ import PinIcon from "./PinIcon";
 import Pin from "./Pin";
 import Sidebar from "./Sidebar";
 import About from "./About";
-import Register from './Register'
-import Login from './Login'
+import Register from "./Register";
+import Login from "./Login";
+import ReactPlayer from "react-player";
+import podcast from "../assets/podcasts/election_audio.mp3";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { pinTime: 0 };
+    this.state = { pinTime: 0, playpause: false };
   }
+
+  handlePlayorpause = () => {
+    this.setState({ playpause: !this.state.playpause });
+    // this.state.playpause
+    //   ? this.props.message("PAUSED")
+    //   : this.props.message("NOW PLAYING");
+  };
+
+  setCurrTime = () => {
+    var pin = this.player.getCurrentTime();
+    this.handlePin(pin);
+  };
+
+  componentDidMount = (e) => {
+    // this.interval = setInterval(
+    //   () => this.props.handlePin(this.player.getCurrentTime()),
+    //   1000
+    // );
+    // console.log("componentDidmount", this.props.pinTime);
+    // this.setCurrTime();
+  };
+
+  // componentWillUnmount() {
+  //   clearInterval(this.interval);
+  // }
+
+  fastRewind = () => {
+    // this.player.seekTo(parseFloat(this.player.getCurrentTime() - 10))
+    var time = this.player.getCurrentTime();
+    if (time < 10) {
+      time = 1;
+    } else {
+      time -= 10;
+    }
+    this.seekToTime(time);
+  };
+
+  fastForward = () => {
+    // this.player.seekTo(parseFloat(this.player.getCurrentTime() + 10))
+    var time = this.player.getCurrentTime() + 10;
+    var duration = this.player.getDuration();
+    if (time > duration) {
+      time = duration;
+    }
+    // this.props.handleWind(time)
+    this.seekToTime(time);
+  };
+
+  seekToTime = (time) => {
+    if (this.state.pinTime > 0) {
+      this.player.seekTo(time);
+    }
+  };
+
+  componentDidUpdate(prevProps) {
+    // console.log("componentdidupdate       ==========", this.props.pinTime);
+    // if (this.props.pinTime !== this.player.getCurrentTime()) {
+    //   console.log("+++++++++++++");
+    //   this.seekToTime(this.props.pinTime);
+    // }
+    console.log("========APPPPPPPPP==========");
+  }
+
+  ref = (player) => {
+    this.player = player;
+  };
 
   handlePin = (pin) => {
     this.setState({
@@ -69,11 +137,24 @@ class App extends React.Component {
               <Login />
             </Route>
 
-
             <Route path="/">
+              <ReactPlayer
+                ref={this.ref}
+                url={podcast}
+                width="400px"
+                height="0px"
+                playing={this.state.playpause}
+                controls={false}
+              />
               <Discussion
                 pinTime={this.state.pinTime}
                 handlePin={this.handlePin}
+                handlePlayorpause={this.handlePlayorpause}
+                fastRewind={this.fastRewind}
+                fastForward={this.fastForward}
+                seekToTime={this.seekToTime}
+                playpause={this.state.playpause}
+                setCurrTime={this.setCurrTime}
               />
             </Route>
           </Switch>

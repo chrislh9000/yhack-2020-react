@@ -76,6 +76,7 @@ class Audioplayer extends React.Component {
   componentDidUpdate(prevProps) {
     console.log("componentdidupdate       ==========",this.props.pinTime)
     if (this.props.pinTime !== this.player.getCurrentTime()) {
+        console.log("+++++++++++++")
         this.seekToTime(this.props.pinTime)
     }
   }
