@@ -9,7 +9,8 @@ import "../assets/css/App.css";
 import ReactPlayer from "react-player";
 import podcast from "../assets/podcasts/election_audio.mp3";
 import IconButton from "@material-ui/core/Button";
-import Button from "@material-ui/core/Button";
+
+// import ccPlay from "../assets/images/ccPlay.png"
 
 class CCC extends React.Component {
   constructor(props) {
@@ -37,20 +38,29 @@ class CCC extends React.Component {
 
   renderButton = () => {
     if (this.state.hover) {
-      return <button onClick={this.handlePlay}>play</button>;
+      return <IconButton onClick={this.handlePlay}>
+        <img style={{
+          height: 18,
+          width: 18,
+        }} src="/ccPlay.png" /></IconButton>;
     } else {
       return <div></div>;
     }
   };
 
   render() {
-    return (
-      <Row className={this.props.selected ? "testSelect" : ""}>
-        <Col
+    return (//className={this.props.selected ? "testSelect" : ""}
+      <Row >
+        <Col sm={11}
           onMouseEnter={this.toggleHoverEnter}
           onMouseLeave={this.toggleHoverLeave}
         >
           {this.props.ccText}
+        </Col>
+        <Col sm={1} 
+          onMouseEnter={this.toggleHoverEnter} 
+          onMouseLeave={this.toggleHoverLeave}
+        >
           {this.renderButton()}
         </Col>
       </Row>
