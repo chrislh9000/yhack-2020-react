@@ -23,6 +23,7 @@ class App extends React.Component {
     this.setState({
       pinTime: pin,
     });
+    // console.log("we in apps.js", this.state.pinTime)
   };
 
   render() {
@@ -44,9 +45,9 @@ class App extends React.Component {
               <Pinpage />
             </Route>
 
-            <Route path="/discussion">
+            {/* <Route path="/discussion">
               <Discussion />
-            </Route>
+            </Route> */}
 
             <Route path="/navbar">
               <Navbar />

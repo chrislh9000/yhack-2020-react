@@ -59,6 +59,8 @@ class PlayBox extends React.Component {
           <Audioplayer
             message={this.changeMessage}
             handlePin={this.props.handlePin}
+            pinTime={this.props.pinTime}
+            handleWind={this.props.handleWind}
           />
         </Col>
       </Container>
