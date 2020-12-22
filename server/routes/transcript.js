@@ -39,9 +39,9 @@ router.get('/loadTranscript/:id', (req, res) => {
     } else {
       // init ccComps array
       let trans = JSON.parse(JSON.stringify(resp))['response']['response']['results']
-      console.log('TRANS LENGTH=======', trans)
-      console.log('TRANS IT=======', trans[0]['alternatives'][0]['words'].length)
-      console.log('TRANS START TIMES=======', trans[0]['alternatives'][0]['words'][0]['startTime'])
+      // console.log('TRANS LENGTH=======', trans)
+      // console.log('TRANS IT=======', trans[0]['alternatives'][0]['words'].length)
+      // console.log('TRANS START TIMES=======', trans[0]['alternatives'][0]['words'][0]['startTime'])
       // console.log("=====TRANS LENGTH=======", trans['message']['response']['results'].length)
       let ccComps = [];
       let ccObj = {};
@@ -56,13 +56,16 @@ router.get('/loadTranscript/:id', (req, res) => {
             // if there's only one word in the sentence, then make sure to add the timestamp
             if (ccSentence.length == 0) {
               let timeStampstr = trans[i]['alternatives'][0]['words'][j]['startTime']
-              ccObj['timestamp'] = Number(timeStampstr.substring(timeStampstr, timeStampstr.length - 1)) - 0.3
+              ccObj['startTime'] = Number(timeStampstr.substring(timeStampstr, timeStampstr.length - 1)) - 0.3
+              ccObj['endTime'] = Number(timeStampstr.substring(timeStampstr, timeStampstr.length - 1)) - 0.3
             }
             // create add sentence to the ccObj
             ccSentence = ccSentence.concat(' ').concat(word)
             ccObj['text'] = ccSentence
             // finish ccObj
             ccObj['id'] =  ccCounter
+            let timeStampstr = trans[i]['alternatives'][0]['words'][j]['endTime']
+            ccObj['endTime'] =  Number(timeStampstr.substring(timeStampstr, timeStampstr.length - 1)) - 0.3
             // push ccObj to ccComps array
             ccComps.push(ccObj)
             //change variables
@@ -72,7 +75,7 @@ router.get('/loadTranscript/:id', (req, res) => {
           } else {
             if (ccSentence.length == 0) {
               let timeStampstr = trans[i]['alternatives'][0]['words'][j]['startTime']
-              ccObj['timestamp'] = Number(timeStampstr.substring(timeStampstr, timeStampstr.length - 1)) - 0.3
+              ccObj['startTime'] = Number(timeStampstr.substring(timeStampstr, timeStampstr.length - 1)) - 0.3
             }
             ccSentence = ccSentence.concat(' ').concat(word)
           }

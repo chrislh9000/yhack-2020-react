@@ -44,7 +44,7 @@ class HighlightMenu extends React.Component {
         }}
       >
         <Button onClick={this.props.disableHighlight}>yo</Button>
-        <Button>save</Button>
+        <Button onClick={this.props.makeHighlight}>save</Button>
       </div>
     );
   }
