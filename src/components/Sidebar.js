@@ -28,7 +28,7 @@ class Sidebar extends React.Component {
             <SidebarLinks />
           </Row>
         </Col>
-        <PlayBox handlePin={this.props.handlePin} pinTime={this.props.pinTime} />
+        <PlayBox handlePin={this.props.handlePin} pinTime={this.props.pinTime} handleWind={this.props.handleWind}/>
       </Col>
     );
   }

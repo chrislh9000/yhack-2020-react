@@ -30,8 +30,8 @@ class CCC extends React.Component {
 
   handlePlay = () => {
     console.log("handleing button click", this.props.ccID)
-    console.log("get times", this.props.ccTime[this.props.ccID])
-    this.props.handlePin(this.props.ccTime[this.props.ccID])
+
+    this.props.handleMainComp(this.props.ccID)
   }
 
   renderButton = () => {

@@ -45,19 +45,32 @@ class Audioplayer extends React.Component {
 
   fastRewind = () => {
     // this.player.seekTo(parseFloat(this.player.getCurrentTime() - 10))
-    this.seekToTime(this.player.getCurrentTime() - 10)
+    var time = this.player.getCurrentTime()
+    if (time < 10) {
+      time = 0
+    } else {
+      time -= 10
+    }
+    this.props.handleWind(time)
+    this.seekToTime(time)
   }
 
   fastForward = () => {
     // this.player.seekTo(parseFloat(this.player.getCurrentTime() + 10))
-    this.seekToTime(this.player.getCurrentTime() + 10)
+    var time = this.player.getCurrentTime() + 10
+    var duration = this.player.getDuration()
+    if (time > duration) {
+      time = duration
+    }
+    // this.props.handleWind(time)
+    this.seekToTime(time)
   }
 
   seekToTime = (time) => {
-    if (this.props.pinTime > 0){
+    if (this.props.pinTime > 0) {
       this.player.seekTo(time)
     }
-    
+
   }
 
   componentDidUpdate(prevProps) {

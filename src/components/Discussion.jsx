@@ -41,15 +41,7 @@ class Discussion extends React.Component {
       isInit: 0,
       windowWidth: window.innerWidth,
       windowHeight: window.innerHeight,
-      cc_comps: [{id: 0, timestamp: 0.0, text: "suck on these titties, suck on these titties", height: 0, y:0},
-      {id: 1, timestamp: 2.0, text: "suck on these fat boobs, suck on these fat boobs, suck on these fat boobs", height: 0, y: 0},
-      {id: 2, timestamp: 4.0, text: "suck on these big butt, suck on these fat butt, suck on these fat butt", height: 0, y: 0},
-      {id: 3, timestamp: 6.0, text: "suck on these titties, suck on these titties", height: 0, y:0},
-      {id: 4, timestamp: 8.0, text: "suck on these fat boobs, suck on these fat boobs, suck on these fat boobs", height: 0, y: 0},
-      {id: 5, timestamp: 10.0, text: "suck on these big butt, suck on these fat butt, suck on these fat butt", height: 0, y: 0},
-      {id: 6, timestamp: 12.0, text: "suck on these titties, suck on these titties", height: 0, y:0},
-      {id: 7, timestamp: 14.0, text: "suck on these fat boobs, suck on these fat boobs, suck on these fat boobs", height: 0, y: 0},
-      {id: 8, timestamp: 16.0, text: "suck on these big butt, suck on these fat butt, suck on these fat butt", height: 0, y: 0} ],
+      cc_comps: [],
       cc_load: false,
       currPos: 0,
       ccTime: [0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0]
@@ -63,66 +55,121 @@ class Discussion extends React.Component {
     });
   };
 
-  handleScroll = (e) => {
-    if (this.state.mainComp >= this.state.cc_comps.length - 1) {
-      // console.log("END OF TRANCRIPT===")
-      this.setState({
-        mainComp: this.state.mainComp
-      })
-    } else {
-      // console.log("COOLIOOOO===")
-      // check audio timestamp against the interval of podcasts
+  handleMainComp = (comp_id) => {
+    let timeStamp =  this.state.cc_comps[comp_id]['timestamp']
+    this.props.handlePin(timeStamp)
+    this.adjustScroll(comp_id)
+    this.setState({
+      mainComp: comp_id
+    })
+  }
 
-      if (this.props.pinTime >= this.state.cc_comps[this.state.mainComp + 1]['timestamp']) {
-        // console.log("SHIFTINGG===")
+  handleWind = (timestamp) => {
+    let cc_id = 0;
+    // fast forwarding
+    if (this.state.cc_comps[this.state.mainComp]['timestamp'] <= timestamp) {
+      let cc_id = this.state.cc_comps.length - 1
+      for (let i = this.state.mainComp; i < this.state.mainComp.length; i++) {
+        if (timestamp <= this.state.cc_comps[i]['timestamp']) {
+          cc_id = i-1
+        }
+      }
+    } else if (this.state.cc_comps[this.state.mainComp]['timestamp'] >= timestamp) {
+      let cc_id = 0
+      for (let i = this.state.mainComp; i >= 0; i--) {
+        if (timestamp >= this.state.cc_comps[i]['timestamp']) {
+          cc_id = i
+        }
+      }
+    }
+    return cc_id
+  }
+
+  adjustScroll = (comp_id) => {
+    let shiftHeight = this.state.cc_comps[comp_id]['y'] - this.state.windowHeight / 2
+    for (let i = 0; i < this.state.cc_comps.length; i++) {
+      this.state.cc_comps[i]['y'] -= shiftHeight
+    }
+  }
+
+  handleScroll = (e) => {
+    console.log("==MAIN COMP ====", this.state.mainComp)
+    console.log("==COMP LENGTH ====", this.state.cc_comps.length - 1)
+    if (this.state.mainComp >= this.state.cc_comps.length - 1) {
+      console.log("==NIG DIGCKS====")
+      if (this.props.pinTime < this.state.cc_comps[this.state.mainComp]['timestamp'] &&
+      this.props.pinTime >= this.state.cc_comps[0]['timestamp']) {
+        console.log("DICKS IN MY ASS===")
         // shift the heights
-        this.shiftHeights()
+        let shiftHeight = this.state.cc_comps[this.state.mainComp]['height'] / 2 + this.state.cc_comps[this.state.mainComp + 1]['height'] / 2 //height that everything needs to be shifted height
+        animateScroll.scrollTo(this.state.currPos - shiftHeight, {containerId: "midcol"});
+        this.setState({currPos: this.state.currPos - shiftHeight})
+        // reset the mainComp
+        this.setState({
+          mainComp: this.state.mainComp - 1
+        })
+      }
+        else {
+          this.setState({
+            mainComp: this.state.mainComp
+          })
+        }
+    } else {
+      if (this.props.pinTime >= this.state.cc_comps[this.state.mainComp + 1]['timestamp']) {
+        console.log("SHIFTINGG===")
+        // shift the heights
+        let shiftHeight = this.state.cc_comps[this.state.mainComp]['height'] / 2 + this.state.cc_comps[this.state.mainComp + 1]['height'] / 2 //height that everything needs to be shifted height
+        animateScroll.scrollTo(this.state.currPos + shiftHeight, {containerId: "midcol"});
+        this.setState({currPos: this.state.currPos + shiftHeight})
         // reset the mainComp
         this.setState({
           mainComp: this.state.mainComp + 1
         })
+      } else if (this.props.pinTime < this.state.cc_comps[this.state.mainComp]['timestamp'] &&
+      this.props.pinTime >= this.state.cc_comps[0]['timestamp']) {
+        console.log("DICKS IN MY ASS===")
+        // shift the heights
+        let shiftHeight = this.state.cc_comps[this.state.mainComp]['height'] / 2 + this.state.cc_comps[this.state.mainComp + 1]['height'] / 2 //height that everything needs to be shifted height
+        animateScroll.scrollTo(this.state.currPos - shiftHeight, {containerId: "midcol"});
+        this.setState({currPos: this.state.currPos - shiftHeight})
+        // reset the mainComp
+        this.setState({
+          mainComp: this.state.mainComp - 1
+        })
+        // reposition the mainComp cc_component to the middle
       }
-      // reposition the mainComp cc_component to the middle
-
-
       // change height for other comps accordingly
     }
   }
 
-  shiftHeights = (e) => {
-    // console.log("END OF WOS===")
-    // iterate through all cc_comps
-    let shiftHeight = this.state.cc_comps[this.state.mainComp]['height'] / 2 + this.state.cc_comps[this.state.mainComp + 1]['height'] / 2 //height that everything needs to be shifted height
-    // for (var i = 0; i < this.state.cc_comps.length; i++) {
-    //   this.state.cc_comps[i]['y'] = this.state.cc_comps[i]['y'] - shiftHeight
-    // }
+  shiftHeights = (shiftHeight) => {
     animateScroll.scrollTo(this.state.currPos + shiftHeight, {containerId: "midcol"});
     this.setState({currPos: this.state.currPos + shiftHeight})
   }
 
   initHeightPos = (e) => {
-      for (var i=0; i<this.state.cc_comps.length; i++) {
-        var str = "caption".concat(String(i))
-        let { clientHeight, clientWidth } = this.refs[str]
-        // === feed client height into the cc_comps objects
-        this.state.cc_comps[i]['height'] = clientHeight
+    for (var i=0; i<this.state.cc_comps.length; i++) {
+      var str = "caption".concat(String(i))
+      let { clientHeight, clientWidth } = this.refs[str]
+      // === feed client height into the cc_comps objects
+      this.state.cc_comps[i]['height'] = clientHeight
 
-        if (i == 0){
-          this.state.cc_comps[i]['y'] = this.state.windowHeight / 2
-          console.log("======Y POS=======", this.state.cc_comps[i]['y']);
-        } else {
-          this.state.cc_comps[i]['y'] = this.state.cc_comps[i-1]['y'] + this.state.cc_comps[i-1]['height']
-          console.log("======Y POS=======", this.state.cc_comps[i]['y']);
-        }
+      if (i == 0){
+        this.state.cc_comps[i]['y'] = this.state.windowHeight / 2
+        // console.log("======Y POS=======", this.state.cc_comps[i]['y']);
+      } else {
+        this.state.cc_comps[i]['y'] = this.state.cc_comps[i-1]['y'] + this.state.cc_comps[i-1]['height']
+        // console.log("======Y POS=======", this.state.cc_comps[i]['y']);
       }
-      this.setState({cc_load: true})
+    }
+    this.setState({cc_load: true})
 
   }
 
   componentDidMount = (e) => {
     this.initHeightPos()
     window.addEventListener("resize", this.handleResize);
-    const url = 'http://localhost:3000/db/getTranscript'
+    const url = 'http://localhost:5000/transcript/loadTranscript/daily_nytimes_election'
     fetch(url, {
       method: 'GET',
       credentials: 'same-origin',
@@ -133,8 +180,9 @@ class Discussion extends React.Component {
     .then((res)=> res.json())
     .then((json) => {
       this.setState({
-        audioTranscript: json
+        cc_comps : json.message
       })
+      this.initHeightPos()
     })
     .catch((err)=> {
       console.log('Error: ', err);
@@ -142,13 +190,28 @@ class Discussion extends React.Component {
   }
 
   componentDidUpdate = (e) => {
-    if (this.state.mainComp < this.state.cc_comps.length - 1) {
-      this.handleScroll()
+    if (this.state.cc_comps){
+      if (this.state.mainComp < this.state.cc_comps.length - 1) {
+        this.handleScroll()
+      }
     }
   }
 
   componentWillUnmount = (e) => {
     window.addEventListener("resize", this.handleResize);
+  }
+
+  renderTranscript = () => {
+    if (this.state.cc_comps) {
+      const ccArr = this.state.cc_comps.map((comp, i) => (
+        <div className ={this.state.mainComp === i? "cctext-highlighted" : "cctext"} style={{position: 'absolute', top: this.state.cc_comps[i]['y']}} ref={"caption".concat(String(comp.id))} key={comp.id}>
+        <CCC ccText={comp.text} ccID={comp.id} handlePin={this.props.handlePin} handleMainComp={this.handleMainComp}/>
+        </div>
+      ));
+      return ccArr
+    } else {
+      return <div></div>
+    }
   }
 
 
@@ -161,51 +224,52 @@ class Discussion extends React.Component {
       </div>
     ));
 
-    const ccArr = this.state.cc_comps.map((comp, i) => (
-      <div className ={this.state.mainComp === i? "cctext-highlighted" : "cctext"} style={{position: 'absolute', top: this.state.cc_comps[i]['y']}} ref={"caption".concat(String(comp.id))} key={comp.id}>
-        <CCC ccText={comp.text} ccID={comp.id} handlePin={this.props.handlePin} ccTime={this.state.ccTime}/> 
-      </div>
-    ));
+    // const ccArr = this.state.cc_comps.map((comp, i) => (
+    //   <div className ={this.state.mainComp === i? "cctext-highlighted" : "cctext"} style={{position: 'absolute', top: this.state.cc_comps[i]['y']}} ref={"caption".concat(String(comp.id))} key={comp.id}>
+    //   <CCC ccText={comp.text} ccID={comp.id} handlePin={this.props.handlePin} ccTime={this.state.ccTime}/>
+    //   </div>
+    // ));
+    // console.log("====CC_comps", this.state.cc_comps)
 
     return (
       <Container fluid className="discussion_background main-back">
-        <Row>
+      <Row>
 
-          <Sidebar handlePin={this.props.handlePin} pinTime={this.props.pinTime}></Sidebar>
+      <Sidebar handlePin={this.props.handlePin} pinTime={this.props.pinTime} handleWind={this.handleWind}></Sidebar>
 
-          {/* <Col className="pl-0 pr-0 far-left" xs={2}>
-            <Col className="pl-0 far-left-top" >
-              <LogoHome/>
-              <Row style = {{paddingLeft: "1.5rem"}}>
-                <Search/>
-                <UserView className = "ml-4" style = {{alignSelf: "left"}}/>
+      {/* <Col className="pl-0 pr-0 far-left" xs={2}>
+      <Col className="pl-0 far-left-top" >
+      <LogoHome/>
+      <Row style = {{paddingLeft: "1.5rem"}}>
+      <Search/>
+      <UserView className = "ml-4" style = {{alignSelf: "left"}}/>
 
-                <SidebarLinks/>
-              </Row>
-            </Col>
-            <PlayBox handlePin={this.handlePin} />
-          </Col> */}
-
-
-
-          <Col id = "midcol" className="middle" xs={4} style={{display: "flex", flexDirection: "column"}}>
-            {ccArr}
-          </Col>
-          <Col xs={3} style={{ paddingLeft: "0px", paddingRight: "0px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
-            <Container style={{ display: "flex", flexDirection: "column"}}>
-              {pinArr}
-
-            </Container>
-            <PinButton makePin = {this.makePin}/>
-          </Col>
+      <SidebarLinks/>
+      </Row>
+      </Col>
+      <PlayBox handlePin={this.handlePin} />
+      </Col> */}
 
 
-          <Col id="far_right" xs={3} style={{ justifyContent: "space-between", display: 'flex', flexDirection: 'column', backgroundColor: "#5C719B" }}>
-            <Comments/>
-            <AddComment/>
-          </Col>
 
-        </Row>
+      <Col id = "midcol" className="middle" xs={4} style={{display: "flex", flexDirection: "column"}}>
+      {this.renderTranscript()}
+      </Col>
+      <Col xs={3} style={{ paddingLeft: "0px", paddingRight: "0px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+      <Container style={{ display: "flex", flexDirection: "column"}}>
+      {pinArr}
+
+      </Container>
+      <PinButton makePin = {this.makePin}/>
+      </Col>
+
+
+      <Col id="far_right" xs={3} style={{ justifyContent: "space-between", display: 'flex', flexDirection: 'column', backgroundColor: "#5C719B" }}>
+      <Comments/>
+      <AddComment/>
+      </Col>
+
+      </Row>
       </Container >
 
 

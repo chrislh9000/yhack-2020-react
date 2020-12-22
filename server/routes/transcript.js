@@ -53,11 +53,15 @@ router.get('/loadTranscript/:id', (req, res) => {
         for (let j = 0; j < trans[i]['alternatives'][0]['words'].length; j++) {
           let word = trans[i]['alternatives'][0]['words'][j]['word'];
           if (word[word.length - 1 ] == '.') {
+            // if there's only one word in the sentence, then make sure to add the timestamp
+            if (ccSentence.length == 0) {
+              let timeStampstr = trans[i]['alternatives'][0]['words'][j]['startTime']
+              ccObj['timestamp'] = Number(timeStampstr.substring(timeStampstr, timeStampstr.length - 1)) - 0.3
+            }
             // create add sentence to the ccObj
             ccSentence = ccSentence.concat(' ').concat(word)
-            ccObj['sentence'] = ccSentence
+            ccObj['text'] = ccSentence
             // finish ccObj
-            ccObj['timestamp'] = trans[i]['alternatives'][0]['words'][j]['startTime']
             ccObj['id'] =  ccCounter
             // push ccObj to ccComps array
             ccComps.push(ccObj)
@@ -66,6 +70,10 @@ router.get('/loadTranscript/:id', (req, res) => {
             ccSentence = ""
             ccCounter += 1
           } else {
+            if (ccSentence.length == 0) {
+              let timeStampstr = trans[i]['alternatives'][0]['words'][j]['startTime']
+              ccObj['timestamp'] = Number(timeStampstr.substring(timeStampstr, timeStampstr.length - 1)) - 0.3
+            }
             ccSentence = ccSentence.concat(' ').concat(word)
           }
         }

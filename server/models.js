@@ -35,11 +35,11 @@ const PinSchema = new Schema({
     required: true
   },
   startTime: {
-    type: Integer,
+    type: Number,
     required: true
   },
   endTime: {
-    type: Integer,
+    type: Number,
     required: true
   },
   user: {
