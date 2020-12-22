@@ -28,11 +28,10 @@ class HighlightMenu extends React.Component {
   //     isPositionOutside = false,
   //     position: { x = 0, y = 0 } = {},
   //   } = props;
+  xfin = this.props.position.x.toString().concat("px");
+  yfin = this.props.position.y.toString().concat("px");
 
   render() {
-    const x = this.props.position.x;
-    const y = this.props.position.y;
-
     return (
       <div
         style={{
@@ -40,11 +39,12 @@ class HighlightMenu extends React.Component {
           width: "200px",
           height: "150px",
           position: "absolute",
-          left: { x },
-          top: `${y}px`,
+          left: this.xfin,
+          top: this.yfin,
         }}
       >
-        ello
+        <Button onClick={this.props.disableHighlight}>yo</Button>
+        <Button>save</Button>
       </div>
     );
   }
