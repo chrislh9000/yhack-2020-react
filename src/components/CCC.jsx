@@ -58,14 +58,14 @@ class CCC extends React.Component {
     return (
       <Row className={this.props.selected ? "testSelect" : ""}>
         <Col
-          sm={11}
+          xs={11}
           onMouseEnter={this.toggleHoverEnter}
           onMouseLeave={this.toggleHoverLeave}
         >
           {this.props.ccText}
         </Col>
         <Col
-          sm={1}
+          xs={1}
           onMouseEnter={this.toggleHoverEnter}
           onMouseLeave={this.toggleHoverLeave}
         >
