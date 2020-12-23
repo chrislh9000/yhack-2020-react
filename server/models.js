@@ -15,7 +15,6 @@ const UserSchema = new Schema({
   pins: {
     type: Schema.Types.ObjectId,
     ref: 'Pin',
-    default: []
   }
 });
 
