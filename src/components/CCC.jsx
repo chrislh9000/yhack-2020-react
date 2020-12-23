@@ -36,6 +36,28 @@ class CCC extends React.Component {
     this.props.seekToTime(this.props.time);
   };
 
+  handlePin = () => {
+    for (var i = 0; i < this.props.pins.length; i++) {
+      if (this.props.pins[i]["startComp"] == this.props.ccID){
+        return ( 
+          <IconButton
+            style={{ width: "18px", minWidth: "0px" }}
+            className="pl-0 pr-0"
+          >
+            <img
+              style={{
+                height: 18,
+                width: 18,
+              }}
+              src="/whitepin.png"
+            />
+          </IconButton>
+        );
+      } else {
+        return <div></div>
+      }
+    }
+  }
   renderButton = () => {
     if (this.state.hover) {
       return (
@@ -65,17 +87,31 @@ class CCC extends React.Component {
         className={this.props.selected ? "testSelect" : ""}
       >
         <div
+          onMouseEnter={this.toggleHoverEnter}
+          onMouseLeave={this.toggleHoverLeave}
+        >
+          {this.renderButton()}
+        </div>
+        <div
           style={{ width: "93%" }}
           onMouseEnter={this.toggleHoverEnter}
           onMouseLeave={this.toggleHoverLeave}
         >
           {this.props.ccText}
         </div>
-        <div
-          onMouseEnter={this.toggleHoverEnter}
-          onMouseLeave={this.toggleHoverLeave}
-        >
-          {this.renderButton()}
+        <div>
+          {this.props.pins ? <IconButton
+            style={{ width: "18px", minWidth: "0px" }}
+            className="pl-0 pr-0"
+          >
+            <img
+              style={{
+                height: 18,
+                width: 18,
+              }}
+              src="/whitepin.png"
+            />
+          </IconButton> : <div/>}
         </div>
       </Row>
     );

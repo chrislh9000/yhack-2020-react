@@ -48,6 +48,7 @@ class Discussion extends React.Component {
       showComponent: false,
       cursorPos: null,
       currTime: 0,
+      pinned: []
     };
   }
 
@@ -83,6 +84,21 @@ class Discussion extends React.Component {
 
   // }
 
+  renderPin = (start_time, end_time, selectedComps, text) => {
+    console.log("==========making a goddamn pin mother fuckers=========")
+    var newPin = {
+      startComp: selectedComps[0],
+      startTime: start_time,
+      endTime: end_time,
+      text: text
+    }
+    console.log("a fooooking pin mate", newPin)
+    this.setState({pin: this.state.pins.push(newPin)})
+    console.log("pin list mate", this.state.pins)
+    this.setState({pinned: this.state.pinned.concat(selectedComps[0])})
+  }
+
+
   makeHighlight = () => {
     const selements = this.state.selectedElements;
     var text = "";
@@ -99,6 +115,7 @@ class Discussion extends React.Component {
     // this.setState({
     //   pins: this.state.pins.concat("")
     // })
+    this.renderPin(startTime, endTime, selements, text)
     const url = "http://localhost:5000/pins/createPin";
     fetch(url, {
       method: "POST",
@@ -338,12 +355,13 @@ class Discussion extends React.Component {
         key={pin.pinId}
       >
         <Pin
-          title={pin.title}
-          timestamp={pin.timeStamp}
-          tags={pin.tags}
-          accordion_title={pin.accordion_title}
-          accordion_body={pin.accordion_body}
-          accordion_img={pin.accordion_img}
+          text={pin.text}
+          endTime={pin.endTime}
+          startTime={pin.startTime}
+          startComp={pin.startComp}
+          // accordion_title={pin.accordion_title}
+          // accordion_body={pin.accordion_body}
+          // accordion_img={pin.accordion_img}
         />
       </div>
     ));
@@ -378,6 +396,11 @@ class Discussion extends React.Component {
                 >
                   {this.state.cc_comps.map((comp, i) => {
                     let selected = this.state.selectedElements.indexOf(i) > -1;
+                    let pinned = this.state.pinned.indexOf(i) > -1;
+                    console.log("monica pins" ,this.state.pinned)
+                    // if (this.state.pins.length > 0) {
+                    //   pinned = this.state.pins["startComp"] == i;
+                    // }
                     return (
                       <div
                         className={
@@ -402,6 +425,7 @@ class Discussion extends React.Component {
                           ccText={comp.text}
                           seekToTime={this.props.seekToTime}
                           time={comp.startTime}
+                          pins={pinned}
                         />
                       </div>
                     );
@@ -422,7 +446,7 @@ class Discussion extends React.Component {
                 }}
               >
                 <Container style={{ display: "flex", flexDirection: "column" }}>
-                  {pinArr}
+                  {/* {pinArr} */}
                 </Container>
                 <PinButton makePin={this.makePin} />
               </Col>
