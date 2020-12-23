@@ -21,6 +21,7 @@ import AddComment from "./AddComment";
 import CCC from "./CCC";
 import Sidebar from "./Sidebar";
 
+
 import HighlightMenu from "./HighlightMenu";
 import { SelectableGroup, createSelectable } from "react-selectable";
 
@@ -83,6 +84,51 @@ class Discussion extends React.Component {
 
   // }
 
+  makeHighlight = () => {
+    const selements = this.state.selectedElements
+    var text = ""
+    for (var i = 0; i < selements.length; i++){
+      text = text.concat(this.state.cc_comps[selements[i]]["text"])
+      // console.log("my text niggers====================", text)
+    }
+    if (this.state.cc_comps.length > 0 && selements.length > 0){
+      var startTime = this.state.cc_comps[selements[0]]["startTime"]
+      var endTime = this.state.cc_comps[selements[selements.length-1]]["endTime"]
+    }
+    // TODO: set local state for initial pins
+    // this.setState({
+    //   pins: this.state.pins.concat("")
+    // })
+    const url =
+      "http://localhost:5000/pins/createPin";
+    fetch(url, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "text": text,
+        "startTime": startTime,
+        "endTime": endTime,
+        "id": "5fdaf4e7616a7e5445f0ba59"
+      })
+    })
+      .then(json => {
+        console.log("NIGGGG")
+      })
+      // .then((json) => {
+      //   this.setState({
+      //     cc_comps: json.message,
+      //   });
+      //   this.initHeightPos();
+      // })
+      .catch((err) => {
+        console.log("Error: ", err);
+      });
+
+  }
+
   handleSelection = (text) => {
     this.setState({
       selectedElements: text,
@@ -116,10 +162,10 @@ class Discussion extends React.Component {
   };
 
   handleMainComp = (comp_id) => {
-    let timeStamp = this.state.cc_comps[comp_id]["timestamp"];
+    let timeStamp = this.state.cc_comps[comp_id]["startTime"];
     this.props.handlePin(timeStamp);
     this.setState({
-      currTime: this.state.cc_comps[comp_id]["timestamp"],
+      currTime: this.state.cc_comps[comp_id]["startTime"],
     });
     // this.setState({
     //   mainComp: comp_id
@@ -127,22 +173,22 @@ class Discussion extends React.Component {
     // this.handleScroll()
   };
 
-  handleWind = (timestamp) => {
+  handleWind = (startTime) => {
     let cc_id = 0;
     // fast forwarding
-    if (this.state.cc_comps[this.state.mainComp]["timestamp"] <= timestamp) {
+    if (this.state.cc_comps[this.state.mainComp]["startTime"] <= startTime) {
       let cc_id = this.state.cc_comps.length - 1;
       for (let i = this.state.mainComp; i < this.state.mainComp.length; i++) {
-        if (timestamp <= this.state.cc_comps[i]["timestamp"]) {
+        if (startTime <= this.state.cc_comps[i]["startTime"]) {
           cc_id = i - 1;
         }
       }
     } else if (
-      this.state.cc_comps[this.state.mainComp]["timestamp"] >= timestamp
+      this.state.cc_comps[this.state.mainComp]["startTime"] >= startTime
     ) {
       let cc_id = 0;
       for (let i = this.state.mainComp; i >= 0; i--) {
-        if (timestamp >= this.state.cc_comps[i]["timestamp"]) {
+        if (startTime >= this.state.cc_comps[i]["startTime"]) {
           cc_id = i;
         }
       }
@@ -157,8 +203,8 @@ class Discussion extends React.Component {
       console.log("==NIG DIGCKS====");
       if (
         this.props.pinTime <
-          this.state.cc_comps[this.state.mainComp]["timestamp"] &&
-        this.props.pinTime >= this.state.cc_comps[0]["timestamp"]
+          this.state.cc_comps[this.state.mainComp]["startTime"] &&
+        this.props.pinTime >= this.state.cc_comps[0]["startTime"]
       ) {
         console.log("DICKS IN MY ASS===");
         // shift the heights
@@ -179,12 +225,12 @@ class Discussion extends React.Component {
         });
       }
     } else {
-      // check audio timestamp against the interval of podcasts
-      // if audiostamp >= cc_comp timestamp i+1
+      // check audio startTime against the interval of podcasts
+      // if audiostamp >= cc_comp startTime i+1
 
       if (
         this.props.pinTime >=
-        this.state.cc_comps[this.state.mainComp + 1]["timestamp"]
+        this.state.cc_comps[this.state.mainComp + 1]["startTime"]
       ) {
         console.log("SHIFTINGG===");
         // shift the heights
@@ -201,8 +247,8 @@ class Discussion extends React.Component {
         });
       } else if (
         this.props.pinTime <
-          this.state.cc_comps[this.state.mainComp]["timestamp"] &&
-        this.props.pinTime >= this.state.cc_comps[0]["timestamp"]
+          this.state.cc_comps[this.state.mainComp]["startTime"] &&
+        this.props.pinTime >= this.state.cc_comps[0]["startTime"]
       ) {
         console.log("DICKS IN MY ASS===");
         // shift the heights
@@ -283,6 +329,7 @@ class Discussion extends React.Component {
         this.handleScroll();
       }
     }
+    console.log("--------------", this.state.cc_comps)
   };
 
   componentWillUnmount = (e) => {
@@ -358,7 +405,7 @@ class Discussion extends React.Component {
                           selectableKey={comp.id}
                           ccText={comp.text}
                           seekToTime={this.props.seekToTime}
-                          time={comp.timestamp}
+                          time={comp.startTime}
                         />
                       </div>
                     );
@@ -380,10 +427,10 @@ class Discussion extends React.Component {
                 <Container style={{ display: "flex", flexDirection: "column" }}>
                   {pinArr}
                 </Container>
-                <PinButton makePin={this.makePin} />
+                <PinButton/>
               </Col>
               {this.state.showComponent ? (
-                <HighlightMenu
+                <HighlightMenu makeHighlight={this.makeHighlight}
                   disableHighlight={this.disableHighlght}
                   style={{ height: "100%", width: "100%" }}
                 />
