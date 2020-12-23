@@ -136,7 +136,7 @@ class Discussion extends React.Component {
         if (timestamp <= this.state.cc_comps[i]["timestamp"]) {
           cc_id = i - 1;
         }
-      }   
+      }
     } else if (
       this.state.cc_comps[this.state.mainComp]["timestamp"] >= timestamp
     ) {
@@ -277,6 +277,7 @@ class Discussion extends React.Component {
 
   componentDidUpdate = (e) => {
     console.log("======UPDATING========");
+    console.log(this.state.selectedElements);
     if (this.state.cc_comps) {
       if (this.state.mainComp < this.state.cc_comps.length - 1) {
         this.handleScroll();

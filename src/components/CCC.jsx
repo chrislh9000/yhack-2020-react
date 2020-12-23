@@ -56,7 +56,6 @@ class CCC extends React.Component {
 
   render() {
     return (
-      //}
       <Row className={this.props.selected ? "testSelect" : ""}>
         <Col
           sm={11}
