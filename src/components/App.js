@@ -1,7 +1,13 @@
 import "../assets/css/App.css";
 
 import React from "react";
-import { HashRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  HashRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
 import Navbar from "./Navbar";
 import Pinpage from "./Pinpage";
 import Discussion from "./Discussion";
@@ -18,7 +24,12 @@ import podcast from "../assets/podcasts/election_audio.mp3";
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { pinTime: 0, playpause: false };
+    this.state = {
+      pinTime: 0,
+      playpause: false,
+      loggedIn: false,
+      user: "",
+    };
   }
 
   handlePlayorpause = () => {
@@ -26,6 +37,12 @@ class App extends React.Component {
     // this.state.playpause
     //   ? this.props.message("PAUSED")
     //   : this.props.message("NOW PLAYING");
+  };
+
+  login = (id) => {
+    this.setState({ loggedIn: true, user: id }, () => {
+      console.log(this.state.user);
+    });
   };
 
   setCurrTime = () => {
@@ -80,7 +97,8 @@ class App extends React.Component {
     //   console.log("+++++++++++++");
     //   this.seekToTime(this.props.pinTime);
     // }
-    // console.log("========APPPPPPPPP==========");
+    console.log("========APPPPPPPPP==========");
+    console.log(this.state.user);
   }
 
   ref = (player) => {
@@ -122,7 +140,11 @@ class App extends React.Component {
             </Route>
 
             <Route path="/about">
-              <About pinTime={this.state.pinTime} handlePin={this.handlePin} />
+              <About
+                pinTime={this.state.pinTime}
+                handlePin={this.handlePin}
+                user={this.state.user}
+              />
             </Route>
 
             <Route path="/users">
@@ -134,7 +156,11 @@ class App extends React.Component {
             </Route>
 
             <Route path="/login">
-              <Login />
+              {this.state.loggedIn ? (
+                <Redirect to="/" />
+              ) : (
+                <Login login={this.login} />
+              )}
             </Route>
 
             <Route path="/">
@@ -155,6 +181,7 @@ class App extends React.Component {
                 seekToTime={this.seekToTime}
                 playpause={this.state.playpause}
                 setCurrTime={this.setCurrTime}
+                user={this.state.user}
               />
             </Route>
           </Switch>
