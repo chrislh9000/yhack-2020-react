@@ -39,7 +39,11 @@ class CCC extends React.Component {
   renderButton = () => {
     if (this.state.hover) {
       return (
-        <IconButton onClick={this.handlePlay}>
+        <IconButton
+          style={{ width: "18px", minWidth: "0px" }}
+          onClick={this.handlePlay}
+          className="pl-0 pr-0"
+        >
           <img
             style={{
               height: 18,
@@ -56,21 +60,23 @@ class CCC extends React.Component {
 
   render() {
     return (
-      <Row className={this.props.selected ? "testSelect" : ""}>
-        <Col
-          xs={11}
+      <Row
+        style={{ width: "100%", marginLeft: "0px" }}
+        className={this.props.selected ? "testSelect" : ""}
+      >
+        <div
+          style={{ width: "93%" }}
           onMouseEnter={this.toggleHoverEnter}
           onMouseLeave={this.toggleHoverLeave}
         >
           {this.props.ccText}
-        </Col>
-        <Col
-          xs={1}
+        </div>
+        <div
           onMouseEnter={this.toggleHoverEnter}
           onMouseLeave={this.toggleHoverLeave}
         >
           {this.renderButton()}
-        </Col>
+        </div>
       </Row>
     );
   }
