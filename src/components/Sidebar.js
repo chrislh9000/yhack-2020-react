@@ -23,7 +23,11 @@ class Sidebar extends React.Component {
           <LogoHome />
           <Row style={{ paddingLeft: "1.5rem" }}>
             <Search />
-            <UserView className="ml-4" style={{ alignSelf: "left" }} />
+            <UserView
+              className="ml-4"
+              style={{ alignSelf: "left" }}
+              user={this.props.user}
+            />
 
             <SidebarLinks />
           </Row>

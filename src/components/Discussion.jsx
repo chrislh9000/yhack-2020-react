@@ -163,8 +163,6 @@ class Discussion extends React.Component {
     });
   };
 
-
-
   disableHighlght = () => {
     this.setState({
       showComponent: false,
@@ -377,6 +375,7 @@ class Discussion extends React.Component {
             handlePin={this.props.handlePin}
             pinTime={this.props.pinTime}
             playpause={this.props.playpause}
+            user={this.props.user}
           />
           <Col xs={7} className="pr-0 pl-0">
             <ReactCursorPosition
