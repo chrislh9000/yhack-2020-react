@@ -365,10 +365,11 @@ class Discussion extends React.Component {
             >
               <Col
                 id="midcol"
-                className="middle"
+                className="middle pr-1"
                 xs={7}
                 style={{ display: "flex", flexDirection: "column" }}
               >
+                {/* <Col> */}
                 <SelectableGroup
                   className="selectGroup"
                   onNonItemClick={this.clearSelections}
@@ -384,7 +385,11 @@ class Discussion extends React.Component {
                             ? "cctext-highlighted"
                             : "cctext"
                         }
-                        style={{ position: "absolute", top: comp["y"] }}
+                        style={{
+                          width: "100%",
+                          position: "absolute",
+                          top: comp["y"],
+                        }}
                         ref={"caption".concat(String(comp.id))}
                         key={comp.id}
                       >
@@ -402,6 +407,7 @@ class Discussion extends React.Component {
                     );
                   })}
                 </SelectableGroup>
+                {/* </Col> */}
               </Col>
 
               <Col
