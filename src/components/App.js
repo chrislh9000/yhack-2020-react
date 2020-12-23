@@ -21,7 +21,6 @@ class App extends React.Component {
     this.state = { pinTime: 0, playpause: false };
   }
 
-
   handlePlayorpause = () => {
     this.setState({ playpause: !this.state.playpause });
     // this.state.playpause
