@@ -172,29 +172,6 @@ class Discussion extends React.Component {
     // this.handleScroll()
   };
 
-  handleWind = (startTime) => {
-    let cc_id = 0;
-    // fast forwarding
-    if (this.state.cc_comps[this.state.mainComp]["startTime"] <= startTime) {
-      let cc_id = this.state.cc_comps.length - 1;
-      for (let i = this.state.mainComp; i < this.state.mainComp.length; i++) {
-        if (startTime <= this.state.cc_comps[i]["startTime"]) {
-          cc_id = i - 1;
-        }
-      }
-    } else if (
-      this.state.cc_comps[this.state.mainComp]["startTime"] >= startTime
-    ) {
-      let cc_id = 0;
-      for (let i = this.state.mainComp; i >= 0; i--) {
-        if (startTime >= this.state.cc_comps[i]["startTime"]) {
-          cc_id = i;
-        }
-      }
-    }
-    return cc_id;
-  };
-
   handleScroll = (e) => {
     if (this.state.mainComp >= this.state.cc_comps.length - 1) {
       if (
@@ -421,7 +398,7 @@ class Discussion extends React.Component {
                 }}
               >
                 <Container style={{ display: "flex", flexDirection: "column" }}>
-                  {pinArr}
+                  {/* {pinArr} */}
                 </Container>
                 <PinButton makePin={this.makePin} />
               </Col>
