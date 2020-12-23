@@ -39,9 +39,9 @@ router.get('/loadTranscript/:id', (req, res) => {
     } else {
       // init ccComps array
       let trans = JSON.parse(JSON.stringify(resp))['response']['response']['results']
-      console.log('TRANS LENGTH=======', trans)
-      console.log('TRANS IT=======', trans[0]['alternatives'][0]['words'].length)
-      console.log('TRANS START TIMES=======', trans[0]['alternatives'][0]['words'][0]['startTime'])
+      // console.log('TRANS LENGTH=======', trans)
+      // console.log('TRANS IT=======', trans[0]['alternatives'][0]['words'].length)
+      // console.log('TRANS START TIMES=======', trans[0]['alternatives'][0]['words'][0]['startTime'])
       // console.log("=====TRANS LENGTH=======", trans['message']['response']['results'].length)
       let ccComps = [];
       let ccObj = {};
