@@ -28,7 +28,7 @@ class App extends React.Component {
       pinTime: 0,
       playpause: false,
       loggedIn: false,
-      user: "",
+      user: {username:" "},
     };
   }
 

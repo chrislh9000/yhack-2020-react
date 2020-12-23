@@ -7,6 +7,7 @@ class UserView extends React.Component {
     super(props);
   }
   render() {
+    const letter = this.props.user.username[0].toUpperCase()
     //pre-rendering code
     var circleStyle = {
       display: "inline-block",
@@ -25,7 +26,7 @@ class UserView extends React.Component {
     return (
       <div className="container userContainer mb-4">
         <div style={circleStyle}>
-          <p className="userLetter">D</p>
+          <p className="userLetter">{letter}</p>
         </div>
         <div
           style={
