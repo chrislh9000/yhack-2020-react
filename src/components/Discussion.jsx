@@ -87,14 +87,16 @@ class Discussion extends React.Component {
   makeHighlight = () => {
     const selements = this.state.selectedElements
     var text = ""
+    console.log("====dicks in my dick====", selements)
     for (var i = 0; i < selements.length; i++){
       text = text.concat(this.state.cc_comps[selements[i]]["text"])
-      // console.log("my text niggers====================", text)
+      
     }
     if (this.state.cc_comps.length > 0 && selements.length > 0){
       var startTime = this.state.cc_comps[selements[0]]["startTime"]
       var endTime = this.state.cc_comps[selements[selements.length-1]]["endTime"]
     }
+    console.log("===========================nicccccccccccc", text, startTime, endTime)
     // TODO: set local state for initial pins
     // this.setState({
     //   pins: this.state.pins.concat("")
@@ -115,7 +117,7 @@ class Discussion extends React.Component {
       })
     })
       .then(json => {
-        console.log("NIGGGG")
+        console.log("oh ello")
       })
       // .then((json) => {
       //   this.setState({
@@ -126,7 +128,6 @@ class Discussion extends React.Component {
       .catch((err) => {
         console.log("Error: ", err);
       });
-
   }
 
   handleSelection = (text) => {
@@ -146,6 +147,8 @@ class Discussion extends React.Component {
       showComponent: true,
     });
   };
+
+
 
   disableHighlght = () => {
     this.setState({
@@ -197,8 +200,8 @@ class Discussion extends React.Component {
   };
 
   handleScroll = (e) => {
-    console.log("==MAIN COMP ====", this.state.mainComp);
-    console.log("==COMP LENGTH ====", this.state.cc_comps.length - 1);
+    // console.log("==MAIN COMP ====", this.state.mainComp);
+    // console.log("==COMP LENGTH ====", this.state.cc_comps.length - 1);
     if (this.state.mainComp >= this.state.cc_comps.length - 1) {
       console.log("==NIG DIGCKS====");
       if (
@@ -322,7 +325,7 @@ class Discussion extends React.Component {
   };
 
   componentDidUpdate = (e) => {
-    console.log("======UPDATING========");
+    // console.log("======UPDATING========");
     if (this.state.cc_comps) {
       if (this.state.mainComp < this.state.cc_comps.length - 1) {
         this.handleScroll();
@@ -337,7 +340,7 @@ class Discussion extends React.Component {
   };
 
   render() {
-    console.log("========SELECTED=======", this.state.selectedElements);
+    // console.log("========SELECTED=======", this.state.selectedElements);
 
     const pinArr = this.state.pins.map((pin, i) => (
       <div
@@ -379,7 +382,6 @@ class Discussion extends React.Component {
               >
                 <SelectableGroup
                   className="selectGroup"
-                  onNonItemClick={this.clearSelections}
                   onSelection={this.handleSelection}
                   onEndSelection={this.handleHighlight}
                 >
@@ -426,7 +428,7 @@ class Discussion extends React.Component {
                 <Container style={{ display: "flex", flexDirection: "column" }}>
                   {pinArr}
                 </Container>
-                <PinButton/>
+                <PinButton mainComp={this.state.mainComp}/>
               </Col>
               {this.state.showComponent ? (
                 <HighlightMenu makeHighlight={this.makeHighlight}
