@@ -19,12 +19,12 @@ module.exports = (passport) => {
         message: "passwords do not match",
       });
     } else {
+      console.log("=====Creating=== new User")
       const newUser = new User({
         username: req.body.username,
         password: sha256(req.body.password).toString(),
       });
-      newUser
-        .save()
+      newUser.save()
         .then(() => {
           res.status(200).json({
             success: true,
@@ -48,10 +48,8 @@ module.exports = (passport) => {
       } else {
         req.login(user, (err) => {
           if (err) {
-            console.log("ERROR===== req login works at least");
             res.status(500).json({ success: false, err: err });
           } else {
-            console.log("success bitch");
             res.status(200).json({ success: true, user: req.user });
           }
         });

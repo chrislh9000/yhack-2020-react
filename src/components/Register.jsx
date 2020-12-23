@@ -48,7 +48,7 @@ class Register extends React.Component {
     })
     .then((res)=> res.json())
     .then((json) => {
-      console.log('successfully registered')
+      console.log(json.message)
     })
     .catch((err)=> {
       console.log('Error: ', err);

@@ -109,7 +109,7 @@ export default class Example extends React.PureComponent {
           </div>
         ))}
         {this.renderSelection()}
-        <Sidebar handlePin={this.props.handlePin}> </Sidebar>
+        <Sidebar user={this.props.user} handlePin={this.props.handlePin}> </Sidebar>
       </div>
     );
   }
