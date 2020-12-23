@@ -83,9 +83,54 @@ class Discussion extends React.Component {
 
   // }
 
+  makeHighlight = () => {
+    const selements = this.state.selectedElements;
+    var text = "";
+    for (var i = 0; i < selements.length; i++) {
+      text = text.concat(this.state.cc_comps[selements[i]]["text"]);
+    }
+    if (this.state.cc_comps.length > 0 && selements.length > 0) {
+      var startTime = this.state.cc_comps[selements[0]]["startTime"];
+      var endTime = this.state.cc_comps[selements[selements.length - 1]][
+        "endTime"
+      ];
+    }
+    // TODO: set local state for initial pins
+    // this.setState({
+    //   pins: this.state.pins.concat("")
+    // })
+    const url = "http://localhost:5000/pins/createPin";
+    fetch(url, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        text: text,
+        startTime: startTime,
+        endTime: endTime,
+        id: "5fdaf4e7616a7e5445f0ba59",
+      }),
+    })
+      .then((json) => {
+        console.log("hi");
+      })
+      .catch((err) => {
+        console.log("Error: ", err);
+      });
+    this.disableHighlght();
+  };
+
   handleSelection = (text) => {
     this.setState({
       selectedElements: text,
+    });
+  };
+
+  makePin = () => {
+    this.setState({ selectedElements: [this.state.mainComp] }, () => {
+      this.makeHighlight();
     });
   };
 
@@ -100,6 +145,8 @@ class Discussion extends React.Component {
       showComponent: true,
     });
   };
+
+
 
   disableHighlght = () => {
     this.setState({
@@ -116,10 +163,10 @@ class Discussion extends React.Component {
   };
 
   handleMainComp = (comp_id) => {
-    let timeStamp = this.state.cc_comps[comp_id]["timestamp"];
+    let timeStamp = this.state.cc_comps[comp_id]["startTime"];
     this.props.handlePin(timeStamp);
     this.setState({
-      currTime: this.state.cc_comps[comp_id]["timestamp"],
+      currTime: this.state.cc_comps[comp_id]["startTime"],
     });
     // this.setState({
     //   mainComp: comp_id
@@ -127,22 +174,22 @@ class Discussion extends React.Component {
     // this.handleScroll()
   };
 
-  handleWind = (timestamp) => {
+  handleWind = (startTime) => {
     let cc_id = 0;
     // fast forwarding
-    if (this.state.cc_comps[this.state.mainComp]["timestamp"] <= timestamp) {
+    if (this.state.cc_comps[this.state.mainComp]["startTime"] <= startTime) {
       let cc_id = this.state.cc_comps.length - 1;
       for (let i = this.state.mainComp; i < this.state.mainComp.length; i++) {
-        if (timestamp <= this.state.cc_comps[i]["timestamp"]) {
+        if (startTime <= this.state.cc_comps[i]["startTime"]) {
           cc_id = i - 1;
         }
-      }   
+      }
     } else if (
-      this.state.cc_comps[this.state.mainComp]["timestamp"] >= timestamp
+      this.state.cc_comps[this.state.mainComp]["startTime"] >= startTime
     ) {
       let cc_id = 0;
       for (let i = this.state.mainComp; i >= 0; i--) {
-        if (timestamp >= this.state.cc_comps[i]["timestamp"]) {
+        if (startTime >= this.state.cc_comps[i]["startTime"]) {
           cc_id = i;
         }
       }
@@ -151,16 +198,12 @@ class Discussion extends React.Component {
   };
 
   handleScroll = (e) => {
-    console.log("==MAIN COMP ====", this.state.mainComp);
-    console.log("==COMP LENGTH ====", this.state.cc_comps.length - 1);
     if (this.state.mainComp >= this.state.cc_comps.length - 1) {
-      console.log("==NIG DIGCKS====");
       if (
         this.props.pinTime <
-          this.state.cc_comps[this.state.mainComp]["timestamp"] &&
-        this.props.pinTime >= this.state.cc_comps[0]["timestamp"]
+          this.state.cc_comps[this.state.mainComp]["startTime"] &&
+        this.props.pinTime >= this.state.cc_comps[0]["startTime"]
       ) {
-        console.log("DICKS IN MY ASS===");
         // shift the heights
         let shiftHeight =
           this.state.cc_comps[this.state.mainComp]["height"] / 2 +
@@ -179,14 +222,13 @@ class Discussion extends React.Component {
         });
       }
     } else {
-      // check audio timestamp against the interval of podcasts
-      // if audiostamp >= cc_comp timestamp i+1
+      // check audio startTime against the interval of podcasts
+      // if audiostamp >= cc_comp startTime i+1
 
       if (
         this.props.pinTime >=
-        this.state.cc_comps[this.state.mainComp + 1]["timestamp"]
+        this.state.cc_comps[this.state.mainComp + 1]["startTime"]
       ) {
-        console.log("SHIFTINGG===");
         // shift the heights
         let shiftHeight =
           this.state.cc_comps[this.state.mainComp]["height"] / 2 +
@@ -201,10 +243,9 @@ class Discussion extends React.Component {
         });
       } else if (
         this.props.pinTime <
-          this.state.cc_comps[this.state.mainComp]["timestamp"] &&
-        this.props.pinTime >= this.state.cc_comps[0]["timestamp"]
+          this.state.cc_comps[this.state.mainComp]["startTime"] &&
+        this.props.pinTime >= this.state.cc_comps[0]["startTime"]
       ) {
-        console.log("DICKS IN MY ASS===");
         // shift the heights
         let shiftHeight =
           this.state.cc_comps[this.state.mainComp]["height"] / 2 +
@@ -276,12 +317,13 @@ class Discussion extends React.Component {
   };
 
   componentDidUpdate = (e) => {
-    console.log("======UPDATING========");
+    // console.log(this.state.selectedElements);
     if (this.state.cc_comps) {
       if (this.state.mainComp < this.state.cc_comps.length - 1) {
         this.handleScroll();
       }
     }
+    // console.log("--------------", this.state.cc_comps);
   };
 
   componentWillUnmount = (e) => {
@@ -290,8 +332,6 @@ class Discussion extends React.Component {
   };
 
   render() {
-    console.log("========SELECTED=======", this.state.selectedElements);
-
     const pinArr = this.state.pins.map((pin, i) => (
       <div
         style={{ opacity: pin.pinSecs - this.props.pinTime }}
@@ -332,7 +372,6 @@ class Discussion extends React.Component {
               >
                 <SelectableGroup
                   className="selectGroup"
-                  onNonItemClick={this.clearSelections}
                   onSelection={this.handleSelection}
                   onEndSelection={this.handleHighlight}
                 >
@@ -357,7 +396,7 @@ class Discussion extends React.Component {
                           selectableKey={comp.id}
                           ccText={comp.text}
                           seekToTime={this.props.seekToTime}
-                          time={comp.timestamp}
+                          time={comp.startTime}
                         />
                       </div>
                     );
@@ -383,6 +422,7 @@ class Discussion extends React.Component {
               </Col>
               {this.state.showComponent ? (
                 <HighlightMenu
+                  makeHighlight={this.makeHighlight}
                   disableHighlight={this.disableHighlght}
                   style={{ height: "100%", width: "100%" }}
                 />

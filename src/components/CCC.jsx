@@ -38,27 +38,35 @@ class CCC extends React.Component {
 
   renderButton = () => {
     if (this.state.hover) {
-      return <IconButton onClick={this.handlePlay}>
-        <img style={{
-          height: 18,
-          width: 18,
-        }} src="/ccPlay.png" /></IconButton>;
+      return (
+        <IconButton onClick={this.handlePlay}>
+          <img
+            style={{
+              height: 18,
+              width: 18,
+            }}
+            src="/ccPlay.png"
+          />
+        </IconButton>
+      );
     } else {
       return <div></div>;
     }
   };
 
   render() {
-    return (//className={this.props.selected ? "testSelect" : ""}
-      <Row >
-        <Col sm={11}
+    return (
+      <Row className={this.props.selected ? "testSelect" : ""}>
+        <Col
+          sm={11}
           onMouseEnter={this.toggleHoverEnter}
           onMouseLeave={this.toggleHoverLeave}
         >
           {this.props.ccText}
         </Col>
-        <Col sm={1} 
-          onMouseEnter={this.toggleHoverEnter} 
+        <Col
+          sm={1}
+          onMouseEnter={this.toggleHoverEnter}
           onMouseLeave={this.toggleHoverLeave}
         >
           {this.renderButton()}

@@ -35,11 +35,11 @@ const PinSchema = new Schema({
     required: true
   },
   startTime: {
-    type: Number,
+    type: mongoose.Decimal128,
     required: true
   },
   endTime: {
-    type: Number,
+    type: mongoose.Decimal128,
     required: true
   },
   user: {

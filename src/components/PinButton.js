@@ -6,12 +6,13 @@ class LogoHome extends React.Component {
   constructor(props) {
     super(props);
   }
+
   render() {
     //pre-rendering code
 
     return (
       <Button
-        onClick={(e) => this.props.makePin(e)}
+        onClick={this.props.makePin}
         className="butt"
         style={{
           borderRadius: "30px 0px 0px 30px",
