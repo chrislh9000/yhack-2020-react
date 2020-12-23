@@ -12,6 +12,7 @@ class LogoHome extends React.Component {
 
     return (
       <Button
+        onClick={this.props.makePin}
         className="butt"
         style={{
           borderRadius: "30px 0px 0px 30px",

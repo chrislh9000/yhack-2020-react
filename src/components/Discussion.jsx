@@ -21,7 +21,6 @@ import AddComment from "./AddComment";
 import CCC from "./CCC";
 import Sidebar from "./Sidebar";
 
-
 import HighlightMenu from "./HighlightMenu";
 import { SelectableGroup, createSelectable } from "react-selectable";
 
@@ -85,24 +84,22 @@ class Discussion extends React.Component {
   // }
 
   makeHighlight = () => {
-    const selements = this.state.selectedElements
-    var text = ""
-    console.log("====dicks in my dick====", selements)
-    for (var i = 0; i < selements.length; i++){
-      text = text.concat(this.state.cc_comps[selements[i]]["text"])
-      
+    const selements = this.state.selectedElements;
+    var text = "";
+    for (var i = 0; i < selements.length; i++) {
+      text = text.concat(this.state.cc_comps[selements[i]]["text"]);
     }
-    if (this.state.cc_comps.length > 0 && selements.length > 0){
-      var startTime = this.state.cc_comps[selements[0]]["startTime"]
-      var endTime = this.state.cc_comps[selements[selements.length-1]]["endTime"]
+    if (this.state.cc_comps.length > 0 && selements.length > 0) {
+      var startTime = this.state.cc_comps[selements[0]]["startTime"];
+      var endTime = this.state.cc_comps[selements[selements.length - 1]][
+        "endTime"
+      ];
     }
-    console.log("===========================nicccccccccccc", text, startTime, endTime)
     // TODO: set local state for initial pins
     // this.setState({
     //   pins: this.state.pins.concat("")
     // })
-    const url =
-      "http://localhost:5000/pins/createPin";
+    const url = "http://localhost:5000/pins/createPin";
     fetch(url, {
       method: "POST",
       credentials: "same-origin",
@@ -110,29 +107,30 @@ class Discussion extends React.Component {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        "text": text,
-        "startTime": startTime,
-        "endTime": endTime,
-        "id": "5fdaf4e7616a7e5445f0ba59"
-      })
+        text: text,
+        startTime: startTime,
+        endTime: endTime,
+        id: "5fdaf4e7616a7e5445f0ba59",
+      }),
     })
-      .then(json => {
-        console.log("oh ello")
+      .then((json) => {
+        console.log("hi");
       })
-      // .then((json) => {
-      //   this.setState({
-      //     cc_comps: json.message,
-      //   });
-      //   this.initHeightPos();
-      // })
       .catch((err) => {
         console.log("Error: ", err);
       });
-  }
+    this.disableHighlght();
+  };
 
   handleSelection = (text) => {
     this.setState({
       selectedElements: text,
+    });
+  };
+
+  makePin = () => {
+    this.setState({ selectedElements: [this.state.mainComp] }, () => {
+      this.makeHighlight();
     });
   };
 
@@ -185,7 +183,7 @@ class Discussion extends React.Component {
         if (startTime <= this.state.cc_comps[i]["startTime"]) {
           cc_id = i - 1;
         }
-      }   
+      }
     } else if (
       this.state.cc_comps[this.state.mainComp]["startTime"] >= startTime
     ) {
@@ -200,16 +198,12 @@ class Discussion extends React.Component {
   };
 
   handleScroll = (e) => {
-    // console.log("==MAIN COMP ====", this.state.mainComp);
-    // console.log("==COMP LENGTH ====", this.state.cc_comps.length - 1);
     if (this.state.mainComp >= this.state.cc_comps.length - 1) {
-      console.log("==NIG DIGCKS====");
       if (
         this.props.pinTime <
           this.state.cc_comps[this.state.mainComp]["startTime"] &&
         this.props.pinTime >= this.state.cc_comps[0]["startTime"]
       ) {
-        console.log("DICKS IN MY ASS===");
         // shift the heights
         let shiftHeight =
           this.state.cc_comps[this.state.mainComp]["height"] / 2 +
@@ -235,7 +229,6 @@ class Discussion extends React.Component {
         this.props.pinTime >=
         this.state.cc_comps[this.state.mainComp + 1]["startTime"]
       ) {
-        console.log("SHIFTINGG===");
         // shift the heights
         let shiftHeight =
           this.state.cc_comps[this.state.mainComp]["height"] / 2 +
@@ -253,7 +246,6 @@ class Discussion extends React.Component {
           this.state.cc_comps[this.state.mainComp]["startTime"] &&
         this.props.pinTime >= this.state.cc_comps[0]["startTime"]
       ) {
-        console.log("DICKS IN MY ASS===");
         // shift the heights
         let shiftHeight =
           this.state.cc_comps[this.state.mainComp]["height"] / 2 +
@@ -325,13 +317,13 @@ class Discussion extends React.Component {
   };
 
   componentDidUpdate = (e) => {
-    // console.log("======UPDATING========");
+    // console.log(this.state.selectedElements);
     if (this.state.cc_comps) {
       if (this.state.mainComp < this.state.cc_comps.length - 1) {
         this.handleScroll();
       }
     }
-    console.log("--------------", this.state.cc_comps)
+    // console.log("--------------", this.state.cc_comps);
   };
 
   componentWillUnmount = (e) => {
@@ -340,8 +332,6 @@ class Discussion extends React.Component {
   };
 
   render() {
-    // console.log("========SELECTED=======", this.state.selectedElements);
-
     const pinArr = this.state.pins.map((pin, i) => (
       <div
         style={{ opacity: pin.pinSecs - this.props.pinTime }}
@@ -428,10 +418,11 @@ class Discussion extends React.Component {
                 <Container style={{ display: "flex", flexDirection: "column" }}>
                   {pinArr}
                 </Container>
-                <PinButton mainComp={this.state.mainComp}/>
+                <PinButton makePin={this.makePin} />
               </Col>
               {this.state.showComponent ? (
-                <HighlightMenu makeHighlight={this.makeHighlight}
+                <HighlightMenu
+                  makeHighlight={this.makeHighlight}
                   disableHighlight={this.disableHighlght}
                   style={{ height: "100%", width: "100%" }}
                 />
