@@ -35,6 +35,7 @@ class Sidebar extends React.Component {
           fastRewind={this.props.fastRewind}
           fastForward={this.props.fastForward}
           seekToTime={this.props.seekToTime}
+          playpause={this.props.playpause}
         />
       </Col>
     );

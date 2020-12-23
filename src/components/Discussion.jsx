@@ -21,7 +21,6 @@ import AddComment from "./AddComment";
 import CCC from "./CCC";
 import Sidebar from "./Sidebar";
 
-
 import HighlightMenu from "./HighlightMenu";
 import { SelectableGroup, createSelectable } from "react-selectable";
 
@@ -85,22 +84,23 @@ class Discussion extends React.Component {
   // }
 
   makeHighlight = () => {
-    const selements = this.state.selectedElements
-    var text = ""
-    for (var i = 0; i < selements.length; i++){
-      text = text.concat(this.state.cc_comps[selements[i]]["text"])
+    const selements = this.state.selectedElements;
+    var text = "";
+    for (var i = 0; i < selements.length; i++) {
+      text = text.concat(this.state.cc_comps[selements[i]]["text"]);
       // console.log("my text niggers====================", text)
     }
-    if (this.state.cc_comps.length > 0 && selements.length > 0){
-      var startTime = this.state.cc_comps[selements[0]]["startTime"]
-      var endTime = this.state.cc_comps[selements[selements.length-1]]["endTime"]
+    if (this.state.cc_comps.length > 0 && selements.length > 0) {
+      var startTime = this.state.cc_comps[selements[0]]["startTime"];
+      var endTime = this.state.cc_comps[selements[selements.length - 1]][
+        "endTime"
+      ];
     }
     // TODO: set local state for initial pins
     // this.setState({
     //   pins: this.state.pins.concat("")
     // })
-    const url =
-      "http://localhost:5000/pins/createPin";
+    const url = "http://localhost:5000/pins/createPin";
     fetch(url, {
       method: "POST",
       credentials: "same-origin",
@@ -108,14 +108,14 @@ class Discussion extends React.Component {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        "text": text,
-        "startTime": startTime,
-        "endTime": endTime,
-        "id": "5fdaf4e7616a7e5445f0ba59"
-      })
+        text: text,
+        startTime: startTime,
+        endTime: endTime,
+        id: "5fdaf4e7616a7e5445f0ba59",
+      }),
     })
-      .then(json => {
-        console.log("NIGGGG")
+      .then((json) => {
+        console.log("NIGGGG");
       })
       // .then((json) => {
       //   this.setState({
@@ -126,8 +126,8 @@ class Discussion extends React.Component {
       .catch((err) => {
         console.log("Error: ", err);
       });
-
-  }
+    this.disableHighlght();
+  };
 
   handleSelection = (text) => {
     this.setState({
@@ -329,7 +329,7 @@ class Discussion extends React.Component {
         this.handleScroll();
       }
     }
-    console.log("--------------", this.state.cc_comps)
+    console.log("--------------", this.state.cc_comps);
   };
 
   componentWillUnmount = (e) => {
@@ -427,10 +427,11 @@ class Discussion extends React.Component {
                 <Container style={{ display: "flex", flexDirection: "column" }}>
                   {pinArr}
                 </Container>
-                <PinButton/>
+                <PinButton />
               </Col>
               {this.state.showComponent ? (
-                <HighlightMenu makeHighlight={this.makeHighlight}
+                <HighlightMenu
+                  makeHighlight={this.makeHighlight}
                   disableHighlight={this.disableHighlght}
                   style={{ height: "100%", width: "100%" }}
                 />

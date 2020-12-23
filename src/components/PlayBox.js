@@ -44,7 +44,7 @@ class PlayBox extends React.Component {
               marginBottom: "0.3rem",
             }}
           >
-            {this.state.message}
+            {this.props.playpause ? "NOW PLAYING" : "PAUSED"}
           </div>
           <img
             style={{
