@@ -36,7 +36,7 @@ class UserView extends React.Component {
             }
           }
         >
-          <div className="userName">David Wang</div>
+          <div className="userName">{this.props.user.username}</div>
           <div className="followers">23 Followers</div>
         </div>
       </div>
