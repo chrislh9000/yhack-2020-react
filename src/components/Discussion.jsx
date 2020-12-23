@@ -95,7 +95,6 @@ class Discussion extends React.Component {
         "endTime"
       ];
     }
-
     // TODO: set local state for initial pins
     // this.setState({
     //   pins: this.state.pins.concat("")
@@ -146,6 +145,8 @@ class Discussion extends React.Component {
       showComponent: true,
     });
   };
+
+
 
   disableHighlght = () => {
     this.setState({
@@ -372,7 +373,6 @@ class Discussion extends React.Component {
                 {/* <Col> */}
                 <SelectableGroup
                   className="selectGroup"
-                  onNonItemClick={this.clearSelections}
                   onSelection={this.handleSelection}
                   onEndSelection={this.handleHighlight}
                 >

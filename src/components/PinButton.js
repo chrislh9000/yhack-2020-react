@@ -6,6 +6,7 @@ class LogoHome extends React.Component {
   constructor(props) {
     super(props);
   }
+
   render() {
     //pre-rendering code
 

@@ -80,7 +80,7 @@ class App extends React.Component {
     //   console.log("+++++++++++++");
     //   this.seekToTime(this.props.pinTime);
     // }
-    console.log("========APPPPPPPPP==========");
+    // console.log("========APPPPPPPPP==========");
   }
 
   ref = (player) => {
