@@ -5,7 +5,7 @@ import "../assets/css/App.css";
 import Button from "react-bootstrap/Button";
 import IconButton from "@material-ui/core/Button";
 
-class PinIcon extends React.Component {
+class TextPlayButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -13,19 +13,26 @@ class PinIcon extends React.Component {
   render() {
     return (
       <IconButton
-        style={{ width: "18px", minWidth: "0px" }}
+        style={{
+          width: "20px",
+          minWidth: "0px",
+          outline: "none",
+          backgroundColor: "transparent",
+        }}
+        onClick={this.props.handlePlay}
         className="pl-0 pr-0"
+        disableTouchRipple={true}
       >
         <img
           style={{
-            height: 18,
-            width: 18,
+            height: 20,
+            width: 20,
           }}
-          src="/whitepin.png"
+          src="/ccPlay.png"
         />
       </IconButton>
     );
   }
 }
 
-export default PinIcon;
+export default TextPlayButton;

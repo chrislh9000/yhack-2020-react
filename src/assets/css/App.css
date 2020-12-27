@@ -206,7 +206,7 @@
 .cctext {
   padding-top: 2%;
   padding-bottom: 2%;
-  color: gray;
+  color: rgb(65, 65, 65);
   font-size: 20px;
 }
 
@@ -217,13 +217,11 @@
   font-size: 20px;
 }
 
-.testSelect {
+.select {
   background: black;
 }
-
-.testUnselect {
-  background: white;
-  color: blue;
+.highlighted-pin {
+  background: #6f77ce;
 }
 
 .selectGroup {

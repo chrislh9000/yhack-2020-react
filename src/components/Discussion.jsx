@@ -1,20 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import "../assets/css/App.css";
-import Navibar from "./Navbar.jsx";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
-import FormControl from "react-bootstrap/FormControl";
-import TextField from "@material-ui/core/TextField";
-import PinIcon from "./PinIcon";
-import Button from "react-bootstrap/Button";
-import Pin from "./Pin";
-import Logo from "./Logo";
-import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import PinButton from "./PinButton";
 import Comments from "./Comments";
 import AddComment from "./AddComment";
@@ -45,6 +33,7 @@ class Discussion extends React.Component {
       cursorPos: null,
       currTime: 0,
       pinned: [],
+      highlighted: new Set(),
     };
   }
 
@@ -74,10 +63,7 @@ class Discussion extends React.Component {
         "endTime"
       ];
     }
-    // TODO: set local state for initial pins
-    // this.setState({
-    //   pins: this.state.pins.concat("")
-    // })
+
     this.renderPin(startTime, endTime, selements, text);
     const url = "http://localhost:5000/pins/createPin";
     fetch(url, {
@@ -99,7 +85,14 @@ class Discussion extends React.Component {
       .catch((err) => {
         console.log("Error: ", err);
       });
-    this.disableHighlght();
+    this.markPins();
+    this.disableSelection();
+  };
+
+  markPins = () => {
+    this.setState(({ highlighted }) => ({
+      highlighted: new Set([...highlighted, ...this.state.selectedElements]),
+    }));
   };
 
   handleSelection = (text) => {
@@ -120,13 +113,13 @@ class Discussion extends React.Component {
     });
   };
 
-  handleHighlight = () => {
+  saveSelection = () => {
     this.setState({
       showComponent: true,
     });
   };
 
-  disableHighlght = () => {
+  disableSelection = () => {
     this.setState({
       showComponent: false,
     });
@@ -219,13 +212,6 @@ class Discussion extends React.Component {
     }
   };
 
-  shiftHeights = (shiftHeight) => {
-    animateScroll.scrollTo(this.state.currPos + shiftHeight, {
-      containerId: "midcol",
-    });
-    this.setState({ currPos: this.state.currPos + shiftHeight });
-  };
-
   initHeightPos = (e) => {
     for (var i = 0; i < this.state.cc_comps.length; i++) {
       var str = "caption".concat(String(i));
@@ -233,7 +219,7 @@ class Discussion extends React.Component {
       // === feed client height into the cc_comps objects
       this.state.cc_comps[i]["height"] = clientHeight;
 
-      if (i == 0) {
+      if (i === 0) {
         this.state.cc_comps[i]["y"] = this.state.windowHeight / 2;
         // console.log("======Y POS=======", this.state.cc_comps[i]['y']);
       } else {
@@ -268,17 +254,16 @@ class Discussion extends React.Component {
       .catch((err) => {
         console.log("Error: ", err);
       });
-    this.interval = setInterval(() => this.props.setCurrTime(), 1000);
+    this.interval = setInterval(() => this.props.setCurrTime(), 500);
   };
 
   componentDidUpdate = (e) => {
-    // console.log(this.state.selectedElements);
+    console.log("=========pins==========", this.state.highlighted);
     if (this.state.cc_comps) {
       if (this.state.mainComp < this.state.cc_comps.length - 1) {
         this.handleScroll();
       }
     }
-    // console.log("--------------", this.state.cc_comps);
   };
 
   componentWillUnmount = (e) => {
@@ -306,7 +291,7 @@ class Discussion extends React.Component {
             >
               <Col
                 id="midcol"
-                className="middle pr-1"
+                className="middle pr-1 pl-2"
                 xs={7}
                 style={{ display: "flex", flexDirection: "column" }}
               >
@@ -314,15 +299,12 @@ class Discussion extends React.Component {
                 <SelectableGroup
                   className="selectGroup"
                   onSelection={this.handleSelection}
-                  onEndSelection={this.handleHighlight}
+                  onEndSelection={this.saveSelection}
                 >
                   {this.state.cc_comps.map((comp, i) => {
                     let selected = this.state.selectedElements.indexOf(i) > -1;
                     let pinned = this.state.pinned.indexOf(i) > -1;
-                    console.log("monica pins", this.state.pinned);
-                    // if (this.state.pins.length > 0) {
-                    //   pinned = this.state.pins["startComp"] == i;
-                    // }
+                    let highlighted = this.state.highlighted.has(i);
                     return (
                       <div
                         className={
@@ -348,6 +330,7 @@ class Discussion extends React.Component {
                           seekToTime={this.props.seekToTime}
                           time={comp.startTime}
                           pins={pinned}
+                          highlighted={highlighted}
                         />
                       </div>
                     );
@@ -375,7 +358,7 @@ class Discussion extends React.Component {
               {this.state.showComponent ? (
                 <HighlightMenu
                   makeHighlight={this.makeHighlight}
-                  disableHighlight={this.disableHighlght}
+                  disableHighlight={this.disableSelection}
                   style={{ height: "100%", width: "100%" }}
                 />
               ) : null}

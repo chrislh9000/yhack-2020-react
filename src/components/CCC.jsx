@@ -4,13 +4,12 @@ import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-// import { Link } from 'react-router-dom'
 import "../assets/css/App.css";
 import ReactPlayer from "react-player";
 import podcast from "../assets/podcasts/election_audio.mp3";
 import IconButton from "@material-ui/core/Button";
-
-// import ccPlay from "../assets/images/ccPlay.png"
+import PinIcon from "./PinIcon";
+import TextPlayButton from "./TextPlayButton";
 
 class CCC extends React.Component {
   constructor(props) {
@@ -35,46 +34,9 @@ class CCC extends React.Component {
     this.props.handleMainComp(this.props.ccID);
     this.props.seekToTime(this.props.time);
   };
-
-  handlePin = () => {
-    for (var i = 0; i < this.props.pins.length; i++) {
-      if (this.props.pins[i]["startComp"] == this.props.ccID){
-        return ( 
-          <IconButton
-            style={{ width: "18px", minWidth: "0px" }}
-            className="pl-0 pr-0"
-          >
-            <img
-              style={{
-                height: 18,
-                width: 18,
-              }}
-              src="/whitepin.png"
-            />
-          </IconButton>
-        );
-      } else {
-        return <div></div>
-      }
-    }
-  }
   renderButton = () => {
     if (this.state.hover) {
-      return (
-        <IconButton
-          style={{ width: "18px", minWidth: "0px" }}
-          onClick={this.handlePlay}
-          className="pl-0 pr-0"
-        >
-          <img
-            style={{
-              height: 18,
-              width: 18,
-            }}
-            src="/ccPlay.png"
-          />
-        </IconButton>
-      );
+      return <TextPlayButton handlePlay={this.handlePlay} />;
     } else {
       return <div></div>;
     }
@@ -83,36 +45,28 @@ class CCC extends React.Component {
   render() {
     return (
       <Row
-        style={{ width: "100%", marginLeft: "0px" }}
-        className={this.props.selected ? "testSelect" : ""}
+        style={{ width: "100%", marginLeft: "0px", height: "100%" }}
+        className={
+          (this.props.selected ? "select" : "") +
+          (this.props.highlighted ? "highlighted-pin" : "")
+        }
       >
         <div
+          style={{ width: "7%" }}
           onMouseEnter={this.toggleHoverEnter}
           onMouseLeave={this.toggleHoverLeave}
+          className="pr-4"
         >
           {this.renderButton()}
         </div>
         <div
-          style={{ width: "93%" }}
+          style={{ width: "80%" }}
           onMouseEnter={this.toggleHoverEnter}
           onMouseLeave={this.toggleHoverLeave}
         >
           {this.props.ccText}
         </div>
-        <div>
-          {this.props.pins ? <IconButton
-            style={{ width: "18px", minWidth: "0px" }}
-            className="pl-0 pr-0"
-          >
-            <img
-              style={{
-                height: 18,
-                width: 18,
-              }}
-              src="/whitepin.png"
-            />
-          </IconButton> : <div/>}
-        </div>
+        <div className="pl-4">{this.props.pins ? <PinIcon /> : <div />}</div>
       </Row>
     );
   }
