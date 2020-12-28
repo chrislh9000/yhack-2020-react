@@ -12,14 +12,16 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  pins: {
+  pins: [{
     type: Schema.Types.ObjectId,
     ref: "Pin",
-  },
-  podcasts: {
+    default: [],
+  }],
+  podcasts: [{
     type: Schema.Types.ObjectId,
-    ref: "Podcast"
-  }
+    ref: "Podcast",
+    default: [],
+  }]
 });
 
 const GcloudResponseSchema = new Schema({
@@ -55,6 +57,19 @@ const PinSchema = new Schema({
     ref: "Podcast",
     required: false,
   },
+  favorited: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  pinDate: {
+    type: Date,
+    required: true,
+  },
+  ccId: {
+    type: Number,
+    required: true,
+  }
 });
 
 const PodcastSchema = new Schema({
@@ -70,10 +85,14 @@ const PodcastSchema = new Schema({
     type: String,
     required: false,
   },
-  episodes: {
+  episodes: [{
     type: Schema.Types.ObjectId,
-    ref: "Episode"
-  },
+    ref: "Episode",
+    default: [],
+  }],
+  imageUrl: {
+    type: String
+  }
 });
 
 const EpisodeSchema = new Schema({

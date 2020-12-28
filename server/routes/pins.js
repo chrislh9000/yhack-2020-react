@@ -10,7 +10,9 @@ router.post('/createPin', (req, res) => {
     text: req.body.text,
     startTime: req.body.startTime,
     endTime: req.body.endTime,
-    user: req.body.id
+    user: req.body.id,
+    ccId: req.body.ccId,
+    pinDate: new Date
   })
   // save to database
   newPin.save()
@@ -20,6 +22,8 @@ router.post('/createPin', (req, res) => {
     // TO DO: update User to add pin
     User.findByIdAndUpdate(req.body.id, {$push: {pins: resp._id}})
     .then(resp => {
+      console.log("=====PIN SAVED to USER =========")
+      console.log("=====PIN SAVED to USER RESP=========", resp)
       res.status(200).json({
         success: true,
         message: 'pin saved',
@@ -27,6 +31,7 @@ router.post('/createPin', (req, res) => {
       });
     })
     .catch(err => {
+      console.log("======= NO USER FOUND========")
       res.status(500).json(err);
     })
   })
@@ -55,7 +60,7 @@ router.post('/deletePin/:id', (req, res) => {
   })
 })
 
-// ====== HANDLE PIN =======
+// ====== EDIT PINS =======
 // router.post('/editPin', (req, res) => {
 //
 // })
@@ -64,11 +69,24 @@ router.post('/deletePin/:id', (req, res) => {
 router.post('/renderPins', (req, res) => {
   Pin.find({user: req.body.id})
   .then(resp => {
-    console.log("===PINS FOUND=====", resp)
     res.status(200).json({
       success: true,
       message: resp
     });
+  })
+})
+
+// ===== PIN CLEARING ROUTES =========
+router.get('/clearUserPins/:userid', (req, res) => {
+  User.findByIdAndUpdate(req.params.userid, {$set: {pins: []}}, {new: true})
+  .then(resp => {
+    res.status(200).json({
+      success: true,
+      message: 'user pins cleared',
+    });
+  })
+  .catch(err => {
+    res.status(500).json(err);
   })
 })
 

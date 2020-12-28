@@ -199,6 +199,17 @@
   height: 100vh;
 }
 
+.farRight {
+  height: 30;
+  min-height: 50%;
+  height: 850px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  background-color: #4f57aa;
+  height: 100vh;
+}
+
 .middle::-webkit-scrollbar {
   display: none;
 }
