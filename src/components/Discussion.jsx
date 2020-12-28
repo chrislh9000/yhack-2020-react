@@ -1,20 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import "../assets/css/App.css";
-import Navibar from "./Navbar.jsx";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
-import FormControl from "react-bootstrap/FormControl";
-import TextField from "@material-ui/core/TextField";
-import PinIcon from "./PinIcon";
-import Button from "react-bootstrap/Button";
-import Pin from "./Pin";
-import Logo from "./Logo";
-import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import PinButton from "./PinButton";
 import Comments from "./Comments";
 import AddComment from "./AddComment";
@@ -34,11 +22,7 @@ class Discussion extends React.Component {
     super(props);
     this.state = {
       pins: [],
-      accordion_title: "Supreme Court",
-      accordion_body: "",
-      pinOrder: 0,
       mainComp: 0,
-      isInit: 0,
       windowWidth: window.innerWidth,
       windowHeight: window.innerHeight,
       cc_comps: [],
@@ -48,56 +32,24 @@ class Discussion extends React.Component {
       showComponent: false,
       cursorPos: null,
       currTime: 0,
-      pinned: []
+      pinned: [],
+      highlighted: new Set(),
     };
   }
 
-  // handlePin = (pin) => {
-  //   this.setState({
-  //     pinTime: pin,
-  //   })
-  // }
-
-  // makePin = (pinTime) => {
-  //   console.log("======MAKING PinTime========")
-  //   console.log("=======Pinorder=====", this.state.pinOrder)
-  //   var timestamp = this.state.pinTime;
-  //   console.log("timestamp", timestamp)
-  //   var pinId = Math.random() * 10000
-  //   var newPin = {
-  //     pinId: pinId,
-  //     timeStamp: this.state.pinOrder == 0 ? "0:16" : "0:28",
-  //     pinSecs: this.state.pinOrder == 0 ? 28 : 40,
-  //     title: "The Daily: An Unfinished Election",
-  //     tags: ["Joe Biden", "Donald Trump"],
-  //     accordion_title: this.state.pinOrder == 0 ? "Supreme Court" : "Joe Biden",
-  //     accordion_body: this.state.pinOrder == 0 ? `The Supreme Court of the United States (SCOTUS) is the highest court in the federal judiciary of the United States of America. It has ultimate (and largely discretionary) appellate jurisdiction over all federal and state court cases that involve a point of federal law, and original jurisdiction over a narrow range of cases, specifically "all Cases affecting Ambassadors, other public Ministers and Consuls, and those in which a State shall be Party".[2] The Court holds the power of judicial review, the ability to invalidate a statute for violating a provision of the Constitution.` :
-  //     "Joseph Robinette Biden Jr.; born November 20, 1942) is an American politician and the president-elect of the United States. Having defeated incumbent Donald Trump in the 2020 United States presidential election, he will be inaugurated as the 46th president on January 20, 2021. A member of the Democratic Party, Biden served as the 47th vice president from 2009 to 2017 and a United States senator for Delaware from 1973 to 2009",
-  //     accordion_img: this.state.pinOrder == 0 ? "/Supreme_court.svg.png" : "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Joe_Biden_official_portrait_2013.jpg/220px-Joe_Biden_official_portrait_2013.jpg"
-  //   }
-
-  //   this.state.pins.push(newPin)
-
-  //   this.setState({
-  //     pinOrder: 1,
-  //   })
-
-  // }
-
   renderPin = (start_time, end_time, selectedComps, text) => {
-    console.log("==========making a goddamn pin mother fuckers=========")
+    console.log("==========making a goddamn pin mother fuckers=========");
     var newPin = {
       startComp: selectedComps[0],
       startTime: start_time,
       endTime: end_time,
-      text: text
-    }
-    console.log("a fooooking pin mate", newPin)
-    this.setState({pin: this.state.pins.push(newPin)})
-    console.log("pin list mate", this.state.pins)
-    this.setState({pinned: this.state.pinned.concat(selectedComps[0])})
-  }
-
+      text: text,
+    };
+    console.log("a fooooking pin mate", newPin);
+    this.setState({ pin: this.state.pins.push(newPin) });
+    console.log("pin list mate", this.state.pins);
+    this.setState({ pinned: this.state.pinned.concat(selectedComps[0]) });
+  };
 
   makeHighlight = () => {
     const selements = this.state.selectedElements;
@@ -111,11 +63,8 @@ class Discussion extends React.Component {
         "endTime"
       ];
     }
-    // TODO: set local state for initial pins
-    // this.setState({
-    //   pins: this.state.pins.concat("")
-    // })
-    this.renderPin(startTime, endTime, selements, text)
+
+    this.renderPin(startTime, endTime, selements, text);
     const url = "http://localhost:5000/pins/createPin";
     fetch(url, {
       method: "POST",
@@ -136,7 +85,14 @@ class Discussion extends React.Component {
       .catch((err) => {
         console.log("Error: ", err);
       });
-    this.disableHighlght();
+    this.markPins();
+    this.disableSelection();
+  };
+
+  markPins = () => {
+    this.setState(({ highlighted }) => ({
+      highlighted: new Set([...highlighted, ...this.state.selectedElements]),
+    }));
   };
 
   handleSelection = (text) => {
@@ -157,13 +113,13 @@ class Discussion extends React.Component {
     });
   };
 
-  handleHighlight = () => {
+  saveSelection = () => {
     this.setState({
       showComponent: true,
     });
   };
 
-  disableHighlght = () => {
+  disableSelection = () => {
     this.setState({
       showComponent: false,
     });
@@ -187,29 +143,6 @@ class Discussion extends React.Component {
     //   mainComp: comp_id
     // })
     // this.handleScroll()
-  };
-
-  handleWind = (startTime) => {
-    let cc_id = 0;
-    // fast forwarding
-    if (this.state.cc_comps[this.state.mainComp]["startTime"] <= startTime) {
-      let cc_id = this.state.cc_comps.length - 1;
-      for (let i = this.state.mainComp; i < this.state.mainComp.length; i++) {
-        if (startTime <= this.state.cc_comps[i]["startTime"]) {
-          cc_id = i - 1;
-        }
-      }
-    } else if (
-      this.state.cc_comps[this.state.mainComp]["startTime"] >= startTime
-    ) {
-      let cc_id = 0;
-      for (let i = this.state.mainComp; i >= 0; i--) {
-        if (startTime >= this.state.cc_comps[i]["startTime"]) {
-          cc_id = i;
-        }
-      }
-    }
-    return cc_id;
   };
 
   handleScroll = (e) => {
@@ -279,13 +212,6 @@ class Discussion extends React.Component {
     }
   };
 
-  shiftHeights = (shiftHeight) => {
-    animateScroll.scrollTo(this.state.currPos + shiftHeight, {
-      containerId: "midcol",
-    });
-    this.setState({ currPos: this.state.currPos + shiftHeight });
-  };
-
   initHeightPos = (e) => {
     for (var i = 0; i < this.state.cc_comps.length; i++) {
       var str = "caption".concat(String(i));
@@ -293,7 +219,7 @@ class Discussion extends React.Component {
       // === feed client height into the cc_comps objects
       this.state.cc_comps[i]["height"] = clientHeight;
 
-      if (i == 0) {
+      if (i === 0) {
         this.state.cc_comps[i]["y"] = this.state.windowHeight / 2;
         // console.log("======Y POS=======", this.state.cc_comps[i]['y']);
       } else {
@@ -328,17 +254,16 @@ class Discussion extends React.Component {
       .catch((err) => {
         console.log("Error: ", err);
       });
-    this.interval = setInterval(() => this.props.setCurrTime(), 1000);
+    this.interval = setInterval(() => this.props.setCurrTime(), 500);
   };
 
   componentDidUpdate = (e) => {
-    // console.log(this.state.selectedElements);
+    console.log("=========pins==========", this.state.highlighted);
     if (this.state.cc_comps) {
       if (this.state.mainComp < this.state.cc_comps.length - 1) {
         this.handleScroll();
       }
     }
-    // console.log("--------------", this.state.cc_comps);
   };
 
   componentWillUnmount = (e) => {
@@ -347,23 +272,6 @@ class Discussion extends React.Component {
   };
 
   render() {
-    const pinArr = this.state.pins.map((pin, i) => (
-      <div
-        style={{ opacity: pin.pinSecs - this.props.pinTime }}
-        key={pin.pinId}
-      >
-        <Pin
-          text={pin.text}
-          endTime={pin.endTime}
-          startTime={pin.startTime}
-          startComp={pin.startComp}
-          // accordion_title={pin.accordion_title}
-          // accordion_body={pin.accordion_body}
-          // accordion_img={pin.accordion_img}
-        />
-      </div>
-    ));
-
     return (
       <Container fluid className="discussion_background main-back">
         <Row>
@@ -383,7 +291,7 @@ class Discussion extends React.Component {
             >
               <Col
                 id="midcol"
-                className="middle pr-1"
+                className="middle pr-1 pl-2"
                 xs={7}
                 style={{ display: "flex", flexDirection: "column" }}
               >
@@ -391,15 +299,12 @@ class Discussion extends React.Component {
                 <SelectableGroup
                   className="selectGroup"
                   onSelection={this.handleSelection}
-                  onEndSelection={this.handleHighlight}
+                  onEndSelection={this.saveSelection}
                 >
                   {this.state.cc_comps.map((comp, i) => {
                     let selected = this.state.selectedElements.indexOf(i) > -1;
                     let pinned = this.state.pinned.indexOf(i) > -1;
-                    console.log("monica pins" ,this.state.pinned)
-                    // if (this.state.pins.length > 0) {
-                    //   pinned = this.state.pins["startComp"] == i;
-                    // }
+                    let highlighted = this.state.highlighted.has(i);
                     return (
                       <div
                         className={
@@ -425,6 +330,7 @@ class Discussion extends React.Component {
                           seekToTime={this.props.seekToTime}
                           time={comp.startTime}
                           pins={pinned}
+                          highlighted={highlighted}
                         />
                       </div>
                     );
@@ -444,15 +350,15 @@ class Discussion extends React.Component {
                   alignItems: "center",
                 }}
               >
-                <Container style={{ display: "flex", flexDirection: "column" }}>
-                  {/* {pinArr} */}
-                </Container>
+                <Container
+                  style={{ display: "flex", flexDirection: "column" }}
+                ></Container>
                 <PinButton makePin={this.makePin} />
               </Col>
               {this.state.showComponent ? (
                 <HighlightMenu
                   makeHighlight={this.makeHighlight}
-                  disableHighlight={this.disableHighlght}
+                  disableHighlight={this.disableSelection}
                   style={{ height: "100%", width: "100%" }}
                 />
               ) : null}
