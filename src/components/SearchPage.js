@@ -97,11 +97,11 @@ class List extends React.Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      filtered: nextProps.items,
-    });
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   this.setState({
+  //     filtered: nextProps.items,
+  //   });
+  // }
 
   handleChange(e) {
     // Variable to hold the original version of the list

@@ -11,8 +11,6 @@ import {
 import Navbar from "./Navbar";
 import Pinpage from "./Pinpage";
 import Discussion from "./Discussion";
-import Audioplayer from "./Audioplayer";
-import PinIcon from "./PinIcon";
 import Pin from "./Pin";
 import Sidebar from "./Sidebar";
 import About from "./About";
@@ -28,7 +26,7 @@ class App extends React.Component {
       pinTime: 0,
       playpause: false,
       loggedIn: false,
-      user: "",
+      user: { username: " " },
     };
   }
 
@@ -194,8 +192,7 @@ class App extends React.Component {
 export default App;
 
 function Home() {
-  // return <h2>Wut</h2>;
-  return <PinIcon />;
+  return <h2>Wut</h2>;
 }
 
 function Users() {
@@ -203,5 +200,5 @@ function Users() {
 }
 
 function Podcast() {
-  return <Audioplayer />;
+  return <h1>ello</h1>;
 }
