@@ -309,7 +309,7 @@ class Discussion extends React.Component {
 
   render() {
     return (
-      <Container fluid className="discussion_background main-back">
+      <Container fluid className="discussion_background listening-back">
         <Row>
           <Sidebar
             handlePlayorpause={this.props.handlePlayorpause}
