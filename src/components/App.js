@@ -19,7 +19,7 @@ import About from "./About";
 import Register from "./Register";
 import Login from "./Login";
 import ReactPlayer from "react-player";
-import podcast from "../assets/podcasts/election_audio.mp3";
+import podcast from "../assets/podcasts/planet_money.mp3";
 
 class App extends React.Component {
   constructor(props) {

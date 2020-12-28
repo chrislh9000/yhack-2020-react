@@ -310,7 +310,7 @@ class Discussion extends React.Component {
     this.initHeightPos();
     window.addEventListener("resize", this.handleResize);
     const url =
-      "http://localhost:5000/transcript/loadTranscript/daily_nytimes_election";
+      "http://localhost:5000/transcript/loadTranscript/planet_money_01";
     fetch(url, {
       method: "GET",
       credentials: "same-origin",
