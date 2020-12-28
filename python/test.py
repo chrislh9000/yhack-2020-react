@@ -107,7 +107,7 @@ def transcribe_gcs(gcs_uri):
     # return response
 
 # response = transcribe_gcs("gs://sample_audio_v1/trimmed-daily.flac")
-transcribe_gcs("gs://yhack_audio/planet_earth_001.flac")
+transcribe_gcs("gs://yhack_audio/What_Is_A_Hangover.flac")
 # beg_word = response.results[1].alternatives[0].words[9]
 # print(response)
 
