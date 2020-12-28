@@ -32,9 +32,9 @@ class Comments extends React.Component {
     },
     {
       comment:
-        "Listening to this at 3am as soon as it came out... honestly can't sleep until election results come out",
+        "My name is Christopher Lee Hemm and I would like to come out of the closet! :D",
       time: "28m",
-      user: "Alex_Johnson",
+      user: "ChemmLee9000",
       replies: [
         {
           reply: "Same here bro",
