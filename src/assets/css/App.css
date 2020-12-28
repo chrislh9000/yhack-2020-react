@@ -78,8 +78,28 @@
 }
 
 .hl {
-  border-top: 2px solid white;
-  width: 100%;
+  border-top: 2px solid black;
+  width: 500px;
+  position: relative;
+}
+
+.bubble {
+  position: absolute;
+  background-color: green;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  top: -6px;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+}
+
+.pinbar {
+  border-left: 2px solid black;
+  height: 30px;
+  position: absolute;
+  top: -15px;
 }
 
 .vl2 {
@@ -95,12 +115,23 @@
   border-right: 12px solid white;
 }
 
-.main-back {
+.listening-back {
   background-image: linear-gradient(
     90deg,
     #5c719b 33.33%,
     #565eb2 33.33%,
-    /* linear-gradient(#565eb2, #161a39) 66.66%, */ #161a39 66.66%
+    #161a39 66.66%
+  );
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  margin: 0px;
+}
+
+.home-back {
+  background-image: linear-gradient(
+    90deg,
+    /* #5c719b 33.33%, */ #565eb2 100%,
+    #161a39 33.33%
   );
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -182,6 +213,12 @@
   display: flex;
   flex-direction: column;
   background-color: #5c719b;
+  height: 100vh;
+}
+
+.home-column {
+  overflow-y: auto;
+  overflow-x: hidden;
   height: 100vh;
 }
 
