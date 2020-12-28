@@ -6,7 +6,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import "../assets/css/App.css";
 import ReactPlayer from "react-player";
-import podcast from "../assets/podcasts/election_audio.mp3";
+import podcast from "../assets/podcasts/planet_money.mp3";
 import IconButton from "@material-ui/core/Button";
 import PinIcon from "./PinIcon";
 import TextPlayButton from "./TextPlayButton";
