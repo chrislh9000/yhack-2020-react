@@ -126,7 +126,18 @@ class App extends React.Component {
             </Route>
 
             <Route path="/pins_page">
-              <Pinpage />
+              <Pinpage 
+                pinTime={this.state.pinTime}
+                handlePin={this.handlePin}
+                handlePlayorpause={this.handlePlayorpause}
+                fastRewind={this.fastRewind}
+                fastForward={this.fastForward}
+                seekToTime={this.seekToTime}
+                playpause={this.state.playpause}
+                setCurrTime={this.setCurrTime}
+                user={this.state.user}
+                audioDuration={100}
+              />
             </Route>
 
             {/* <Route path="/discussion">
@@ -169,6 +180,7 @@ class App extends React.Component {
                 height="0px"
                 playing={this.state.playpause}
                 controls={false}
+
               />
               <Discussion
                 pinTime={this.state.pinTime}
