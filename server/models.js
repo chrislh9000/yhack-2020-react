@@ -13,10 +13,13 @@ const UserSchema = new Schema({
     required: true,
   },
   pins: {
-    type: [PinSchema],
-    default: [],
+    type: Schema.Types.ObjectId,
     ref: "Pin",
   },
+  podcasts: {
+    type: Schema.Types.ObjectId,
+    ref: "Podcast"
+  }
 });
 
 const GcloudResponseSchema = new Schema({
@@ -59,11 +62,6 @@ const PodcastSchema = new Schema({
     type: String,
     required: true,
   },
-  // transcript: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: "GcloudResponse",
-  //   required: true,
-  // },
   author: {
     type: String,
     required: true,
@@ -73,9 +71,8 @@ const PodcastSchema = new Schema({
     required: false,
   },
   episodes: {
-    type: [EpisodeSchema],
-    default: [],
-    required: true,
+    type: Schema.Types.ObjectId,
+    ref: "Episode"
   },
 });
 
@@ -85,12 +82,13 @@ const EpisodeSchema = new Schema({
     required: true,
   },
   podcast: {
-    type: PodcastSchema,
+    type: Schema.Types.ObjectId,
+    ref: "Podcast",
     required: true,
   },
   transcript: {
-    type: GcloudResponseSchema,
-    ref: GcloudResponse,
+    type: Schema.Types.ObjectId,
+    ref: "GcloudResponse",
     required: true,
   },
   date: {
@@ -126,6 +124,7 @@ const GcloudResponse = mongoose.model("GcloudResponse", GcloudResponseSchema);
 const Pin = mongoose.model("Pin", PinSchema);
 const Podcast = mongoose.model("Podcast", PodcastSchema);
 const Pinshare = mongoose.model("Pinshare", PinShareSchema);
+const Episode = mongoose.model("Episode", EpisodeSchema);
 
 export default {
   User: User,
@@ -133,4 +132,5 @@ export default {
   Pin: Pin,
   Podcast: Podcast,
   Pinshare: Pinshare,
+  Episode: Episode
 };
