@@ -31,6 +31,7 @@ class Pinpage extends React.Component {
     return(
       <Container fluid className="discussion_background main-back">
         <Row>
+          <Col xs={2}>
             <Sidebar
               handlePlayorpause={this.props.handlePlayorpause}
               fastRewind={this.props.fastRewind}
@@ -41,28 +42,37 @@ class Pinpage extends React.Component {
               playpause={this.props.playpause}
               user={this.props.user}
             />
-          <Col xs={7} className="pr-0 pl-0">
-            <Col>
+          </Col>
+          <Col xs={10}>
+            <Row>
               <SearchPage />
-            </Col>
-            <Col>
+            </Row>
+            <Row>
               <h1>{this.props.audioDuration}</h1>
-            </Col>
-            <Col>
-              {this.state.currPins.map((pin, i) => {
-                return (
-                  <div>
-                    <PinCard 
-                    text={pin.text}
-                    key={i}
-                    time={pin.time}
-                    note={pin.note}
-                    />
-                  </div>
-                );
-              })}
-            </Col>
-
+            </Row>
+            <Row>
+              <Col>
+                {this.state.currPins.map((pin, i) => {
+                  return (
+                    <div 
+                      className="mb-5"
+                      style={{
+                        // display: "flex",
+                        // flexDirection: "row",
+                        background: "grey", borderRadius: "25px"
+                      }}
+                    >
+                      <PinCard 
+                      text={pin.text}
+                      key={i}
+                      time={pin.time}
+                      note={pin.note}
+                      />
+                    </div>
+                  );
+                })}
+              </Col>
+            </Row>
           </Col>
 
         </Row>

@@ -60,7 +60,7 @@ const PinSchema = new Schema({
   favorited: {
     type: Boolean,
     required: true,
-    default: false
+    default: false,
   },
   pinDate: {
     type: Date,

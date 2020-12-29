@@ -15,14 +15,23 @@ class NonExtendedPin extends React.Component {
   }
   render() {
     return (
-      <Row>
-        <Col xs={6} style={{ display: "absolute", flexDirection: "column", width: "50%"}}>
+      <Container>
+        <Row style={{ width: "100%", marginLeft: "0px", height: "100%" }}>
+          <Col style={{ width: "80%", marginLeft: "0px"}}>
           {this.props.text}
-        </Col>
-        <Col xs={6} style={{ display: "absolute", flexDirection: "column", width: "50%"}}>
-          {this.props.note}
-        </Col>
-      </Row>
+          </Col>
+        </Row>
+        <Row>
+          <div 
+            className="mb-5"
+            style={{
+              background: "white",
+            }}
+          >
+            Note: {this.props.note}
+          </div>
+        </Row>
+      </Container>
     );
   }
 }

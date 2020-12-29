@@ -62,7 +62,7 @@ router.post('/deletePin/:id', (req, res) => {
 
 // ====== EDIT PINS =======
 // router.post('/editPin', (req, res) => {
-//
+//   Pin.find()
 // })
 
 
