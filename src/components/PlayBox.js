@@ -58,7 +58,7 @@ class PlayBox extends React.Component {
           />
 
           <Row
-            className="mt-2 mb-4"
+            className="mt-2"
             style={{
               flexDirection: "row",
               display: "flex",
@@ -90,7 +90,7 @@ class PlayBox extends React.Component {
               onClick={() => this.props.handlePlayorpause()}
               disableTouchRipple={true}
               style={{ outline: "none", backgroundColor: "transparent" }}
-              className="pr-0 pl-0 mt-2 mb-2"
+              className="pr-0 pl-0 mt-2"
             >
               <img
                 style={{
