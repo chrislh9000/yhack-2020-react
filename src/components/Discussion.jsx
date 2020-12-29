@@ -37,7 +37,7 @@ class Discussion extends React.Component {
     };
   }
 
-  renderPin = (start_time, end_time, selectedComps, text, date) => {
+  renderPin = (start_time, end_time, selectedComps, text, date, note) => {
     console.log("==========making a goddamn pin mother fuckers=========");
     var newPin = {
       startComp: selectedComps[0],
@@ -45,6 +45,7 @@ class Discussion extends React.Component {
       endTime: end_time,
       text: text,
       date: date,
+      note: note,
     };
     console.log("a fooooking pin mate", newPin);
     this.setState({ pin: this.state.pins.push(newPin) });
@@ -95,6 +96,15 @@ class Discussion extends React.Component {
   markPins = () => {
     this.setState(({ highlighted }) => ({
       highlighted: new Set([...highlighted, ...this.state.selectedElements]),
+    }));
+  };
+
+  editPin = (note) => {
+    let key = this.state.pins.length - 1;
+    this.setState((prevState) => ({
+      pins: prevState.pins.map((el, i) =>
+        i === key ? { ...el, note: note } : el
+      ),
     }));
   };
 
@@ -284,7 +294,8 @@ class Discussion extends React.Component {
             json.message[i]["endTime"]["$numberDecimal"],
             [json.message[i]["ccId"]],
             json.message[i]["text"],
-            json.message[i]["pinDate"]
+            json.message[i]["pinDate"],
+            json.message[i]["note"]
           );
         }
         console.log("=====HUH===== LOOP");
@@ -423,7 +434,7 @@ class Discussion extends React.Component {
               backgroundColor: "#5C719B",
             }}
           >
-            <Comments pins={this.state.pins} />
+            <Comments editPin={this.editPin} pins={this.state.pins} />
           </Col>
         </Row>
       </Container>

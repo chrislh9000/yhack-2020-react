@@ -56,7 +56,6 @@ class Comments extends React.Component {
   }
 
   handleSubmit(event) {
-    alert("A note was submitted: " + this.state.value);
     const url = "http://localhost:5000/pins/addNote";
     fetch(url, {
       method: "POST",
@@ -77,6 +76,7 @@ class Comments extends React.Component {
       .catch((err) => {
         console.log("Error: ", err);
       });
+    this.props.editPin(this.state.value);
     this.setState({ value: "" });
   }
 
@@ -134,6 +134,9 @@ class Comments extends React.Component {
             </p>
             <p className="title" style={{ color: "white", fontSize: "12px" }}>
               {item.text}
+            </p>
+            <p className="title" style={{ color: "white", fontSize: "12px" }}>
+              Note: {item.note}
             </p>
           </div>
         ))}
