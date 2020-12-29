@@ -44,7 +44,7 @@ class Discussion extends React.Component {
       startTime: start_time,
       endTime: end_time,
       text: text,
-      date: date
+      date: date,
     };
     console.log("a fooooking pin mate", newPin);
     this.setState({ pin: this.state.pins.push(newPin) });
@@ -53,6 +53,7 @@ class Discussion extends React.Component {
   };
 
   makeHighlight = () => {
+    console.log(this.state.selectedElements);
     const selements = this.state.selectedElements;
     var text = "";
     for (var i = 0; i < selements.length; i++) {
@@ -65,7 +66,7 @@ class Discussion extends React.Component {
       ];
     }
 
-    this.renderPin(startTime, endTime, selements, text, new Date);
+    this.renderPin(startTime, endTime, selements, text, new Date());
     const url = "http://localhost:5000/pins/createPin";
     fetch(url, {
       method: "POST",
@@ -78,7 +79,7 @@ class Discussion extends React.Component {
         startTime: startTime,
         endTime: endTime,
         id: "5fdaf4e7616a7e5445f0ba59",
-        ccId: this.state.cc_comps[this.state.mainComp]['id']
+        ccId: selements[0],
       }),
     })
       .then((json) => {
@@ -238,7 +239,8 @@ class Discussion extends React.Component {
     this.initHeightPos();
     window.addEventListener("resize", this.handleResize);
     // fetch podcast transcript
-    const url = "http://localhost:5000/transcript/loadTranscript/planet_money_01";
+    const url =
+      "http://localhost:5000/transcript/loadTranscript/planet_money_01";
     fetch(url, {
       method: "GET",
       credentials: "same-origin",
@@ -248,7 +250,7 @@ class Discussion extends React.Component {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log("=======GOT TRANSCRIPT JSON=======", json.message)
+        console.log("=======GOT TRANSCRIPT JSON=======", json.message);
         this.setState({
           cc_comps: json.message,
         });
@@ -257,40 +259,49 @@ class Discussion extends React.Component {
       .catch((err) => {
         console.log("Error: ", err);
       });
-      // fetch previous pins
-      fetch("http://localhost:5000/pins/renderPins", {
-        method: "POST",
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: "5fdaf4e7616a7e5445f0ba59"
-        }),
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          //set highlights
-          let highlightedPins = new Set()
-          console.log("=======GOT JSON=======", json.message)
-          for (let i = 0; i < json.message.length; i++) {
-            // load the cc_id and set this.state.highlighted
-            highlightedPins.add(json.message[i]['ccId'])
-            this.renderPin(json.message[i]['startTime']['$numberDecimal'], json.message[i]['endTime']['$numberDecimal'], [json.message[i]['ccId']] , json.message[i]['text'],
-            json.message[i]['pinDate'])
-          }
-          console.log("=====HUH===== LOOP")
-          // highlight components
-          this.setState({
-            highlighted: highlightedPins
-          })
-          console.log("=======HIGHLIGHTS AFTER LOAD=======",this.state.highlighted)
-          console.log("=======PINNED AFTER LOAD=======",this.state.pinned)
-          console.log("=======PINS AFTER LOAD=======",this.state.pins)
-        })
-        .catch((err) => {
-          console.log("Error: ", err);
+    // fetch previous pins
+    fetch("http://localhost:5000/pins/renderPins", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: "5fdaf4e7616a7e5445f0ba59",
+      }),
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        console.log("YOOOOOOOOOOOOOOO", json.id);
+        //set highlights
+        let highlightedPins = new Set();
+        console.log("=======GOT JSON=======", json.message);
+        for (let i = 0; i < json.message.length; i++) {
+          // load the cc_id and set this.state.highlighted
+          highlightedPins.add(json.message[i]["ccId"]);
+          this.renderPin(
+            json.message[i]["startTime"]["$numberDecimal"],
+            json.message[i]["endTime"]["$numberDecimal"],
+            [json.message[i]["ccId"]],
+            json.message[i]["text"],
+            json.message[i]["pinDate"]
+          );
+        }
+        console.log("=====HUH===== LOOP");
+        // highlight components
+        this.setState({
+          highlighted: highlightedPins,
         });
+        console.log(
+          "=======HIGHLIGHTS AFTER LOAD=======",
+          this.state.highlighted
+        );
+        console.log("=======PINNED AFTER LOAD=======", this.state.pinned);
+        console.log("=======PINS AFTER LOAD=======", this.state.pins);
+      })
+      .catch((err) => {
+        console.log("Error: ", err);
+      });
     this.interval = setInterval(() => this.props.setCurrTime(), 500);
   };
 

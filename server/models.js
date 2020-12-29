@@ -1,5 +1,7 @@
 import mongoose, { SchemaType } from "mongoose";
 
+mongoose.set("useFindAndModify", false);
+
 const Schema = mongoose.Schema;
 
 // Users
@@ -12,16 +14,20 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  pins: [{
-    type: Schema.Types.ObjectId,
-    ref: "Pin",
-    default: [],
-  }],
-  podcasts: [{
-    type: Schema.Types.ObjectId,
-    ref: "Podcast",
-    default: [],
-  }]
+  pins: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Pin",
+      default: [],
+    },
+  ],
+  podcasts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Podcast",
+      default: [],
+    },
+  ],
 });
 
 const GcloudResponseSchema = new Schema({
@@ -60,7 +66,7 @@ const PinSchema = new Schema({
   favorited: {
     type: Boolean,
     required: true,
-    default: false
+    default: false,
   },
   pinDate: {
     type: Date,
@@ -69,7 +75,12 @@ const PinSchema = new Schema({
   ccId: {
     type: Number,
     required: true,
-  }
+  },
+  note: {
+    type: String,
+    required: false,
+    default: "",
+  },
 });
 
 const PodcastSchema = new Schema({
@@ -85,14 +96,16 @@ const PodcastSchema = new Schema({
     type: String,
     required: false,
   },
-  episodes: [{
-    type: Schema.Types.ObjectId,
-    ref: "Episode",
-    default: [],
-  }],
+  episodes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Episode",
+      default: [],
+    },
+  ],
   imageUrl: {
-    type: String
-  }
+    type: String,
+  },
 });
 
 const EpisodeSchema = new Schema({
@@ -151,5 +164,5 @@ export default {
   Pin: Pin,
   Podcast: Podcast,
   Pinshare: Pinshare,
-  Episode: Episode
+  Episode: Episode,
 };
