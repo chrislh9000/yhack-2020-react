@@ -61,27 +61,27 @@ class PinCard extends React.Component {
           background: "grey"
         }}
       >
-        <Col xs={1}>
-          <IconButton
+        {/* <Col xs={1}> */}
+        <IconButton
+          style={{
+            width: "20px",
+            minWidth: "0px",
+            outline: "none",
+            backgroundColor: "transparent"
+          }}
+          onClick={this.handleExtendPin}
+          className="pl-0 pr-0"
+          disableTouchRipple={true}
+        >
+          <img
             style={{
-              width: "20px",
-              minWidth: "0px",
-              outline: "none",
-              backgroundColor: "transparent"
+              height: 20,
+              width: 20
             }}
-            onClick={this.handleExtendPin}
-            className="pl-0 pr-0"
-            disableTouchRipple={true}
-          >
-            <img
-              style={{
-                height: 20,
-                width: 20
-              }}
-              src="/whitepin.png"
-            />
-          </IconButton>
-        </Col>
+            src="/whitepin.png"
+          />
+        </IconButton>
+        {/* </Col> */}
         <Col xs={9} className="pl-4">
           {this.state.extended ? (
             <ExtendedPin

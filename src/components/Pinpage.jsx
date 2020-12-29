@@ -31,19 +31,19 @@ class Pinpage extends React.Component {
     return(
       <Container fluid className="discussion_background main-back">
         <Row>
-          <Col xs={2}>
-            <Sidebar
-              handlePlayorpause={this.props.handlePlayorpause}
-              fastRewind={this.props.fastRewind}
-              fastForward={this.props.fastForward}
-              seekToTime={this.props.seekToTime}
-              handlePin={this.props.handlePin}
-              pinTime={this.props.pinTime}
-              playpause={this.props.playpause}
-              user={this.props.user}
-            />
-          </Col>
-          <Col xs={10}>
+        
+          <Sidebar
+            handlePlayorpause={this.props.handlePlayorpause}
+            fastRewind={this.props.fastRewind}
+            fastForward={this.props.fastForward}
+            seekToTime={this.props.seekToTime}
+            handlePin={this.props.handlePin}
+            pinTime={this.props.pinTime}
+            playpause={this.props.playpause}
+            user={this.props.user}
+          />
+        
+          <Col >
             <Row>
               <SearchPage />
             </Row>
