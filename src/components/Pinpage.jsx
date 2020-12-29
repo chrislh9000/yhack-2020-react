@@ -13,6 +13,7 @@ import FormControl from 'react-bootstrap/FormControl'
 import Sidebar from './Sidebar';
 import SearchPage from './SearchPage'
 import PinCard from './PinCard'
+import AudioBar from './AudioBar'
 
 class Pinpage extends React.Component {
   constructor(props) {
@@ -48,7 +49,18 @@ class Pinpage extends React.Component {
               <SearchPage />
             </Row>
             <Row>
-              <h1>{this.props.audioDuration}</h1>
+              <AudioBar 
+                pinTime={this.props.pinTime} 
+                audioDuration={this.props.audioDuration} 
+                handlePlayorpause={this.props.handlePlayorpause}
+                fastRewind={this.props.fastRewind}
+                fastForward={this.props.fastForward}
+                seekToTime={this.props.seekToTime}
+                handlePin={this.props.handlePin}
+                playpause={this.props.playpause}
+                user={this.props.user}
+              />
+              
             </Row>
             <Row>
               <Col>
