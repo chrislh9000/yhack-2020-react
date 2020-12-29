@@ -66,6 +66,7 @@ class Comments extends React.Component {
 
       body: JSON.stringify({
         id: this.props.pins[this.props.pins.length - 1].startComp,
+        episode: "PlanetMoney0",
         note: this.state.value,
       }),
     })
