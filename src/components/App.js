@@ -91,10 +91,17 @@ class App extends React.Component {
 
   componentDidUpdate(prevProps) {
     // console.log("componentdidupdate       ==========", this.props.pinTime);
+<<<<<<< HEAD
     this.interval = setInterval(
       () => this.handlePin(this.player.getCurrentTime()),
       10000
     );
+=======
+    // this.interval = setInterval(
+    //   () => this.handlePin(this.player.getCurrentTime()),
+    //   1000
+    // );
+>>>>>>> 792104304ceab749fc489b68825ffd9f533a0ac0
     // this.handlePin(this.player.getCurrentTime())
   }
 
@@ -113,14 +120,14 @@ class App extends React.Component {
     return (
       <Router>
         <div>
-        <ReactPlayer
-          ref={this.ref}
-          url={podcast}
-          width="400px"
-          height="0px"
-          playing={this.state.playpause}
-          controls={false}
-        />
+          <ReactPlayer
+            ref={this.ref}
+            url={podcast}
+            width="400px"
+            height="0px"
+            playing={this.state.playpause}
+            controls={false}
+          />
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
           <Switch>

@@ -58,9 +58,9 @@ const PinSchema = new Schema({
     ref: "User",
     required: true,
   },
-  podcast: {
+  episode: {
     type: Schema.Types.ObjectId,
-    ref: "Podcast",
+    ref: "Episode",
     required: false,
   },
   favorited: {

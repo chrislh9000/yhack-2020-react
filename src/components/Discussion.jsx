@@ -81,6 +81,7 @@ class Discussion extends React.Component {
         endTime: endTime,
         id: "5fdaf4e7616a7e5445f0ba59",
         ccId: selements[0],
+        episode: "PlanetMoney0",
       }),
     })
       .then((json) => {
@@ -182,7 +183,10 @@ class Discussion extends React.Component {
           mainComp: this.state.mainComp,
         });
       }
-    } else {
+    } else if (
+      this.state.cc_comps[this.state.mainComp]["height"] &&
+      this.state.cc_comps[this.state.mainComp + 1]["height"]
+    ) {
       // check audio startTime against the interval of podcasts
       // if audiostamp >= cc_comp startTime i+1
 
@@ -190,6 +194,7 @@ class Discussion extends React.Component {
         this.props.pinTime >=
         this.state.cc_comps[this.state.mainComp + 1]["startTime"]
       ) {
+        console.log("iff");
         // shift the heights
         let shiftHeight =
           this.state.cc_comps[this.state.mainComp]["height"] / 2 +
@@ -197,6 +202,7 @@ class Discussion extends React.Component {
         animateScroll.scrollTo(this.state.currPos + shiftHeight, {
           containerId: "midcol",
         });
+        console.log("=============shiftheight======", shiftHeight);
         this.setState({ currPos: this.state.currPos + shiftHeight });
         // reset the mainComp
         this.setState({
@@ -207,6 +213,7 @@ class Discussion extends React.Component {
           this.state.cc_comps[this.state.mainComp]["startTime"] &&
         this.props.pinTime >= this.state.cc_comps[0]["startTime"]
       ) {
+        console.log("else iff");
         // shift the heights
         let shiftHeight =
           this.state.cc_comps[this.state.mainComp]["height"] / 2 +
@@ -214,6 +221,7 @@ class Discussion extends React.Component {
         animateScroll.scrollTo(this.state.currPos - shiftHeight, {
           containerId: "midcol",
         });
+        console.log("=============shiftheight======", shiftHeight);
         this.setState({ currPos: this.state.currPos - shiftHeight });
         // reset the mainComp
         this.setState({
@@ -278,6 +286,7 @@ class Discussion extends React.Component {
       },
       body: JSON.stringify({
         id: "5fdaf4e7616a7e5445f0ba59",
+        episode: "PlanetMoney0",
       }),
     })
       .then((res) => res.json())
@@ -313,10 +322,11 @@ class Discussion extends React.Component {
       .catch((err) => {
         console.log("Error: ", err);
       });
-    this.interval = setInterval(() => this.props.setCurrTime(), 500);
+    this.interval = setInterval(() => this.props.setCurrTime(), 1000);
   };
 
   componentDidUpdate = (e) => {
+    console.log(this.state.mainComp);
     if (this.state.cc_comps) {
       if (this.state.mainComp < this.state.cc_comps.length - 1) {
         this.handleScroll();
