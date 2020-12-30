@@ -27,8 +27,13 @@ class App extends React.Component {
       playpause: false,
       loggedIn: false,
       user: { username: " " },
+      url: podcast,
     };
   }
+
+  setPodcast = (newURL) => {
+    this.setState({ url: newURL });
+  };
 
   handlePlayorpause = () => {
     this.setState({ playpause: !this.state.playpause });
@@ -115,7 +120,7 @@ class App extends React.Component {
         <div>
           <ReactPlayer
             ref={this.ref}
-            url={podcast}
+            url={this.state.url}
             width="400px"
             height="0px"
             playing={this.state.playpause}

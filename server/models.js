@@ -21,10 +21,10 @@ const UserSchema = new Schema({
       default: [],
     },
   ],
-  podcasts: [
+  episodes: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Podcast",
+      ref: "UserEpisode",
       default: [],
     },
   ],
@@ -121,7 +121,7 @@ const EpisodeSchema = new Schema({
   transcript: {
     type: Schema.Types.ObjectId,
     ref: "GcloudResponse",
-    required: true,
+    required: false,
   },
   date: {
     type: Date,
@@ -130,6 +130,41 @@ const EpisodeSchema = new Schema({
   summary: {
     type: String,
     required: true,
+  },
+  audioUrl: {
+    type: String,
+    required: true,
+  },
+  episode_number: {
+    type: Number,
+    required: true,
+  },
+  duration: {
+    type: Number,
+    requierd: true,
+  },
+});
+
+const UserEpisodeSchema = new Schema({
+  episode: {
+    type: EpisodeSchema,
+    required: true,
+  },
+  progress: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+
+  favorite: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
+  playlists: {
+    type: Array,
+    required: false,
+    default: [],
   },
 });
 
@@ -157,6 +192,7 @@ const Pin = mongoose.model("Pin", PinSchema);
 const Podcast = mongoose.model("Podcast", PodcastSchema);
 const Pinshare = mongoose.model("Pinshare", PinShareSchema);
 const Episode = mongoose.model("Episode", EpisodeSchema);
+const UserEpisode = mongoose.model("UserEpisode", UserEpisodeSchema);
 
 export default {
   User: User,
@@ -165,4 +201,5 @@ export default {
   Podcast: Podcast,
   Pinshare: Pinshare,
   Episode: Episode,
+  UserEpisode: UserEpisode,
 };
