@@ -13,6 +13,7 @@ const User = models.User;
 import dbRouter from "./routes/databaseAccess.js";
 import authRouter from "./routes/auth.js";
 import pinsRouter from './routes/pins.js'
+import cookiesRouter from "./routes/cookies.js";
 import transcriptRoutes from "./routes/transcript.js";
 import sha256 from "crypto-js/sha256";
 import hex from "crypto-js/enc-hex";
@@ -113,6 +114,7 @@ passport.use(new LocalStrategy(
 app.use('/', authRouter(passport));
 app.use('/cloudinary', cloudinaryRoutes)
 app.use('/transcript', transcriptRoutes)
+app.use('/cookies', cookiesRouter)
 app.use('/pins', pinsRouter)
 
 // ========== Port init =============

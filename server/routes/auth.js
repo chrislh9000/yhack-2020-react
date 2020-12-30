@@ -39,7 +39,6 @@ module.exports = (passport) => {
 
   // POST login route
   router.post("/login", (req, res, next) => {
-    console.log("======Session======", req.session.cookie.path)
     passport.authenticate("local", (err, user) => {
       if (err || !user) {
         console.log("ERROR===== no user at all");
