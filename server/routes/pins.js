@@ -4,7 +4,6 @@ const router = express.Router();
 const User = models.User;
 const Pin = models.Pin;
 
-
 // TODO: add episode id
 router.post("/createPin", (req, res) => {
   // create a new Pin with timestamp, text, User, and Podcast
@@ -14,6 +13,7 @@ router.post("/createPin", (req, res) => {
     endTime: req.body.endTime,
     user: req.body.id,
     ccId: req.body.ccId,
+    episode: req.body.episode,
     pinDate: new Date(),
   });
   // save to database
@@ -67,7 +67,11 @@ router.post("/addNote", (req, res) => {
   console.log(req.body.id);
   console.log(req.body.note);
   Pin.findOneAndUpdate(
-    { ccId: req.body.id, user: "5fdaf4e7616a7e5445f0ba59" }, 
+    {
+      ccId: req.body.id,
+      user: "5fdaf4e7616a7e5445f0ba59",
+      episode: req.body.episode,
+    },
     { note: req.body.note }
   )
     .then((resp) => {
@@ -86,10 +90,9 @@ router.post("/addNote", (req, res) => {
 //   Pin.find()
 // })
 
-
 // TODO: render by episode
 router.post("/renderPins", (req, res) => {
-  Pin.find({ user: req.body.id }).then((resp) => {
+  Pin.find({ user: req.body.id, episode: req.body.episode }).then((resp) => {
     console.log("=====RESP=====", resp._id);
     console.log("=====RESP=====", Object.keys(resp));
     res.status(200).json({

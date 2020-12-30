@@ -16,12 +16,14 @@ class SidebarLinks extends React.Component {
       <div>
         <Container className="mb-1 ml-4">
           <Row>
-            <Link to="/">
+            <Link to="/about">
               <p className="sidebar-title">Home</p>
             </Link>
           </Row>
           <Row>
-            <p className="sidebar-title">Search</p>
+            <Link to="/">
+              <p className="sidebar-title">Discussion</p>
+            </Link>
           </Row>
           <Row>
             <Link to="/about">
@@ -35,7 +37,7 @@ class SidebarLinks extends React.Component {
           </Row>
           <Row>
             <Link to="/register">
-            <p className="sidebar-title">Profile</p>
+              <p className="sidebar-title">Profile</p>
             </Link>
           </Row>
           <Row>
