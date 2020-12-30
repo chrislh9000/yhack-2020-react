@@ -24,11 +24,13 @@ class PinCard extends React.Component {
     return (
       <div>{this.props.pinTime}
       <hr 
-      style={{
-        color: "red",
-        backgroundColor: "red",
-        width: (window.innerWidth / 2) * (this.props.pinTime / this.props.audioDuration) // figure out width
-      }} 
+        style={{
+          color: "red",
+          backgroundColor: "red",
+          width: (window.innerWidth / 2) * (this.props.pinTime / this.props.audioDuration), // figure out width
+          height: 5,
+          position:"relative"
+        }} 
       />
       </div>
       

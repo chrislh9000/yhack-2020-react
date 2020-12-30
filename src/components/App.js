@@ -91,10 +91,17 @@ class App extends React.Component {
 
   componentDidUpdate(prevProps) {
     // console.log("componentdidupdate       ==========", this.props.pinTime);
+<<<<<<< HEAD
+    this.interval = setInterval(
+      () => this.handlePin(this.player.getCurrentTime()),
+      10000
+    );
+=======
     // this.interval = setInterval(
     //   () => this.handlePin(this.player.getCurrentTime()),
     //   1000
     // );
+>>>>>>> 792104304ceab749fc489b68825ffd9f533a0ac0
     // this.handlePin(this.player.getCurrentTime())
   }
 
