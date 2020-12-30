@@ -19,8 +19,10 @@ import hex from "crypto-js/enc-hex";
 import CryptoJS from "crypto-js";
 import cloudinaryRoutes from "./routes/cloudinary.js";
 import cors from 'cors'
+import cookieParser from 'cookie-parser';
 const allowedOrigins = ['http://localhost:3000',
                       'http://localhost:5000'];
+
 
 // ========== Basic connections and server initialization =============
 
@@ -55,6 +57,7 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use("/db", dbRouter);
 
 // ========== Passport =============

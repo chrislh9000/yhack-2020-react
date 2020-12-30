@@ -21,10 +21,17 @@ const UserSchema = new Schema({
       default: [],
     },
   ],
-  podcasts: [
+  downloaded_episodes: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Podcast",
+      ref: "Episode",
+      default: [],
+    },
+  ],
+  completed_episodes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Episode",
       default: [],
     },
   ],
@@ -58,9 +65,9 @@ const PinSchema = new Schema({
     ref: "User",
     required: true,
   },
-  podcast: {
+  episode: {
     type: Schema.Types.ObjectId,
-    ref: "Podcast",
+    ref: "Episode",
     required: false,
   },
   favorited: {

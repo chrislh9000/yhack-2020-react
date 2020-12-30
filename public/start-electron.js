@@ -1,6 +1,7 @@
 const electron = require("electron"),
   app = electron.app,
   BrowserWindow = electron.BrowserWindow;
+  session = electron.session
 
 const path = require("path"),
   isDev = require("electron-is-dev");
@@ -8,7 +9,16 @@ const path = require("path"),
 let mainWindow;
 
 const createWindow = () => {
-  mainWindow = new BrowserWindow({ width: 480, height: 320 });
+
+  session.defaultSession.cookies.get({ url: 'http://localhost:5000/cookies' })
+    .then((cookies) => {
+      console.log("======COOKIES=======", cookies)
+    }).catch((error) => {
+      console.log(error)
+    })
+
+
+  mainWindow = new BrowserWindow({ width: 480, height: 320, webPreferences: {nodeIntegration: true}});
   const appUrl = isDev
     ? "http://localhost:3000"
     : `file://${path.join(__dirname, "../build/index.html")}`;
