@@ -18,14 +18,8 @@ import Register from "./Register";
 import Login from "./Login";
 import ReactPlayer from "react-player";
 import podcast from "../assets/podcasts/planet_money.mp3";
-<<<<<<< HEAD
-import fs from 'fs'
-// import json5 = require("json5");
-const ipcRenderer = window.require('electron').ipcRenderer
-=======
 import fs from "fs";
 const ipcRenderer = window.require("electron").ipcRenderer;
->>>>>>> c3d4e369260d7674f57815dcdd334fea55737144
 
 class App extends React.Component {
   constructor(props) {

@@ -27,7 +27,31 @@ class Pinpage extends React.Component {
       audioSame: this.props.currPlay === this.props.reflectPlay
     }
   }
-
+  handleEdit = () => {
+    const url = "http://localhost:5000/pins/editPin";
+    fetch(url, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        startTime: 1,
+        endTime: 5,
+        newCcId: 1,
+        text: "oh elo",
+        ccId: 5,
+        episode: "PlanetMoney0",
+        id: "5fdaf4e7616a7e5445f0ba59"
+      })
+    })
+      .then(json => {
+        console.log("hi");
+      })
+      .catch(err => {
+        console.log("Error: ", err);
+      });
+  }
   render() {
     //pre-rendering code
     return(
@@ -80,6 +104,7 @@ class Pinpage extends React.Component {
                       key={i}
                       time={pin.time}
                       note={pin.note}
+                      handleEdit= {this.handleEdit}
                       />
                     </div>
                   );

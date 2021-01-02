@@ -4,6 +4,7 @@ const electron = require("electron"),
 session = electron.session;
 ipcMain = electron.ipcMain;
 
+const {webContents} = require("electron")
 const path = require("path"),
   isDev = require("electron-is-dev");
 
@@ -27,28 +28,46 @@ const createWindow = () => {
   mainWindow.maximize();
   mainWindow.setFullScreen(false);
   mainWindow.on("closed", () => (mainWindow = null));
+  return mainWindow;//test
 };
 
 // =================tester====================
 let popUp;
 const createPopup = () => {
   if (!popUp) {
-  popUp = new BrowserWindow({width: 100,
-    height: 80, titleBarStyle: 'hide',
-    transparent: false,
+  popUp = new BrowserWindow({
+    width: 100,
+    height: 80,
+    x: 0,
+    y: 0,
+    titleBarStyle: 'hide',
+    transparent: true,
     frame: true,
     resizable: false,
+    webPreferences: {
+      nodeIntegration: true,
+    },
     hasShadow: false,});
     // popUp.setAutoHideMenuBar(true);
     popUp.loadURL(`file://${path.join(__dirname, "../src/index.html")}`);
     popUp.setAlwaysOnTop(true, 'floating');
   }
+  popUp.setVisibleOnAllWorkspaces(true)
   popUp.show();
+  return popUp;//test
 }
 // =================tester end====================
 
-app.on("ready", createWindow);
-app.on("ready", createPopup)
+app.on("ready", () => {
+  mainWindow = createWindow()
+  popUp = createPopup()
+  ipcMain.on("pinned", (event, arg) => {
+    console.log("=====PIN SIGNAL FROM OTHER WINDOW")
+    mainWindow.webContents.send("pinFromWindow")
+  })
+})
+// app.on("ready", createWindow);
+// app.on("ready", createPopup)
 app.on("window-all-closed", () => {
   // Follow OS convention on whether to quit app when
   // all windows are closed.
@@ -100,3 +119,5 @@ ipcMain.on("clearCookies", (event, arg) => {
     console.error(error)
   })
 })
+
+
