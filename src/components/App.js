@@ -18,6 +18,8 @@ import Register from "./Register";
 import Login from "./Login";
 import ReactPlayer from "react-player";
 import podcast from "../assets/podcasts/planet_money.mp3";
+import fs from 'fs'
+const ipcRenderer = window.require('electron').ipcRenderer
 
 class App extends React.Component {
   constructor(props) {
@@ -49,6 +51,19 @@ class App extends React.Component {
   };
 
   componentDidMount = (e) => {
+    ipcRenderer.send('loadCookies', "HEY")
+    ipcRenderer.on('userData', (event, arg) => {
+      console.log("======COOKIE DATA=======")
+      console.log("======NIGGER=======")
+      console.log("======COOKIE DATA=======", JSON.parse(arg[0].value))
+      let userData = JSON.parse(arg[0].value)
+      console.log("======NIGGER=======")
+      console.log("=====USER DATA FROM COOKIE====", userData)
+      this.setState({
+        loggedIn: true,
+        user: userData
+      })
+    })
     // this.interval = setInterval(
     //   () => this.props.handlePin(this.player.getCurrentTime()),
     //   1000
@@ -112,133 +127,133 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-        <div>
-          <ReactPlayer
-            ref={this.ref}
-            url={podcast}
-            width="400px"
-            height="0px"
-            playing={this.state.playpause}
-            controls={false}
+      <div>
+      <ReactPlayer
+      ref={this.ref}
+      url={podcast}
+      width="400px"
+      height="0px"
+      playing={this.state.playpause}
+      controls={false}
+      />
+      {/* A <Switch> looks through its children <Route>s and
+        renders the first one that matches the current URL. */}
+        <Switch>
+        <Route path="/pinning">
+        <Pin />
+        </Route>
+
+        <Route path="/podcast">
+        <Podcast />
+        </Route>
+
+        <Route path="/pins_page">
+        <Pinpage
+        pinTime={this.state.pinTime}
+        handlePin={this.handlePin}
+        handlePlayorpause={this.handlePlayorpause}
+        fastRewind={this.fastRewind}
+        fastForward={this.fastForward}
+        seekToTime={this.seekToTime}
+        playpause={this.state.playpause}
+        setCurrTime={this.setCurrTime}
+        user={this.state.user}
+        audioDuration={100}
+        pinTime={this.state.pinTime}
+        />
+        </Route>
+
+        {/* <Route path="/discussion">
+        <Discussion />
+        </Route> */}
+
+        <Route path="/navbar">
+        <Navbar />
+        </Route>
+
+        <Route path="/about">
+        <About
+        pinTime={this.state.pinTime}
+        handlePin={this.handlePin}
+        user={this.state.user}
+        />
+        </Route>
+
+        <Route path="/users">
+        <Discussion
+        pinTime={this.state.pinTime}
+        handlePin={this.handlePin}
+        handlePlayorpause={this.handlePlayorpause}
+        fastRewind={this.fastRewind}
+        fastForward={this.fastForward}
+        seekToTime={this.seekToTime}
+        playpause={this.state.playpause}
+        setCurrTime={this.setCurrTime}
+        user={this.state.user}
+        />
+        </Route>
+
+        <Route path="/register">
+        <Register />
+        </Route>
+
+        <Route path="/login">
+        {this.state.loggedIn ? (
+          <Redirect to="/" />
+        ) : (
+          <Login login={this.login} />
+        )}
+        </Route>
+
+        <Route path="/">
+        {/* <ReactPlayer
+          ref={this.ref}
+          url={podcast}
+          width="400px"
+          height="0px"
+          playing={this.state.playpause}
+          controls={false}
+          /> */}
+          <Discussion
+          pinTime={this.state.pinTime}
+          handlePin={this.handlePin}
+          handlePlayorpause={this.handlePlayorpause}
+          fastRewind={this.fastRewind}
+          fastForward={this.fastForward}
+          seekToTime={this.seekToTime}
+          playpause={this.state.playpause}
+          setCurrTime={this.setCurrTime}
+          user={this.state.user}
           />
-          {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-          <Switch>
-            <Route path="/pinning">
-              <Pin />
+          {/* <About
+            pinTime={this.state.pinTime}
+            handlePin={this.handlePin}
+            handlePlayorpause={this.handlePlayorpause}
+            fastRewind={this.fastRewind}
+            fastForward={this.fastForward}
+            seekToTime={this.seekToTime}
+            playpause={this.state.playpause}
+            setCurrTime={this.setCurrTime}
+            user={this.state.user}
+            /> */}
             </Route>
+            </Switch>
+            </div>
+            </Router>
+          );
+        }
+      }
 
-            <Route path="/podcast">
-              <Podcast />
-            </Route>
+      export default App;
 
-            <Route path="/pins_page">
-              <Pinpage
-                pinTime={this.state.pinTime}
-                handlePin={this.handlePin}
-                handlePlayorpause={this.handlePlayorpause}
-                fastRewind={this.fastRewind}
-                fastForward={this.fastForward}
-                seekToTime={this.seekToTime}
-                playpause={this.state.playpause}
-                setCurrTime={this.setCurrTime}
-                user={this.state.user}
-                audioDuration={100}
-                pinTime={this.state.pinTime}
-              />
-            </Route>
+      function Home() {
+        return <h2>Wut</h2>;
+      }
 
-            {/* <Route path="/discussion">
-              <Discussion />
-            </Route> */}
+      function Users() {
+        return <h2>Users</h2>;
+      }
 
-            <Route path="/navbar">
-              <Navbar />
-            </Route>
-
-            <Route path="/about">
-              <About
-                pinTime={this.state.pinTime}
-                handlePin={this.handlePin}
-                user={this.state.user}
-              />
-            </Route>
-
-            <Route path="/users">
-              <Discussion
-                pinTime={this.state.pinTime}
-                handlePin={this.handlePin}
-                handlePlayorpause={this.handlePlayorpause}
-                fastRewind={this.fastRewind}
-                fastForward={this.fastForward}
-                seekToTime={this.seekToTime}
-                playpause={this.state.playpause}
-                setCurrTime={this.setCurrTime}
-                user={this.state.user}
-              />
-            </Route>
-
-            <Route path="/register">
-              <Register />
-            </Route>
-
-            <Route path="/login">
-              {this.state.loggedIn ? (
-                <Redirect to="/" />
-              ) : (
-                <Login login={this.login} />
-              )}
-            </Route>
-
-            <Route path="/">
-              {/* <ReactPlayer
-                ref={this.ref}
-                url={podcast}
-                width="400px"
-                height="0px"
-                playing={this.state.playpause}
-                controls={false}
-              /> */}
-              <Discussion
-                pinTime={this.state.pinTime}
-                handlePin={this.handlePin}
-                handlePlayorpause={this.handlePlayorpause}
-                fastRewind={this.fastRewind}
-                fastForward={this.fastForward}
-                seekToTime={this.seekToTime}
-                playpause={this.state.playpause}
-                setCurrTime={this.setCurrTime}
-                user={this.state.user}
-              />
-              {/* <About
-                pinTime={this.state.pinTime}
-                handlePin={this.handlePin}
-                handlePlayorpause={this.handlePlayorpause}
-                fastRewind={this.fastRewind}
-                fastForward={this.fastForward}
-                seekToTime={this.seekToTime}
-                playpause={this.state.playpause}
-                setCurrTime={this.setCurrTime}
-                user={this.state.user}
-              /> */}
-            </Route>
-          </Switch>
-        </div>
-      </Router>
-    );
-  }
-}
-
-export default App;
-
-function Home() {
-  return <h2>Wut</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
-}
-
-function Podcast() {
-  return <h1>ello</h1>;
-}
+      function Podcast() {
+        return <h1>ello</h1>;
+      }

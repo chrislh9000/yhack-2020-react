@@ -13,14 +13,17 @@ const User = models.User;
 import dbRouter from "./routes/databaseAccess.js";
 import authRouter from "./routes/auth.js";
 import pinsRouter from './routes/pins.js'
+import cookiesRouter from "./routes/cookies.js";
 import transcriptRoutes from "./routes/transcript.js";
 import sha256 from "crypto-js/sha256";
 import hex from "crypto-js/enc-hex";
 import CryptoJS from "crypto-js";
 import cloudinaryRoutes from "./routes/cloudinary.js";
 import cors from 'cors'
+import cookieParser from 'cookie-parser';
 const allowedOrigins = ['http://localhost:3000',
                       'http://localhost:5000'];
+
 
 // ========== Basic connections and server initialization =============
 
@@ -55,6 +58,7 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use("/db", dbRouter);
 
 // ========== Passport =============
@@ -110,6 +114,7 @@ passport.use(new LocalStrategy(
 app.use('/', authRouter(passport));
 app.use('/cloudinary', cloudinaryRoutes)
 app.use('/transcript', transcriptRoutes)
+app.use('/cookies', cookiesRouter)
 app.use('/pins', pinsRouter)
 
 // ========== Port init =============

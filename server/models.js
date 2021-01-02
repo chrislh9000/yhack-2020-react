@@ -21,10 +21,17 @@ const UserSchema = new Schema({
       default: [],
     },
   ],
-  podcasts: [
+  downloaded_episodes: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Podcast",
+      ref: "Episode",
+      default: [],
+    },
+  ],
+  completed_episodes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Episode",
       default: [],
     },
   ],
