@@ -12,18 +12,17 @@ import models from "./models.js";
 const User = models.User;
 import dbRouter from "./routes/databaseAccess.js";
 import authRouter from "./routes/auth.js";
-import pinsRouter from './routes/pins.js'
+import pinsRouter from "./routes/pins.js";
+import podcastRouter from "./routes/podcast.js";
 import cookiesRouter from "./routes/cookies.js";
 import transcriptRoutes from "./routes/transcript.js";
 import sha256 from "crypto-js/sha256";
 import hex from "crypto-js/enc-hex";
 import CryptoJS from "crypto-js";
 import cloudinaryRoutes from "./routes/cloudinary.js";
-import cors from 'cors'
-import cookieParser from 'cookie-parser';
-const allowedOrigins = ['http://localhost:3000',
-                      'http://localhost:5000'];
-
+import cors from "cors";
+import cookieParser from "cookie-parser";
+const allowedOrigins = ["http://localhost:3000", "http://localhost:5000"];
 
 // ========== Basic connections and server initialization =============
 
@@ -43,19 +42,22 @@ const app = express();
 const server = require("http").Server(app);
 
 // ========== Middleware =============
-app.use(cors({
-  origin: function(origin, callback){
-    // allow requests with no origin
-    // (like mobile apps or curl requests)
-    if(!origin) return callback(null, true);
-    if(allowedOrigins.indexOf(origin) === -1){
-      var msg = 'The CORS policy for this site does not ' +
-                'allow access from the specified Origin.';
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  }
-}));
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // allow requests with no origin
+      // (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        var msg =
+          "The CORS policy for this site does not " +
+          "allow access from the specified Origin.";
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+  })
+);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -77,7 +79,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   done(null, user._id);
 });
 
@@ -87,35 +89,40 @@ passport.deserializeUser(function (id, done) {
   });
 });
 
-passport.use(new LocalStrategy(
-  (username, password, done) => {
-    console.log("====USERNAME====", username)
-    console.log("====PASSWORD====", password)
-    console.log("====HASHED PASSWORD====", hashPassword(password))
+passport.use(
+  new LocalStrategy((username, password, done) => {
+    console.log("====USERNAME====", username);
+    console.log("====PASSWORD====", password);
+    console.log("====HASHED PASSWORD====", hashPassword(password));
     User.findOne({ username: username })
-    .then((user) => {
-      if (!user) {
-        console.log("====NO USER FOUND=====")
-        return done(null);
-      } else if (user.password === sha256(password).toString()) {
-        console.log("====USER FOUND!!!!=====")
-        return done(null, user);
-      } else {
-        console.log("====NULL USER=====")
-        return done(null);
-      }
-    })
-    .catch((err) => {
-      return done(err);
-    });
-  }
-));
+      .then((user) => {
+        if (!user) {
+          console.log("====NO USER FOUND=====");
+          return done(null);
+        } else if (user.password === sha256(password).toString()) {
+          console.log("====USER FOUND!!!!=====");
+          return done(null, user);
+        } else {
+          console.log("====NULL USER=====");
+          return done(null);
+        }
+      })
+      .catch((err) => {
+        return done(err);
+      });
+  })
+);
 
-app.use('/', authRouter(passport));
-app.use('/cloudinary', cloudinaryRoutes)
-app.use('/transcript', transcriptRoutes)
-app.use('/cookies', cookiesRouter)
-app.use('/pins', pinsRouter)
+app.use("/", authRouter(passport));
+app.use("/cloudinary", cloudinaryRoutes);
+app.use("/transcript", transcriptRoutes);
+app.use("/pins", pinsRouter);
+app.use("/podcasts", podcastRouter);
+app.use("/", authRouter(passport));
+app.use("/cloudinary", cloudinaryRoutes);
+app.use("/transcript", transcriptRoutes);
+app.use("/cookies", cookiesRouter);
+app.use("/pins", pinsRouter);
 
 // ========== Port init =============
 const port = process.env.PORT || 5000;

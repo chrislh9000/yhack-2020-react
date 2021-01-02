@@ -1,30 +1,54 @@
 const electron = require("electron"),
-app = electron.app,
-BrowserWindow = electron.BrowserWindow;
-session = electron.session
-ipcMain = electron.ipcMain
+  app = electron.app,
+  BrowserWindow = electron.BrowserWindow;
+session = electron.session;
+ipcMain = electron.ipcMain;
 
 const path = require("path"),
-isDev = require("electron-is-dev");
+  isDev = require("electron-is-dev");
 
 let mainWindow;
 
 const createWindow = () => {
-  mainWindow = new BrowserWindow({ width: 480, height: 320, webPreferences: {nodeIntegration: true}});
+  mainWindow = new BrowserWindow({
+    width: 480,
+    height: 320,
+    webPreferences: {
+      nodeIntegration: true,
+    },
+  });
   const appUrl = isDev
-  ? "http://localhost:3000"
-  : `file://${path.join(__dirname, "../build/index.html")}`;
+    ? "http://localhost:3000"
+    : `file://${path.join(__dirname, "../build/index.html")}`;
   mainWindow.loadURL(appUrl);
-  mainWindow.webContents.on('did-finish-load', () => {
-    mainWindow.webContents.send('ping', 'whoooooooh!')
-  })
+  mainWindow.webContents.on("did-finish-load", () => {
+    mainWindow.webContents.send("ping", "whoooooooh!");
+  });
   mainWindow.maximize();
-  mainWindow.setFullScreen(true);
+  mainWindow.setFullScreen(false);
   mainWindow.on("closed", () => (mainWindow = null));
 };
 
+// =================tester====================
+let popUp;
+const createPopup = () => {
+  if (!popUp) {
+  popUp = new BrowserWindow({width: 100,
+    height: 80, titleBarStyle: 'hide',
+    transparent: false,
+    frame: true,
+    resizable: false,
+    hasShadow: false,});
+    // popUp.setAutoHideMenuBar(true);
+    popUp.loadURL(`file://${path.join(__dirname, "../src/index.html")}`);
+    popUp.setAlwaysOnTop(true, 'floating');
+  }
+  popUp.show();
+}
+// =================tester end====================
 
-app.on("ready", createWindow)
+app.on("ready", createWindow);
+app.on("ready", createPopup)
 app.on("window-all-closed", () => {
   // Follow OS convention on whether to quit app when
   // all windows are closed.
@@ -37,6 +61,7 @@ app.on("activate", () => {
   // create one when the app comes into focus.
   if (mainWindow === null) {
     createWindow();
+    createPopup();
   }
 });
 
@@ -54,7 +79,7 @@ ipcMain.on('createCookie', (event, arg) => {
   })
 })
 
-ipcMain.on('loadCookies', (event, arg) => {
+ipcMain.on("loadCookies", (event, arg) => {
   // get cookies
   session.defaultSession.cookies.get({ url: 'http://github.com' })
   .then((cookies) => {
@@ -66,7 +91,7 @@ ipcMain.on('loadCookies', (event, arg) => {
   })
 })
 
-ipcMain.on('clearCookies', (event, arg) => {
+ipcMain.on("clearCookies", (event, arg) => {
   // get cookies
   console.log("CLEARING COOKIES=====")
   session.defaultSession.cookies.remove('http://github.com', arg)

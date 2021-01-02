@@ -41,19 +41,33 @@ router.post("/createPin", (req, res) => {
     });
 });
 
-router.post("/deletePin/:id", (req, res) => {
-  Pin.findByIdAndDelete(req.params.id)
+router.post("/deletePin", (req, res) => {
+  const query = {
+    ccId: req.body.ccId, 
+    user: req.body.id,
+    // episode: req.body.episode
+  }
+  
+  // Pin.findByIdAndDelete(req.params.id)
+    // .then((resp) => {
+    //   User.findByIdAndUpdate(req.body.id, { $pull: { pins: req.params.id } })
+    //     .then((resp) => {
+    //       res.status(200).json({
+    //         success: true,
+    //         message: "pin deleted",
+    //       });
+    //     })
+    //     .catch((err) => {
+    //       res.status(500).json(err);
+    //     });
+    // })
+  Pin.deleteOne(query)
     .then((resp) => {
-      User.findByIdAndUpdate(req.body.id, { $pull: { pins: req.params.id } })
-        .then((resp) => {
-          res.status(200).json({
-            success: true,
-            message: "pin deleted",
-          });
-        })
-        .catch((err) => {
-          res.status(500).json(err);
-        });
+      console.log(resp)
+      res.status(200).json({
+        success: true,
+        message: "pin deleted",
+      });
     })
     .catch((err) => {
       res.status(500).json(err);
@@ -66,8 +80,8 @@ router.post("/addNote", (req, res) => {
   console.log(req.body.note);
   Pin.findOneAndUpdate(
     {
-      ccId: req.body.id,
-      user: "5fdaf4e7616a7e5445f0ba59",
+      ccId: req.body.ccId,
+      user: req.body.id,
       episode: req.body.episode,
     },
     { note: req.body.note }
