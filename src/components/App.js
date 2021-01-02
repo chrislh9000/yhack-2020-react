@@ -18,6 +18,8 @@ import Register from "./Register";
 import Login from "./Login";
 import ReactPlayer from "react-player";
 import podcast from "../assets/podcasts/planet_money.mp3";
+import fs from "fs";
+const ipcRenderer = window.require("electron").ipcRenderer;
 
 class App extends React.Component {
   constructor(props) {
@@ -54,12 +56,23 @@ class App extends React.Component {
   };
 
   componentDidMount = (e) => {
+    // ipcRenderer.send("loadCookies", "HEY");
+    // ipcRenderer.on("userData", (event, arg) => {
+    //   console.log("======COOKIE DATA=======");
+    //   console.log("======COOKIE DATA=======", JSON.parse(arg[0].value));
+    //   let userData = JSON.parse(arg[0].value);
+    //   console.log("=====USER DATA FROM COOKIE====", userData);
+    //   this.setState({
+    //     loggedIn: true,
+    //     user: userData,
+    //   });
+    // });
     // this.interval = setInterval(
     //   () => this.props.handlePin(this.player.getCurrentTime()),
     //   1000
     // );
     // console.log("componentDidmount", this.props.pinTime);
-    // this.setCurrTime();
+    this.setCurrTime();
   };
 
   // componentWillUnmount() {
@@ -100,7 +113,6 @@ class App extends React.Component {
     //   () => this.handlePin(this.player.getCurrentTime()),
     //   1000
     // );
-    // this.handlePin(this.player.getCurrentTime())
   }
 
   ref = (player) => {
@@ -120,14 +132,14 @@ class App extends React.Component {
         <div>
           <ReactPlayer
             ref={this.ref}
-            url={this.state.url}
+            url={podcast}
             width="400px"
             height="0px"
             playing={this.state.playpause}
             controls={false}
           />
           {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
+        renders the first one that matches the current URL. */}
           <Switch>
             <Route path="/pinning">
               <Pin />
@@ -154,8 +166,8 @@ class App extends React.Component {
             </Route>
 
             {/* <Route path="/discussion">
-              <Discussion />
-            </Route> */}
+        <Discussion />
+        </Route> */}
 
             <Route path="/navbar">
               <Navbar />
@@ -197,13 +209,13 @@ class App extends React.Component {
 
             <Route path="/">
               {/* <ReactPlayer
-                ref={this.ref}
-                url={podcast}
-                width="400px"
-                height="0px"
-                playing={this.state.playpause}
-                controls={false}
-              /> */}
+          ref={this.ref}
+          url={podcast}
+          width="400px"
+          height="0px"
+          playing={this.state.playpause}
+          controls={false}
+          /> */}
               <Discussion
                 pinTime={this.state.pinTime}
                 handlePin={this.handlePin}
@@ -216,16 +228,16 @@ class App extends React.Component {
                 user={this.state.user}
               />
               {/* <About
-                pinTime={this.state.pinTime}
-                handlePin={this.handlePin}
-                handlePlayorpause={this.handlePlayorpause}
-                fastRewind={this.fastRewind}
-                fastForward={this.fastForward}
-                seekToTime={this.seekToTime}
-                playpause={this.state.playpause}
-                setCurrTime={this.setCurrTime}
-                user={this.state.user}
-              /> */}
+            pinTime={this.state.pinTime}
+            handlePin={this.handlePin}
+            handlePlayorpause={this.handlePlayorpause}
+            fastRewind={this.fastRewind}
+            fastForward={this.fastForward}
+            seekToTime={this.seekToTime}
+            playpause={this.state.playpause}
+            setCurrTime={this.setCurrTime}
+            user={this.state.user}
+            /> */}
             </Route>
           </Switch>
         </div>

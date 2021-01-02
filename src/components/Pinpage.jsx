@@ -24,6 +24,7 @@ class Pinpage extends React.Component {
       {text:"\"...From the New York Times, I\'m Michael Borrow", time:68, note:"OMG its sleepy joe"},
       {text:"\"...From the New York Times, I\'m Michael Borrow", time:68, note:"OMG its sleepy joe"},
       {text:"\"...From the New York Times, I\'m Michael Borrow", time:68, note:"OMG its sleepy joe"}],
+      audioSame: this.props.currPlay === this.props.reflectPlay
     }
   }
 
@@ -59,8 +60,8 @@ class Pinpage extends React.Component {
                 handlePin={this.props.handlePin}
                 playpause={this.props.playpause}
                 user={this.props.user}
+                audioSame={this.state.audioSame}
               />
-              
             </Row>
             <Row>
               <Col>

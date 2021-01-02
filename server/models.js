@@ -147,7 +147,8 @@ const EpisodeSchema = new Schema({
 
 const UserEpisodeSchema = new Schema({
   episode: {
-    type: EpisodeSchema,
+    type: Schema.Types.ObjectId,
+    ref: "Episode",
     required: true,
   },
   progress: {
