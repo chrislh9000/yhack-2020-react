@@ -49,7 +49,6 @@ router.get('/loadTranscript/:id', (req, res) => {
         message: 'no gcloudresponse found'
       })
     } else {
-      console.log("=========STARTING TIME==========", Date.now())
       // init ccComps array
       let trans = JSON.parse(JSON.stringify(resp))['response']['response']['results']
       // console.log('TRANS LENGTH=======', trans)
@@ -62,8 +61,7 @@ router.get('/loadTranscript/:id', (req, res) => {
       let ccSentence = "";
       // counter for the CC_id
       let ccCounter = 0;
-      const start = Date.now();
-      console.log('starting timer...');
+      const start = Date.now();;
       for (let i = 0; i < trans.length - 1; i++) {
         for (let j = 0; j < trans[i]['alternatives'][0]['words'].length; j++) {
           let word = trans[i]['alternatives'][0]['words'][j]['word'];

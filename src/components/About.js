@@ -71,6 +71,30 @@ export default class Example extends React.PureComponent {
     };
   }
 
+  componentDidMount = (e) => {
+    const url =
+      "http://localhost:5000/podcasts/loadUserEpisodes/5fdaf4e7616a7e5445f0ba59";
+
+    fetch(url, {
+      method: "GET",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        console.log("hi");
+        console.log(json.message);
+        // this.setState({
+        //   episodes: json.message,
+        // });
+      })
+      .catch((err) => {
+        console.log("Error: ", err);
+      });
+  };
+
   render() {
     return (
       <Container fluid className="discussion_background home-back">
