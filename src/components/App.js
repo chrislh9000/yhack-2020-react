@@ -19,6 +19,7 @@ import Login from "./Login";
 import ReactPlayer from "react-player";
 import podcast from "../assets/podcasts/planet_money.mp3";
 import fs from 'fs'
+// import json5 = require("json5");
 const ipcRenderer = window.require('electron').ipcRenderer
 
 class App extends React.Component {
@@ -55,14 +56,18 @@ class App extends React.Component {
     ipcRenderer.on('userData', (event, arg) => {
       console.log("======COOKIE DATA=======")
       console.log("======NIGGER=======")
-      console.log("======COOKIE DATA=======", JSON.parse(arg[0].value))
-      let userData = JSON.parse(arg[0].value)
-      console.log("======NIGGER=======")
-      console.log("=====USER DATA FROM COOKIE====", userData)
-      this.setState({
-        loggedIn: true,
-        user: userData
-      })
+      console.log(arg)
+      if (arg.length != 0) {
+        console.log("======COOKIE DATA=======", JSON.parse(arg[0].value))
+        let userData = JSON.parse(arg[0].value)
+        console.log("======NIGGER=======")
+        console.log("=====USER DATA FROM COOKIE====", userData)
+        this.setState({
+          loggedIn: true,
+          user: userData
+        })
+      }
+      
     })
     // this.interval = setInterval(
     //   () => this.props.handlePin(this.player.getCurrentTime()),
