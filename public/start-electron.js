@@ -14,10 +14,30 @@ const createWindow = () => {
     : `file://${path.join(__dirname, "../build/index.html")}`;
   mainWindow.loadURL(appUrl);
   mainWindow.maximize();
-  mainWindow.setFullScreen(true);
+  mainWindow.setFullScreen(false);
   mainWindow.on("closed", () => (mainWindow = null));
 };
+
+// =================tester====================
+let popUp;
+const createPopup = () => {
+  if (!popUp) {
+  popUp = new BrowserWindow({width: 100,
+    height: 80, titleBarStyle: 'hide',
+    transparent: false,
+    frame: true,
+    resizable: false,
+    hasShadow: false,});
+    // popUp.setAutoHideMenuBar(true);
+    popUp.loadURL(`file://${path.join(__dirname, "../src/index.html")}`);
+    popUp.setAlwaysOnTop(true, 'floating');
+  }
+  popUp.show();
+}
+// =================tester end====================
+
 app.on("ready", createWindow);
+app.on("ready", createPopup)
 app.on("window-all-closed", () => {
   // Follow OS convention on whether to quit app when
   // all windows are closed.
@@ -30,5 +50,6 @@ app.on("activate", () => {
   // create one when the app comes into focus.
   if (mainWindow === null) {
     createWindow();
+    createPopup();
   }
 });

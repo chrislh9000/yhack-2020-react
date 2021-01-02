@@ -90,7 +90,7 @@ router.get('/loadTranscript/:id', (req, res) => {
           } else {
             if (ccSentence.length == 0) {
               let timeStampstr = trans[i]['alternatives'][0]['words'][j]['startTime']
-              ccObj['startTime'] = Number(timeStampstr.substring(timeStampstr, timeStampstr.length - 1)) - 0.3
+              ccObj['startTime'] = Number(timeStampstr.substring(timeStampstr, timeStampstr.length - 1)) + 0.0001
             }
             ccSentence = ccSentence.concat(' ').concat(word)
           }
