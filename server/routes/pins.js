@@ -20,8 +20,6 @@ router.post("/createPin", (req, res) => {
   newPin
     .save()
     .then((resp) => {
-      console.log("=====RESP=====", resp._id);
-      console.log("=====RESP=====", Object.keys(resp));
       // TO DO: update User to add pin
       User.findByIdAndUpdate(req.body.id, { $push: { pins: resp._id } })
         .then((resp) => {

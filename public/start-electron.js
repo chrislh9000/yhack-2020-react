@@ -41,7 +41,7 @@ app.on("activate", () => {
 });
 
 ipcMain.on('createCookie', (event, arg) => {
-  console.log("GOT COOKIE USER OBJECT. CREATING COOKIE=======", arg) // prints "ping"
+  console.log("GOT COOKIE USER OBJECT. CREATING COOKIE=======", arg)
   let cookie_val = JSON.stringify(arg)
   console.log("COOKIE VAL INPUT JSONIFIED=======", cookie_val)
   let secured = true
@@ -56,11 +56,10 @@ ipcMain.on('createCookie', (event, arg) => {
 
 ipcMain.on('loadCookies', (event, arg) => {
   // get cookies
-  console.log("LOADING COOKIES=====")
   session.defaultSession.cookies.get({ url: 'http://github.com' })
   .then((cookies) => {
     console.log(cookies)
-    console.log("SENDING COOKIES TO WINDOW=====", cookies)
+    // console.log("SENDING COOKIES TO WINDOW=====", cookies)
     event.reply('userData', cookies)
   }).catch((error) => {
     console.log(error)
@@ -72,7 +71,6 @@ ipcMain.on('clearCookies', (event, arg) => {
   console.log("CLEARING COOKIES=====")
   session.defaultSession.cookies.remove('http://github.com', arg)
   .then(() => {
-    console.log("========DELETED USER COOKIE SUCCESSFULLY=========")
   }, (error) => {
     console.error(error)
   })
