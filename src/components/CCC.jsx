@@ -34,6 +34,7 @@ class CCC extends React.Component {
     this.props.handleMainComp(this.props.ccID);
     this.props.seekToTime(this.props.time);
   };
+
   renderButton = () => {
     if (this.state.hover) {
       return <TextPlayButton handlePlay={this.handlePlay} />;
@@ -66,7 +67,7 @@ class CCC extends React.Component {
         >
           {this.props.ccText}
         </div>
-        <div className="pl-4">{this.props.pins ? <PinIcon /> : <div />}</div>
+        <div className="pl-4">{this.props.pins ? <PinIcon handleDelete={this.props.handleDelete} ccID={this.props.ccID}/> : <div />}</div>
       </Row>
     );
   }

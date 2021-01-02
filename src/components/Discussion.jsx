@@ -21,7 +21,7 @@ class Discussion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pins: [],
+      pins: [], // pinned objects
       mainComp: 0,
       windowWidth: window.innerWidth,
       windowHeight: window.innerHeight,
@@ -32,7 +32,7 @@ class Discussion extends React.Component {
       showComponent: false,
       cursorPos: null,
       currTime: 0,
-      pinned: [],
+      pinned: [], // list of pinned cc_comp IDs
       highlighted: new Set(),
     };
   }
@@ -108,6 +108,54 @@ class Discussion extends React.Component {
       ),
     }));
   };
+
+  handleDelete = (pin_id) => {
+    const url = "http://localhost:5000/pins/deletePin";
+    console.log("piniddddddddd----------", pin_id)
+    fetch(url, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: "5fdaf4e7616a7e5445f0ba59",
+        ccId: pin_id,
+        episode: "PlanetMoney0",
+      }),
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        console.log("hi", json);
+      })
+      .catch((err) => {
+        console.log("Error: ", err);
+      });
+
+    var index = -1
+    var array = [...this.state.pins]; // make a separate copy of the array
+    for (var i = 0; i < this.state.pins.length; i++) {
+      if (this.state.pins[i]["startComp"] === pin_id) {
+        // console.log(i)
+        index = i
+        break;
+      }
+    }
+    
+    if (index !== -1) {
+      array.splice(index, 1);
+      this.setState({pins: array});
+    }
+
+    var arr = [...this.state.pinned];
+    var index2 = arr.indexOf(pin_id)
+    console.log("====index2", index2)
+    if (index2 !== -1) {
+      arr.splice(index2, 1);
+      this.setState({pinned: arr})
+    }
+    console.log(this.state.pinned)
+  }
 
   handleSelection = (text) => {
     this.setState({
@@ -399,6 +447,7 @@ class Discussion extends React.Component {
                           time={comp.startTime}
                           pins={pinned}
                           highlighted={highlighted}
+                          handleDelete={this.handleDelete}
                         />
                       </div>
                     );

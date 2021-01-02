@@ -10,11 +10,15 @@ class PinIcon extends React.Component {
     super(props);
     this.state = {};
   }
+  handleDeleteFunction = () =>{
+    this.props.handleDelete(this.props.ccID)
+  }
   render() {
     return (
       <IconButton
         style={{ width: "18px", minWidth: "0px" }}
         className="pl-0 pr-0"
+        onClick={this.handleDeleteFunction}
       >
         <img
           style={{
