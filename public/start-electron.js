@@ -29,30 +29,29 @@ const createWindow = () => {
   mainWindow.on("closed", () => (mainWindow = null));
 };
 
-<<<<<<< HEAD
-app.on("ready", createWindow);
-=======
 // =================tester====================
 let popUp;
 const createPopup = () => {
   if (!popUp) {
-  popUp = new BrowserWindow({width: 100,
-    height: 80, titleBarStyle: 'hide',
-    transparent: false,
-    frame: true,
-    resizable: false,
-    hasShadow: false,});
+    popUp = new BrowserWindow({
+      width: 100,
+      height: 80,
+      titleBarStyle: "hide",
+      transparent: false,
+      frame: true,
+      resizable: false,
+      hasShadow: false,
+    });
     // popUp.setAutoHideMenuBar(true);
     popUp.loadURL(`file://${path.join(__dirname, "../src/index.html")}`);
-    popUp.setAlwaysOnTop(true, 'floating');
+    popUp.setAlwaysOnTop(true, "floating");
   }
   popUp.show();
-}
+};
 // =================tester end====================
 
 app.on("ready", createWindow);
-app.on("ready", createPopup)
->>>>>>> b813967647d270d5733f14d0d169387e784e0cdf
+app.on("ready", createPopup);
 app.on("window-all-closed", () => {
   // Follow OS convention on whether to quit app when
   // all windows are closed.

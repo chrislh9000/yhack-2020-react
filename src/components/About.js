@@ -18,62 +18,17 @@ export default class Example extends React.PureComponent {
     super();
 
     this.state = {
-      episodes: [
-        {
-          date: "Nov 20, 2019",
-          title: "The Jungle Prince, Chapter 2: The Hunting Lodge",
-          summary:
-            "'Ellen, have you been trying to get in touch with the royal family of Oudh?' Our reporter receives an invitation to the forest...For more information, visit.....",
-          image: "/TheDaily.png",
-          duration: 5000,
-          current: 3000,
-          pins: [
-            { time: 200 },
-            { time: 400 },
-            { time: 2000 },
-            { time: 250 },
-            { time: 1450 },
-          ],
-        },
-        {
-          date: "Nov 20, 2019",
-          title: "The Jungle Prince, Chapter 2: The Hunting Lodge",
-          summary:
-            "'Ellen, have you been trying to get in touch with the royal family of Oudh?' Our reporter receives an invitation to the forest...For more information, visit.....",
-          image: "/TheDaily.png",
-          duration: 5000,
-          current: 3000,
-          pins: [
-            { time: 200 },
-            { time: 400 },
-            { time: 2000 },
-            { time: 250 },
-            { time: 1450 },
-          ],
-        },
-        {
-          date: "Nov 20, 2019",
-          title: "The Jungle Prince, Chapter 2: The Hunting Lodge",
-          summary:
-            "'Ellen, have you been trying to get in touch with the royal family of Oudh?' Our reporter receives an invitation to the forest...For more information, visit.....",
-          image: "/TheDaily.png",
-          duration: 5000,
-          current: 3000,
-          pins: [
-            { time: 200 },
-            { time: 400 },
-            { time: 2000 },
-            { time: 250 },
-            { time: 1450 },
-          ],
-        },
-      ],
+      episodes: [],
+      podcasts: [],
+      progresses: [],
+      pins: [],
     };
   }
 
   componentDidMount = (e) => {
     const url =
       "http://localhost:5000/podcasts/loadUserEpisodes/5fdaf4e7616a7e5445f0ba59";
+    const url2 = "http://localhost:5000/pins/renderPins";
 
     fetch(url, {
       method: "GET",
@@ -84,18 +39,84 @@ export default class Example extends React.PureComponent {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log("hi");
-        console.log(json.message);
-        // this.setState({
-        //   episodes: json.message,
-        // });
+        console.log(json.episodes);
+        console.log(json.podcasts);
+        this.setState({
+          episodes: json.episodes,
+          podcasts: json.podcasts,
+          progresses: json.progresses,
+        });
+        let promises = [];
+        for (let i = 0; i < json.episodes.length; i++) {
+          console.log(i);
+          promises.push(
+            fetch(url2, {
+              method: "POST",
+              credentials: "same-origin",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                id: "5fdaf4e7616a7e5445f0ba59",
+                episode: json.episodes[i]._id,
+              }),
+            })
+          );
+        }
+        console.log(promises);
+        Promise.all(promises).then((values) => {
+          let pinsarray = [];
+          // for (let i = 0; i < json.episodes.length; i++) {
+          //   values[i].json().then((res) => {
+          //     console.log(res.message);
+          //     pinsarray.push(res.message);
+          //     console.log(pinsarray.length);
+          //     this.setState(
+          //       {
+          //         pins: pinsarray,
+          //       },
+          //       () => {
+          //         console.log(this.state.pins);
+          //       }
+          //     );
+          //     console.log("outside");
+          //   });
+          // }
+          for (let i = 0; i < json.episodes.length; i++) {
+            pinsarray.push(values[i].json());
+          }
+          Promise.all(pinsarray).then((pinobjects) => {
+            console.log("============pinobjects========", pinobjects);
+            this.setState({
+              pins: pinobjects,
+            });
+          });
+        });
       })
       .catch((err) => {
         console.log("Error: ", err);
       });
+
+    setInterval(() => {
+      console.log("Interval triggered");
+    }, 1000);
+  };
+
+  componentDidUpdate = (e) => {
+    console.log(this.state.pins.length);
+    console.log(this.state.episodes);
+    console.log(this.state.podcasts);
+    // console.log(this.state.pins.length);
+    // if (this.state.pins.length > 0) {
+    //   console.log(this.state.pins[0][0].startTime);
+    // }
+    // console.log("======episodes======", this.state.episodes);
+    console.log("=======proggresses========", this.state.progresses);
   };
 
   render() {
+    console.log("======episodes======", this.state.episodes);
+    console.log(this.state.pins.length);
     return (
       <Container fluid className="discussion_background home-back">
         <Row>
@@ -112,86 +133,93 @@ export default class Example extends React.PureComponent {
 
           <Col className="pr-0 pl-0 mt-5 ml-5 mr-5 home-column">
             <FilterBar />
-            {this.state.episodes.map((item, id) => (
-              <div
-                className="mb-5"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  background: "white",
-                }}
-              >
-                <img
-                  className="ml-3 mt-3 mb-3"
-                  style={{
-                    height: 180,
-                    width: 180,
-                    borderRadius: 10,
-                    boxShadow:
-                      "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
-                  }}
-                  src={item.image}
-                />
-                <div
-                  className="pl-3 pr-3 mt-3"
-                  style={{ display: "flex", flexDirection: "column" }}
-                >
+            {this.state.episodes.length > 0 && this.state.pins.length > 1
+              ? this.state.episodes.map((item, id) => (
                   <div
+                    className="mb-5"
                     style={{
-                      fontSize: "18px",
-                      fontWeight: "bold",
-                      color: "gray",
+                      display: "flex",
+                      flexDirection: "row",
+                      background: "white",
                     }}
                   >
-                    {item.date}
-                  </div>
-                  <div style={{ fontSize: "22px", fontWeight: "bold" }}>
-                    {item.title}
-                  </div>
-                  <div className="pb-4">{this.state.episodes[0].summary}</div>
-                  <div className="hl" style={{ alignSelf: "right" }} ref="bar">
-                    <div
+                    <img
+                      className="ml-3 mt-3 mb-3"
                       style={{
-                        left: String(
-                          (item.current / item.duration) * 500
-                        ).concat("px"),
+                        height: 180,
+                        width: 180,
+                        borderRadius: 10,
+                        boxShadow:
+                          "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
                       }}
-                      className="bubble"
+                      src={this.state.podcasts[id].imageUrl}
                     />
-                    {/* <div className="pinbar"></div> */}
-                    {item.pins.map((pin, id) => (
+                    <div
+                      className="pl-3 pr-3 mt-3"
+                      style={{ display: "flex", flexDirection: "column" }}
+                    >
                       <div
                         style={{
-                          left: String((pin.time / item.duration) * 500).concat(
-                            "px"
-                          ),
+                          fontSize: "18px",
+                          fontWeight: "bold",
+                          color: "gray",
                         }}
-                        className="pinbar"
-                      ></div>
-                    ))}
+                      >
+                        {item.date}
+                      </div>
+                      <div style={{ fontSize: "22px", fontWeight: "bold" }}>
+                        {item.title}
+                      </div>
+                      <div className="pb-4">{item.summary}</div>
+                      <div
+                        className="hl"
+                        style={{ alignSelf: "right" }}
+                        ref="bar"
+                      >
+                        <div
+                          style={{
+                            left: String(
+                              (this.state.progresses[id] / item.duration) * 500
+                            ).concat("px"),
+                          }}
+                          className="bubble"
+                        />
+                        {/* <div className="pinbar"></div> */}
+                        {this.state.pins[id].message.map((pin, id) => (
+                          <div
+                            style={{
+                              left: String(
+                                (pin.startTime.$numberDecimal / item.duration) *
+                                  500
+                              ).concat("px"),
+                            }}
+                            className="pinbar"
+                          ></div>
+                        ))}
+                      </div>
+                    </div>
+                    <Col
+                      xs={3}
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-evenly",
+                      }}
+                    >
+                      <Link to="/users">
+                        <Button style={{ width: "100%", height: "60px" }}>
+                          Listen
+                        </Button>
+                      </Link>
+                      <Link to="/users">
+                        <Button style={{ width: "100%", height: "60px" }}>
+                          Reflect
+                        </Button>
+                      </Link>
+                    </Col>
                   </div>
-                </div>
-                <Col
-                  xs={3}
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-evenly",
-                  }}
-                >
-                  <Link to="/users">
-                    <Button style={{ width: "100%", height: "60px" }}>
-                      Listen
-                    </Button>
-                  </Link>
-                  <Link to="/users">
-                    <Button style={{ width: "100%", height: "60px" }}>
-                      Reflect
-                    </Button>
-                  </Link>
-                </Col>
-              </div>
-            ))}
+                ))
+              : "Loading..."}
           </Col>
         </Row>
       </Container>
