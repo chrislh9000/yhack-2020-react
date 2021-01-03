@@ -30,6 +30,7 @@ class App extends React.Component {
       loggedIn: false,
       user: { username: " " },
       url: podcast,
+      episode: {_id: '5ff051084158640e1d924e76', transcript: '5fe345e13ed52c79138e951d'}
     };
   }
 
@@ -135,6 +136,19 @@ class App extends React.Component {
     // console.log("we in apps.js", this.state.pinTime)
   };
 
+/*
+Update Episode is passed into the About component. When you click listen for a specific episode,
+it updates episode-specific state elements passed into the discussion component
+*/
+
+  updateDiscussionEpisode = (episode) => {
+    // needs episode name and then the "fake id" (i think its denoted podcast)
+    console.log("====YO DIS GETS CALLED BRO")
+    this.setState({
+      episode: episode
+    })
+  }
+
   render() {
     return (
       <Router>
@@ -187,6 +201,7 @@ class App extends React.Component {
                 pinTime={this.state.pinTime}
                 handlePin={this.handlePin}
                 user={this.state.user}
+                updateDiscussionEpisode = {this.updateDiscussionEpisode}
               />
             </Route>
 
@@ -201,6 +216,7 @@ class App extends React.Component {
                 playpause={this.state.playpause}
                 setCurrTime={this.setCurrTime}
                 user={this.state.user}
+                episode={this.state.episode}
               />
             </Route>
 
@@ -235,6 +251,7 @@ class App extends React.Component {
                 playpause={this.state.playpause}
                 setCurrTime={this.setCurrTime}
                 user={this.state.user}
+                episode={this.state.episode}
               />
               {/* <About
             pinTime={this.state.pinTime}

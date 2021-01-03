@@ -44,7 +44,7 @@ router.get("/upload", (req, res) => {
 
 router.get("/loadTranscript/:id", (req, res) => {
   console.log("HEYYY");
-  GcloudResponse.findOne({ id: req.params.id })
+  GcloudResponse.findById(req.params.id)
     .then((resp) => {
       if (!resp) {
         console.log("===NO RESPONSE===");

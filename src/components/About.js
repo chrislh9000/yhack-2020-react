@@ -211,7 +211,7 @@ export default class Example extends React.PureComponent {
                       }}
                     >
                       <Link to="/users">
-                        <Button style={{ width: "100%", height: "60px" }}>
+                        <Button onClick={() => this.props.updateDiscussionEpisode(item)} style={{ width: "100%", height: "60px" }}>
                           Listen
                         </Button>
                       </Link>

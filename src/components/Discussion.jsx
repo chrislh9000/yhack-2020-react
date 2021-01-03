@@ -80,9 +80,9 @@ class Discussion extends React.Component {
         text: text,
         startTime: startTime,
         endTime: endTime,
-        id: "5fdaf4e7616a7e5445f0ba59",
+        id: this.props.user._id,
         ccId: selements[0],
-        episode: "5ff051084158640e1d924e76",
+        episode: this.props.episode._id,
       }),
     })
       .then((json) => {
@@ -307,7 +307,7 @@ class Discussion extends React.Component {
     window.addEventListener("resize", this.handleResize);
     // fetch podcast transcript
     const url =
-      "http://localhost:5000/transcript/loadTranscript/planet_money_01";
+      "http://localhost:5000/transcript/loadTranscript/".concat(this.props.episode.transcript)
     fetch(url, {
       method: "GET",
       credentials: "same-origin",
@@ -334,8 +334,8 @@ class Discussion extends React.Component {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: this.props.user._id,
-        episode: "PlanetMoney0",
+        user_id: this.props.user._id,
+        episode: this.props.episode._id,
       }),
     })
       .then((res) => res.json())
@@ -393,6 +393,8 @@ class Discussion extends React.Component {
   };
 
   render() {
+    // console.log("=====EPISODE===== BEING SET", this.props.episode)
+    // console.log("=====USER===== BEING SET", this.props.user)
     return (
       <Container fluid className="discussion_background listening-back">
         <Row>
