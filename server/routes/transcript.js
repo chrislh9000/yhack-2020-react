@@ -1,45 +1,49 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import bodyParser from 'body-parser';
-import http from 'http';
-import fs from 'fs';
-import models from '../models.js';
+import express from "express";
+import mongoose from "mongoose";
+import bodyParser from "body-parser";
+import http from "http";
+import fs from "fs";
+import models from "../models.js";
 const router = express.Router();
 const GcloudResponse = models.GcloudResponse;
 
-
-router.get('/upload', (req, res) => {
+router.get("/upload", (req, res) => {
   // create new Transcript
-  fs.readFile('./src/assets/json_files/planet_earth_001.json', 'utf8', (err, jsonString) => {
-    if (err) {
-      console.log("Error reading file from disk:", err)
-      return
-    }
-    try {
-      const resp = JSON.parse(jsonString)
-      // create new Transcript
-      const newResponse = new GcloudResponse({
-        id: 'planet_money_01',
-        response: resp
-      })
-      newResponse.save()
-      .then(() => {
-        res.status(200).json({
-          success: true,
-          message: 'transcript saved successfully',
+  fs.readFile(
+    "./src/assets/json_files/How_I_built_this_Riot_Games.json",
+    "utf8",
+    (err, jsonString) => {
+      if (err) {
+        console.log("Error reading file from disk:", err);
+        return;
+      }
+      try {
+        const resp = JSON.parse(jsonString);
+        // create new Transcript
+        const newResponse = new GcloudResponse({
+          id: "planet_money_01",
+          response: resp,
         });
-      })
-      .catch((err) => {
-        res.status(500).json(err);
-      });
-    } catch(err) {
-      console.log('Error parsing JSON string:', err)
+        newResponse
+          .save()
+          .then(() => {
+            res.status(200).json({
+              success: true,
+              message: "transcript saved successfully",
+            });
+          })
+          .catch((err) => {
+            res.status(500).json(err);
+          });
+      } catch (err) {
+        console.log("Error parsing JSON string:", err);
+      }
     }
-  })
-})
+  );
+});
 
-router.get('/loadTranscript/:id', (req, res) => {
-  console.log("HEYYY")
+router.get("/loadTranscript/:id", (req, res) => {
+  console.log("HEYYY");
   GcloudResponse.findOne({ id: req.params.id })
   .then((resp) => {
     if (!resp) {
@@ -90,29 +94,24 @@ router.get('/loadTranscript/:id', (req, res) => {
               let timeStampstr = trans[i]['alternatives'][0]['words'][j]['startTime']
               ccObj['startTime'] = Number(timeStampstr.substring(timeStampstr, timeStampstr.length - 1)) + 0.0001
             }
-            ccSentence = ccSentence.concat(' ').concat(word)
           }
         }
+        const millis = Date.now() - start;
+        console.log(`seconds elapsed = ${Math.floor(millis / 1000)}`);
+        res.status(200).json({
+          success: true,
+          message: ccComps,
+        });
       }
-      const millis = Date.now() - start;
-      console.log(`seconds elapsed = ${Math.floor(millis / 1000)}`);
-      res.status(200).json({
-        success: true,
-        message: ccComps
-      })
-    }
-  })
-  .catch((err) => {
-    console.error(err)
-    res.status(500).json(err)
-  })
-})
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json(err);
+    });
+});
 
-router.get('/test', (req, res) => {
-  console.log('WORKING')
-})
-
-
-
+router.get("/test", (req, res) => {
+  console.log("WORKING");
+});
 
 export default router;

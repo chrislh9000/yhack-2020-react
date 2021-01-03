@@ -15,7 +15,43 @@ class ExtendedPin extends React.Component {
   }
   render() {
     return (
-      <div>{this.props.note}</div>
+      <Container>
+        <Row style={{ width: "100%", marginLeft: "0px", height: "100%" }}>
+          <Col style={{ width: "80%", marginLeft: "0px" }}>
+            {this.props.text}
+          </Col>
+        </Row>
+        <Row>
+          <div
+            className="mb-5"
+            style={{
+              background: "white"
+            }}
+          >
+            Note: {this.props.note}
+          </div>
+        </Row>
+        <Row>
+          <Col>
+            <IconButton
+              style={{
+                width: "20px",
+                minWidth: "0px",
+                outline: "none",
+                backgroundColor: "transparent"
+              }}
+              onClick={this.props.handleEdit}
+              className="pl-0 pr-0"
+              disableTouchRipple={true}
+            >
+              back
+            </IconButton>
+          </Col>
+          <Col>
+            <IconButton>fowards</IconButton>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }
