@@ -18,7 +18,7 @@ const createWindow = () => {
     },
   });
   const appUrl = isDev
-    ? "http://localhost:3000"
+      ? "http://localhost:3000"
     : `file://${path.join(__dirname, "../build/index.html")}`;
   mainWindow.loadURL(appUrl);
   mainWindow.webContents.on("did-finish-load", () => {
