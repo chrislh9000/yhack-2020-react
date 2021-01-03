@@ -14,6 +14,7 @@ import { SelectableGroup, createSelectable } from "react-selectable";
 
 import ReactCursorPosition from "react-cursor-position";
 import { animateScroll } from "react-scroll";
+const ipcRenderer = window.require("electron").ipcRenderer;
 
 const SelectableComponent = createSelectable(CCC);
 
@@ -371,10 +372,14 @@ class Discussion extends React.Component {
         console.log("Error: ", err);
       });
     this.interval = setInterval(() => this.props.setCurrTime(), 1000);
+    ipcRenderer.on("pinFromWindow", (event, arg) => {
+      this.makePin()
+    });
   };
 
+
   componentDidUpdate = (e) => {
-    console.log(this.state.mainComp);
+    // console.log(this.state.mainComp);
     if (this.state.cc_comps) {
       if (this.state.mainComp < this.state.cc_comps.length - 1) {
         this.handleScroll();

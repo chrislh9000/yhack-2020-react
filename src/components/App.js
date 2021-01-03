@@ -56,17 +56,17 @@ class App extends React.Component {
   };
 
   componentDidMount = (e) => {
-    // ipcRenderer.send("loadCookies", "HEY");
-    // ipcRenderer.on("userData", (event, arg) => {
-    //   console.log("======COOKIE DATA=======");
-    //   console.log("======COOKIE DATA=======", JSON.parse(arg[0].value));
-    //   let userData = JSON.parse(arg[0].value);
-    //   console.log("=====USER DATA FROM COOKIE====", userData);
-    //   this.setState({
-    //     loggedIn: true,
-    //     user: userData,
-    //   });
-    // });
+    ipcRenderer.send('loadCookies', "HEY")
+    ipcRenderer.on('userData', (event, arg) => {
+      if(arg.length != 0) {
+        // console.log("======COOKIE DATA=======", JSON.parse(arg[0].value))
+        let userData = JSON.parse(arg[0].value)
+        this.setState({
+          loggedIn: true,
+          user: userData
+        })
+      }
+    })
     // this.interval = setInterval(
     //   () => this.props.handlePin(this.player.getCurrentTime()),
     //   1000

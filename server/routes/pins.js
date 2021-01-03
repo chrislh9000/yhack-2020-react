@@ -20,8 +20,6 @@ router.post("/createPin", (req, res) => {
   newPin
     .save()
     .then((resp) => {
-      console.log("=====RESP=====", resp._id);
-      console.log("=====RESP=====", Object.keys(resp));
       // TO DO: update User to add pin
       User.findByIdAndUpdate(req.body.id, { $push: { pins: resp._id } })
         .then((resp) => {
@@ -49,20 +47,7 @@ router.post("/deletePin", (req, res) => {
     user: req.body.id,
     // episode: req.body.episode
   }
-  
-  // Pin.findByIdAndDelete(req.params.id)
-    // .then((resp) => {
-    //   User.findByIdAndUpdate(req.body.id, { $pull: { pins: req.params.id } })
-    //     .then((resp) => {
-    //       res.status(200).json({
-    //         success: true,
-    //         message: "pin deleted",
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       res.status(500).json(err);
-    //     });
-    // })
+
   Pin.deleteOne(query)
     .then((resp) => {
       console.log(resp)
@@ -100,9 +85,30 @@ router.post("/addNote", (req, res) => {
 });
 
 // ====== EDIT PINS =======
-// router.post('/editPin', (req, res) => {
-//   Pin.find()
-// })
+router.post('/editPin', (req, res) => {
+  const query = {
+    ccId: req.body.ccId, 
+    user: req.body.id,
+    // episode: req.body.episode
+  }
+  const newTime = {
+    text: req.body.text,
+    startTime: req.body.startTime,
+    endTime: req.body.endTime,
+    ccId: req.body.newCcId
+  }
+  
+  Pin.findOneAndUpdate(query, newTime)
+    .then((resp) => {
+      res.status(200).json({
+        success: true,
+        message: "added note",
+      });
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
+});
 
 // TODO: render by episode
 router.post("/renderPins", (req, res) => {

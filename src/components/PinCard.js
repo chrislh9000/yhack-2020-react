@@ -89,6 +89,7 @@ class PinCard extends React.Component {
               key={this.props.key}
               time={this.props.time}
               note={this.props.note}
+              handleEdit={this.props.handleEdit}
             />
           ) : (
             <NonExtendedPin
@@ -96,6 +97,7 @@ class PinCard extends React.Component {
               key={this.props.key}
               time={this.props.time}
               note={this.props.note}
+              handleEdit={this.props.handleEdit}
             />
           )}
         </Col>
