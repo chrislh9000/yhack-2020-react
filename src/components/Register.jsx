@@ -4,8 +4,10 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Input from '@material-ui/core/Input'
 import Row from 'react-bootstrap/Row'
+import Alert from 'react-bootstrap/Alert'
 import { Link } from "react-router-dom"
-
+import fs from 'fs'
+const ipcRenderer = window.require("electron").ipcRenderer;
 
 class Register extends React.Component {
   constructor(props) {
@@ -14,6 +16,7 @@ class Register extends React.Component {
       username: "",
       password: "",
       password2: "",
+      alerts: []
     }
   }
   handleUsername = (e) => {
@@ -48,18 +51,39 @@ class Register extends React.Component {
     })
     .then((res)=> res.json())
     .then((json) => {
+      // if false, it means there's already someone signed up with that username
+      if (json.success === false) {
+        console.log("====MESSAGE=====", json.message)
+        let alertObj = {text: json.message}
+        let alertArr = this.state.alerts.concat(alertObj)
+        this.setState({
+          alerts: alertArr
+        })
+      }
       console.log(json.message)
+      console.log(this.state.alerts)
     })
     .catch((err)=> {
       console.log('Error: ', err);
     })
   }
 
+  componentDidMount = (e) => {
+    console.log("USERNAME=====", this.props.user.username)
+    ipcRenderer.send("clearCookies", this.props.user.username)
+  }
+
   render() {
+    const alertArr = this.state.alerts.map((alert, i) => (
+      <Alert key={i} variant="danger">
+      {alert.text}
+        </Alert>
+    ))
     return (
       <div>
       <Grid container direction="column" alignContent="center" alignItems="center">
       <h1>Register</h1>
+      {alertArr}
       <form method="POST">
       <div className="form-group">
       <Input className="form-control" onChange={(e)=> this.handleUsername(e)} value={this.state.username} type="text" placeholder="Username"></Input>

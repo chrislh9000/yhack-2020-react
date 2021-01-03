@@ -50,13 +50,14 @@ class Login extends React.Component {
           let userObj = json.user;
           userObj['password'] = this.state.password
           // create a cookie
-          console.log("SENDING IPC INPUT=====");
+          // ipcRenderer.send("clearCookies", "")
           ipcRenderer.send("createCookie", userObj);
         } else {
           console.log("error: invalid login info", json.err);
         }
       })
       .catch((err) => {
+        console.log("====== ERROR LOGGING IN======")
         console.log("Error: ", err);
       });
   };

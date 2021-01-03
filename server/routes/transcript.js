@@ -137,7 +137,7 @@ router.get("/loadTranscript/:id", (req, res) => {
           message: ccComps,
         })
       }
-    }})
+    })
     .catch((err) => {
       console.error(err);
       res.status(500).json(err);

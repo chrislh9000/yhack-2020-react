@@ -125,7 +125,9 @@ ipcMain.on("clearCookies", (event, arg) => {
   // get cookies
   console.log("CLEARING COOKIES=====");
   session.defaultSession.cookies.remove("http://github.com", arg).then(
-    () => {},
+    () => {
+      console.log("=====COOKIES SUCCESFULLY CLEARED")
+    },
     (error) => {
       console.error(error);
     }
