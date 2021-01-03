@@ -101,13 +101,13 @@ router.get("/loadTranscript/:id", (req, res) => {
         res.status(200).json({
           success: true,
           message: ccComps,
-        });
+        })
       }
-    })
+    }})
     .catch((err) => {
       console.error(err);
       res.status(500).json(err);
-    });
+    })
 });
 
 router.get("/test", (req, res) => {
