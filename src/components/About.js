@@ -13,6 +13,8 @@ import FilterBar from "./FilterBar";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 
+import Truncate from "react-truncate";
+
 export default class Example extends React.PureComponent {
   constructor() {
     super();
@@ -155,7 +157,7 @@ export default class Example extends React.PureComponent {
                       src={this.state.podcasts[id].imageUrl}
                     />
                     <div
-                      className="pl-3 pr-3 mt-3"
+                      className="pl-3 mt-3"
                       style={{ display: "flex", flexDirection: "column" }}
                     >
                       <div
@@ -170,9 +172,11 @@ export default class Example extends React.PureComponent {
                       <div style={{ fontSize: "22px", fontWeight: "bold" }}>
                         {item.title}
                       </div>
-                      <div className="pb-4">{item.summary}</div>
+                      <Truncate lines={3} className="pb-4 episode-summary">
+                        {item.summary}
+                      </Truncate>
                       <div
-                        className="hl"
+                        className="hl pb-4"
                         style={{ alignSelf: "right" }}
                         ref="bar"
                       >

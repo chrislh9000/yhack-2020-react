@@ -50,6 +50,7 @@
     "react-selectable": "^2.1.1",
     "react-selectable-fast": "^3.4.0",
     "react-toggle": "^4.1.1",
+    "react-truncate": "^2.4.0",
     "uniq": "^1.0.1",
     "wait-on": "^5.2.0",
     "web-vitals": "^0.2.4"
