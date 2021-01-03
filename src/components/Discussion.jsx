@@ -334,7 +334,7 @@ class Discussion extends React.Component {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: "5fdaf4e7616a7e5445f0ba59",
+        id: this.props.user._id,
         episode: "PlanetMoney0",
       }),
     })

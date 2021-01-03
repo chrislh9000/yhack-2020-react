@@ -71,6 +71,7 @@ class Register extends React.Component {
   componentDidMount = (e) => {
     console.log("USERNAME=====", this.props.user.username)
     ipcRenderer.send("clearCookies", this.props.user.username)
+    this.props.logout()
   }
 
   render() {

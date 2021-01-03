@@ -28,8 +28,8 @@ export default class Example extends React.PureComponent {
   }
 
   componentDidMount = (e) => {
-    const url =
-      "http://localhost:5000/podcasts/loadUserEpisodes/5fdaf4e7616a7e5445f0ba59";
+    // add the user id to the end of the request url
+    const url = "http://localhost:5000/podcasts/loadUserEpisodes/".concat(this.props.user._id);
     const url2 = "http://localhost:5000/pins/renderPins";
 
     fetch(url, {
@@ -59,7 +59,7 @@ export default class Example extends React.PureComponent {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                id: "5fdaf4e7616a7e5445f0ba59",
+                id: this.props.user._id, // userId
                 episode: json.episodes[i]._id,
               }),
             })

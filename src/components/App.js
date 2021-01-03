@@ -50,6 +50,13 @@ class App extends React.Component {
     });
   };
 
+  logout = () => {
+    this.setState({
+      loggedIn: false, user: { username: " " }}, () => {
+        console.log("====LOGGED OUT=====")
+      })
+  }
+
   setCurrTime = () => {
     var pin = this.player.getCurrentTime();
     this.handlePin(pin);
@@ -198,7 +205,7 @@ class App extends React.Component {
             </Route>
 
             <Route path="/register">
-              <Register user={this.state.user} />
+              <Register user={this.state.user} logout={this.logout} />
             </Route>
 
             <Route path="/login">
