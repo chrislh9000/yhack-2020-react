@@ -30,7 +30,8 @@ class App extends React.Component {
       loggedIn: false,
       user: { username: " " },
       url: podcast,
-      episode: {_id: '5ff051084158640e1d924e76', transcript: '5fe345e13ed52c79138e951d'}
+      episode: {_id: '5ff051084158640e1d924e76', transcript: '5fe345e13ed52c79138e951d',
+      audioUrl: "https://res.cloudinary.com/pincast/video/upload/v1609758345/planet_money_wsjh0m.mp3"}
     };
   }
 
@@ -64,18 +65,18 @@ class App extends React.Component {
   };
 
   componentDidMount = (e) => {
-    ipcRenderer.send('loadCookies', "HEY")
-    ipcRenderer.on('userData', (event, arg) => {
-      if(arg && arg.length != 0) {
-        // check login stuff
-        let userData = JSON.parse(arg[0].value)
-        console.log("========== user_data ==========", userData)
-        this.setState({
-          loggedIn: true,
-          user: userData
-        })
-      }
-    })
+    // ipcRenderer.send('loadCookies', "HEY")
+    // ipcRenderer.on('userData', (event, arg) => {
+    //   if(arg && arg.length != 0) {
+    //     // check login stuff
+    //     let userData = JSON.parse(arg[0].value)
+    //     console.log("========== user_data ==========", userData)
+    //     this.setState({
+    //       loggedIn: true,
+    //       user: userData
+    //     })
+    //   }
+    // })
     // this.interval = setInterval(
     //   () => this.props.handlePin(this.player.getCurrentTime()),
     //   1000
@@ -155,7 +156,7 @@ it updates episode-specific state elements passed into the discussion component
         <div>
           <ReactPlayer
             ref={this.ref}
-            url={podcast}
+            url={this.state.episode.audioUrl} // TO DO: change this based on selected episode
             width="400px"
             height="0px"
             playing={this.state.playpause}
@@ -217,6 +218,7 @@ it updates episode-specific state elements passed into the discussion component
                 setCurrTime={this.setCurrTime}
                 user={this.state.user}
                 episode={this.state.episode}
+                login={this.login}
               />
             </Route>
 
@@ -252,6 +254,7 @@ it updates episode-specific state elements passed into the discussion component
                 setCurrTime={this.setCurrTime}
                 user={this.state.user}
                 episode={this.state.episode}
+                login={this.login}
               />
               {/* <About
             pinTime={this.state.pinTime}
