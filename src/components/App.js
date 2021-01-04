@@ -21,6 +21,7 @@ import podcast from "../assets/podcasts/planet_money.mp3";
 import fs from "fs";
 const ipcRenderer = window.require("electron").ipcRenderer;
 
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -223,7 +224,7 @@ it updates episode-specific state elements passed into the discussion component
             </Route>
 
             <Route path="/register">
-              <Register user={this.state.user} logout={this.logout} />
+              <Register user={this.state.user} logout={this.logout} history={this.history} loggedIn={this.state.loggedIn}/>
             </Route>
 
             <Route path="/login">

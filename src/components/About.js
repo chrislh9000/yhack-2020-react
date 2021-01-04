@@ -29,7 +29,9 @@ export default class Example extends React.PureComponent {
 
   componentDidMount = (e) => {
     // add the user id to the end of the request url
-    const url = "http://localhost:5000/podcasts/loadUserEpisodes/".concat(this.props.user._id);
+    const url = "http://localhost:5000/podcasts/loadUserEpisodes/".concat(
+      this.props.user._id
+    );
     const url2 = "http://localhost:5000/pins/renderPins";
 
     fetch(url, {
@@ -43,11 +45,13 @@ export default class Example extends React.PureComponent {
       .then((json) => {
         console.log(json.episodes);
         console.log(json.podcasts);
-        this.setState({
-          episodes: json.episodes,
-          podcasts: json.podcasts,
-          progresses: json.progresses,
-        });
+        if (json.episodes) {
+          this.setState({
+            episodes: json.episodes,
+            podcasts: json.podcasts,
+            progresses: json.progresses,
+          });
+        }
         let promises = [];
         for (let i = 0; i < json.episodes.length; i++) {
           console.log(i);
@@ -135,7 +139,7 @@ export default class Example extends React.PureComponent {
 
           <Col className="pr-0 pl-0 mt-5 ml-5 mr-5 home-column">
             <FilterBar />
-            {this.state.episodes.length > 0 && this.state.pins.length > 1
+            {this.state.episodes.length > 0 && this.state.pins.length > 0
               ? this.state.episodes.map((item, id) => (
                   <div
                     className="mb-5"
@@ -211,7 +215,12 @@ export default class Example extends React.PureComponent {
                       }}
                     >
                       <Link to="/users">
-                        <Button onClick={() => this.props.updateDiscussionEpisode(item)} style={{ width: "100%", height: "60px" }}>
+                        <Button
+                          onClick={() =>
+                            this.props.updateDiscussionEpisode(item)
+                          }
+                          style={{ width: "100%", height: "60px" }}
+                        >
                           Listen
                         </Button>
                       </Link>
