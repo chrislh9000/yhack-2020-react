@@ -93,7 +93,7 @@ passport.use(
   new LocalStrategy((username, password, done) => {
     console.log("====USERNAME====", username);
     console.log("====PASSWORD====", password);
-    console.log("====HASHED PASSWORD====", hashPassword(password));
+    console.log("====HASHED PASSWORD====", sha256(password).toString());
     User.findOne({ username: username })
       .then((user) => {
         if (!user) {
@@ -104,6 +104,7 @@ passport.use(
           return done(null, user);
         } else {
           console.log("====NULL USER=====");
+          console.log("====ACTUAL USER=====", user);
           return done(null);
         }
       })

@@ -19,21 +19,38 @@ module.exports = (passport) => {
         message: "passwords do not match",
       });
     } else {
-      console.log("=====Creating=== new User")
-      const newUser = new User({
-        username: req.body.username,
-        password: sha256(req.body.password).toString(),
-      });
-      newUser.save()
-        .then(() => {
-          res.status(200).json({
-            success: true,
-            message: "registration successful",
-          });
+      // check if there is already a user with the same username, if so send an error message to prompt them to change usernames
+      User.find({ username: req.body.username })
+        .then((users) => {
+          console.log("=====USERS SEARCHING FOR USERNAME ATM=====", users)
+          if (users) {
+            // if users are found return an error
+            res.status(200).json({
+              success: false,
+              message: "this username has already been taken, try another one",
+            });
+          } else {
+            // otherwise go ahead with creating the new user and saving it to the db
+            console.log("=====Creating=== new User")
+            const newUser = new User({
+              username: req.body.username,
+              password: sha256(req.body.password).toString(),
+            });
+            newUser.save()
+              .then(() => {
+                res.status(200).json({
+                  success: true,
+                  message: "registration successful",
+                });
+              })
+              .catch((err) => {
+                res.status(500).json(err);
+              });
+          }
         })
-        .catch((err) => {
+        .catch(err => {
           res.status(500).json(err);
-        });
+        })
     }
   });
 
@@ -41,7 +58,8 @@ module.exports = (passport) => {
   router.post("/login", (req, res, next) => {
     passport.authenticate("local", (err, user) => {
       if (err || !user) {
-        console.log("ERROR===== no user at all");
+        console.log("ERROR=====", res);
+        console.log("ERROR===== no user at all", user);
         res
           .status(500)
           .json({ success: false, message: "err or bad user/pass" });
@@ -55,10 +73,6 @@ module.exports = (passport) => {
         });
       }
     })(req, res, next);
-  });
-
-  router.get("/crypto", (req, res, next) => {
-    console.log(sha256("123").toString());
   });
 
   return router;

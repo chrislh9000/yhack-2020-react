@@ -80,9 +80,9 @@ class Discussion extends React.Component {
         text: text,
         startTime: startTime,
         endTime: endTime,
-        id: "5fdaf4e7616a7e5445f0ba59",
+        id: this.props.user._id,
         ccId: selements[0],
-        episode: "PlanetMoney0",
+        episode: this.props.episode._id,
       }),
     })
       .then((json) => {
@@ -112,12 +112,12 @@ class Discussion extends React.Component {
 
   handleDelete = (pin_id) => {
     const url = "http://localhost:5000/pins/deletePin";
-    console.log("piniddddddddd----------", pin_id)
+    console.log("piniddddddddd----------", pin_id);
     fetch(url, {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         id: "5fdaf4e7616a7e5445f0ba59",
@@ -133,30 +133,30 @@ class Discussion extends React.Component {
         console.log("Error: ", err);
       });
 
-    var index = -1
+    var index = -1;
     var array = [...this.state.pins]; // make a separate copy of the array
     for (var i = 0; i < this.state.pins.length; i++) {
       if (this.state.pins[i]["startComp"] === pin_id) {
         // console.log(i)
-        index = i
+        index = i;
         break;
       }
     }
-    
+
     if (index !== -1) {
       array.splice(index, 1);
-      this.setState({pins: array});
+      this.setState({ pins: array });
     }
 
     var arr = [...this.state.pinned];
-    var index2 = arr.indexOf(pin_id)
-    console.log("====index2", index2)
+    var index2 = arr.indexOf(pin_id);
+    console.log("====index2", index2);
     if (index2 !== -1) {
       arr.splice(index2, 1);
-      this.setState({pinned: arr})
+      this.setState({ pinned: arr });
     }
-    console.log(this.state.pinned)
-  }
+    console.log(this.state.pinned);
+  };
 
   handleSelection = (text) => {
     this.setState({
@@ -307,7 +307,7 @@ class Discussion extends React.Component {
     window.addEventListener("resize", this.handleResize);
     // fetch podcast transcript
     const url =
-      "http://localhost:5000/transcript/loadTranscript/planet_money_01";
+      "http://localhost:5000/transcript/loadTranscript/".concat(this.props.episode.transcript)
     fetch(url, {
       method: "GET",
       credentials: "same-origin",
@@ -334,8 +334,8 @@ class Discussion extends React.Component {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: "5fdaf4e7616a7e5445f0ba59",
-        episode: "PlanetMoney0",
+        user_id: this.props.user._id,
+        episode: this.props.episode._id,
       }),
     })
       .then((res) => res.json())
@@ -393,6 +393,8 @@ class Discussion extends React.Component {
   };
 
   render() {
+    // console.log("=====EPISODE===== BEING SET", this.props.episode)
+    // console.log("=====USER===== BEING SET", this.props.user)
     return (
       <Container fluid className="discussion_background listening-back">
         <Row>

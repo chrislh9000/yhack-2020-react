@@ -30,6 +30,7 @@ class App extends React.Component {
       loggedIn: false,
       user: { username: " " },
       url: podcast,
+      episode: {_id: '5ff051084158640e1d924e76', transcript: '5fe345e13ed52c79138e951d'}
     };
   }
 
@@ -50,6 +51,13 @@ class App extends React.Component {
     });
   };
 
+  logout = () => {
+    this.setState({
+      loggedIn: false, user: { username: " " }}, () => {
+        console.log("====LOGGED OUT=====")
+      })
+  }
+
   setCurrTime = () => {
     var pin = this.player.getCurrentTime();
     this.handlePin(pin);
@@ -58,9 +66,10 @@ class App extends React.Component {
   componentDidMount = (e) => {
     ipcRenderer.send('loadCookies', "HEY")
     ipcRenderer.on('userData', (event, arg) => {
-      if(arg.length != 0) {
-        // console.log("======COOKIE DATA=======", JSON.parse(arg[0].value))
+      if(arg && arg.length != 0) {
+        // check login stuff
         let userData = JSON.parse(arg[0].value)
+        console.log("========== user_data ==========", userData)
         this.setState({
           loggedIn: true,
           user: userData
@@ -127,6 +136,19 @@ class App extends React.Component {
     // console.log("we in apps.js", this.state.pinTime)
   };
 
+/*
+Update Episode is passed into the About component. When you click listen for a specific episode,
+it updates episode-specific state elements passed into the discussion component
+*/
+
+  updateDiscussionEpisode = (episode) => {
+    // needs episode name and then the "fake id" (i think its denoted podcast)
+    console.log("====YO DIS GETS CALLED BRO")
+    this.setState({
+      episode: episode
+    })
+  }
+
   render() {
     return (
       <Router>
@@ -179,6 +201,7 @@ class App extends React.Component {
                 pinTime={this.state.pinTime}
                 handlePin={this.handlePin}
                 user={this.state.user}
+                updateDiscussionEpisode = {this.updateDiscussionEpisode}
               />
             </Route>
 
@@ -193,18 +216,19 @@ class App extends React.Component {
                 playpause={this.state.playpause}
                 setCurrTime={this.setCurrTime}
                 user={this.state.user}
+                episode={this.state.episode}
               />
             </Route>
 
             <Route path="/register">
-              <Register />
+              <Register user={this.state.user} logout={this.logout} />
             </Route>
 
             <Route path="/login">
               {this.state.loggedIn ? (
                 <Redirect to="/" />
               ) : (
-                <Login login={this.login} />
+                <Login user={this.props.user} login={this.login} />
               )}
             </Route>
 
@@ -227,6 +251,7 @@ class App extends React.Component {
                 playpause={this.state.playpause}
                 setCurrTime={this.setCurrTime}
                 user={this.state.user}
+                episode={this.state.episode}
               />
               {/* <About
             pinTime={this.state.pinTime}

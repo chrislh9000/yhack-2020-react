@@ -47,30 +47,17 @@ class Login extends React.Component {
         if (json.success) {
           this.props.login(json.user);
           console.log("SUCCESSful login", json.user);
+          let userObj = json.user;
+          userObj['password'] = this.state.password
           // create a cookie
-          console.log("SENDING IPC INPUT=====");
-          ipcRenderer.send("createCookie", json.user);
-
-          // session.defaultSession.cookies.get({ url: 'http://www.github.com' })
-          // .then((cookies) => {
-          // // if there is a matching cookie then chill
-          //   console.log(cookies)
-          // }).catch((error) => {
-          //   console.log(error)
-          // })
-
-          // const cookie = { url: 'http://localhost:5000/cookies', name: "test" , value: "test2"}
-          // electron.session.defaultSession.cookies.set(cookie)
-          // .then(() => {
-          //   console.log("==== I MADE A COOKIE=======", cookie)
-          // }, (error) => {
-          //   console.error(error)
-          // })
+          // ipcRenderer.send("clearCookies", "")
+          ipcRenderer.send("createCookie", userObj);
         } else {
           console.log("error: invalid login info", json.err);
         }
       })
       .catch((err) => {
+        console.log("====== ERROR LOGGING IN======")
         console.log("Error: ", err);
       });
   };

@@ -15,8 +15,6 @@ router.post("/createPodcast", (req, res) => {
     author: req.body.author,
     about: req.body.about,
     imageUrl: req.body.imageUrl,
-    episode: req.body.episode,
-    pinDate: new Date(),
   });
   // save to database
   newPodcast
@@ -43,7 +41,7 @@ router.post("/createEpisode", (req, res) => {
     podcastId = resp._id;
     console.log(resp);
     console.log(podcastId);
-    GcloudResponse.findOne({ id: req.body.transcript }).then((resp2) => {
+    GcloudResponse.findOne({ _id: req.body.transcript }).then((resp2) => {
       transcript = resp2._id;
       const newEpisode = new Episode({
         title: req.body.title,
@@ -53,7 +51,9 @@ router.post("/createEpisode", (req, res) => {
         episode_number: req.body.episode_number,
         date: new Date(),
         summary: req.body.summary,
+        duration: req.body.duration,
       });
+      console.log(transcript);
       // save to database
       newEpisode
         .save()
@@ -72,7 +72,8 @@ router.post("/createEpisode", (req, res) => {
 
 router.post("/addUserEpisode", (req, res) => {
   const newUserEpisode = new UserEpisode({
-    episode: req.body.episode,
+    episode: req.body.episodeId,
+    progress: req.body.progress,
   });
   // save to database
   newUserEpisode
@@ -105,10 +106,37 @@ router.get("/loadUserEpisodes/:userid", (req, res) => {
       UserEpisode.find({ _id: { $in: resp.episodes } })
         .then((resp2) => {
           console.log(resp2);
-          res.status(200).json({
-            success: true,
-            message: resp2,
-          });
+          console.log(resp2.length);
+          let episodes = [];
+          let podcasts = [];
+          let progresses = [];
+
+          for (let i = 0; i < resp2.length; i++) {
+            episodes.push(resp2[i].episode);
+            progresses.push(resp2[i].progress);
+          }
+          console.log(episodes);
+          Episode.find({ _id: { $in: episodes } })
+            .then((resp3) => {
+              for (let i = 0; i < resp3.length; i++) {
+                podcasts.push(resp3[i].podcast);
+              }
+              Podcast.find({ _id: { $in: podcasts } })
+                .then((resp4) => {
+                  res.status(200).json({
+                    success: true,
+                    episodes: resp3,
+                    podcasts: resp4,
+                    progresses: progresses,
+                  });
+                })
+                .catch((err) => {
+                  res.status(500).json(err);
+                });
+            })
+            .catch((err) => {
+              res.status(500).json(err);
+            });
         })
         .catch((err) => {
           res.status(500).json(err);
