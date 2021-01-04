@@ -41,6 +41,11 @@ class Discussion extends React.Component {
     console.log(JSON.parse(hi));
     // console.log(JSON.parse(localStorage.getItem("test")));
     // console.log(hi);
+
+    ipcRenderer.on("pinFromWindow", (event, arg) => {
+      console.log("recieved")
+      this.makePin();
+    });
   }
 
   renderPin = (start_time, end_time, selectedComps, text, date, note) => {
@@ -308,6 +313,7 @@ class Discussion extends React.Component {
   };
 
   componentDidMount = (e) => {
+    console.log("elo")
     if (localStorage.getItem("listen.stored") === "true") {
       this.setState({
         pins: JSON.parse(localStorage.getItem("listen.pins")),
@@ -397,9 +403,10 @@ class Discussion extends React.Component {
           console.log("Error: ", err);
         });
       this.interval = setInterval(() => this.props.setCurrTime(), 1000);
-      ipcRenderer.on("pinFromWindow", (event, arg) => {
-        this.makePin();
-      });
+      // ipcRenderer.on("pinFromWindow", (event, arg) => {
+      //   console.log("recieved")
+      //   this.makePin();
+      // });
     }
   };
 
@@ -455,6 +462,8 @@ class Discussion extends React.Component {
 
     // localStorage.setItem("test", { hello: 3, sup: 2, hi: 1 });
     console.log("yoyo");
+
+    ipcRenderer.removeAllListeners(['pinFromWindow']);
   };
 
   render() {
