@@ -317,91 +317,8 @@ componentDidMount = (e) => {
       console.log("========== user_data ==========", userData)
       this.props.login(userData)
     }
-    this.initHeightPos();
-    window.addEventListener("resize", this.handleResize);
-    // fetch podcast transcript
-    const url =
-    "http://localhost:5000/transcript/loadTranscript/".concat(this.props.episode.transcript)
-    fetch(url, {
-      method: "GET",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-    .then((res) => res.json())
-    .then((json) => {
-      console.log("=======GOT TRANSCRIPT JSON=======", json.message);
-      this.setState({
-        cc_comps: json.message,
-      });
-      this.initHeightPos();
-    })
-    .catch((err) => {
-      console.log("Error: ", err);
-    });
-    // fetch previous pins
-    fetch("http://localhost:5000/pins/renderPins", {
-      method: "POST",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user_id: this.props.user._id,
-        episode: this.props.episode._id,
-      }),
-    })
-    .then((res) => res.json())
-    .then((json) => {
-      console.log("YOOOOOOOOOOOOOOO", json.id);
-      //set highlights
-      let highlightedPins = new Set();
-      console.log("=======GOT JSON=======", json.message);
-      for (let i = 0; i < json.message.length; i++) {
-        // load the cc_id and set this.state.highlighted
-        highlightedPins.add(json.message[i]["ccId"]);
-        this.renderPin(
-          json.message[i]["startTime"]["$numberDecimal"],
-          json.message[i]["endTime"]["$numberDecimal"],
-          [json.message[i]["ccId"]],
-          json.message[i]["text"],
-          json.message[i]["pinDate"],
-          json.message[i]["note"]
-        );
-      }
-      console.log("=====HUH===== LOOP");
-      // highlight components
-      this.setState({
-        highlighted: highlightedPins,
-      });
-      console.log(
-        "=======HIGHLIGHTS AFTER LOAD=======",
-        this.state.highlighted
-      );
-      console.log("=======PINNED AFTER LOAD=======", this.state.pinned);
-      console.log("=======PINS AFTER LOAD=======", this.state.pins);
-    })
-    .catch((err) => {
-      console.log("Error: ", err);
-    });
-    this.interval = setInterval(() => this.props.setCurrTime(), 1000);
-    ipcRenderer.on("pinFromWindow", (event, arg) => {
-      this.makePin()
-    });
-  })
-};
-
-
-componentDidUpdate = (e) => {
-  // console.log(this.state.mainComp);
-  if (this.state.cc_comps) {
-    if (this.state.mainComp < this.state.cc_comps.length - 1) {
-      this.handleScroll();
-    }
     this.setState({ cc_load: true });
   };
-}
 
   componentDidMount = (e) => {
     if (localStorage.getItem("listen.stored") === "true") {
@@ -498,6 +415,7 @@ componentDidUpdate = (e) => {
       });
     }
   };
+}
 
   componentDidUpdate = (e) => {
     // console.log(this.state.mainComp);
