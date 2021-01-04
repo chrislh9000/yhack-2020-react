@@ -36,6 +36,11 @@ class Discussion extends React.Component {
       pinned: [], // list of pinned cc_comp IDs
       highlighted: new Set(),
     };
+    const hi = localStorage.getItem("listen.windowWidth");
+    console.log(hi);
+    console.log(JSON.parse(hi));
+    // console.log(JSON.parse(localStorage.getItem("test")));
+    // console.log(hi);
   }
 
   renderPin = (start_time, end_time, selectedComps, text, date, note) => {
@@ -303,83 +308,105 @@ class Discussion extends React.Component {
   };
 
   componentDidMount = (e) => {
-    this.initHeightPos();
-    window.addEventListener("resize", this.handleResize);
-    // fetch podcast transcript
-    const url =
-      "http://localhost:5000/transcript/loadTranscript/".concat(this.props.episode.transcript)
-    fetch(url, {
-      method: "GET",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        console.log("=======GOT TRANSCRIPT JSON=======", json.message);
-        this.setState({
-          cc_comps: json.message,
-        });
-        this.initHeightPos();
-      })
-      .catch((err) => {
-        console.log("Error: ", err);
+    if (localStorage.getItem("listen.stored") === "true") {
+      this.setState({
+        pins: JSON.parse(localStorage.getItem("listen.pins")),
+        mainComp: JSON.parse(localStorage.getItem("listen.mainComp")),
+        windowWidth: JSON.parse(localStorage.getItem("listen.windowWidth")),
+        windowHeight: JSON.parse(localStorage.getItem("listen.windowheight")),
+        cc_comps: JSON.parse(localStorage.getItem("listen.cc_comps")),
+        cc_load: JSON.parse(localStorage.getItem("listen.cc_load")),
+        currPos: JSON.parse(localStorage.getItem("listen.currPos")),
+        selectedElements: JSON.parse(
+          localStorage.getItem("listen.selectedElements")
+        ),
+        showComponent: JSON.parse(localStorage.getItem("listen.showComponent")),
+        cursorPos: JSON.parse(localStorage.getItem("listen.cursorPos")),
+        currTime: JSON.parse(localStorage.getItem("listen.currTime")),
+        pinned: JSON.parse(localStorage.getItem("listen.pinned")),
+        // highlighted: JSON.parse(localStorage.getItem("listen.highlighted")),
       });
-    // fetch previous pins
-    fetch("http://localhost:5000/pins/renderPins", {
-      method: "POST",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user_id: this.props.user._id,
-        episode: this.props.episode._id,
-      }),
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        console.log("YOOOOOOOOOOOOOOO", json.id);
-        //set highlights
-        let highlightedPins = new Set();
-        console.log("=======GOT JSON=======", json.message);
-        for (let i = 0; i < json.message.length; i++) {
-          // load the cc_id and set this.state.highlighted
-          highlightedPins.add(json.message[i]["ccId"]);
-          this.renderPin(
-            json.message[i]["startTime"]["$numberDecimal"],
-            json.message[i]["endTime"]["$numberDecimal"],
-            [json.message[i]["ccId"]],
-            json.message[i]["text"],
-            json.message[i]["pinDate"],
-            json.message[i]["note"]
+    } else {
+      console.log("fuckaudslfkuadlfukaldsufklas");
+      window.addEventListener("resize", this.handleResize);
+      // fetch podcast transcript
+      const url = "http://localhost:5000/transcript/loadTranscript/".concat(
+        this.props.episode.transcript
+      );
+      fetch(url, {
+        method: "GET",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((json) => {
+          console.log("=======GOT TRANSCRIPT JSON=======", json.message);
+          this.setState({
+            cc_comps: json.message,
+          });
+          this.initHeightPos();
+        })
+        .catch((err) => {
+          console.log("Error: ", err);
+        });
+      // fetch previous pins
+      fetch("http://localhost:5000/pins/renderPins", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: this.props.user._id,
+          episode: this.props.episode._id,
+        }),
+      })
+        .then((res) => res.json())
+        .then((json) => {
+          console.log("YOOOOOOOOOOOOOOO", json.id);
+          //set highlights
+          let highlightedPins = new Set();
+          console.log("=======GOT JSON=======", json.message);
+          for (let i = 0; i < json.message.length; i++) {
+            // load the cc_id and set this.state.highlighted
+            highlightedPins.add(json.message[i]["ccId"]);
+            this.renderPin(
+              json.message[i]["startTime"]["$numberDecimal"],
+              json.message[i]["endTime"]["$numberDecimal"],
+              [json.message[i]["ccId"]],
+              json.message[i]["text"],
+              json.message[i]["pinDate"],
+              json.message[i]["note"]
+            );
+          }
+          console.log("=====HUH===== LOOP");
+          // highlight components
+          this.setState({
+            highlighted: highlightedPins,
+          });
+          console.log(
+            "=======HIGHLIGHTS AFTER LOAD=======",
+            this.state.highlighted
           );
-        }
-        console.log("=====HUH===== LOOP");
-        // highlight components
-        this.setState({
-          highlighted: highlightedPins,
+          console.log("=======PINNED AFTER LOAD=======", this.state.pinned);
+          console.log("=======PINS AFTER LOAD=======", this.state.pins);
+        })
+        .catch((err) => {
+          console.log("Error: ", err);
         });
-        console.log(
-          "=======HIGHLIGHTS AFTER LOAD=======",
-          this.state.highlighted
-        );
-        console.log("=======PINNED AFTER LOAD=======", this.state.pinned);
-        console.log("=======PINS AFTER LOAD=======", this.state.pins);
-      })
-      .catch((err) => {
-        console.log("Error: ", err);
+      this.interval = setInterval(() => this.props.setCurrTime(), 1000);
+      ipcRenderer.on("pinFromWindow", (event, arg) => {
+        this.makePin();
       });
-    this.interval = setInterval(() => this.props.setCurrTime(), 1000);
-    ipcRenderer.on("pinFromWindow", (event, arg) => {
-      this.makePin()
-    });
+    }
   };
-
 
   componentDidUpdate = (e) => {
     // console.log(this.state.mainComp);
+
+    console.log(this.props.user_id);
     if (this.state.cc_comps) {
       if (this.state.mainComp < this.state.cc_comps.length - 1) {
         this.handleScroll();
@@ -390,6 +417,44 @@ class Discussion extends React.Component {
   componentWillUnmount = (e) => {
     window.addEventListener("resize", this.handleResize);
     clearInterval(this.interval);
+
+    const {
+      pins,
+      mainComp,
+      windowWidth,
+      windowHeight,
+      cc_comps,
+      cc_load,
+      currPos,
+      selectedElements,
+      showComponent,
+      cursorPos,
+      currTime,
+      pinned,
+      highlighted,
+    } = this.state;
+    const { stored } = true;
+    localStorage.setItem("listen.pins", JSON.stringify(pins));
+    localStorage.setItem("listen.mainComp", mainComp);
+    localStorage.setItem("listen.windowWidth", windowWidth);
+    localStorage.setItem("listen.windowHeight", windowHeight);
+
+    localStorage.setItem("listen.cc_comps", JSON.stringify(cc_comps));
+    localStorage.setItem("listen.cc_load", cc_load);
+    localStorage.setItem("listen.currPos", currPos);
+    localStorage.setItem(
+      "listen.selectedElements",
+      JSON.stringify(selectedElements)
+    );
+    localStorage.setItem("listen.showComponent", showComponent);
+    localStorage.setItem("listen.cursorPos", cursorPos);
+    localStorage.setItem("listen.currTime", currTime);
+    localStorage.setItem("listen.pinned", JSON.stringify(pinned));
+    localStorage.setItem("listen.highlighted", JSON.stringify(highlighted));
+    localStorage.setItem("listen.stored", Boolean(1 > 0));
+
+    // localStorage.setItem("test", { hello: 3, sup: 2, hi: 1 });
+    console.log("yoyo");
   };
 
   render() {
