@@ -85,12 +85,12 @@ class Discussion extends React.Component {
         episode: this.props.episode._id,
       }),
     })
-      .then((json) => {
-        console.log("hi");
-      })
-      .catch((err) => {
-        console.log("Error: ", err);
-      });
+    .then((json) => {
+      console.log("hi");
+    })
+    .catch((err) => {
+      console.log("Error: ", err);
+    });
     this.markPins();
     this.disableSelection();
   };
@@ -105,199 +105,212 @@ class Discussion extends React.Component {
     let key = this.state.pins.length - 1;
     this.setState((prevState) => ({
       pins: prevState.pins.map((el, i) =>
-        i === key ? { ...el, note: note } : el
-      ),
-    }));
-  };
+      i === key ? { ...el, note: note } : el
+    ),
+  }));
+};
 
-  handleDelete = (pin_id) => {
-    const url = "http://localhost:5000/pins/deletePin";
-    console.log("piniddddddddd----------", pin_id);
-    fetch(url, {
-      method: "POST",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: "5fdaf4e7616a7e5445f0ba59",
-        ccId: pin_id,
-        episode: "PlanetMoney0",
-      }),
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        console.log("hi", json);
-      })
-      .catch((err) => {
-        console.log("Error: ", err);
-      });
+handleDelete = (pin_id) => {
+  const url = "http://localhost:5000/pins/deletePin";
+  console.log("piniddddddddd----------", pin_id);
+  fetch(url, {
+    method: "POST",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: "5fdaf4e7616a7e5445f0ba59",
+      ccId: pin_id,
+      episode: "PlanetMoney0",
+    }),
+  })
+  .then((res) => res.json())
+  .then((json) => {
+    console.log("hi", json);
+  })
+  .catch((err) => {
+    console.log("Error: ", err);
+  });
 
-    var index = -1;
-    var array = [...this.state.pins]; // make a separate copy of the array
-    for (var i = 0; i < this.state.pins.length; i++) {
-      if (this.state.pins[i]["startComp"] === pin_id) {
-        // console.log(i)
-        index = i;
-        break;
-      }
+  var index = -1;
+  var array = [...this.state.pins]; // make a separate copy of the array
+  for (var i = 0; i < this.state.pins.length; i++) {
+    if (this.state.pins[i]["startComp"] === pin_id) {
+      // console.log(i)
+      index = i;
+      break;
     }
+  }
 
-    if (index !== -1) {
-      array.splice(index, 1);
-      this.setState({ pins: array });
-    }
+  if (index !== -1) {
+    array.splice(index, 1);
+    this.setState({ pins: array });
+  }
 
-    var arr = [...this.state.pinned];
-    var index2 = arr.indexOf(pin_id);
-    console.log("====index2", index2);
-    if (index2 !== -1) {
-      arr.splice(index2, 1);
-      this.setState({ pinned: arr });
-    }
-    console.log(this.state.pinned);
-  };
+  var arr = [...this.state.pinned];
+  var index2 = arr.indexOf(pin_id);
+  console.log("====index2", index2);
+  if (index2 !== -1) {
+    arr.splice(index2, 1);
+    this.setState({ pinned: arr });
+  }
+  console.log(this.state.pinned);
+};
 
-  handleSelection = (text) => {
-    this.setState({
-      selectedElements: text,
-    });
-  };
+handleSelection = (text) => {
+  this.setState({
+    selectedElements: text,
+  });
+};
 
-  makePin = () => {
-    this.setState({ selectedElements: [this.state.mainComp] }, () => {
-      this.makeHighlight();
-    });
-  };
+makePin = () => {
+  this.setState({ selectedElements: [this.state.mainComp] }, () => {
+    this.makeHighlight();
+  });
+};
 
-  clearSelections = () => {
-    this.setState({
-      selectedElements: [],
-    });
-  };
+clearSelections = () => {
+  this.setState({
+    selectedElements: [],
+  });
+};
 
-  saveSelection = () => {
-    this.setState({
-      showComponent: true,
-    });
-  };
+saveSelection = () => {
+  this.setState({
+    showComponent: true,
+  });
+};
 
-  disableSelection = () => {
-    this.setState({
-      showComponent: false,
-    });
-    this.clearSelections();
-  };
+disableSelection = () => {
+  this.setState({
+    showComponent: false,
+  });
+  this.clearSelections();
+};
 
-  handleResize = (e) => {
-    this.setState({
-      windowWidth: window.innerWidth,
-      windowHeight: window.innerHeight,
-    });
-  };
+handleResize = (e) => {
+  this.setState({
+    windowWidth: window.innerWidth,
+    windowHeight: window.innerHeight,
+  });
+};
 
-  handleMainComp = (comp_id) => {
-    let timeStamp = this.state.cc_comps[comp_id]["startTime"];
-    this.props.handlePin(timeStamp);
-    this.setState({
-      currTime: this.state.cc_comps[comp_id]["startTime"],
-    });
-    // this.setState({
-    //   mainComp: comp_id
-    // })
-    // this.handleScroll()
-  };
+handleMainComp = (comp_id) => {
+  let timeStamp = this.state.cc_comps[comp_id]["startTime"];
+  this.props.handlePin(timeStamp);
+  this.setState({
+    currTime: this.state.cc_comps[comp_id]["startTime"],
+  });
+  // this.setState({
+  //   mainComp: comp_id
+  // })
+  // this.handleScroll()
+};
 
-  handleScroll = (e) => {
-    if (this.state.mainComp >= this.state.cc_comps.length - 1) {
-      if (
-        this.props.pinTime <
-          this.state.cc_comps[this.state.mainComp]["startTime"] &&
-        this.props.pinTime >= this.state.cc_comps[0]["startTime"]
-      ) {
-        // shift the heights
-        let shiftHeight =
-          this.state.cc_comps[this.state.mainComp]["height"] / 2 +
-          this.state.cc_comps[this.state.mainComp + 1]["height"] / 2; //height that everything needs to be shifted height
-        animateScroll.scrollTo(this.state.currPos - shiftHeight, {
-          containerId: "midcol",
-        });
-        this.setState({ currPos: this.state.currPos - shiftHeight });
-        // reset the mainComp
-        this.setState({
-          mainComp: this.state.mainComp - 1,
-        });
-      } else {
-        this.setState({
-          mainComp: this.state.mainComp,
-        });
-      }
-    } else if (
-      this.state.cc_comps[this.state.mainComp]["height"] &&
-      this.state.cc_comps[this.state.mainComp + 1]["height"]
+handleScroll = (e) => {
+  if (this.state.mainComp >= this.state.cc_comps.length - 1) {
+    if (
+      this.props.pinTime <
+      this.state.cc_comps[this.state.mainComp]["startTime"] &&
+      this.props.pinTime >= this.state.cc_comps[0]["startTime"]
     ) {
-      // check audio startTime against the interval of podcasts
-      // if audiostamp >= cc_comp startTime i+1
-
-      if (
-        this.props.pinTime >=
-        this.state.cc_comps[this.state.mainComp + 1]["startTime"]
-      ) {
-        console.log("iff");
-        // shift the heights
-        let shiftHeight =
-          this.state.cc_comps[this.state.mainComp]["height"] / 2 +
-          this.state.cc_comps[this.state.mainComp + 1]["height"] / 2; //height that everything needs to be shifted height
-        animateScroll.scrollTo(this.state.currPos + shiftHeight, {
-          containerId: "midcol",
-        });
-        console.log("=============shiftheight======", shiftHeight);
-        this.setState({ currPos: this.state.currPos + shiftHeight });
-        // reset the mainComp
-        this.setState({
-          mainComp: this.state.mainComp + 1,
-        });
-      } else if (
-        this.props.pinTime <
-          this.state.cc_comps[this.state.mainComp]["startTime"] &&
-        this.props.pinTime >= this.state.cc_comps[0]["startTime"]
-      ) {
-        console.log("else iff");
-        // shift the heights
-        let shiftHeight =
-          this.state.cc_comps[this.state.mainComp]["height"] / 2 +
-          this.state.cc_comps[this.state.mainComp + 1]["height"] / 2; //height that everything needs to be shifted height
-        animateScroll.scrollTo(this.state.currPos - shiftHeight, {
-          containerId: "midcol",
-        });
-        console.log("=============shiftheight======", shiftHeight);
-        this.setState({ currPos: this.state.currPos - shiftHeight });
-        // reset the mainComp
-        this.setState({
-          mainComp: this.state.mainComp - 1,
-        });
-        // reposition the mainComp cc_component to the middle
-      }
-      // change height for other comps accordingly
+      // shift the heights
+      let shiftHeight =
+      this.state.cc_comps[this.state.mainComp]["height"] / 2 +
+      this.state.cc_comps[this.state.mainComp + 1]["height"] / 2; //height that everything needs to be shifted height
+      animateScroll.scrollTo(this.state.currPos - shiftHeight, {
+        containerId: "midcol",
+      });
+      this.setState({ currPos: this.state.currPos - shiftHeight });
+      // reset the mainComp
+      this.setState({
+        mainComp: this.state.mainComp - 1,
+      });
+    } else {
+      this.setState({
+        mainComp: this.state.mainComp,
+      });
     }
-  };
+  } else if (
+    this.state.cc_comps[this.state.mainComp]["height"] &&
+    this.state.cc_comps[this.state.mainComp + 1]["height"]
+  ) {
+    // check audio startTime against the interval of podcasts
+    // if audiostamp >= cc_comp startTime i+1
 
-  initHeightPos = (e) => {
-    for (var i = 0; i < this.state.cc_comps.length; i++) {
-      var str = "caption".concat(String(i));
-      let { clientHeight, clientWidth } = this.refs[str];
-      // === feed client height into the cc_comps objects
-      this.state.cc_comps[i]["height"] = clientHeight;
+    if (
+      this.props.pinTime >=
+      this.state.cc_comps[this.state.mainComp + 1]["startTime"]
+    ) {
+      console.log("iff");
+      // shift the heights
+      let shiftHeight =
+      this.state.cc_comps[this.state.mainComp]["height"] / 2 +
+      this.state.cc_comps[this.state.mainComp + 1]["height"] / 2; //height that everything needs to be shifted height
+      animateScroll.scrollTo(this.state.currPos + shiftHeight, {
+        containerId: "midcol",
+      });
+      console.log("=============shiftheight======", shiftHeight);
+      this.setState({ currPos: this.state.currPos + shiftHeight });
+      // reset the mainComp
+      this.setState({
+        mainComp: this.state.mainComp + 1,
+      });
+    } else if (
+      this.props.pinTime <
+      this.state.cc_comps[this.state.mainComp]["startTime"] &&
+      this.props.pinTime >= this.state.cc_comps[0]["startTime"]
+    ) {
+      console.log("else iff");
+      // shift the heights
+      let shiftHeight =
+      this.state.cc_comps[this.state.mainComp]["height"] / 2 +
+      this.state.cc_comps[this.state.mainComp + 1]["height"] / 2; //height that everything needs to be shifted height
+      animateScroll.scrollTo(this.state.currPos - shiftHeight, {
+        containerId: "midcol",
+      });
+      console.log("=============shiftheight======", shiftHeight);
+      this.setState({ currPos: this.state.currPos - shiftHeight });
+      // reset the mainComp
+      this.setState({
+        mainComp: this.state.mainComp - 1,
+      });
+      // reposition the mainComp cc_component to the middle
+    }
+    // change height for other comps accordingly
+  }
+};
 
-      if (i === 0) {
-        this.state.cc_comps[i]["y"] = this.state.windowHeight / 2;
-        // console.log("======Y POS=======", this.state.cc_comps[i]['y']);
-      } else {
-        this.state.cc_comps[i]["y"] =
-          this.state.cc_comps[i - 1]["y"] +
-          this.state.cc_comps[i - 1]["height"];
-        // console.log("======Y POS=======", this.state.cc_comps[i]['y']);
-      }
+initHeightPos = (e) => {
+  for (var i = 0; i < this.state.cc_comps.length; i++) {
+    var str = "caption".concat(String(i));
+    console.log("STRINGS=========", str)
+    let { clientHeight, clientWidth } = this.refs[str];
+    // === feed client height into the cc_comps objects
+    this.state.cc_comps[i]["height"] = clientHeight;
+
+    if (i === 0) {
+      this.state.cc_comps[i]["y"] = this.state.windowHeight / 2;
+      // console.log("======Y POS=======", this.state.cc_comps[i]['y']);
+    } else {
+      this.state.cc_comps[i]["y"] =
+      this.state.cc_comps[i - 1]["y"] +
+      this.state.cc_comps[i - 1]["height"];
+      // console.log("======Y POS=======", this.state.cc_comps[i]['y']);
+    }
+  }
+  this.setState({ cc_load: true });
+};
+
+componentDidMount = (e) => {
+  ipcRenderer.send('loadCookies', "HEY")
+  ipcRenderer.on('userData', (event, arg) => {
+    if(arg && arg.length != 0) {
+      // check login stuff
+      let userData = JSON.parse(arg[0].value)
+      console.log("========== user_data ==========", userData)
+      this.props.login(userData)
     }
     this.setState({ cc_load: true });
   };
@@ -402,6 +415,7 @@ class Discussion extends React.Component {
       this.interval = setInterval(() => this.props.setCurrTime(), 1000);
     }
   };
+}
 
   componentDidUpdate = (e) => {
     console.log("=========highlighted==========", this.state.highlighted);
@@ -548,6 +562,127 @@ class Discussion extends React.Component {
       </Container>
     );
   }
+};
+
+componentWillUnmount = (e) => {
+  window.addEventListener("resize", this.handleResize);
+  clearInterval(this.interval);
+};
+
+render() {
+  console.log("=====EPISODE===== BEING SET", this.props.episode)
+  console.log("=====USER===== BEING SET", this.props.user)
+  return (
+    <Container fluid className="discussion_background listening-back">
+    <Row>
+    <Sidebar
+    handlePlayorpause={this.props.handlePlayorpause}
+    fastRewind={this.props.fastRewind}
+    fastForward={this.props.fastForward}
+    seekToTime={this.props.seekToTime}
+    handlePin={this.props.handlePin}
+    pinTime={this.props.pinTime}
+    playpause={this.props.playpause}
+    user={this.props.user}
+    />
+    <Col xs={7} className="pr-0 pl-0">
+    <ReactCursorPosition
+    style={{ display: "flex", flexDirection: "row" }}
+    >
+    <Col
+    id="midcol"
+    className="middle pr-1 pl-2"
+    xs={7}
+    style={{ display: "flex", flexDirection: "column" }}
+    >
+    {/* <Col> */}
+    <SelectableGroup
+    className="selectGroup"
+    onSelection={this.handleSelection}
+    onEndSelection={this.saveSelection}
+    >
+    {this.state.cc_comps.map((comp, i) => {
+      let selected = this.state.selectedElements.indexOf(i) > -1;
+      let pinned = this.state.pinned.indexOf(i) > -1;
+      let highlighted = this.state.highlighted.has(i);
+      return (
+        <div
+        className={
+          this.state.mainComp === i
+          ? "cctext-highlighted"
+          : "cctext"
+        }
+        style={{
+          width: "100%",
+          position: "absolute",
+          top: comp["y"],
+        }}
+        ref={"caption".concat(String(comp.id))}
+        key={comp.id}
+        >
+        <SelectableComponent
+        handleMainComp={this.handleMainComp}
+        ccID={comp.id}
+        key={i}
+        selected={selected}
+        selectableKey={comp.id}
+        ccText={comp.text}
+        seekToTime={this.props.seekToTime}
+        time={comp.startTime}
+        pins={pinned}
+        highlighted={highlighted}
+        handleDelete={this.handleDelete}
+        />
+        </div>
+      );
+    })}
+    </SelectableGroup>
+    {/* </Col> */}
+    </Col>
+
+    <Col
+    xs={5}
+    style={{
+      paddingLeft: "0px",
+      paddingRight: "0px",
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+    }}
+    >
+    <Container
+    style={{ display: "flex", flexDirection: "column" }}
+    ></Container>
+    <PinButton makePin={this.makePin} />
+    </Col>
+    {this.state.showComponent ? (
+      <HighlightMenu
+      makeHighlight={this.makeHighlight}
+      disableHighlight={this.disableSelection}
+      style={{ height: "100%", width: "100%" }}
+      />
+    ) : null}
+    </ReactCursorPosition>
+    </Col>
+
+    <Col
+    id="far_right"
+    xs={3}
+    className="farRight"
+    style={{
+      justifyContent: "space-between",
+      display: "flex",
+      flexDirection: "column",
+      backgroundColor: "#5C719B",
+    }}
+    >
+    <Comments editPin={this.editPin} pins={this.state.pins} />
+    </Col>
+    </Row>
+    </Container>
+  );
+}
 }
 
 export default Discussion;
