@@ -135,7 +135,7 @@ export default class Example extends React.PureComponent {
 
           <Col className="pr-0 pl-0 mt-5 ml-5 mr-5 home-column">
             <FilterBar />
-            {this.state.episodes.length > 0 && this.state.pins.length > 1
+            {this.state.episodes.length > 0 && this.state.pins.length > 0
               ? this.state.episodes.map((item, id) => (
                   <div
                     className="mb-5"
