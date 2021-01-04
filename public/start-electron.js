@@ -4,7 +4,7 @@ const electron = require("electron"),
 session = electron.session;
 ipcMain = electron.ipcMain;
 
-const { webContents } = require("electron");
+const { webContents, Menu, Tray } = require("electron");
 const path = require("path"),
   isDev = require("electron-is-dev");
 
@@ -42,7 +42,7 @@ const createPopup = () => {
       y: 0,
       titleBarStyle: "hide",
       transparent: true,
-      frame: true,
+      frame: false,
       resizable: false,
       webPreferences: {
         nodeIntegration: true,
@@ -133,3 +133,17 @@ ipcMain.on("clearCookies", (event, arg) => {
     }
   );
 });
+
+// const createTray = () => {
+//   tray = new Tray( .join(assetsDirectory, 'sunTemplate.png'))
+//   tray.on('right-click', toggleWindow)
+//   tray.on('double-click', toggleWindow)
+//   tray.on('click', function (event) {
+//     toggleWindow()
+
+//     // Show devtools when command clicked
+//     if (window.isVisible() && process.defaultApp && event.metaKey) {
+//       window.openDevTools({mode: 'detach'})
+//     }
+//   })
+// }

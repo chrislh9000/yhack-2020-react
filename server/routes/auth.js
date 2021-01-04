@@ -23,8 +23,10 @@ module.exports = (passport) => {
       User.find({ username: req.body.username })
         .then((users) => {
           console.log("=====USERS SEARCHING FOR USERNAME ATM=====", users)
-          if (users) {
+          if (users.length > 0) {
             // if users are found return an error
+
+            console.log("we in hereeeeee")
             res.status(200).json({
               success: false,
               message: "this username has already been taken, try another one",
