@@ -36,11 +36,6 @@ class Discussion extends React.Component {
       pinned: [], // list of pinned cc_comp IDs
       highlighted: new Set(),
     };
-    const hi = localStorage.getItem("listen.windowWidth");
-    console.log(hi);
-    console.log(JSON.parse(hi));
-    // console.log(JSON.parse(localStorage.getItem("test")));
-    // console.log(hi);
   }
 
   renderPin = (start_time, end_time, selectedComps, text, date, note) => {
@@ -308,26 +303,34 @@ class Discussion extends React.Component {
   };
 
   componentDidMount = (e) => {
-    if (localStorage.getItem("listen.stored") === "true") {
+    if (localStorage.getItem(this.props.episode._id.concat(".listen"))) {
+      window.addEventListener("resize", this.handleResize);
+      ipcRenderer.on("pinFromWindow", (event, arg) => {
+        this.makePin();
+      });
+
+      const stateObj = JSON.parse(
+        localStorage.getItem(this.props.episode._id.concat(".listen"))
+      );
+      const high = JSON.parse(stateObj.highlighted);
+      const hset = new Set(high);
+
       this.setState({
-        pins: JSON.parse(localStorage.getItem("listen.pins")),
-        mainComp: JSON.parse(localStorage.getItem("listen.mainComp")),
-        windowWidth: JSON.parse(localStorage.getItem("listen.windowWidth")),
-        windowHeight: JSON.parse(localStorage.getItem("listen.windowheight")),
-        cc_comps: JSON.parse(localStorage.getItem("listen.cc_comps")),
-        cc_load: JSON.parse(localStorage.getItem("listen.cc_load")),
-        currPos: JSON.parse(localStorage.getItem("listen.currPos")),
-        selectedElements: JSON.parse(
-          localStorage.getItem("listen.selectedElements")
-        ),
-        showComponent: JSON.parse(localStorage.getItem("listen.showComponent")),
-        cursorPos: JSON.parse(localStorage.getItem("listen.cursorPos")),
-        currTime: JSON.parse(localStorage.getItem("listen.currTime")),
-        pinned: JSON.parse(localStorage.getItem("listen.pinned")),
-        // highlighted: JSON.parse(localStorage.getItem("listen.highlighted")),
+        pins: JSON.parse(stateObj.pins),
+        mainComp: JSON.parse(stateObj.mainComp),
+        windowWidth: JSON.parse(stateObj.windowWidth),
+        windowHeight: JSON.parse(stateObj.windowHeight),
+        cc_comps: JSON.parse(stateObj.cc_comps),
+        cc_load: JSON.parse(stateObj.cc_load),
+        currPos: JSON.parse(stateObj.currPos),
+        selectedElements: JSON.parse(stateObj.selectedElements),
+        showComponent: JSON.parse(stateObj.showComponent),
+        cursorPos: JSON.parse(stateObj.cursorPos),
+        currTime: JSON.parse(stateObj.currTime),
+        pinned: JSON.parse(stateObj.pinned),
+        highlighted: hset,
       });
     } else {
-      console.log("fuckaudslfkuadlfukaldsufklas");
       window.addEventListener("resize", this.handleResize);
       // fetch podcast transcript
       const url = "http://localhost:5000/transcript/loadTranscript/".concat(
@@ -397,14 +400,11 @@ class Discussion extends React.Component {
           console.log("Error: ", err);
         });
       this.interval = setInterval(() => this.props.setCurrTime(), 1000);
-      ipcRenderer.on("pinFromWindow", (event, arg) => {
-        this.makePin();
-      });
     }
   };
 
   componentDidUpdate = (e) => {
-    // console.log(this.state.mainComp);
+    console.log("=========highlighted==========", this.state.highlighted);
 
     console.log(this.props.user_id);
     if (this.state.cc_comps) {
@@ -418,43 +418,20 @@ class Discussion extends React.Component {
     window.addEventListener("resize", this.handleResize);
     clearInterval(this.interval);
 
-    const {
-      pins,
-      mainComp,
-      windowWidth,
-      windowHeight,
-      cc_comps,
-      cc_load,
-      currPos,
-      selectedElements,
-      showComponent,
-      cursorPos,
-      currTime,
-      pinned,
-      highlighted,
-    } = this.state;
-    const { stored } = true;
-    localStorage.setItem("listen.pins", JSON.stringify(pins));
-    localStorage.setItem("listen.mainComp", mainComp);
-    localStorage.setItem("listen.windowWidth", windowWidth);
-    localStorage.setItem("listen.windowHeight", windowHeight);
+    if (this.state.cc_comps.length > 0) {
+      let currState = this.state;
 
-    localStorage.setItem("listen.cc_comps", JSON.stringify(cc_comps));
-    localStorage.setItem("listen.cc_load", cc_load);
-    localStorage.setItem("listen.currPos", currPos);
-    localStorage.setItem(
-      "listen.selectedElements",
-      JSON.stringify(selectedElements)
-    );
-    localStorage.setItem("listen.showComponent", showComponent);
-    localStorage.setItem("listen.cursorPos", cursorPos);
-    localStorage.setItem("listen.currTime", currTime);
-    localStorage.setItem("listen.pinned", JSON.stringify(pinned));
-    localStorage.setItem("listen.highlighted", JSON.stringify(highlighted));
-    localStorage.setItem("listen.stored", Boolean(1 > 0));
+      currState.pins = JSON.stringify(currState.pins);
+      currState.cc_comps = JSON.stringify(currState.cc_comps);
+      currState.selectedElements = JSON.stringify([]);
+      currState.pinned = JSON.stringify(currState.pinned);
+      currState.highlighted = JSON.stringify([...currState.highlighted]);
 
-    // localStorage.setItem("test", { hello: 3, sup: 2, hi: 1 });
-    console.log("yoyo");
+      localStorage.setItem(
+        this.props.episode._id.concat(".listen"),
+        JSON.stringify(currState)
+      );
+    }
   };
 
   render() {
