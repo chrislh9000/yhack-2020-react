@@ -45,11 +45,13 @@ export default class Example extends React.PureComponent {
       .then((json) => {
         console.log(json.episodes);
         console.log(json.podcasts);
-        this.setState({
-          episodes: json.episodes,
-          podcasts: json.podcasts,
-          progresses: json.progresses,
-        });
+        if (json.episodes) {
+          this.setState({
+            episodes: json.episodes,
+            podcasts: json.podcasts,
+            progresses: json.progresses,
+          });
+        }
         let promises = [];
         for (let i = 0; i < json.episodes.length; i++) {
           console.log(i);
