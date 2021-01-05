@@ -54,7 +54,8 @@ export default class Example extends React.PureComponent {
         }
         let promises = [];
         for (let i = 0; i < json.episodes.length; i++) {
-          console.log(i);
+          console.log(this.props.user._id);
+          console.log(json.episodes[i]._id);
           promises.push(
             fetch(url2, {
               method: "POST",
@@ -63,8 +64,10 @@ export default class Example extends React.PureComponent {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                id: this.props.user._id, // userId
-                episode: json.episodes[i]._id,
+                // id: this.props.user._id, // userId
+                // episode: json.episodes[i]._id,
+                user_id: "5ff18b1f51b757246be90d6b",
+                episode: "5ff051084158640e1d924e76",
               }),
             })
           );
@@ -109,7 +112,7 @@ export default class Example extends React.PureComponent {
   };
 
   componentDidUpdate = (e) => {
-    console.log(this.state.pins.length);
+    console.log(this.state.pins);
     console.log(this.state.episodes);
     console.log(this.state.podcasts);
     // console.log(this.state.pins.length);
@@ -139,7 +142,7 @@ export default class Example extends React.PureComponent {
 
           <Col className="pr-0 pl-0 mt-5 ml-5 mr-5 home-column">
             <FilterBar />
-            {this.state.episodes.length > 0 && this.state.pins.length > 0
+            {this.state.episodes.length > 0 && this.state.pins.length > 1
               ? this.state.episodes.map((item, id) => (
                   <div
                     className="mb-5"
