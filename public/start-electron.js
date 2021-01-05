@@ -4,7 +4,7 @@ const electron = require("electron"),
 session = electron.session;
 ipcMain = electron.ipcMain;
 
-const { webContents, Menu, Tray } = require("electron");
+const { nativeImage, webContents, Menu, Tray } = require("electron");
 const path = require("path"),
   isDev = require("electron-is-dev");
 
@@ -62,10 +62,15 @@ const createPopup = () => {
 app.on("ready", () => {
   mainWindow = createWindow();
   popUp = createPopup();
+  tray = createTray();
   ipcMain.on("pinned", (event, arg) => {
     console.log("=====PIN SIGNAL FROM OTHER WINDOW");
     mainWindow.webContents.send("pinFromWindow");
   });
+  tray.on('click', () => {
+    console.log('clicked')
+    mainWindow.webContents.send("pinFromWindow");
+  })
 });
 // app.on("ready", createWindow);
 // app.on("ready", createPopup)
@@ -82,6 +87,7 @@ app.on("activate", () => {
   if (mainWindow === null) {
     createWindow();
     createPopup();
+    createTray();
   }
 });
 
@@ -134,16 +140,9 @@ ipcMain.on("clearCookies", (event, arg) => {
   );
 });
 
-// const createTray = () => {
-//   tray = new Tray( .join(assetsDirectory, 'sunTemplate.png'))
-//   tray.on('right-click', toggleWindow)
-//   tray.on('double-click', toggleWindow)
-//   tray.on('click', function (event) {
-//     toggleWindow()
+let tray;
 
-//     // Show devtools when command clicked
-//     if (window.isVisible() && process.defaultApp && event.metaKey) {
-//       window.openDevTools({mode: 'detach'})
-//     }
-//   })
-// }
+const createTray = () => {
+  tray = new Tray(path.join(__dirname, './smallwhitepin.png'));
+  return tray;
+}
