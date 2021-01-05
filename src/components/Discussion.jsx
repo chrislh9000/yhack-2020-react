@@ -14,6 +14,7 @@ import { SelectableGroup, createSelectable } from "react-selectable";
 
 import ReactCursorPosition from "react-cursor-position";
 import { animateScroll } from "react-scroll";
+import transitions from "@material-ui/core/styles/transitions";
 const ipcRenderer = window.require("electron").ipcRenderer;
 
 const SelectableComponent = createSelectable(CCC);
@@ -33,8 +34,7 @@ class Discussion extends React.Component {
       showComponent: false,
       cursorPos: null,
       currTime: 0,
-      pinned: [], // list of pinned cc_comp IDs
-      highlighted: new Set(),
+      highlighted: new Map(),
     };
 
     ipcRenderer.on("pinFromWindow", (event, arg) => {
@@ -53,57 +53,57 @@ class Discussion extends React.Component {
       date: date,
       note: note,
     };
-    console.log("a fooooking pin mate", newPin);
     this.setState({ pin: this.state.pins.push(newPin) });
-    console.log("pin list mate", this.state.pins);
-    this.setState({ pinned: this.state.pinned.concat(selectedComps[0]) });
+    let newmap = this.state.highlighted;
+    console.log(newmap);
+    console.log(typeof newmap);
+    newmap.set(this.state.selectedElements[0], this.state.selectedElements);
+    this.setState({
+      highlighted: newmap,
+    });
   };
 
   makeHighlight = () => {
-    console.log(this.state.selectedElements);
     const selements = this.state.selectedElements;
-    var text = "";
-    for (var i = 0; i < selements.length; i++) {
-      text = text.concat(this.state.cc_comps[selements[i]]["text"]);
-    }
-    if (this.state.cc_comps.length > 0 && selements.length > 0) {
-      var startTime = this.state.cc_comps[selements[0]]["startTime"];
-      var endTime = this.state.cc_comps[selements[selements.length - 1]][
-        "endTime"
-      ];
-    }
+    if (!this.state.highlighted.has(selements[0])) {
+      var text = "";
+      for (var i = 0; i < selements.length; i++) {
+        text = text.concat(this.state.cc_comps[selements[i]]["text"]);
+      }
+      if (this.state.cc_comps.length > 0 && selements.length > 0) {
+        var startTime = this.state.cc_comps[selements[0]]["startTime"];
+        var endTime = this.state.cc_comps[selements[selements.length - 1]][
+          "endTime"
+        ];
+      }
 
-    this.renderPin(startTime, endTime, selements, text, new Date());
-    const url = "http://localhost:5000/pins/createPin";
-    fetch(url, {
-      method: "POST",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        text: text,
-        startTime: startTime,
-        endTime: endTime,
-        id: this.props.user._id,
-        ccId: selements[0],
-        episode: this.props.episode._id,
-      }),
-    })
-      .then((json) => {
-        console.log("hi");
+      this.renderPin(startTime, endTime, selements, text, new Date());
+      const url = "http://localhost:5000/pins/createPin";
+      fetch(url, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: text,
+          startTime: startTime,
+          endTime: endTime,
+          id: this.props.user._id,
+          ccId: selements,
+          episode: this.props.episode._id,
+        }),
       })
-      .catch((err) => {
-        console.log("Error: ", err);
-      });
-    this.markPins();
+        .then((json) => {
+          console.log("hi");
+        })
+        .catch((err) => {
+          console.log("Error: ", err);
+        });
+    } else {
+      console.log("you've already pinned this!");
+    }
     this.disableSelection();
-  };
-
-  markPins = () => {
-    this.setState(({ highlighted }) => ({
-      highlighted: new Set([...highlighted, ...this.state.selectedElements]),
-    }));
   };
 
   editPin = (note) => {
@@ -115,8 +115,18 @@ class Discussion extends React.Component {
     }));
   };
 
+  isHighlighted = (i) => {
+    for (let [key, value] of this.state.highlighted) {
+      if (value.indexOf(i) > -1) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   handleDelete = (pin_id) => {
     const url = "http://localhost:5000/pins/deletePin";
+    const pincc = this.state.highlighted.get(pin_id);
     console.log("piniddddddddd----------", pin_id);
     fetch(url, {
       method: "POST",
@@ -126,7 +136,7 @@ class Discussion extends React.Component {
       },
       body: JSON.stringify({
         id: this.props.user._id,
-        ccId: pin_id,
+        ccId: pincc,
         episode: this.props.episode._id,
       }),
     })
@@ -152,15 +162,11 @@ class Discussion extends React.Component {
       array.splice(index, 1);
       this.setState({ pins: array });
     }
-
-    var arr = [...this.state.pinned];
-    var index2 = arr.indexOf(pin_id);
-    console.log("====index2", index2);
-    if (index2 !== -1) {
-      arr.splice(index2, 1);
-      this.setState({ pinned: arr });
-    }
-    console.log(this.state.pinned);
+    let newhighlight = this.state.highlighted;
+    newhighlight.delete(pin_id);
+    this.setState({
+      highlighted: newhighlight,
+    });
   };
 
   handleSelection = (text) => {
@@ -170,15 +176,11 @@ class Discussion extends React.Component {
   };
 
   makePin = () => {
-    this.setState({ selectedElements: [this.state.mainComp] }, () => {
-      this.makeHighlight();
-    });
-  };
-
-  clearSelections = () => {
-    this.setState({
-      selectedElements: [],
-    });
+    if (!this.state.highlighted.has(this.state.mainComp)) {
+      this.setState({ selectedElements: [this.state.mainComp] }, () => {
+        this.makeHighlight();
+      });
+    }
   };
 
   saveSelection = () => {
@@ -190,8 +192,8 @@ class Discussion extends React.Component {
   disableSelection = () => {
     this.setState({
       showComponent: false,
+      selectedElements: [],
     });
-    this.clearSelections();
   };
 
   handleResize = (e) => {
@@ -207,10 +209,6 @@ class Discussion extends React.Component {
     this.setState({
       currTime: this.state.cc_comps[comp_id]["startTime"],
     });
-    // this.setState({
-    //   mainComp: comp_id
-    // })
-    // this.handleScroll()
   };
 
   handleScroll = (e) => {
@@ -248,7 +246,6 @@ class Discussion extends React.Component {
         this.props.pinTime >=
         this.state.cc_comps[this.state.mainComp + 1]["startTime"]
       ) {
-        console.log("iff");
         // shift the heights
         let shiftHeight =
           this.state.cc_comps[this.state.mainComp]["height"] / 2 +
@@ -256,7 +253,6 @@ class Discussion extends React.Component {
         animateScroll.scrollTo(this.state.currPos + shiftHeight, {
           containerId: "midcol",
         });
-        console.log("=============shiftheight======", shiftHeight);
         this.setState({ currPos: this.state.currPos + shiftHeight });
         // reset the mainComp
         this.setState({
@@ -267,7 +263,6 @@ class Discussion extends React.Component {
           this.state.cc_comps[this.state.mainComp]["startTime"] &&
         this.props.pinTime >= this.state.cc_comps[0]["startTime"]
       ) {
-        console.log("else iff");
         // shift the heights
         let shiftHeight =
           this.state.cc_comps[this.state.mainComp]["height"] / 2 +
@@ -275,7 +270,6 @@ class Discussion extends React.Component {
         animateScroll.scrollTo(this.state.currPos - shiftHeight, {
           containerId: "midcol",
         });
-        console.log("=============shiftheight======", shiftHeight);
         this.setState({ currPos: this.state.currPos - shiftHeight });
         // reset the mainComp
         this.setState({
@@ -290,19 +284,16 @@ class Discussion extends React.Component {
   initHeightPos = (e) => {
     for (var i = 0; i < this.state.cc_comps.length; i++) {
       var str = "caption".concat(String(i));
-      console.log("STRINGS=========", str);
       let { clientHeight, clientWidth } = this.refs[str];
       // === feed client height into the cc_comps objects
       this.state.cc_comps[i]["height"] = clientHeight;
 
       if (i === 0) {
         this.state.cc_comps[i]["y"] = this.state.windowHeight / 2;
-        // console.log("======Y POS=======", this.state.cc_comps[i]['y']);
       } else {
         this.state.cc_comps[i]["y"] =
           this.state.cc_comps[i - 1]["y"] +
           this.state.cc_comps[i - 1]["height"];
-        // console.log("======Y POS=======", this.state.cc_comps[i]['y']);
       }
     }
     this.setState({ cc_load: true });
@@ -316,7 +307,7 @@ class Discussion extends React.Component {
         localStorage.getItem(this.props.episode._id.concat(".listen"))
       );
       const high = JSON.parse(stateObj.highlighted);
-      const hset = new Set(high);
+      const hset = new Map(high);
 
       this.setState({
         pins: JSON.parse(stateObj.pins),
@@ -330,7 +321,6 @@ class Discussion extends React.Component {
         showComponent: JSON.parse(stateObj.showComponent),
         cursorPos: JSON.parse(stateObj.cursorPos),
         currTime: JSON.parse(stateObj.currTime),
-        pinned: JSON.parse(stateObj.pinned),
         highlighted: hset,
       });
     } else {
@@ -373,15 +363,18 @@ class Discussion extends React.Component {
         .then((json) => {
           console.log("YOOOOOOOOOOOOOOO", json.id);
           //set highlights
-          let highlightedPins = new Set();
+          let highlightedPins = new Map();
           console.log("=======GOT JSON=======", json.message);
           for (let i = 0; i < json.message.length; i++) {
             // load the cc_id and set this.state.highlighted
-            highlightedPins.add(json.message[i]["ccId"]);
+            highlightedPins.set(
+              json.message[i]["ccId"][0],
+              json.message[i]["ccId"]
+            );
             this.renderPin(
               json.message[i]["startTime"]["$numberDecimal"],
               json.message[i]["endTime"]["$numberDecimal"],
-              [json.message[i]["ccId"]],
+              json.message[i]["ccId"],
               json.message[i]["text"],
               json.message[i]["pinDate"],
               json.message[i]["note"]
@@ -396,7 +389,6 @@ class Discussion extends React.Component {
             "=======HIGHLIGHTS AFTER LOAD=======",
             this.state.highlighted
           );
-          console.log("=======PINNED AFTER LOAD=======", this.state.pinned);
           console.log("=======PINS AFTER LOAD=======", this.state.pins);
         })
         .catch((err) => {
@@ -412,7 +404,6 @@ class Discussion extends React.Component {
   };
 
   componentDidUpdate = (e) => {
-    // console.log("=========highlighted==========", this.props.user._id);
     if (this.state.cc_comps) {
       if (this.state.mainComp < this.state.cc_comps.length - 1) {
         this.handleScroll();
@@ -430,8 +421,9 @@ class Discussion extends React.Component {
       currState.pins = JSON.stringify(currState.pins);
       currState.cc_comps = JSON.stringify(currState.cc_comps);
       currState.selectedElements = JSON.stringify([]);
-      currState.pinned = JSON.stringify(currState.pinned);
-      currState.highlighted = JSON.stringify([...currState.highlighted]);
+      currState.highlighted = JSON.stringify(
+        Array.from(currState.highlighted.entries())
+      );
 
       localStorage.setItem(
         this.props.episode._id.concat(".listen"),
@@ -475,8 +467,8 @@ class Discussion extends React.Component {
                 >
                   {this.state.cc_comps.map((comp, i) => {
                     let selected = this.state.selectedElements.indexOf(i) > -1;
-                    let pinned = this.state.pinned.indexOf(i) > -1;
-                    let highlighted = this.state.highlighted.has(i);
+                    let pinned = this.state.highlighted.has(i);
+                    let highlighted = this.isHighlighted(i);
                     return (
                       <div
                         className={

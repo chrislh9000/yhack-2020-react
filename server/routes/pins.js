@@ -45,12 +45,12 @@ router.post("/deletePin", (req, res) => {
   const query = {
     ccId: req.body.ccId,
     user: req.body.id,
-    episode: req.body.episode
-  }
+    episode: req.body.episode,
+  };
 
   Pin.deleteOne(query)
     .then((resp) => {
-      console.log(resp)
+      console.log(resp);
       res.status(200).json({
         success: true,
         message: "pin deleted",
@@ -85,7 +85,7 @@ router.post("/addNote", (req, res) => {
 });
 
 // ====== EDIT PINS =======
-router.post('/editPin', (req, res) => {
+router.post("/editPin", (req, res) => {
   const query = {
     ccId: req.body.ccId,
     user: req.body.id,
@@ -95,8 +95,8 @@ router.post('/editPin', (req, res) => {
     text: req.body.text,
     startTime: req.body.startTime,
     endTime: req.body.endTime,
-    ccId: req.body.newCcId
-  }
+    ccId: req.body.newCcId,
+  };
 
   Pin.findOneAndUpdate(query, newTime)
     .then((resp) => {
@@ -134,17 +134,19 @@ router.post('/pinFavorite', (req, res) => {
 
 // TODO: render by episode
 router.post("/renderPins", (req, res) => {
-  console.log("=======RENDER PINS USER ID=======", req.body.user_id)
-  console.log("=======RENDER PINS EPISODE ID=======", req.body.episode)
-  Pin.find({ user: req.body.user_id, episode: req.body.episode }).then((resp) => {
-    console.log("=====RESP=====", resp._id);
-    console.log("=====RESP=====", Object.keys(resp));
-    res.status(200).json({
-      success: true,
-      message: resp,
-      id: resp._id,
-    });
-  });
+  console.log("=======RENDER PINS USER ID=======", req.body.user_id);
+  console.log("=======RENDER PINS EPISODE ID=======", req.body.episode);
+  Pin.find({ user: req.body.user_id, episode: req.body.episode }).then(
+    (resp) => {
+      console.log("=====RESP=====", resp._id);
+      console.log("=====RESP=====", Object.keys(resp));
+      res.status(200).json({
+        success: true,
+        message: resp,
+        id: resp._id,
+      });
+    }
+  );
 });
 
 // ===== PIN CLEARING ROUTES =========
