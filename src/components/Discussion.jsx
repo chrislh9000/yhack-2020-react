@@ -34,7 +34,7 @@ class Discussion extends React.Component {
       cursorPos: null,
       currTime: 0,
       pinned: [], // list of pinned cc_comp IDs
-      highlighted: new Set()
+      highlighted: new Set(),
     };
 
     ipcRenderer.on("pinFromWindow", (event, arg) => {
@@ -51,7 +51,7 @@ class Discussion extends React.Component {
       endTime: end_time,
       text: text,
       date: date,
-      note: note
+      note: note,
     };
     console.log("a fooooking pin mate", newPin);
     this.setState({ pin: this.state.pins.push(newPin) });
@@ -79,7 +79,7 @@ class Discussion extends React.Component {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         text: text,
@@ -87,7 +87,6 @@ class Discussion extends React.Component {
         endTime: endTime,
         id: this.props.user._id,
         ccId: selements[0],
-<<<<<<< HEAD
         episode: this.props.episode._id,
       }),
     })
@@ -95,15 +94,6 @@ class Discussion extends React.Component {
         console.log("hi");
       })
       .catch((err) => {
-=======
-        episode: this.props.episode._id
-      })
-    })
-      .then(json => {
-        console.log("hi");
-      })
-      .catch(err => {
->>>>>>> af8eb9038c4e03ff0f8f598c5e3e55172659b7e1
         console.log("Error: ", err);
       });
     this.markPins();
@@ -112,44 +102,31 @@ class Discussion extends React.Component {
 
   markPins = () => {
     this.setState(({ highlighted }) => ({
-      highlighted: new Set([...highlighted, ...this.state.selectedElements])
+      highlighted: new Set([...highlighted, ...this.state.selectedElements]),
     }));
   };
 
-  editPin = note => {
+  editPin = (note) => {
     let key = this.state.pins.length - 1;
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       pins: prevState.pins.map((el, i) =>
         i === key ? { ...el, note: note } : el
-<<<<<<< HEAD
       ),
     }));
   };
 
   handleDelete = (pin_id) => {
-=======
-      )
-    }));
-  };
-
-  handleDelete = pin_id => {
->>>>>>> af8eb9038c4e03ff0f8f598c5e3e55172659b7e1
     const url = "http://localhost:5000/pins/deletePin";
     console.log("piniddddddddd----------", pin_id);
     fetch(url, {
       method: "POST",
       credentials: "same-origin",
       headers: {
-<<<<<<< HEAD
         "Content-Type": "application/json",
-=======
-        "Content-Type": "application/json"
->>>>>>> af8eb9038c4e03ff0f8f598c5e3e55172659b7e1
       },
       body: JSON.stringify({
         id: "5fdaf4e7616a7e5445f0ba59",
         ccId: pin_id,
-<<<<<<< HEAD
         episode: "PlanetMoney0",
       }),
     })
@@ -158,16 +135,6 @@ class Discussion extends React.Component {
         console.log("hi", json);
       })
       .catch((err) => {
-=======
-        episode: "PlanetMoney0"
-      })
-    })
-      .then(res => res.json())
-      .then(json => {
-        console.log("hi", json);
-      })
-      .catch(err => {
->>>>>>> af8eb9038c4e03ff0f8f598c5e3e55172659b7e1
         console.log("Error: ", err);
       });
 
@@ -196,9 +163,9 @@ class Discussion extends React.Component {
     console.log(this.state.pinned);
   };
 
-  handleSelection = text => {
+  handleSelection = (text) => {
     this.setState({
-      selectedElements: text
+      selectedElements: text,
     });
   };
 
@@ -210,35 +177,35 @@ class Discussion extends React.Component {
 
   clearSelections = () => {
     this.setState({
-      selectedElements: []
+      selectedElements: [],
     });
   };
 
   saveSelection = () => {
     this.setState({
-      showComponent: true
+      showComponent: true,
     });
   };
 
   disableSelection = () => {
     this.setState({
-      showComponent: false
+      showComponent: false,
     });
     this.clearSelections();
   };
 
-  handleResize = e => {
+  handleResize = (e) => {
     this.setState({
       windowWidth: window.innerWidth,
-      windowHeight: window.innerHeight
+      windowHeight: window.innerHeight,
     });
   };
 
-  handleMainComp = comp_id => {
+  handleMainComp = (comp_id) => {
     let timeStamp = this.state.cc_comps[comp_id]["startTime"];
     this.props.handlePin(timeStamp);
     this.setState({
-      currTime: this.state.cc_comps[comp_id]["startTime"]
+      currTime: this.state.cc_comps[comp_id]["startTime"],
     });
     // this.setState({
     //   mainComp: comp_id
@@ -258,7 +225,7 @@ class Discussion extends React.Component {
           this.state.cc_comps[this.state.mainComp]["height"] / 2 +
           this.state.cc_comps[this.state.mainComp + 1]["height"] / 2; //height that everything needs to be shifted height
         animateScroll.scrollTo(this.state.currPos - shiftHeight, {
-          containerId: "midcol"
+          containerId: "midcol",
         });
         this.setState({ currPos: this.state.currPos - shiftHeight });
         // reset the mainComp
@@ -287,13 +254,13 @@ class Discussion extends React.Component {
           this.state.cc_comps[this.state.mainComp]["height"] / 2 +
           this.state.cc_comps[this.state.mainComp + 1]["height"] / 2; //height that everything needs to be shifted height
         animateScroll.scrollTo(this.state.currPos + shiftHeight, {
-          containerId: "midcol"
+          containerId: "midcol",
         });
         console.log("=============shiftheight======", shiftHeight);
         this.setState({ currPos: this.state.currPos + shiftHeight });
         // reset the mainComp
         this.setState({
-          mainComp: this.state.mainComp + 1
+          mainComp: this.state.mainComp + 1,
         });
       } else if (
         this.props.pinTime <
@@ -312,7 +279,7 @@ class Discussion extends React.Component {
         this.setState({ currPos: this.state.currPos - shiftHeight });
         // reset the mainComp
         this.setState({
-          mainComp: this.state.mainComp - 1
+          mainComp: this.state.mainComp - 1,
         });
         // reposition the mainComp cc_component to the middle
       }
@@ -364,7 +331,7 @@ class Discussion extends React.Component {
         cursorPos: JSON.parse(stateObj.cursorPos),
         currTime: JSON.parse(stateObj.currTime),
         pinned: JSON.parse(stateObj.pinned),
-        highlighted: hset
+        highlighted: hset,
       });
     } else {
       window.addEventListener("resize", this.handleResize);
@@ -376,18 +343,18 @@ class Discussion extends React.Component {
         method: "GET",
         credentials: "same-origin",
         headers: {
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       })
-        .then(res => res.json())
-        .then(json => {
+        .then((res) => res.json())
+        .then((json) => {
           console.log("=======GOT TRANSCRIPT JSON=======", json.message);
           this.setState({
-            cc_comps: json.message
+            cc_comps: json.message,
           });
           this.initHeightPos();
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("Error: ", err);
         });
       // fetch previous pins
@@ -395,15 +362,15 @@ class Discussion extends React.Component {
         method: "POST",
         credentials: "same-origin",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           user_id: this.props.user._id,
-          episode: this.props.episode._id
-        })
+          episode: this.props.episode._id,
+        }),
       })
-        .then(res => res.json())
-        .then(json => {
+        .then((res) => res.json())
+        .then((json) => {
           console.log("YOOOOOOOOOOOOOOO", json.id);
           //set highlights
           let highlightedPins = new Set();
@@ -423,7 +390,7 @@ class Discussion extends React.Component {
           console.log("=====HUH===== LOOP");
           // highlight components
           this.setState({
-            highlighted: highlightedPins
+            highlighted: highlightedPins,
           });
           console.log(
             "=======HIGHLIGHTS AFTER LOAD=======",
@@ -432,7 +399,7 @@ class Discussion extends React.Component {
           console.log("=======PINNED AFTER LOAD=======", this.state.pinned);
           console.log("=======PINS AFTER LOAD=======", this.state.pins);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("Error: ", err);
         });
       this.interval = setInterval(() => this.props.setCurrTime(), 1000);
@@ -443,10 +410,9 @@ class Discussion extends React.Component {
     }
   };
 
-  componentDidUpdate = e => {
-    console.log("=========highlighted==========", this.state.highlighted);
+  componentDidUpdate = (e) => {
+    console.log("=========highlighted==========", this.props.user._id);
 
-    console.log(this.props.user_id);
     if (this.state.cc_comps) {
       if (this.state.mainComp < this.state.cc_comps.length - 1) {
         this.handleScroll();
@@ -454,7 +420,7 @@ class Discussion extends React.Component {
     }
   };
 
-  componentWillUnmount = e => {
+  componentWillUnmount = (e) => {
     window.addEventListener("resize", this.handleResize);
     clearInterval(this.interval);
 
@@ -521,7 +487,7 @@ class Discussion extends React.Component {
                         style={{
                           width: "100%",
                           position: "absolute",
-                          top: comp["y"]
+                          top: comp["y"],
                         }}
                         ref={"caption".concat(String(comp.id))}
                         key={comp.id}
@@ -554,7 +520,7 @@ class Discussion extends React.Component {
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-between",
-                  alignItems: "center"
+                  alignItems: "center",
                 }}
               >
                 <Container
@@ -580,7 +546,7 @@ class Discussion extends React.Component {
               justifyContent: "space-between",
               display: "flex",
               flexDirection: "column",
-              backgroundColor: "#5C719B"
+              backgroundColor: "#5C719B",
             }}
           >
             <Comments editPin={this.editPin} pins={this.state.pins} />
