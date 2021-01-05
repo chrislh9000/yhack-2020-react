@@ -125,9 +125,9 @@ class Discussion extends React.Component {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: "5fdaf4e7616a7e5445f0ba59",
+        id: this.props.user._id,
         ccId: pin_id,
-        episode: "PlanetMoney0",
+        episode: this.props.episode._id,
       }),
     })
       .then((res) => res.json())
@@ -402,17 +402,17 @@ class Discussion extends React.Component {
         .catch((err) => {
           console.log("Error: ", err);
         });
-      this.interval = setInterval(() => this.props.setCurrTime(), 1000);
+      
       // ipcRenderer.on("pinFromWindow", (event, arg) => {
       //   console.log("recieved")
       //   this.makePin();
       // });
     }
+    this.interval = setInterval(() => this.props.setCurrTime(), 1000);
   };
 
   componentDidUpdate = (e) => {
-    console.log("=========highlighted==========", this.props.user._id);
-
+    // console.log("=========highlighted==========", this.props.user._id);
     if (this.state.cc_comps) {
       if (this.state.mainComp < this.state.cc_comps.length - 1) {
         this.handleScroll();

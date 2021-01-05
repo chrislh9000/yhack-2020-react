@@ -40,8 +40,22 @@ class App extends React.Component {
         audioUrl:
           "https://res.cloudinary.com/pincast/video/upload/v1609758345/planet_money_wsjh0m.mp3",
       },
+      reflectEpisode: {
+        _id: "5ff051084158640e1d924e76",
+        transcript: "5fe345e13ed52c79138e951d",
+        audioUrl:
+          "https://res.cloudinary.com/pincast/video/upload/v1609758345/planet_money_wsjh0m.mp3",
+      },
+      reflectPins: []
     };
   }
+
+  updateReflectionEpisode = (episode, pins) => {
+    console.log("reflectionnn", episode, pins)
+    this.setState({ reflectEpisode: episode })
+    this.setState({ reflectPins: pins })
+  }
+
 
   setPodcast = (newURL) => {
     this.setState({ url: newURL });
@@ -163,6 +177,7 @@ it updates episode-specific state elements passed into the discussion component
     });
   };
 
+
   render() {
     return (
       <Router>
@@ -197,8 +212,11 @@ it updates episode-specific state elements passed into the discussion component
                 playpause={this.state.playpause}
                 setCurrTime={this.setCurrTime}
                 user={this.state.user}
+                episode={this.state.episode}
                 audioDuration={100}
                 pinTime={this.state.pinTime}
+                reflectEpisode={this.state.reflectEpisode}
+                reflectPins={this.state.reflectPins}
               />
             </Route>
 
@@ -216,6 +234,7 @@ it updates episode-specific state elements passed into the discussion component
                 handlePin={this.handlePin}
                 user={this.state.user}
                 updateDiscussionEpisode={this.updateDiscussionEpisode}
+                updateReflectionEpisode={this.updateReflectionEpisode}
               />
             </Route>
 
