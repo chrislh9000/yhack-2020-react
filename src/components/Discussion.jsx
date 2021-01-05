@@ -44,7 +44,6 @@ class Discussion extends React.Component {
   }
 
   renderPin = (start_time, end_time, selectedComps, text, date, note) => {
-    console.log("==========making a goddamn pin mother fuckers=========");
     var newPin = {
       startComp: selectedComps[0],
       startTime: start_time,
@@ -540,7 +539,12 @@ class Discussion extends React.Component {
               backgroundColor: "#5C719B",
             }}
           >
-            <Comments editPin={this.editPin} pins={this.state.pins} />
+            <Comments
+              user={this.props.user}
+              episode={this.props.episode}
+              editPin={this.editPin}
+              pins={this.state.pins}
+            />
           </Col>
         </Row>
       </Container>
