@@ -54,7 +54,8 @@ export default class Example extends React.PureComponent {
         }
         let promises = [];
         for (let i = 0; i < json.episodes.length; i++) {
-          console.log(i);
+          console.log(this.props.user._id);
+          console.log(json.episodes[i]._id);
           promises.push(
             fetch(url2, {
               method: "POST",
@@ -63,7 +64,7 @@ export default class Example extends React.PureComponent {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                id: this.props.user._id, // userId
+                user_id: this.props.user._id, // userId
                 episode: json.episodes[i]._id,
               }),
             })
@@ -103,13 +104,10 @@ export default class Example extends React.PureComponent {
         console.log("Error: ", err);
       });
 
-    setInterval(() => {
-      console.log("Interval triggered");
-    }, 1000);
   };
 
   componentDidUpdate = (e) => {
-    console.log(this.state.pins.length);
+    console.log(this.state.pins);
     console.log(this.state.episodes);
     console.log(this.state.podcasts);
     // console.log(this.state.pins.length);
@@ -139,7 +137,7 @@ export default class Example extends React.PureComponent {
 
           <Col className="pr-0 pl-0 mt-5 ml-5 mr-5 home-column">
             <FilterBar />
-            {this.state.episodes.length > 0 && this.state.pins.length > 0
+            {this.state.episodes.length > 0 && this.state.pins.length > 1
               ? this.state.episodes.map((item, id) => (
                   <div
                     className="mb-5"
@@ -224,8 +222,10 @@ export default class Example extends React.PureComponent {
                           Listen
                         </Button>
                       </Link>
-                      <Link to="/users">
-                        <Button style={{ width: "100%", height: "60px" }}>
+                      <Link to="/pins_page">
+                        <Button 
+                          onClick={() => this.props.updateReflectionEpisode(item, this.state.pins[id].message)}
+                          style={{ width: "100%", height: "60px" }}>
                           Reflect
                         </Button>
                       </Link>

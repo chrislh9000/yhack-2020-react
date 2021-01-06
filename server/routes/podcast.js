@@ -34,6 +34,7 @@ router.post("/createEpisode", (req, res) => {
   // create a new Pin with timestamp, text, User, and Podcast
   let podcastId = "";
   let transcript;
+  console.log("calling create episode")
   Podcast.findOne({
     title: req.body.podcast_title,
     author: req.body.podcast_author,

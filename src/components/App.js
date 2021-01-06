@@ -21,6 +21,9 @@ import podcast from "../assets/podcasts/planet_money.mp3";
 import fs from "fs";
 const ipcRenderer = window.require("electron").ipcRenderer;
 
+window.onbeforeunload = function () {
+  localStorage.clear();
+};
 
 class App extends React.Component {
   constructor(props) {
@@ -31,10 +34,28 @@ class App extends React.Component {
       loggedIn: false,
       user: { username: " " },
       url: podcast,
-      episode: {_id: '5ff051084158640e1d924e76', transcript: '5fe345e13ed52c79138e951d',
-      audioUrl: "https://res.cloudinary.com/pincast/video/upload/v1609758345/planet_money_wsjh0m.mp3"}
+      episode: {
+        _id: "5ff051084158640e1d924e76",
+        transcript: "5fe345e13ed52c79138e951d",
+        audioUrl:
+          "https://res.cloudinary.com/pincast/video/upload/v1609758345/planet_money_wsjh0m.mp3",
+      },
+      reflectEpisode: {
+        _id: "5ff051084158640e1d924e76",
+        transcript: "5fe345e13ed52c79138e951d",
+        audioUrl:
+          "https://res.cloudinary.com/pincast/video/upload/v1609758345/planet_money_wsjh0m.mp3",
+      },
+      reflectPins: []
     };
   }
+
+  updateReflectionEpisode = (episode, pins) => {
+    console.log("reflectionnn", episode, pins)
+    this.setState({ reflectEpisode: episode })
+    this.setState({ reflectPins: pins })
+  }
+
 
   setPodcast = (newURL) => {
     this.setState({ url: newURL });
@@ -54,11 +75,16 @@ class App extends React.Component {
   };
 
   logout = () => {
-    this.setState({
-      loggedIn: false, user: { username: " " }}, () => {
-        console.log("====LOGGED OUT=====")
-      })
-  }
+    this.setState(
+      {
+        loggedIn: false,
+        user: { username: " " },
+      },
+      () => {
+        console.log("====LOGGED OUT=====");
+      }
+    );
+  };
 
   setCurrTime = () => {
     var pin = this.player.getCurrentTime();
@@ -86,9 +112,9 @@ class App extends React.Component {
     this.setCurrTime();
   };
 
-  // componentWillUnmount() {
-  //   clearInterval(this.interval);
-  // }
+  componentWillUnmount() {
+    localStorage.clear();
+  }
 
   fastRewind = () => {
     // this.player.seekTo(parseFloat(this.player.getCurrentTime() - 10))
@@ -138,18 +164,19 @@ class App extends React.Component {
     // console.log("we in apps.js", this.state.pinTime)
   };
 
-/*
+  /*
 Update Episode is passed into the About component. When you click listen for a specific episode,
 it updates episode-specific state elements passed into the discussion component
 */
 
   updateDiscussionEpisode = (episode) => {
     // needs episode name and then the "fake id" (i think its denoted podcast)
-    console.log("====YO DIS GETS CALLED BRO")
+    console.log("====YO DIS GETS CALLED BRO");
     this.setState({
-      episode: episode
-    })
-  }
+      episode: episode,
+    });
+  };
+
 
   render() {
     return (
@@ -185,8 +212,11 @@ it updates episode-specific state elements passed into the discussion component
                 playpause={this.state.playpause}
                 setCurrTime={this.setCurrTime}
                 user={this.state.user}
+                episode={this.state.episode}
                 audioDuration={100}
                 pinTime={this.state.pinTime}
+                reflectEpisode={this.state.reflectEpisode}
+                reflectPins={this.state.reflectPins}
               />
             </Route>
 
@@ -203,7 +233,8 @@ it updates episode-specific state elements passed into the discussion component
                 pinTime={this.state.pinTime}
                 handlePin={this.handlePin}
                 user={this.state.user}
-                updateDiscussionEpisode = {this.updateDiscussionEpisode}
+                updateDiscussionEpisode={this.updateDiscussionEpisode}
+                updateReflectionEpisode={this.updateReflectionEpisode}
               />
             </Route>
 
@@ -224,7 +255,12 @@ it updates episode-specific state elements passed into the discussion component
             </Route>
 
             <Route path="/register">
-              <Register user={this.state.user} logout={this.logout} history={this.history} loggedIn={this.state.loggedIn}/>
+              <Register
+                user={this.state.user}
+                logout={this.logout}
+                history={this.history}
+                loggedIn={this.state.loggedIn}
+              />
             </Route>
 
             <Route path="/login">

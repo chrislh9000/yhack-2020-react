@@ -15,18 +15,19 @@ class PinCard extends React.Component {
     super(props);
     this.state = {
       extended: false,
-      favoriteButton: false,
+      favoriteButton: this.props.favorited,
       playpause: false
     };
   }
 
   handleExtendPin = () => {
+    // console.log(this.props.ccId, this.props.text, this.props.key, this.props.time, this.props.note, this.props.episode, this.props.user_id)
     this.setState({ extended: !this.state.extended });
   };
 
   handleFavoriteButton = () => {
     this.setState({ favoriteButton: !this.state.favoriteButton });
-    const url = "http://localhost:5000/pins/editPin";
+    const url = "http://localhost:5000/pins/pinFavorite";
     fetch(url, {
       method: "POST",
       credentials: "same-origin",
@@ -34,13 +35,14 @@ class PinCard extends React.Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        type: "favorite",
-        favorite: this.state.favorite,
-        id: "5fdaf4e7616a7e5445f0ba59",
+        user_id: this.props.user_id,
+        episode: this.props.episode,
+        favorite: !this.state.favoriteButton,
+        ccId: this.props.ccId
       })
     })
       .then(json => {
-        console.log("hi");
+        console.log("ohelo");
       })
       .catch(err => {
         console.log("Error: ", err);

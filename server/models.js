@@ -72,15 +72,21 @@ const PinSchema = new Schema({
     type: Date,
     required: true,
   },
-  ccId: {
-    type: Number,
-    required: true,
-  },
+  // ccId: {
+  //   type: Number,
+  //   required: true,
+  // },
   note: {
     type: String,
     required: false,
     default: "",
   },
+  ccId: [
+    {
+      type: Number,
+      required: true,
+    },
+  ],
 });
 
 const PodcastSchema = new Schema({

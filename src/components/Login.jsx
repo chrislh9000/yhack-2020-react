@@ -45,10 +45,11 @@ class Login extends React.Component {
       .then((res) => res.json())
       .then((json) => {
         if (json.success) {
+          localStorage.clear();
           this.props.login(json.user);
           console.log("SUCCESSful login", json.user);
           let userObj = json.user;
-          userObj['password'] = this.state.password
+          userObj["password"] = this.state.password;
           // create a cookie
           // ipcRenderer.send("clearCookies", "")
           ipcRenderer.send("createCookie", userObj);
@@ -57,7 +58,7 @@ class Login extends React.Component {
         }
       })
       .catch((err) => {
-        console.log("====== ERROR LOGGING IN======")
+        console.log("====== ERROR LOGGING IN======");
         console.log("Error: ", err);
       });
   };
