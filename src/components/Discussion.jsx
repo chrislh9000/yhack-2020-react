@@ -308,293 +308,161 @@ initHeightPos = (e) => {
   this.setState({ cc_load: true });
 };
 
+
 componentDidMount = (e) => {
-  ipcRenderer.send('loadCookies', "HEY")
-  ipcRenderer.on('userData', (event, arg) => {
-    if(arg && arg.length != 0) {
-      // check login stuff
-      let userData = JSON.parse(arg[0].value)
-      console.log("========== user_data ==========", userData)
-      this.props.login(userData)
-    }
-    this.setState({ cc_load: true });
-  };
-
-  componentDidMount = (e) => {
-    if (localStorage.getItem("listen.stored") === "true") {
-      this.setState({
-        pins: JSON.parse(localStorage.getItem("listen.pins")),
-        mainComp: JSON.parse(localStorage.getItem("listen.mainComp")),
-        windowWidth: JSON.parse(localStorage.getItem("listen.windowWidth")),
-        windowHeight: JSON.parse(localStorage.getItem("listen.windowheight")),
-        cc_comps: JSON.parse(localStorage.getItem("listen.cc_comps")),
-        cc_load: JSON.parse(localStorage.getItem("listen.cc_load")),
-        currPos: JSON.parse(localStorage.getItem("listen.currPos")),
-        selectedElements: JSON.parse(
-          localStorage.getItem("listen.selectedElements")
-        ),
-        showComponent: JSON.parse(localStorage.getItem("listen.showComponent")),
-        cursorPos: JSON.parse(localStorage.getItem("listen.cursorPos")),
-        currTime: JSON.parse(localStorage.getItem("listen.currTime")),
-        pinned: JSON.parse(localStorage.getItem("listen.pinned")),
-        // highlighted: JSON.parse(localStorage.getItem("listen.highlighted")),
-      });
-    } else {
-      console.log("fuckaudslfkuadlfukaldsufklas");
-      window.addEventListener("resize", this.handleResize);
-      // fetch podcast transcript
-      const url = "http://localhost:5000/transcript/loadTranscript/".concat(
-        this.props.episode.transcript
-      );
-      fetch(url, {
-        method: "GET",
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          console.log("=======GOT TRANSCRIPT JSON=======", json.message);
-          this.setState({
-            cc_comps: json.message,
-          });
-          this.initHeightPos();
-        })
-        .catch((err) => {
-          console.log("Error: ", err);
-        });
-      // fetch previous pins
-      fetch("http://localhost:5000/pins/renderPins", {
-        method: "POST",
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user_id: this.props.user._id,
-          episode: this.props.episode._id,
-        }),
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          console.log("YOOOOOOOOOOOOOOO", json.id);
-          //set highlights
-          let highlightedPins = new Set();
-          console.log("=======GOT JSON=======", json.message);
-          for (let i = 0; i < json.message.length; i++) {
-            // load the cc_id and set this.state.highlighted
-            highlightedPins.add(json.message[i]["ccId"]);
-            this.renderPin(
-              json.message[i]["startTime"]["$numberDecimal"],
-              json.message[i]["endTime"]["$numberDecimal"],
-              [json.message[i]["ccId"]],
-              json.message[i]["text"],
-              json.message[i]["pinDate"],
-              json.message[i]["note"]
-            );
-          }
-          console.log("=====HUH===== LOOP");
-          // highlight components
-          this.setState({
-            highlighted: highlightedPins,
-          });
-          console.log(
-            "=======HIGHLIGHTS AFTER LOAD=======",
-            this.state.highlighted
-          );
-          console.log("=======PINNED AFTER LOAD=======", this.state.pinned);
-          console.log("=======PINS AFTER LOAD=======", this.state.pins);
-        })
-        .catch((err) => {
-          console.log("Error: ", err);
-        });
-      this.interval = setInterval(() => this.props.setCurrTime(), 1000);
-      ipcRenderer.on("pinFromWindow", (event, arg) => {
-        this.makePin();
-      });
-    }
-  };
-}
-
-  componentDidUpdate = (e) => {
-    // console.log(this.state.mainComp);
-
-    console.log(this.props.user_id);
-    if (this.state.cc_comps) {
-      if (this.state.mainComp < this.state.cc_comps.length - 1) {
-        this.handleScroll();
-      }
-    }
-  };
-
-  componentWillUnmount = (e) => {
+  if (localStorage.getItem("listen.stored") === "true") {
+    this.setState({
+      pins: JSON.parse(localStorage.getItem("listen.pins")),
+      mainComp: JSON.parse(localStorage.getItem("listen.mainComp")),
+      windowWidth: JSON.parse(localStorage.getItem("listen.windowWidth")),
+      windowHeight: JSON.parse(localStorage.getItem("listen.windowheight")),
+      cc_comps: JSON.parse(localStorage.getItem("listen.cc_comps")),
+      cc_load: JSON.parse(localStorage.getItem("listen.cc_load")),
+      currPos: JSON.parse(localStorage.getItem("listen.currPos")),
+      selectedElements: JSON.parse(
+        localStorage.getItem("listen.selectedElements")
+      ),
+      showComponent: JSON.parse(localStorage.getItem("listen.showComponent")),
+      cursorPos: JSON.parse(localStorage.getItem("listen.cursorPos")),
+      currTime: JSON.parse(localStorage.getItem("listen.currTime")),
+      pinned: JSON.parse(localStorage.getItem("listen.pinned")),
+      // highlighted: JSON.parse(localStorage.getItem("listen.highlighted")),
+    });
+  } else {
+    console.log("fuckaudslfkuadlfukaldsufklas");
     window.addEventListener("resize", this.handleResize);
-    clearInterval(this.interval);
-
-    const {
-      pins,
-      mainComp,
-      windowWidth,
-      windowHeight,
-      cc_comps,
-      cc_load,
-      currPos,
-      selectedElements,
-      showComponent,
-      cursorPos,
-      currTime,
-      pinned,
-      highlighted,
-    } = this.state;
-    const { stored } = true;
-    localStorage.setItem("listen.pins", JSON.stringify(pins));
-    localStorage.setItem("listen.mainComp", mainComp);
-    localStorage.setItem("listen.windowWidth", windowWidth);
-    localStorage.setItem("listen.windowHeight", windowHeight);
-
-    localStorage.setItem("listen.cc_comps", JSON.stringify(cc_comps));
-    localStorage.setItem("listen.cc_load", cc_load);
-    localStorage.setItem("listen.currPos", currPos);
-    localStorage.setItem(
-      "listen.selectedElements",
-      JSON.stringify(selectedElements)
+    // fetch podcast transcript
+    const url = "http://localhost:5000/transcript/loadTranscript/".concat(
+      this.props.episode.transcript
     );
-    localStorage.setItem("listen.showComponent", showComponent);
-    localStorage.setItem("listen.cursorPos", cursorPos);
-    localStorage.setItem("listen.currTime", currTime);
-    localStorage.setItem("listen.pinned", JSON.stringify(pinned));
-    localStorage.setItem("listen.highlighted", JSON.stringify(highlighted));
-    localStorage.setItem("listen.stored", Boolean(1 > 0));
+    fetch(url, {
+      method: "GET",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((res) => res.json())
+    .then((json) => {
+      console.log("=======GOT TRANSCRIPT JSON=======", json.message);
+      this.setState({
+        cc_comps: json.message,
+      });
+      this.initHeightPos();
+    })
+    .catch((err) => {
+      console.log("Error: ", err);
+    });
+    // fetch previous pins
+    fetch("http://localhost:5000/pins/renderPins", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: this.props.user._id,
+        episode: this.props.episode._id,
+      }),
+    })
+    .then((res) => res.json())
+    .then((json) => {
+      console.log("YOOOOOOOOOOOOOOO", json.id);
+      //set highlights
+      let highlightedPins = new Set();
+      console.log("=======GOT JSON=======", json.message);
+      for (let i = 0; i < json.message.length; i++) {
+        // load the cc_id and set this.state.highlighted
+        highlightedPins.add(json.message[i]["ccId"]);
+        this.renderPin(
+          json.message[i]["startTime"]["$numberDecimal"],
+          json.message[i]["endTime"]["$numberDecimal"],
+          [json.message[i]["ccId"]],
+          json.message[i]["text"],
+          json.message[i]["pinDate"],
+          json.message[i]["note"]
+        );
+      }
+      console.log("=====HUH===== LOOP");
+      // highlight components
+      this.setState({
+        highlighted: highlightedPins,
+      });
+      console.log(
+        "=======HIGHLIGHTS AFTER LOAD=======",
+        this.state.highlighted
+      );
+      console.log("=======PINNED AFTER LOAD=======", this.state.pinned);
+      console.log("=======PINS AFTER LOAD=======", this.state.pins);
+    })
+    .catch((err) => {
+      console.log("Error: ", err);
+    });
+    this.interval = setInterval(() => this.props.setCurrTime(), 1000);
+    ipcRenderer.on("pinFromWindow", (event, arg) => {
+      this.makePin();
+    });
+  }
+};
 
-    // localStorage.setItem("test", { hello: 3, sup: 2, hi: 1 });
-    console.log("yoyo");
-  };
 
-  render() {
-    // console.log("=====EPISODE===== BEING SET", this.props.episode)
-    // console.log("=====USER===== BEING SET", this.props.user)
-    return (
-      <Container fluid className="discussion_background listening-back">
-        <Row>
-          <Sidebar
-            handlePlayorpause={this.props.handlePlayorpause}
-            fastRewind={this.props.fastRewind}
-            fastForward={this.props.fastForward}
-            seekToTime={this.props.seekToTime}
-            handlePin={this.props.handlePin}
-            pinTime={this.props.pinTime}
-            playpause={this.props.playpause}
-            user={this.props.user}
-          />
-          <Col xs={7} className="pr-0 pl-0">
-            <ReactCursorPosition
-              style={{ display: "flex", flexDirection: "row" }}
-            >
-              <Col
-                id="midcol"
-                className="middle pr-1 pl-2"
-                xs={7}
-                style={{ display: "flex", flexDirection: "column" }}
-              >
-                {/* <Col> */}
-                <SelectableGroup
-                  className="selectGroup"
-                  onSelection={this.handleSelection}
-                  onEndSelection={this.saveSelection}
-                >
-                  {this.state.cc_comps.map((comp, i) => {
-                    let selected = this.state.selectedElements.indexOf(i) > -1;
-                    let pinned = this.state.pinned.indexOf(i) > -1;
-                    let highlighted = this.state.highlighted.has(i);
-                    return (
-                      <div
-                        className={
-                          this.state.mainComp === i
-                            ? "cctext-highlighted"
-                            : "cctext"
-                        }
-                        style={{
-                          width: "100%",
-                          position: "absolute",
-                          top: comp["y"],
-                        }}
-                        ref={"caption".concat(String(comp.id))}
-                        key={comp.id}
-                      >
-                        <SelectableComponent
-                          handleMainComp={this.handleMainComp}
-                          ccID={comp.id}
-                          key={i}
-                          selected={selected}
-                          selectableKey={comp.id}
-                          ccText={comp.text}
-                          seekToTime={this.props.seekToTime}
-                          time={comp.startTime}
-                          pins={pinned}
-                          highlighted={highlighted}
-                          handleDelete={this.handleDelete}
-                        />
-                      </div>
-                    );
-                  })}
-                </SelectableGroup>
-                {/* </Col> */}
-              </Col>
+componentDidUpdate = (e) => {
+  // console.log(this.state.mainComp);
 
-              <Col
-                xs={5}
-                style={{
-                  paddingLeft: "0px",
-                  paddingRight: "0px",
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Container
-                  style={{ display: "flex", flexDirection: "column" }}
-                ></Container>
-                <PinButton makePin={this.makePin} />
-              </Col>
-              {this.state.showComponent ? (
-                <HighlightMenu
-                  makeHighlight={this.makeHighlight}
-                  disableHighlight={this.disableSelection}
-                  style={{ height: "100%", width: "100%" }}
-                />
-              ) : null}
-            </ReactCursorPosition>
-          </Col>
-
-          <Col
-            id="far_right"
-            xs={3}
-            className="farRight"
-            style={{
-              justifyContent: "space-between",
-              display: "flex",
-              flexDirection: "column",
-              backgroundColor: "#5C719B",
-            }}
-          >
-            <Comments editPin={this.editPin} pins={this.state.pins} />
-          </Col>
-        </Row>
-      </Container>
-    );
+  console.log(this.props.user_id);
+  if (this.state.cc_comps) {
+    if (this.state.mainComp < this.state.cc_comps.length - 1) {
+      this.handleScroll();
+    }
   }
 };
 
 componentWillUnmount = (e) => {
   window.addEventListener("resize", this.handleResize);
   clearInterval(this.interval);
+
+  const {
+    pins,
+    mainComp,
+    windowWidth,
+    windowHeight,
+    cc_comps,
+    cc_load,
+    currPos,
+    selectedElements,
+    showComponent,
+    cursorPos,
+    currTime,
+    pinned,
+    highlighted,
+  } = this.state;
+  const { stored } = true;
+  localStorage.setItem("listen.pins", JSON.stringify(pins));
+  localStorage.setItem("listen.mainComp", mainComp);
+  localStorage.setItem("listen.windowWidth", windowWidth);
+  localStorage.setItem("listen.windowHeight", windowHeight);
+
+  localStorage.setItem("listen.cc_comps", JSON.stringify(cc_comps));
+  localStorage.setItem("listen.cc_load", cc_load);
+  localStorage.setItem("listen.currPos", currPos);
+  localStorage.setItem(
+    "listen.selectedElements",
+    JSON.stringify(selectedElements)
+  );
+  localStorage.setItem("listen.showComponent", showComponent);
+  localStorage.setItem("listen.cursorPos", cursorPos);
+  localStorage.setItem("listen.currTime", currTime);
+  localStorage.setItem("listen.pinned", JSON.stringify(pinned));
+  localStorage.setItem("listen.highlighted", JSON.stringify(highlighted));
+  localStorage.setItem("listen.stored", Boolean(1 > 0));
+
+  // localStorage.setItem("test", { hello: 3, sup: 2, hi: 1 });
+  console.log("yoyo");
 };
 
 render() {
-  console.log("=====EPISODE===== BEING SET", this.props.episode)
-  console.log("=====USER===== BEING SET", this.props.user)
+  // console.log("=====EPISODE===== BEING SET", this.props.episode)
+  // console.log("=====USER===== BEING SET", this.props.user)
   return (
     <Container fluid className="discussion_background listening-back">
     <Row>
@@ -706,6 +574,127 @@ render() {
     </Container>
   );
 }
-}
+};
+
+// componentWillUnmount = (e) => {
+//   window.addEventListener("resize", this.handleResize);
+//   clearInterval(this.interval);
+// };
+//
+// render() {
+//   console.log("=====EPISODE===== BEING SET", this.props.episode)
+//   console.log("=====USER===== BEING SET", this.props.user)
+//   return (
+//     <Container fluid className="discussion_background listening-back">
+//     <Row>
+//     <Sidebar
+//     handlePlayorpause={this.props.handlePlayorpause}
+//     fastRewind={this.props.fastRewind}
+//     fastForward={this.props.fastForward}
+//     seekToTime={this.props.seekToTime}
+//     handlePin={this.props.handlePin}
+//     pinTime={this.props.pinTime}
+//     playpause={this.props.playpause}
+//     user={this.props.user}
+//     />
+//     <Col xs={7} className="pr-0 pl-0">
+//     <ReactCursorPosition
+//     style={{ display: "flex", flexDirection: "row" }}
+//     >
+//     <Col
+//     id="midcol"
+//     className="middle pr-1 pl-2"
+//     xs={7}
+//     style={{ display: "flex", flexDirection: "column" }}
+//     >
+//     {/* <Col> */}
+//     <SelectableGroup
+//     className="selectGroup"
+//     onSelection={this.handleSelection}
+//     onEndSelection={this.saveSelection}
+//     >
+//     {this.state.cc_comps.map((comp, i) => {
+//       let selected = this.state.selectedElements.indexOf(i) > -1;
+//       let pinned = this.state.pinned.indexOf(i) > -1;
+//       let highlighted = this.state.highlighted.has(i);
+//       return (
+//         <div
+//         className={
+//           this.state.mainComp === i
+//           ? "cctext-highlighted"
+//           : "cctext"
+//         }
+//         style={{
+//           width: "100%",
+//           position: "absolute",
+//           top: comp["y"],
+//         }}
+//         ref={"caption".concat(String(comp.id))}
+//         key={comp.id}
+//         >
+//         <SelectableComponent
+//         handleMainComp={this.handleMainComp}
+//         ccID={comp.id}
+//         key={i}
+//         selected={selected}
+//         selectableKey={comp.id}
+//         ccText={comp.text}
+//         seekToTime={this.props.seekToTime}
+//         time={comp.startTime}
+//         pins={pinned}
+//         highlighted={highlighted}
+//         handleDelete={this.handleDelete}
+//         />
+//         </div>
+//       );
+//     })}
+//     </SelectableGroup>
+//     {/* </Col> */}
+//     </Col>
+//
+//     <Col
+//     xs={5}
+//     style={{
+//       paddingLeft: "0px",
+//       paddingRight: "0px",
+//       display: "flex",
+//       flexDirection: "row",
+//       justifyContent: "space-between",
+//       alignItems: "center",
+//     }}
+//     >
+//     <Container
+//     style={{ display: "flex", flexDirection: "column" }}
+//     ></Container>
+//     <PinButton makePin={this.makePin} />
+//     </Col>
+//     {this.state.showComponent ? (
+//       <HighlightMenu
+//       makeHighlight={this.makeHighlight}
+//       disableHighlight={this.disableSelection}
+//       style={{ height: "100%", width: "100%" }}
+//       />
+//     ) : null}
+//     </ReactCursorPosition>
+//     </Col>
+//
+//     <Col
+//     id="far_right"
+//     xs={3}
+//     className="farRight"
+//     style={{
+//       justifyContent: "space-between",
+//       display: "flex",
+//       flexDirection: "column",
+//       backgroundColor: "#5C719B",
+//     }}
+//     >
+//     <Comments editPin={this.editPin} pins={this.state.pins} />
+//     </Col>
+//     </Row>
+//     </Container>
+//   );
+// }
+// }
 
 export default Discussion;
