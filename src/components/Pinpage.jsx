@@ -21,7 +21,7 @@ class Pinpage extends React.Component {
     super(props);
     this.state = {
       played: 0,
-      url: null,
+      // url: "",
       playing: true,
       controls: false,
       light: false,
@@ -96,6 +96,36 @@ class Pinpage extends React.Component {
 
   ref = (player) => {
     this.player = player;
+  };
+
+  componentDidMount = (e) => {
+    // add the user id to the end of the request url
+    if (localStorage.getItem(this.props.episode._id.concat(".reflect"))) {
+      const stateObj = JSON.parse(
+        localStorage.getItem(this.props.episode._id.concat(".reflect"))
+      );
+      console.log(stateObj);
+      this.setState({
+        played: JSON.parse(stateObj.played),
+        playing: JSON.parse(stateObj.playing),
+        controls: JSON.parse(stateObj.controls),
+        light: JSON.parse(stateObj.light),
+        volume: JSON.parse(stateObj.volume),
+        muted: JSON.parse(stateObj.muted),
+        loaded: JSON.parse(stateObj.loaded),
+        duration: JSON.parse(stateObj.duration),
+        playbackRate: JSON.parse(stateObj.playbackRate),
+        loop: JSON.parse(stateObj.loop),
+      });
+    }
+  };
+
+  componentWillUnmount = (e) => {
+    let currState = this.state;
+    localStorage.setItem(
+      this.props.episode._id.concat(".reflect"),
+      JSON.stringify(currState)
+    );
   };
 
   render() {
