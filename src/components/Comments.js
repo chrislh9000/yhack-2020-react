@@ -4,12 +4,13 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Replies from "./Replies";
+import IconButton from "@material-ui/core/Button";
 
 class Comments extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: "",
+      value: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -26,29 +27,29 @@ class Comments extends React.Component {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
 
       body: JSON.stringify({
         ccId: this.props.pins[this.props.pins.length - 1].startComp,
         episode: this.props.episode._id,
         id: this.props.user._id,
-        note: this.state.value,
-      }),
+        note: this.state.value
+      })
     })
-      .then((res) => res.json())
-      .then((json) => {
+      .then(res => res.json())
+      .then(json => {
         console.log("hi");
         console.log(json.message);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log("Error: ", err);
       });
     this.props.editPin(this.state.value);
     this.setState({ value: "" });
   }
 
-  timeToStr = (duration) => {
+  timeToStr = duration => {
     // Hours, minutes and seconds
     var hrs = ~~(duration / 3600);
     var mins = ~~((duration % 3600) / 60);
@@ -67,7 +68,7 @@ class Comments extends React.Component {
   };
 
   pins = this.props.pins;
-  componentDidMount = (e) => {
+  componentDidMount = e => {
     // reorganize pins by Date
     this.pins.sort(function compareNumbers(a, b) {
       return Date(a["date"]) > Date(b["date"]);
@@ -78,22 +79,37 @@ class Comments extends React.Component {
     //pre-rendering code
     return (
       <Row style={{ overflowY: "auto" }}>
-        {this.props.pins.map((item) => (
+        {this.props.pins.map(item => (
           <div
             id="comment"
             className="mt-4 ml-4 mr-4 pl-4 pr-4 pt-3"
             style={{
               background: "purple",
               borderRadius: "20px",
-              width: "100%",
+              width: "100%"
             }}
           >
-            <p
-              className="mb-1 title"
-              style={{ color: "white", fontSize: "11px" }}
-            >
-              {this.timeToStr(item.startTime)} - {this.timeToStr(item.endTime)}
-            </p>
+            <Row>
+              <Col xs={10}>
+                <p
+                  className="mb-1 title"
+                  style={{ color: "white", fontSize: "11px" }}
+                >
+                  {this.timeToStr(item.startTime)} -{" "}
+                  {this.timeToStr(item.endTime)}
+                </p>
+              </Col>
+              <Col xs={2}>
+                <IconButton onClick={() => this.props.handleDelete(item.startComp)}
+                style={{
+                  width: "1px",
+                  height: "1px",
+                  minWidth: "0px",
+                  outline: "none",
+                  backgroundColor: "transparent"
+                }}>x</IconButton>
+              </Col>
+            </Row>
             <p
               className="mb-1"
               style={{ color: "white", fontSize: "11px", fontColor: "gray" }}

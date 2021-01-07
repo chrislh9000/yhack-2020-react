@@ -545,6 +545,7 @@ class Discussion extends React.Component {
               episode={this.props.episode}
               editPin={this.editPin}
               pins={this.state.pins}
+              handleDelete={this.handleDelete}
             />
           </Col>
         </Row>
