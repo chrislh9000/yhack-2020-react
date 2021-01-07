@@ -51,6 +51,12 @@ class PinCard extends React.Component {
 
   handlePlay = () => {
     this.setState({ playpause: !this.state.playpause });
+    if (this.state.playpause) {
+      this.props.handlePause()
+    } else {
+      this.props.handleSeekTo(this.props.time)
+      this.props.handlePlay()
+    }
   };
 
   render() {

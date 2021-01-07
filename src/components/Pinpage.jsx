@@ -22,7 +22,7 @@ class Pinpage extends React.Component {
     this.state = {
       played: 0,
       url: null,
-      playing: true,
+      playing: false,
       controls: false,
       light: false,
       volume: 0.8,
@@ -68,6 +68,12 @@ class Pinpage extends React.Component {
     console.log("onDuration", duration);
     this.setState({ duration });
   };
+
+  handleSeekTo = (time) => {
+    console.log("gonan seek to", time)
+    this.player.seekTo(time)
+  }
+
   handleEdit = () => {
     const url = "http://localhost:5000/pins/editPin";
     fetch(url, {
@@ -179,6 +185,9 @@ class Pinpage extends React.Component {
                         episode={pin.episode}
                         user_id={pin.user}
                         favorited={pin.favorited}
+                        handleSeekTo={this.handleSeekTo}
+                        handlePause={this.handlePause}
+                        handlePlay={this.handlePlay}
                       />
                     </div>
                   );
