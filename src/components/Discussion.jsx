@@ -394,7 +394,7 @@ class Discussion extends React.Component {
         .catch((err) => {
           console.log("Error: ", err);
         });
-      
+
       // ipcRenderer.on("pinFromWindow", (event, arg) => {
       //   console.log("recieved")
       //   this.makePin();
