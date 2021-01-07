@@ -14,41 +14,60 @@ import Sidebar from "./Sidebar";
 import SearchPage from "./SearchPage";
 import PinCard from "./PinCard";
 import AudioBar from "./AudioBar";
+import ReactPlayer from "react-player";
 
 class Pinpage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currPins: [
-        {
-          text: '"...From the New York Times, I\'m Michael Borrow..."',
-          time: 68,
-          note: "OMG its sleepy joe",
-        },
-        {
-          text: '"...I\'m here to tell you tonight..."',
-          time: 68,
-          note: "OMG its sleepy joe",
-        },
-        {
-          text: "\"...From the New York Times, I'm Michael Borrow",
-          time: 68,
-          note: "OMG its sleepy joe",
-        },
-        {
-          text: "\"...From the New York Times, I'm Michael Borrow",
-          time: 68,
-          note: "OMG its sleepy joe",
-        },
-        {
-          text: "\"...From the New York Times, I'm Michael Borrow",
-          time: 68,
-          note: "OMG its sleepy joe",
-        },
-      ],
-      audioSame: this.props.currPlay === this.props.reflectPlay,
+      played: 0,
+      url: null,
+      playing: true,
+      controls: false,
+      light: false,
+      volume: 0.8,
+      muted: false,
+      loaded: 0,
+      duration: 0,
+      playbackRate: 1.0,
+      loop: false,
     };
   }
+  handlePlayPause = () => {
+    this.setState({ playing: !this.state.playing });
+  };
+
+  handleVolumeChange = (e) => {
+    this.setState({ volume: parseFloat(e.target.value) });
+  };
+
+  handlePlay = () => {
+    console.log("onPlay");
+    this.setState({ playing: true });
+  };
+
+  handlePause = () => {
+    console.log("onPause");
+    this.setState({ playing: false });
+  };
+
+  handleSeekMouseDown = (e) => {
+    this.setState({ seeking: true });
+  };
+
+  handleSeekChange = (e) => {
+    this.setState({ played: parseFloat(e.target.value) });
+  };
+
+  handleSeekMouseUp = (e) => {
+    this.setState({ seeking: false });
+    this.player.seekTo(parseFloat(e.target.value));
+  };
+
+  handleDuration = (duration) => {
+    console.log("onDuration", duration);
+    this.setState({ duration });
+  };
   handleEdit = () => {
     const url = "http://localhost:5000/pins/editPin";
     fetch(url, {
@@ -74,6 +93,11 @@ class Pinpage extends React.Component {
         console.log("Error: ", err);
       });
   };
+
+  ref = (player) => {
+    this.player = player;
+  };
+
   render() {
     //pre-rendering code
     return (
@@ -91,6 +115,31 @@ class Pinpage extends React.Component {
           />
 
           <Col>
+            <Row>
+              <ReactPlayer
+                ref={this.ref}
+                url={this.props.reflectEpisode.audioUrl} // TO DO: change this based on selected episode
+                width="100px"
+                height="0px"
+                playing={this.state.playing}
+                controls={false}
+              />
+            </Row>
+            <Row>
+              <button onClick={this.handlePlayPause}>
+                {this.state.playing ? "Pause" : "Play"}
+              </button>
+              <input
+                type="range"
+                min={0}
+                max={0.999999}
+                step="any"
+                value={this.state.played}
+                onMouseDown={this.handleSeekMouseDown}
+                onChange={this.handleSeekChange}
+                onMouseUp={this.handleSeekMouseUp}
+              />
+            </Row>
             <Row>
               <SearchPage />
             </Row>
@@ -110,23 +159,25 @@ class Pinpage extends React.Component {
             </Row>
             <Row>
               <Col>
-                {this.state.currPins.map((pin, i) => {
+                {this.props.reflectPins.map((pin, i) => {
                   return (
                     <div
                       className="mb-5"
                       style={{
-                        // display: "flex",
-                        // flexDirection: "row",
                         background: "grey",
                         borderRadius: "25px",
                       }}
                     >
                       <PinCard
+                        ccId={pin.ccId}
                         text={pin.text}
                         key={i}
-                        time={pin.time}
+                        time={pin.startTime.$numberDecimal}
                         note={pin.note}
                         handleEdit={this.handleEdit}
+                        episode={pin.episode}
+                        user_id={pin.user}
+                        favorited={pin.favorited}
                       />
                     </div>
                   );

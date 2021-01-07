@@ -21,9 +21,9 @@ import podcast from "../assets/podcasts/planet_money.mp3";
 import fs from "fs";
 const ipcRenderer = window.require("electron").ipcRenderer;
 
-window.onbeforeunload = function () {
-  localStorage.clear();
-};
+// window.onbeforeunload = function () {
+//   localStorage.clear();
+// };
 
 class App extends React.Component {
   constructor(props) {
@@ -40,8 +40,21 @@ class App extends React.Component {
         audioUrl:
           "https://res.cloudinary.com/pincast/video/upload/v1609758345/planet_money_wsjh0m.mp3",
       },
+      reflectEpisode: {
+        _id: "5ff051084158640e1d924e76",
+        transcript: "5fe345e13ed52c79138e951d",
+        audioUrl:
+          "https://res.cloudinary.com/pincast/video/upload/v1609758345/planet_money_wsjh0m.mp3",
+      },
+      reflectPins: [],
     };
   }
+
+  updateReflectionEpisode = (episode, pins) => {
+    console.log("reflectionnn", episode, pins);
+    this.setState({ reflectEpisode: episode });
+    this.setState({ reflectPins: pins });
+  };
 
   setPodcast = (newURL) => {
     this.setState({ url: newURL });
@@ -58,6 +71,7 @@ class App extends React.Component {
     this.setState({ loggedIn: true, user: id }, () => {
       console.log(this.state.user);
     });
+    localStorage.setItem("user", id);
   };
 
   logout = () => {
@@ -96,6 +110,15 @@ class App extends React.Component {
     // );
     // console.log("componentDidmount", this.props.pinTime);
     this.setCurrTime();
+    console.log(typeof localStorage.getItem("user"));
+    console.log(localStorage.getItem("user"));
+    let newuser = 1;
+    // const newuser = JSON.parse(localStorage.getItem("user"));
+    if (newuser === 5) {
+      this.setState({
+        user: newuser,
+      });
+    }
   };
 
   componentWillUnmount() {
@@ -197,8 +220,11 @@ it updates episode-specific state elements passed into the discussion component
                 playpause={this.state.playpause}
                 setCurrTime={this.setCurrTime}
                 user={this.state.user}
+                episode={this.state.episode}
                 audioDuration={100}
                 pinTime={this.state.pinTime}
+                reflectEpisode={this.state.reflectEpisode}
+                reflectPins={this.state.reflectPins}
               />
             </Route>
 
@@ -216,6 +242,7 @@ it updates episode-specific state elements passed into the discussion component
                 handlePin={this.handlePin}
                 user={this.state.user}
                 updateDiscussionEpisode={this.updateDiscussionEpisode}
+                updateReflectionEpisode={this.updateReflectionEpisode}
               />
             </Route>
 

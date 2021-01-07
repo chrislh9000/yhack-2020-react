@@ -90,8 +90,8 @@ router.post("/editPin", (req, res) => {
   const query = {
     ccId: req.body.ccId,
     user: req.body.id,
-    // episode: req.body.episode
-  };
+    episode: req.body.episode
+  }
   const newTime = {
     text: req.body.text,
     startTime: req.body.startTime,
@@ -104,6 +104,28 @@ router.post("/editPin", (req, res) => {
       res.status(200).json({
         success: true,
         message: "added note",
+      });
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
+});
+
+router.post('/pinFavorite', (req, res) => {
+  const query = {
+    ccId: req.body.ccId,
+    user: req.body.user_id,
+    episode: req.body.episode
+  }
+  const fav = {
+    favorited: req.body.favorite
+  }
+
+  Pin.findOneAndUpdate(query, fav)
+    .then((resp) => {
+      res.status(200).json({
+        success: true,
+        message: "favorite changed",
       });
     })
     .catch((err) => {
