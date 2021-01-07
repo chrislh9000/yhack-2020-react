@@ -15,41 +15,6 @@ class Comments extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  // comments = [
-  //   {
-  //     comment:
-  //     "The fact that Trump is calling for vote counting to be stopped is frankly ridiculous",
-  //     time: "2h",
-  //     user: "David_Wang",
-  //     replies: [
-  //       {
-  //         reply:
-  //         "I mean I agree that vote counting should be done in principle but Trump is leading by such wide margins in so many states...",
-  //         time: "1h",
-  //         user: "John_Smith",
-  //       },
-  //       {
-  //         reply:
-  //         "He may be leading right now, but the remaining mail-in ballots are expected to heavily favor Biden!",
-  //         time: "28m",
-  //         user: "David_Wang",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     comment:
-  //     "My name is Christopher Lee Hemm and I would like to come out of the closet! :D",
-  //     time: "28m",
-  //     user: "ChemmLee9000",
-  //     replies: [
-  //       {
-  //         reply: "Same here bro",
-  //         time: "16m",
-  //         user: "Bryce_Clarkson3",
-  //       },
-  //     ],
-  //   },
-  // ];
 
   handleChange(event) {
     this.setState({ value: event.target.value });
@@ -65,11 +30,13 @@ class Comments extends React.Component {
       },
 
       body: JSON.stringify({
-        id: this.props.pins[this.props.pins.length - 1].startComp,
-        episode: "PlanetMoney0",
+        ccId: this.props.pins[this.props.pins.length - 1].startComp,
+        episode: this.props.episode._id,
+        id: this.props.user._id,
         note: this.state.value,
       }),
     })
+      .then((res) => res.json())
       .then((json) => {
         console.log("hi");
         console.log(json.message);

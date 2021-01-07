@@ -30,14 +30,14 @@ class Pinpage extends React.Component {
       loaded: 0,
       duration: 0,
       playbackRate: 1.0,
-      loop: false
+      loop: false,
     };
   }
   handlePlayPause = () => {
     this.setState({ playing: !this.state.playing });
   };
 
-  handleVolumeChange = e => {
+  handleVolumeChange = (e) => {
     this.setState({ volume: parseFloat(e.target.value) });
   };
 
@@ -51,20 +51,20 @@ class Pinpage extends React.Component {
     this.setState({ playing: false });
   };
 
-  handleSeekMouseDown = e => {
+  handleSeekMouseDown = (e) => {
     this.setState({ seeking: true });
   };
 
-  handleSeekChange = e => {
+  handleSeekChange = (e) => {
     this.setState({ played: parseFloat(e.target.value) });
   };
 
-  handleSeekMouseUp = e => {
+  handleSeekMouseUp = (e) => {
     this.setState({ seeking: false });
     this.player.seekTo(parseFloat(e.target.value));
   };
 
-  handleDuration = duration => {
+  handleDuration = (duration) => {
     console.log("onDuration", duration);
     this.setState({ duration });
   };
@@ -74,7 +74,7 @@ class Pinpage extends React.Component {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         startTime: 1,
@@ -83,18 +83,18 @@ class Pinpage extends React.Component {
         text: "oh elo",
         ccId: 5,
         episode: "PlanetMoney0",
-        id: "5fdaf4e7616a7e5445f0ba59"
-      })
+        id: "5fdaf4e7616a7e5445f0ba59",
+      }),
     })
-      .then(json => {
+      .then((json) => {
         console.log("hi");
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error: ", err);
       });
   };
 
-  ref = player => {
+  ref = (player) => {
     this.player = player;
   };
 
@@ -126,7 +126,9 @@ class Pinpage extends React.Component {
               />
             </Row>
             <Row>
-            <button onClick={this.handlePlayPause}>{this.state.playing ? 'Pause' : 'Play'}</button>
+              <button onClick={this.handlePlayPause}>
+                {this.state.playing ? "Pause" : "Play"}
+              </button>
               <input
                 class="slider"
                 type="range"
@@ -164,7 +166,7 @@ class Pinpage extends React.Component {
                       className="mb-5"
                       style={{
                         background: "grey",
-                        borderRadius: "25px"
+                        borderRadius: "25px",
                       }}
                     >
                       <PinCard

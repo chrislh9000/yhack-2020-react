@@ -21,9 +21,9 @@ import podcast from "../assets/podcasts/planet_money.mp3";
 import fs from "fs";
 const ipcRenderer = window.require("electron").ipcRenderer;
 
-window.onbeforeunload = function () {
-  localStorage.clear();
-};
+// window.onbeforeunload = function () {
+//   localStorage.clear();
+// };
 
 class App extends React.Component {
   constructor(props) {
@@ -46,16 +46,15 @@ class App extends React.Component {
         audioUrl:
           "https://res.cloudinary.com/pincast/video/upload/v1609758345/planet_money_wsjh0m.mp3",
       },
-      reflectPins: []
+      reflectPins: [],
     };
   }
 
   updateReflectionEpisode = (episode, pins) => {
-    console.log("reflectionnn", episode, pins)
-    this.setState({ reflectEpisode: episode })
-    this.setState({ reflectPins: pins })
-  }
-
+    console.log("reflectionnn", episode, pins);
+    this.setState({ reflectEpisode: episode });
+    this.setState({ reflectPins: pins });
+  };
 
   setPodcast = (newURL) => {
     this.setState({ url: newURL });
@@ -72,6 +71,7 @@ class App extends React.Component {
     this.setState({ loggedIn: true, user: id }, () => {
       console.log(this.state.user);
     });
+    localStorage.setItem("user", id);
   };
 
   logout = () => {
@@ -110,6 +110,15 @@ class App extends React.Component {
     // );
     // console.log("componentDidmount", this.props.pinTime);
     this.setCurrTime();
+    console.log(typeof localStorage.getItem("user"));
+    console.log(localStorage.getItem("user"));
+    let newuser = 1;
+    // const newuser = JSON.parse(localStorage.getItem("user"));
+    if (newuser === 5) {
+      this.setState({
+        user: newuser,
+      });
+    }
   };
 
   componentWillUnmount() {
@@ -176,7 +185,6 @@ it updates episode-specific state elements passed into the discussion component
       episode: episode,
     });
   };
-
 
   render() {
     return (
