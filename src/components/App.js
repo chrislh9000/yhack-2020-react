@@ -48,8 +48,15 @@ class App extends React.Component {
       },
       reflectPins: [],
       discussPins: [],
+      episodeIndex: 0,
     };
   }
+
+  updateEpisodeIndex = (index) => {
+    this.setState({
+      episodeIndex: index,
+    });
+  };
 
   updateReflectionEpisode = (episode, pins) => {
     console.log("reflectionnn", episode, pins);
@@ -140,7 +147,7 @@ class App extends React.Component {
     //   1000
     // );
     // this.handlePin(this.player.getCurrentTime())
-    console.log(this.state.user._id);
+    console.log(this.state.episodeIndex);
   }
 
   ref = (player) => {
@@ -207,6 +214,7 @@ it updates episode-specific state elements passed into the discussion component
                 pinTime={this.state.pinTime}
                 reflectEpisode={this.state.reflectEpisode}
                 reflectPins={this.state.reflectPins}
+                episodeIndex={this.state.episodeIndex}
               />
             </Route>
 
@@ -233,6 +241,8 @@ it updates episode-specific state elements passed into the discussion component
                 login={this.login}
                 updateDiscussionEpisode={this.updateDiscussionEpisode}
                 updateReflectionEpisode={this.updateReflectionEpisode}
+                updateIndex={this.updateEpisodeIndex}
+                episodeIndex={this.state.episodeIndex}
               />
             </Route>
 
@@ -251,6 +261,7 @@ it updates episode-specific state elements passed into the discussion component
                 login={this.login}
                 discussPins={this.state.discussPins}
                 getUserFromStorage={this.getUserFromStorage}
+                episodeIndex={this.state.episodeIndex}
               />
             </Route>
 
@@ -307,6 +318,8 @@ it updates episode-specific state elements passed into the discussion component
                 login={this.login}
                 updateDiscussionEpisode={this.updateDiscussionEpisode}
                 updateReflectionEpisode={this.updateReflectionEpisode}
+                updateIndex={this.updateEpisodeIndex}
+                episodeIndex={this.state.episodeIndex}
               />
             </Route>
           </Switch>

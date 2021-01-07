@@ -62,6 +62,17 @@ class Discussion extends React.Component {
     });
   };
 
+  addPinLocalStorage = (pin) => {
+    console.log(pin);
+    const currHome = JSON.parse(localStorage.getItem("home"));
+    let homePins = JSON.parse(currHome.pins);
+    homePins[this.props.episodeIndex].message.push(pin);
+    console.log(homePins[this.props.episodeIndex].message);
+    console.log(homePins);
+    currHome.pins = JSON.stringify(homePins);
+    localStorage.setItem("home", JSON.stringify(currHome));
+  };
+
   makeHighlight = () => {
     const selements = this.state.selectedElements;
     if (!this.state.highlighted.has(selements[0])) {
@@ -77,6 +88,7 @@ class Discussion extends React.Component {
       }
 
       this.renderPin(startTime, endTime, selements, text, new Date());
+
       const url = "http://localhost:5000/pins/createPin";
       fetch(url, {
         method: "POST",
@@ -93,8 +105,11 @@ class Discussion extends React.Component {
           episode: this.props.episode._id,
         }),
       })
+        .then((res) => res.json())
         .then((json) => {
           console.log("hi");
+          this.addPinLocalStorage(json.message);
+          console.log("this is the loaded new pin", json.message);
         })
         .catch((err) => {
           console.log("Error: ", err);
@@ -450,7 +465,6 @@ class Discussion extends React.Component {
         this.handleScroll();
       }
     }
-    console.log(this.props.user._id);
   };
 
   componentWillUnmount = (e) => {

@@ -110,8 +110,9 @@ export default class Example extends React.PureComponent {
   };
 
   componentDidUpdate = (e) => {
-    console.log(this.state.pins);
-    console.log("=======proggresses========", this.state.progresses);
+    console.log(this.props.episodeIndex);
+    // console.log(this.state.pins);
+    // console.log("=======proggresses========", this.state.progresses);
   };
 
   componentWillUnmount = (e) => {
@@ -221,12 +222,13 @@ export default class Example extends React.PureComponent {
                     >
                       <Link to="/users">
                         <Button
-                          onClick={() =>
+                          onClick={() => {
                             this.props.updateDiscussionEpisode(
                               item,
                               this.state.pins[id].message
-                            )
-                          }
+                            );
+                            this.props.updateIndex(id);
+                          }}
                           style={{ width: "100%", height: "60px" }}
                         >
                           Listen
@@ -234,12 +236,13 @@ export default class Example extends React.PureComponent {
                       </Link>
                       <Link to="/pins_page">
                         <Button
-                          onClick={() =>
+                          onClick={() => {
                             this.props.updateReflectionEpisode(
                               item,
                               this.state.pins[id].message
-                            )
-                          }
+                            );
+                            this.props.updateIndex(id);
+                          }}
                           style={{ width: "100%", height: "60px" }}
                         >
                           Reflect
