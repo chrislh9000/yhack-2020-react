@@ -130,6 +130,7 @@ class Pinpage extends React.Component {
                 {this.state.playing ? "Pause" : "Play"}
               </button>
               <input
+                class="slider"
                 type="range"
                 min={0}
                 max={0.999999}
