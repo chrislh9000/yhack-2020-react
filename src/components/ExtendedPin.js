@@ -11,8 +11,10 @@ import Row from "react-bootstrap/Row";
 class ExtendedPin extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+    };
   }
+  
   render() {
     return (
       <Container>
@@ -30,6 +32,17 @@ class ExtendedPin extends React.Component {
           >
             Note: {this.props.note}
           </div>
+        </Row>
+        <Row>
+          <form style={{ width: "100%" }} onSubmit={this.props.handleSubmit}>
+            <label style={{ color: "white" }}>Add/Change Note:</label>
+            <input
+              style={{ width: "100%" }}
+              type="text"
+              value={this.props.value}
+              onChange={this.props.handleChange}
+            />
+          </form>
         </Row>
         <Row>
           <Col>

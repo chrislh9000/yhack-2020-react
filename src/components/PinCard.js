@@ -16,8 +16,12 @@ class PinCard extends React.Component {
     this.state = {
       extended: false,
       favoriteButton: this.props.favorited,
-      playpause: false
+      playpause: false,
+      value: "",
+      note: this.props.note
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleExtendPin = () => {
@@ -48,6 +52,46 @@ class PinCard extends React.Component {
         console.log("Error: ", err);
       });
   };
+
+
+  handleChange(event) {
+    console.log("elo",event)
+    this.setState({ value: event.target.value });
+    
+  }
+
+  handleNote() {
+    this.setState({ note: this.state.value})
+  }
+  handleSubmit(event) {
+    const url = "http://localhost:5000/pins/addNote";
+    this.handleNote()
+    
+    fetch(url, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        ccId: this.props.ccId,
+        episode: this.props.episode,
+        id: this.props.user_id,
+        note: this.state.value,
+      }),
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        console.log("hi");
+        console.log(json.message);
+      })
+      .catch((err) => {
+        console.log("Error: ", err);
+      });
+    this.setState({ value: "" });
+  
+  }
 
   handlePlay = () => {
     this.setState({ playpause: !this.state.playpause });
@@ -96,15 +140,18 @@ class PinCard extends React.Component {
               text={this.props.text}
               key={this.props.key}
               time={this.props.time}
-              note={this.props.note}
+              note={this.state.note}
               handleEdit={this.props.handleEdit}
+              handleSubmit={this.handleSubmit}
+              handleChange={this.handleChange}
+              value={this.state.value}
             />
           ) : (
             <NonExtendedPin
               text={this.props.text}
               key={this.props.key}
               time={this.props.time}
-              note={this.props.note}
+              note={this.state.note}
               handleEdit={this.props.handleEdit}
             />
           )}
