@@ -29,93 +29,92 @@ export default class Example extends React.PureComponent {
 
   componentDidMount = (e) => {
     // add the user id to the end of the request url
-    const url = "http://localhost:5000/podcasts/loadUserEpisodes/".concat(
-      this.props.user._id
-    );
-    const url2 = "http://localhost:5000/pins/renderPins";
 
-    fetch(url, {
-      method: "GET",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json.episodes);
-        console.log(json.podcasts);
-        if (json.episodes) {
-          this.setState({
-            episodes: json.episodes,
-            podcasts: json.podcasts,
-            progresses: json.progresses,
-          });
-        }
-        let promises = [];
-        for (let i = 0; i < json.episodes.length; i++) {
-          console.log(this.props.user._id);
-          console.log(json.episodes[i]._id);
-          promises.push(
-            fetch(url2, {
-              method: "POST",
-              credentials: "same-origin",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                user_id: this.props.user._id, // userId
-                episode: json.episodes[i]._id,
-              }),
-            })
-          );
-        }
-        console.log(promises);
-        Promise.all(promises).then((values) => {
-          let pinsarray = [];
-          // for (let i = 0; i < json.episodes.length; i++) {
-          //   values[i].json().then((res) => {
-          //     console.log(res.message);
-          //     pinsarray.push(res.message);
-          //     console.log(pinsarray.length);
-          //     this.setState(
-          //       {
-          //         pins: pinsarray,
-          //       },
-          //       () => {
-          //         console.log(this.state.pins);
-          //       }
-          //     );
-          //     console.log("outside");
-          //   });
-          // }
-          for (let i = 0; i < json.episodes.length; i++) {
-            pinsarray.push(values[i].json());
-          }
-          Promise.all(pinsarray).then((pinobjects) => {
-            console.log("============pinobjects========", pinobjects);
+    if (localStorage.getItem("home")) {
+      const stateObj = JSON.parse(localStorage.getItem("home"));
+      this.setState({
+        episodes: JSON.parse(stateObj.episodes),
+        podcasts: JSON.parse(stateObj.podcasts),
+        progresses: JSON.parse(stateObj.progresses),
+        pins: JSON.parse(stateObj.pins),
+      });
+    } else {
+      const url = "http://localhost:5000/podcasts/loadUserEpisodes/".concat(
+        this.props.user._id
+      );
+      const url2 = "http://localhost:5000/pins/renderPins";
+
+      fetch(url, {
+        method: "GET",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((json) => {
+          console.log(json.episodes);
+          console.log(json.podcasts);
+          if (json.episodes) {
             this.setState({
-              pins: pinobjects,
+              episodes: json.episodes,
+              podcasts: json.podcasts,
+              progresses: json.progresses,
+            });
+          }
+          let promises = [];
+          for (let i = 0; i < json.episodes.length; i++) {
+            console.log(this.props.user._id);
+            console.log(json.episodes[i]._id);
+            promises.push(
+              fetch(url2, {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  user_id: this.props.user._id, // userId
+                  episode: json.episodes[i]._id,
+                }),
+              })
+            );
+          }
+          console.log(promises);
+          Promise.all(promises).then((values) => {
+            let pinsarray = [];
+            for (let i = 0; i < json.episodes.length; i++) {
+              pinsarray.push(values[i].json());
+            }
+            Promise.all(pinsarray).then((pinobjects) => {
+              console.log("============pinobjects========", pinobjects);
+              this.setState({
+                pins: pinobjects,
+              });
             });
           });
+        })
+        .catch((err) => {
+          console.log("Error: ", err);
         });
-      })
-      .catch((err) => {
-        console.log("Error: ", err);
-      });
-
+    }
+    this.interval = setInterval(() => this.props.setCurrTime(), 1000);
   };
 
   componentDidUpdate = (e) => {
-    console.log(this.state.pins);
-    console.log(this.state.episodes);
-    console.log(this.state.podcasts);
-    // console.log(this.state.pins.length);
-    // if (this.state.pins.length > 0) {
-    //   console.log(this.state.pins[0][0].startTime);
-    // }
-    // console.log("======episodes======", this.state.episodes);
+    console.log(this.props.user._id);
     console.log("=======proggresses========", this.state.progresses);
+  };
+
+  componentWillUnmount = (e) => {
+    if (this.state.episodes.length > 0) {
+      let currState = this.state;
+      currState.episodes = JSON.stringify(currState.episodes);
+      currState.podcasts = JSON.stringify(currState.podcasts);
+      currState.progresses = JSON.stringify(currState.progresses);
+      currState.pins = JSON.stringify(currState.pins);
+      localStorage.setItem("home", JSON.stringify(currState));
+    }
   };
 
   render() {
@@ -215,7 +214,10 @@ export default class Example extends React.PureComponent {
                       <Link to="/users">
                         <Button
                           onClick={() =>
-                            this.props.updateDiscussionEpisode(item)
+                            this.props.updateDiscussionEpisode(
+                              item,
+                              this.state.pins[id].message
+                            )
                           }
                           style={{ width: "100%", height: "60px" }}
                         >
@@ -223,9 +225,15 @@ export default class Example extends React.PureComponent {
                         </Button>
                       </Link>
                       <Link to="/pins_page">
-                        <Button 
-                          onClick={() => this.props.updateReflectionEpisode(item, this.state.pins[id].message)}
-                          style={{ width: "100%", height: "60px" }}>
+                        <Button
+                          onClick={() =>
+                            this.props.updateReflectionEpisode(
+                              item,
+                              this.state.pins[id].message
+                            )
+                          }
+                          style={{ width: "100%", height: "60px" }}
+                        >
                           Reflect
                         </Button>
                       </Link>

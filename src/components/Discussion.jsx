@@ -323,6 +323,7 @@ class Discussion extends React.Component {
         highlighted: hset,
       });
     } else {
+      console.log("wassuh bit");
       window.addEventListener("resize", this.handleResize);
       // fetch podcast transcript
       const url = "http://localhost:5000/transcript/loadTranscript/".concat(
@@ -347,57 +348,80 @@ class Discussion extends React.Component {
           console.log("Error: ", err);
         });
       // fetch previous pins
-      fetch("http://localhost:5000/pins/renderPins", {
-        method: "POST",
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user_id: this.props.user._id,
-          episode: this.props.episode._id,
-        }),
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          console.log("YOOOOOOOOOOOOOOO", json.id);
-          //set highlights
-          let highlightedPins = new Map();
-          console.log("=======GOT JSON=======", json.message);
-          for (let i = 0; i < json.message.length; i++) {
-            // load the cc_id and set this.state.highlighted
-            highlightedPins.set(
-              json.message[i]["ccId"][0],
-              json.message[i]["ccId"]
-            );
-            this.renderPin(
-              json.message[i]["startTime"]["$numberDecimal"],
-              json.message[i]["endTime"]["$numberDecimal"],
-              json.message[i]["ccId"],
-              json.message[i]["text"],
-              json.message[i]["pinDate"],
-              json.message[i]["note"]
-            );
-          }
-          console.log("=====HUH===== LOOP");
-          // highlight components
-          this.setState({
-            highlighted: highlightedPins,
-          });
-          console.log(
-            "=======HIGHLIGHTS AFTER LOAD=======",
-            this.state.highlighted
-          );
-          console.log("=======PINS AFTER LOAD=======", this.state.pins);
-        })
-        .catch((err) => {
-          console.log("Error: ", err);
-        });
+      console.log("THISHOIFWOFIJWOFIEJ", this.props.user._id);
 
-      // ipcRenderer.on("pinFromWindow", (event, arg) => {
-      //   console.log("recieved")
-      //   this.makePin();
-      // });
+      let highlightedPins = new Map();
+
+      for (let i = 0; i < this.props.discussPins.length; i++) {
+        highlightedPins.set(
+          this.props.discussPins[i]["ccId"][0],
+          this.props.discussPins[i]["ccId"]
+        );
+        this.renderPin(
+          this.props.discussPins[i]["startTime"]["$numberDecimal"],
+          this.props.discussPins[i]["endTime"]["$numberDecimal"],
+          this.props.discussPins[i]["ccId"],
+          this.props.discussPins[i]["text"],
+          this.props.discussPins[i]["pinDate"],
+          this.props.discussPins[i]["note"]
+        );
+        this.setState({
+          highlighted: highlightedPins,
+        });
+      }
+
+      // fetch("http://localhost:5000/pins/renderPins", {
+      //   method: "POST",
+      //   credentials: "same-origin",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+
+      //   body: JSON.stringify({
+      //     user_id: this.props.user._id,
+      //     episode: this.props.episode._id,
+      //   }),
+      // })
+      //   .then((res) => res.json())
+      //   .then((json) => {
+      //     console.log("YOOOOOOOOOOOOOOO", json.id);
+      //     //set highlights
+      //     let highlightedPins = new Map();
+      //     console.log("=======GOT JSON=======", json.message);
+      //     for (let i = 0; i < json.message.length; i++) {
+      //       // load the cc_id and set this.state.highlighted
+      //       highlightedPins.set(
+      //         json.message[i]["ccId"][0],
+      //         json.message[i]["ccId"]
+      //       );
+      //       this.renderPin(
+      //         json.message[i]["startTime"]["$numberDecimal"],
+      //         json.message[i]["endTime"]["$numberDecimal"],
+      //         json.message[i]["ccId"],
+      //         json.message[i]["text"],
+      //         json.message[i]["pinDate"],
+      //         json.message[i]["note"]
+      //       );
+      //     }
+      //     console.log("=====HUH===== LOOP");
+      //     // highlight components
+      //     this.setState({
+      //       highlighted: highlightedPins,
+      //     });
+      //     console.log(
+      //       "=======HIGHLIGHTS AFTER LOAD=======",
+      //       this.state.highlighted
+      //     );
+      //     console.log("=======PINS AFTER LOAD=======", this.state.pins);
+      //   })
+      //   .catch((err) => {
+      //     console.log("Error: ", err);
+      //   });
+
+      ipcRenderer.on("pinFromWindow", (event, arg) => {
+        console.log("recieved");
+        this.makePin();
+      });
     }
     this.interval = setInterval(() => this.props.setCurrTime(), 1000);
   };
@@ -408,6 +432,7 @@ class Discussion extends React.Component {
         this.handleScroll();
       }
     }
+    console.log(this.props.user._id);
   };
 
   componentWillUnmount = (e) => {

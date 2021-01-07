@@ -21,7 +21,6 @@ class Pinpage extends React.Component {
     super(props);
     this.state = {
       played: 0,
-      url: null,
       playing: false,
       controls: false,
       light: false,
@@ -57,7 +56,6 @@ class Pinpage extends React.Component {
 
   handleSeekChange = (e) => {
     this.setState({ played: parseFloat(e.target.value) });
-
   };
 
   handleSeekMouseUp = (e) => {
@@ -71,11 +69,13 @@ class Pinpage extends React.Component {
   };
 
   handleSeekTo = (time) => {
-    console.log("gonan seek to", time)
-    this.player.seekTo(time)
-    this.setState({played: (time/this.props.reflectEpisode.duration) * 0.999999})
+    console.log("gonan seek to", time);
+    this.player.seekTo(time);
+    this.setState({
+      played: (time / this.props.reflectEpisode.duration) * 0.999999,
+    });
     // this.setState({played:time})
-  }
+  };
 
   handleEdit = () => {
     const url = "http://localhost:5000/pins/editPin";
@@ -105,6 +105,36 @@ class Pinpage extends React.Component {
 
   ref = (player) => {
     this.player = player;
+  };
+
+  componentDidMount = (e) => {
+    // add the user id to the end of the request url
+    if (localStorage.getItem(this.props.episode._id.concat(".reflect"))) {
+      const stateObj = JSON.parse(
+        localStorage.getItem(this.props.episode._id.concat(".reflect"))
+      );
+      console.log(stateObj);
+      this.setState({
+        played: JSON.parse(stateObj.played),
+        playing: JSON.parse(stateObj.playing),
+        controls: JSON.parse(stateObj.controls),
+        light: JSON.parse(stateObj.light),
+        volume: JSON.parse(stateObj.volume),
+        muted: JSON.parse(stateObj.muted),
+        loaded: JSON.parse(stateObj.loaded),
+        duration: JSON.parse(stateObj.duration),
+        playbackRate: JSON.parse(stateObj.playbackRate),
+        loop: JSON.parse(stateObj.loop),
+      });
+    }
+  };
+
+  componentWillUnmount = (e) => {
+    let currState = this.state;
+    localStorage.setItem(
+      this.props.episode._id.concat(".reflect"),
+      JSON.stringify(currState)
+    );
   };
 
   render() {

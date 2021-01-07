@@ -47,13 +47,13 @@ class App extends React.Component {
           "https://res.cloudinary.com/pincast/video/upload/v1609758345/planet_money_wsjh0m.mp3",
       },
       reflectPins: [],
+      discussPins: [],
     };
   }
 
   updateReflectionEpisode = (episode, pins) => {
     console.log("reflectionnn", episode, pins);
-    this.setState({ reflectEpisode: episode });
-    this.setState({ reflectPins: pins });
+    this.setState({ reflectEpisode: episode, reflectPins: pins });
   };
 
   setPodcast = (newURL) => {
@@ -92,30 +92,7 @@ class App extends React.Component {
   };
 
   componentDidMount = (e) => {
-    // ipcRenderer.send('loadCookies', "HEY")
-    // ipcRenderer.on('userData', (event, arg) => {
-    //   if(arg && arg.length != 0) {
-    //     // check login stuff
-    //     let userData = JSON.parse(arg[0].value)
-    //     console.log("========== user_data ==========", userData)
-    //     this.setState({
-    //       loggedIn: true,
-    //       user: userData
-    //     })
-    //   }
-    // })
-    // this.interval = setInterval(
-    //   () => this.props.handlePin(this.player.getCurrentTime()),
-    //   1000
-    // );
-    // console.log("componentDidmount", this.props.pinTime);
     this.setCurrTime();
-    // console.log(this.state.user);
-    // console.log(typeof this.state.user);
-    // console.log(typeof localStorage.getItem("user"));
-    // let newstuff = localStorage.getItem("user");
-
-    // let newuser = JSON.parse(newstuff);
     const newuser = JSON.parse(localStorage.getItem("user"));
     if (newuser) {
       this.setState({
@@ -163,6 +140,7 @@ class App extends React.Component {
     //   1000
     // );
     // this.handlePin(this.player.getCurrentTime())
+    console.log(this.state.user._id);
   }
 
   ref = (player) => {
@@ -181,11 +159,12 @@ Update Episode is passed into the About component. When you click listen for a s
 it updates episode-specific state elements passed into the discussion component
 */
 
-  updateDiscussionEpisode = (episode) => {
+  updateDiscussionEpisode = (episode, pins) => {
     // needs episode name and then the "fake id" (i think its denoted podcast)
     console.log("====YO DIS GETS CALLED BRO");
     this.setState({
       episode: episode,
+      discussPins: pins,
     });
   };
 
@@ -243,7 +222,15 @@ it updates episode-specific state elements passed into the discussion component
               <About
                 pinTime={this.state.pinTime}
                 handlePin={this.handlePin}
+                handlePlayorpause={this.handlePlayorpause}
+                fastRewind={this.fastRewind}
+                fastForward={this.fastForward}
+                seekToTime={this.seekToTime}
+                playpause={this.state.playpause}
+                setCurrTime={this.setCurrTime}
                 user={this.state.user}
+                episode={this.state.episode}
+                login={this.login}
                 updateDiscussionEpisode={this.updateDiscussionEpisode}
                 updateReflectionEpisode={this.updateReflectionEpisode}
               />
@@ -262,6 +249,7 @@ it updates episode-specific state elements passed into the discussion component
                 user={this.state.user}
                 episode={this.state.episode}
                 login={this.login}
+                discussPins={this.state.discussPins}
               />
             </Route>
 
@@ -291,7 +279,7 @@ it updates episode-specific state elements passed into the discussion component
           playing={this.state.playpause}
           controls={false}
           /> */}
-              <Discussion
+              {/* <Discussion
                 pinTime={this.state.pinTime}
                 handlePin={this.handlePin}
                 handlePlayorpause={this.handlePlayorpause}
@@ -303,18 +291,22 @@ it updates episode-specific state elements passed into the discussion component
                 user={this.state.user}
                 episode={this.state.episode}
                 login={this.login}
+              /> */}
+              <About
+                pinTime={this.state.pinTime}
+                handlePin={this.handlePin}
+                handlePlayorpause={this.handlePlayorpause}
+                fastRewind={this.fastRewind}
+                fastForward={this.fastForward}
+                seekToTime={this.seekToTime}
+                playpause={this.state.playpause}
+                setCurrTime={this.setCurrTime}
+                user={this.state.user}
+                episode={this.state.episode}
+                login={this.login}
+                updateDiscussionEpisode={this.updateDiscussionEpisode}
+                updateReflectionEpisode={this.updateReflectionEpisode}
               />
-              {/* <About
-            pinTime={this.state.pinTime}
-            handlePin={this.handlePin}
-            handlePlayorpause={this.handlePlayorpause}
-            fastRewind={this.fastRewind}
-            fastForward={this.fastForward}
-            seekToTime={this.seekToTime}
-            playpause={this.state.playpause}
-            setCurrTime={this.setCurrTime}
-            user={this.state.user}
-            /> */}
             </Route>
           </Switch>
         </div>
