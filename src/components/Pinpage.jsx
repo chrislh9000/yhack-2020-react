@@ -57,6 +57,7 @@ class Pinpage extends React.Component {
 
   handleSeekChange = (e) => {
     this.setState({ played: parseFloat(e.target.value) });
+
   };
 
   handleSeekMouseUp = (e) => {
@@ -72,6 +73,8 @@ class Pinpage extends React.Component {
   handleSeekTo = (time) => {
     console.log("gonan seek to", time)
     this.player.seekTo(time)
+    this.setState({played: (time/this.props.reflectEpisode.duration) * 0.999999})
+    // this.setState({played:time})
   }
 
   handleEdit = () => {
