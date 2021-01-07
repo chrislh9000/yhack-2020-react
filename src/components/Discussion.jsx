@@ -298,6 +298,24 @@ class Discussion extends React.Component {
     this.setState({ cc_load: true });
   };
 
+  updateStorage = (e) => {
+    if (this.state.cc_comps.length > 0) {
+      let currState = this.state;
+
+      currState.pins = JSON.stringify(currState.pins);
+      currState.cc_comps = JSON.stringify(currState.cc_comps);
+      currState.selectedElements = JSON.stringify([]);
+      currState.highlighted = JSON.stringify(
+        Array.from(currState.highlighted.entries())
+      );
+
+      localStorage.setItem(
+        this.props.episode._id.concat(".listen"),
+        JSON.stringify(currState)
+      );
+    }
+  };
+
   componentDidMount = (e) => {
     if (localStorage.getItem(this.props.episode._id.concat(".listen"))) {
       window.addEventListener("resize", this.handleResize);
@@ -438,22 +456,7 @@ class Discussion extends React.Component {
   componentWillUnmount = (e) => {
     window.addEventListener("resize", this.handleResize);
     clearInterval(this.interval);
-
-    if (this.state.cc_comps.length > 0) {
-      let currState = this.state;
-
-      currState.pins = JSON.stringify(currState.pins);
-      currState.cc_comps = JSON.stringify(currState.cc_comps);
-      currState.selectedElements = JSON.stringify([]);
-      currState.highlighted = JSON.stringify(
-        Array.from(currState.highlighted.entries())
-      );
-
-      localStorage.setItem(
-        this.props.episode._id.concat(".listen"),
-        JSON.stringify(currState)
-      );
-    }
+    this.updateStorage();
     ipcRenderer.removeAllListeners(["pinFromWindow"]);
   };
 

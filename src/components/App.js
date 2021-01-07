@@ -250,6 +250,7 @@ it updates episode-specific state elements passed into the discussion component
                 episode={this.state.episode}
                 login={this.login}
                 discussPins={this.state.discussPins}
+                getUserFromStorage={this.getUserFromStorage}
               />
             </Route>
 

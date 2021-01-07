@@ -27,6 +27,14 @@ export default class Example extends React.PureComponent {
     };
   }
 
+  addPin = (pin) => {
+    let newpins = this.state.pins;
+    newpins.push({ message: pin });
+    this.setState({
+      pins: newpins,
+    });
+  };
+
   componentDidMount = (e) => {
     // add the user id to the end of the request url
 
@@ -102,7 +110,7 @@ export default class Example extends React.PureComponent {
   };
 
   componentDidUpdate = (e) => {
-    console.log(this.props.user._id);
+    console.log(this.state.pins);
     console.log("=======proggresses========", this.state.progresses);
   };
 
