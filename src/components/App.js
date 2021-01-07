@@ -71,7 +71,7 @@ class App extends React.Component {
     this.setState({ loggedIn: true, user: id }, () => {
       console.log(this.state.user);
     });
-    localStorage.setItem("user", id);
+    localStorage.setItem("user", JSON.stringify(id));
   };
 
   logout = () => {
@@ -110,11 +110,14 @@ class App extends React.Component {
     // );
     // console.log("componentDidmount", this.props.pinTime);
     this.setCurrTime();
-    console.log(typeof localStorage.getItem("user"));
-    console.log(localStorage.getItem("user"));
-    let newuser = 1;
-    // const newuser = JSON.parse(localStorage.getItem("user"));
-    if (newuser === 5) {
+    // console.log(this.state.user);
+    // console.log(typeof this.state.user);
+    // console.log(typeof localStorage.getItem("user"));
+    // let newstuff = localStorage.getItem("user");
+
+    // let newuser = JSON.parse(newstuff);
+    const newuser = JSON.parse(localStorage.getItem("user"));
+    if (newuser) {
       this.setState({
         user: newuser,
       });
