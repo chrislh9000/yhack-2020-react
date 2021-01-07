@@ -21,8 +21,7 @@ class Pinpage extends React.Component {
     super(props);
     this.state = {
       played: 0,
-      // url: "",
-      playing: true,
+      playing: false,
       controls: false,
       light: false,
       volume: 0.8,
@@ -68,6 +67,16 @@ class Pinpage extends React.Component {
     console.log("onDuration", duration);
     this.setState({ duration });
   };
+
+  handleSeekTo = (time) => {
+    console.log("gonan seek to", time);
+    this.player.seekTo(time);
+    this.setState({
+      played: (time / this.props.reflectEpisode.duration) * 0.999999,
+    });
+    // this.setState({played:time})
+  };
+
   handleEdit = () => {
     const url = "http://localhost:5000/pins/editPin";
     fetch(url, {
@@ -209,6 +218,9 @@ class Pinpage extends React.Component {
                         episode={pin.episode}
                         user_id={pin.user}
                         favorited={pin.favorited}
+                        handleSeekTo={this.handleSeekTo}
+                        handlePause={this.handlePause}
+                        handlePlay={this.handlePlay}
                       />
                     </div>
                   );
