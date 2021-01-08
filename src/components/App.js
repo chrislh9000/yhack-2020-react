@@ -147,7 +147,7 @@ class App extends React.Component {
     //   1000
     // );
     // this.handlePin(this.player.getCurrentTime())
-    console.log(this.state.episodeIndex);
+    // console.log(this.state.episodeIndex);
   }
 
   ref = (player) => {

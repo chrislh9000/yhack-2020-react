@@ -120,11 +120,16 @@ class Discussion extends React.Component {
     this.disableSelection();
   };
 
-  editPin = (note) => {
-    let key = this.state.pins.length - 1;
+  /*
+  editPin handles frontend note changes that the user makes.
+  Note (string) := the note that the user wants to add
+  Index (int) := the index of the note
+  */
+
+  editPin = (note, index) => {
     this.setState((prevState) => ({
       pins: prevState.pins.map((el, i) =>
-        i === key ? { ...el, note: note } : el
+        i === index ? { ...el, note: note } : el
       ),
     }));
   };
