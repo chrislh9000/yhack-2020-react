@@ -27,6 +27,14 @@ export default class Example extends React.PureComponent {
     };
   }
 
+  addPin = (pin) => {
+    let newpins = this.state.pins;
+    newpins.push({ message: pin });
+    this.setState({
+      pins: newpins,
+    });
+  };
+
   componentDidMount = (e) => {
     // add the user id to the end of the request url
 
@@ -102,8 +110,9 @@ export default class Example extends React.PureComponent {
   };
 
   componentDidUpdate = (e) => {
-    console.log(this.props.user._id);
-    console.log("=======proggresses========", this.state.progresses);
+    console.log(this.props.episodeIndex);
+    // console.log(this.state.pins);
+    // console.log("=======proggresses========", this.state.progresses);
   };
 
   componentWillUnmount = (e) => {
@@ -214,12 +223,13 @@ export default class Example extends React.PureComponent {
                     >
                       <Link to="/users">
                         <Button
-                          onClick={() =>
+                          onClick={() => {
                             this.props.updateDiscussionEpisode(
                               item,
                               this.state.pins[id].message, this.state.podcasts[id]
-                            )
-                          }
+                            );
+                            this.props.updateIndex(id);
+                          }}
                           style={{ width: "100%", height: "60px" }}
                         >
                           Listen
@@ -227,12 +237,13 @@ export default class Example extends React.PureComponent {
                       </Link>
                       <Link to="/pins_page">
                         <Button
-                          onClick={() =>
+                          onClick={() => {
                             this.props.updateReflectionEpisode(
                               item,
                               this.state.pins[id].message, this.state.podcasts[id]
-                            )
-                          }
+                            );
+                            this.props.updateIndex(id);
+                          }}
                           style={{ width: "100%", height: "60px" }}
                         >
                           Reflect

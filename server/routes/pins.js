@@ -27,7 +27,7 @@ router.post("/createPin", (req, res) => {
           console.log("=====PIN SAVED to USER RESP=========", resp);
           res.status(200).json({
             success: true,
-            message: "pin saved",
+            message: newPin,
             pinId: resp._id,
           });
         })
@@ -48,12 +48,12 @@ router.post("/deletePin", (req, res) => {
     episode: req.body.episode,
   };
 
-  Pin.deleteOne(query)
+  Pin.findOneAndDelete(query)
     .then((resp) => {
-      console.log(resp);
+      console.log("deleted Pin", resp);
       res.status(200).json({
         success: true,
-        message: "pin deleted",
+        message: resp,
       });
     })
     .catch((err) => {
@@ -74,7 +74,6 @@ router.post("/addNote", (req, res) => {
     { note: req.body.note }
   )
     .then((resp) => {
-      console.log("afdjaklsdf");
       res.status(200).json({
         success: true,
         message: "added note",
@@ -90,8 +89,8 @@ router.post("/editPin", (req, res) => {
   const query = {
     ccId: req.body.ccId,
     user: req.body.id,
-    episode: req.body.episode
-  }
+    episode: req.body.episode,
+  };
   const newTime = {
     text: req.body.text,
     startTime: req.body.startTime,
@@ -111,15 +110,15 @@ router.post("/editPin", (req, res) => {
     });
 });
 
-router.post('/pinFavorite', (req, res) => {
+router.post("/pinFavorite", (req, res) => {
   const query = {
     ccId: req.body.ccId,
     user: req.body.user_id,
-    episode: req.body.episode
-  }
+    episode: req.body.episode,
+  };
   const fav = {
-    favorited: req.body.favorite
-  }
+    favorited: req.body.favorite,
+  };
 
   Pin.findOneAndUpdate(query, fav)
     .then((resp) => {

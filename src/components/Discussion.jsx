@@ -64,6 +64,56 @@ class Discussion extends React.Component {
     });
   };
 
+  addPinLocalStorage = (pin) => {
+    const currHome = JSON.parse(localStorage.getItem("home"));
+    let homePins = JSON.parse(currHome.pins);
+    homePins[this.props.episodeIndex].message.push(pin);
+    currHome.pins = JSON.stringify(homePins);
+    localStorage.setItem("home", JSON.stringify(currHome));
+
+    const currReflect = JSON.parse(
+      localStorage.getItem(this.props.episode._id.concat(".reflect"))
+    );
+
+    let reflectPins = JSON.parse(currReflect.reflectPins);
+    reflectPins.push(pin);
+    currReflect.reflectPins = JSON.stringify(reflectPins);
+    localStorage.setItem(
+      this.props.episode._id.concat(".reflect"),
+      JSON.stringify(currReflect)
+    );
+  };
+
+  deletePinLocalStorage = (pin) => {
+    const currHome = JSON.parse(localStorage.getItem("home"));
+    let homePins = JSON.parse(currHome.pins);
+    let episodePins = homePins[this.props.episodeIndex].message;
+    for (let i = 0; i < episodePins.length; i++) {
+      if (episodePins[i]._id === pin._id) {
+        episodePins.splice(i, 1);
+      }
+    }
+    homePins[this.props.episodeIndex].message = episodePins;
+    currHome.pins = JSON.stringify(homePins);
+    localStorage.setItem("home", JSON.stringify(currHome));
+
+    const currReflect = JSON.parse(
+      localStorage.getItem(this.props.episode._id.concat(".reflect"))
+    );
+
+    let reflectPins = JSON.parse(currReflect.reflectPins);
+    for (let i = 0; i < reflectPins.length; i++) {
+      if (reflectPins[i]._id === pin._id) {
+        reflectPins.splice(i, 1);
+      }
+    }
+    currReflect.reflectPins = JSON.stringify(reflectPins);
+    localStorage.setItem(
+      this.props.episode._id.concat(".reflect"),
+      JSON.stringify(currReflect)
+    );
+  };
+
   makeHighlight = () => {
     const selements = this.state.selectedElements;
     if (!this.state.highlighted.has(selements[0])) {
@@ -79,6 +129,7 @@ class Discussion extends React.Component {
       }
 
       this.renderPin(startTime, endTime, selements, text, new Date());
+
       const url = "http://localhost:5000/pins/createPin";
       fetch(url, {
         method: "POST",
@@ -95,8 +146,11 @@ class Discussion extends React.Component {
           episode: this.props.episode._id,
         }),
       })
+        .then((res) => res.json())
         .then((json) => {
           console.log("hi");
+          this.addPinLocalStorage(json.message);
+          console.log("this is the loaded new pin", json.message);
         })
         .catch((err) => {
           console.log("Error: ", err);
@@ -107,11 +161,16 @@ class Discussion extends React.Component {
     this.disableSelection();
   };
 
-  editPin = (note) => {
-    let key = this.state.pins.length - 1;
+  /*
+  editPin handles frontend note changes that the user makes.
+  Note (string) := the note that the user wants to add
+  Index (int) := the index of the note
+  */
+
+  editPin = (note, index) => {
     this.setState((prevState) => ({
       pins: prevState.pins.map((el, i) =>
-        i === key ? { ...el, note: note } : el
+        i === index ? { ...el, note: note } : el
       ),
     }));
   };
@@ -144,6 +203,7 @@ class Discussion extends React.Component {
       .then((res) => res.json())
       .then((json) => {
         console.log("hi", json);
+        this.deletePinLocalStorage(json.message);
       })
       .catch((err) => {
         console.log("Error: ", err);
@@ -300,6 +360,24 @@ class Discussion extends React.Component {
     this.setState({ cc_load: true });
   };
 
+  updateStorage = (e) => {
+    if (this.state.cc_comps.length > 0) {
+      let currState = this.state;
+
+      currState.pins = JSON.stringify(currState.pins);
+      currState.cc_comps = JSON.stringify(currState.cc_comps);
+      currState.selectedElements = JSON.stringify([]);
+      currState.highlighted = JSON.stringify(
+        Array.from(currState.highlighted.entries())
+      );
+
+      localStorage.setItem(
+        this.props.episode._id.concat(".listen"),
+        JSON.stringify(currState)
+      );
+    }
+  };
+
   componentDidMount = (e) => {
     if (localStorage.getItem(this.props.episode._id.concat(".listen"))) {
       window.addEventListener("resize", this.handleResize);
@@ -436,28 +514,12 @@ class Discussion extends React.Component {
         this.handleScroll();
       }
     }
-    console.log(this.props.user._id);
   };
 
   componentWillUnmount = (e) => {
     window.addEventListener("resize", this.handleResize);
     clearInterval(this.interval);
-
-    if (this.state.cc_comps.length > 0) {
-      let currState = this.state;
-
-      currState.pins = JSON.stringify(currState.pins);
-      currState.cc_comps = JSON.stringify(currState.cc_comps);
-      currState.selectedElements = JSON.stringify([]);
-      currState.highlighted = JSON.stringify(
-        Array.from(currState.highlighted.entries())
-      );
-
-      localStorage.setItem(
-        this.props.episode._id.concat(".listen"),
-        JSON.stringify(currState)
-      );
-    }
+    this.updateStorage();
     ipcRenderer.removeAllListeners(["pinFromWindow"]);
   };
 
