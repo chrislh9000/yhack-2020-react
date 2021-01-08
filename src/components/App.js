@@ -33,6 +33,7 @@ class App extends React.Component {
       pinTime: 0,
       playpause: false,
       loggedIn: false,
+      episodeIndex: 0,
       user: { username: " " },
       url: podcast,
       episode: {
@@ -53,18 +54,13 @@ class App extends React.Component {
     };
   }
 
-  updateReflectionEpisode = (episode, pins, podcast) => {
-      episodeIndex: 0,
-    };
-  }
-
   updateEpisodeIndex = (index) => {
     this.setState({
       episodeIndex: index,
     });
   };
 
-  updateReflectionEpisode = (episode, pins) => {
+  updateReflectionEpisode = (episode, pins, podcast) => {
     console.log("reflectionnn", episode, pins);
     this.setState({ reflectEpisode: episode, reflectPins: pins });
     this.setState({ podcast: podcast })
