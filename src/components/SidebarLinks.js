@@ -13,7 +13,6 @@ class SidebarLinks extends React.Component {
     //pre-rendering code
 
     return (
-      <div>
         <Container className="mb-1 ml-4">
           <Row>
             <Link to="/about">
@@ -44,7 +43,9 @@ class SidebarLinks extends React.Component {
             <p className="sidebar-title">Saved Podcasts</p>
           </Row>
           <Row>
-            <p className="sidebar-title">Followed</p>
+            <Link to="/social">
+            <p className="sidebar-title">Following</p>
+            </Link>
           </Row>
           <Row>
             <p className="sidebar-title">Discovered</p>
@@ -53,7 +54,6 @@ class SidebarLinks extends React.Component {
             <p className="sidebar-title">New Releases</p>
           </Row>
         </Container>
-      </div>
     );
   }
 }

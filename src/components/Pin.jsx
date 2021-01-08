@@ -1,7 +1,6 @@
 import React from 'react';
 import '../assets/css/App.css';
 import { Link } from 'react-router-dom';
-import '../assets/css/App.css';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'

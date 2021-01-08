@@ -15,6 +15,7 @@ import Pin from "./Pin";
 import Sidebar from "./Sidebar";
 import About from "./About";
 import Register from "./Register";
+import Userlist from "./Userlist";
 import Login from "./Login";
 import ReactPlayer from "react-player";
 import podcast from "../assets/podcasts/planet_money.mp3";
@@ -280,6 +281,26 @@ it updates episode-specific state elements passed into the discussion component
               ) : (
                 <Login user={this.props.user} login={this.login} />
               )}
+            </Route>
+
+            <Route path="/social">
+              <Userlist
+              pinTime={this.state.pinTime}
+              handlePin={this.handlePin}
+              handlePlayorpause={this.handlePlayorpause}
+              fastRewind={this.fastRewind}
+              fastForward={this.fastForward}
+              seekToTime={this.seekToTime}
+              playpause={this.state.playpause}
+              setCurrTime={this.setCurrTime}
+              user={this.state.user}
+              episode={this.state.episode}
+              audioDuration={100}
+              pinTime={this.state.pinTime}
+              reflectEpisode={this.state.reflectEpisode}
+              reflectPins={this.state.reflectPins}
+              episodeIndex={this.state.episodeIndex}
+              />
             </Route>
 
             <Route path="/">
