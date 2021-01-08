@@ -13,47 +13,47 @@ class SidebarLinks extends React.Component {
     //pre-rendering code
 
     return (
-        <Container className="mb-1 ml-4">
-          <Row>
-            <Link to="/about">
-              <p className="sidebar-title">Home</p>
-            </Link>
-          </Row>
-          <Row>
-            <Link to="/">
-              <p className="sidebar-title">Discussion</p>
-            </Link>
-          </Row>
-          <Row>
-            <Link to="/about">
-              <p className="sidebar-title">Pins</p>
-            </Link>
-          </Row>
-          <Row>
-            <Link to="/pins_page">
-              <p className="sidebar-title">Reflection</p>
-            </Link>
-          </Row>
-          <Row>
-            <Link to="/register">
-              <p className="sidebar-title">Profile</p>
-            </Link>
-          </Row>
-          <Row>
-            <p className="sidebar-title">Saved Podcasts</p>
-          </Row>
-          <Row>
-            <Link to="/social">
+      <Container className="mb-1 ml-4">
+        <Row>
+          <Link to="/about">
+            <p className="sidebar-title">Home</p>
+          </Link>
+        </Row>
+        <Row>
+          <Link to="/">
+            <p className="sidebar-title">Discussion</p>
+          </Link>
+        </Row>
+        <Row>
+          <Link to="/about">
+            <p className="sidebar-title">Pins</p>
+          </Link>
+        </Row>
+        <Row>
+          <Link to="/pins_page">
+            <p className="sidebar-title">Reflection</p>
+          </Link>
+        </Row>
+        <Row>
+          <Link to="/register">
+            <p className="sidebar-title">Profile</p>
+          </Link>
+        </Row>
+        <Row>
+          <p className="sidebar-title">Saved Podcasts</p>
+        </Row>
+        <Row>
+          <Link to="/social">
             <p className="sidebar-title">Following</p>
-            </Link>
-          </Row>
-          <Row>
-            <p className="sidebar-title">Discovered</p>
-          </Row>
-          <Row>
-            <p className="sidebar-title">New Releases</p>
-          </Row>
-        </Container>
+          </Link>
+        </Row>
+        <Row>
+          <p className="sidebar-title">Discovered</p>
+        </Row>
+        <Row>
+          <p className="sidebar-title">New Releases</p>
+        </Row>
+      </Container>
     );
   }
 }

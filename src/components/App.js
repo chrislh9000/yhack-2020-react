@@ -63,7 +63,11 @@ class App extends React.Component {
 
   updateReflectionEpisode = (episode, pins, podcast) => {
     console.log("reflectionnn", episode, pins);
-    this.setState({ reflectEpisode: episode, reflectPins: pins });
+    this.setState({
+      reflectEpisode: episode,
+      reflectPins: pins,
+      podcast: podcast,
+    });
   };
 
   setPodcast = (newURL) => {
@@ -169,12 +173,13 @@ Update Episode is passed into the About component. When you click listen for a s
 it updates episode-specific state elements passed into the discussion component
 */
 
-  updateDiscussionEpisode = (episode, pins) => {
+  updateDiscussionEpisode = (episode, pins, podcast) => {
     // needs episode name and then the "fake id" (i think its denoted podcast)
     console.log("====YO DIS GETS CALLED BRO");
     this.setState({
       episode: episode,
       discussPins: pins,
+      podcast: podcast,
     });
   };
 
