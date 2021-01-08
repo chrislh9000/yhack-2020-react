@@ -112,6 +112,26 @@ class Discussion extends React.Component {
     );
   };
 
+  addNoteLocalStorage = (note, index) => {
+    const currHome = JSON.parse(localStorage.getItem("home"));
+    let homePins = JSON.parse(currHome.pins);
+    homePins[this.props.episodeIndex].message[index].note = note;
+    currHome.pins = JSON.stringify(homePins);
+    localStorage.setItem("home", JSON.stringify(currHome));
+
+    const currReflect = JSON.parse(
+      localStorage.getItem(this.props.episode._id.concat(".reflect"))
+    );
+
+    let reflectPins = JSON.parse(currReflect.reflectPins);
+    reflectPins[index].note = note;
+    currReflect.reflectPins = JSON.stringify(reflectPins);
+    localStorage.setItem(
+      this.props.episode._id.concat(".reflect"),
+      JSON.stringify(currReflect)
+    );
+  };
+
   makeHighlight = () => {
     const selements = this.state.selectedElements;
     if (!this.state.highlighted.has(selements[0])) {
@@ -166,6 +186,7 @@ class Discussion extends React.Component {
   */
 
   editPin = (note, index) => {
+    this.addNoteLocalStorage(note, index);
     this.setState((prevState) => ({
       pins: prevState.pins.map((el, i) =>
         i === index ? { ...el, note: note } : el
