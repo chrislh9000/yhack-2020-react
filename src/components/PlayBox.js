@@ -10,8 +10,8 @@ import IconButton from "@material-ui/core/Button";
 class PlayBox extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { message: "" };
-    // this.imgsrc = 
+    this.state = { message: "", imgURL: this.props.imgURL };
+    
   }
 
   changeMessage = (msg) => {
@@ -55,7 +55,7 @@ class PlayBox extends React.Component {
               boxShadow:
                 "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
             }}
-            src="/TheDaily.png"
+            src={this.state.imgURL}
           />
 
           <Row

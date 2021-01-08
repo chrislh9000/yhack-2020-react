@@ -43,7 +43,7 @@ const createPopup = () => {
       titleBarStyle: "hide",
       transparent: true,
       frame: false,
-      resizable: false,
+      resizable: true,
       webPreferences: {
         nodeIntegration: true,
       },
@@ -63,15 +63,26 @@ app.on("ready", () => {
   mainWindow = createWindow();
   popUp = createPopup();
   tray = createTray();
+
   ipcMain.on("pinned", (event, arg) => {
     console.log("=====PIN SIGNAL FROM OTHER WINDOW");
     mainWindow.webContents.send("pinFromWindow");
+
   });
-  tray.on('click', () => {
-    console.log('clicked')
-    mainWindow.webContents.send("pinFromWindow");
-  })
+  
+  // tray.on('click', () => {
+  //   console.log('clicked')
+  //   mainWindow.webContents.send("pinFromWindow");
+
+  // })
+
+  // ipcMain.on("tester", (event, arg) => {
+  //   console.log("elo")
+  //   console.log("argggggg", arg)
+  // })
+
 });
+
 // app.on("ready", createWindow);
 // app.on("ready", createPopup)
 app.on("window-all-closed", () => {
@@ -144,5 +155,6 @@ let tray;
 
 const createTray = () => {
   tray = new Tray(path.join(__dirname, './smallwhitepin.png'));
+ 
   return tray;
 }

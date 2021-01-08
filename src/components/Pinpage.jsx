@@ -30,6 +30,7 @@ class Pinpage extends React.Component {
       duration: 0,
       playbackRate: 1.0,
       loop: false,
+      reflectPins: this.props.reflectPins,
     };
   }
   handlePlayPause = () => {
@@ -125,12 +126,14 @@ class Pinpage extends React.Component {
         duration: JSON.parse(stateObj.duration),
         playbackRate: JSON.parse(stateObj.playbackRate),
         loop: JSON.parse(stateObj.loop),
+        reflectPins: JSON.parse(stateObj.reflectPins),
       });
     }
   };
 
   componentWillUnmount = (e) => {
     let currState = this.state;
+    currState.reflectPins = JSON.stringify(currState.reflectPins);
     localStorage.setItem(
       this.props.episode._id.concat(".reflect"),
       JSON.stringify(currState)
@@ -151,6 +154,7 @@ class Pinpage extends React.Component {
             pinTime={this.props.pinTime}
             playpause={this.props.playpause}
             user={this.props.user}
+            imgURL={this.props.imgURL}
           />
 
           <Col>
@@ -198,8 +202,9 @@ class Pinpage extends React.Component {
               />
             </Row>
             <Row>
+              {/*here, we can potentially have this.state if we're coming from discussion, and this.props if coming from home */}
               <Col>
-                {this.props.reflectPins.map((pin, i) => {
+                {this.state.reflectPins.map((pin, i) => {
                   return (
                     <div
                       className="mb-5"
