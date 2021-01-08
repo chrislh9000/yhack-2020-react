@@ -38,8 +38,10 @@ class Discussion extends React.Component {
     };
 
     ipcRenderer.on("pinFromWindow", (event, arg) => {
-      console.log("recieved");
+      console.log("reciev");
       this.makePin();
+      event.sender.send('tester', "hi")
+    
     });
   }
 
@@ -517,10 +519,12 @@ class Discussion extends React.Component {
       //     console.log("Error: ", err);
       //   });
 
-      ipcRenderer.on("pinFromWindow", (event, arg) => {
-        console.log("recieved");
-        this.makePin();
-      });
+      // ipcRenderer.on("pinFromWindow", (event, arg) => {
+      //   console.log("recieved");
+      //   this.makePin();
+      // //   // ipcMain.send("elo")
+      // //   // mainWindow.webContents.send("timeFromWindow", this.state.ccID);
+      // });
     }
     this.interval = setInterval(() => this.props.setCurrTime(), 1000);
   };
@@ -555,6 +559,7 @@ class Discussion extends React.Component {
             pinTime={this.props.pinTime}
             playpause={this.props.playpause}
             user={this.props.user}
+            imgURL={this.props.imgURL}
           />
           <Col xs={7} className="pr-0 pl-0">
             <ReactCursorPosition

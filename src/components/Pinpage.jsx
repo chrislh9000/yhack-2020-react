@@ -154,6 +154,7 @@ class Pinpage extends React.Component {
             pinTime={this.props.pinTime}
             playpause={this.props.playpause}
             user={this.props.user}
+            imgURL={this.props.imgURL}
           />
 
           <Col>
