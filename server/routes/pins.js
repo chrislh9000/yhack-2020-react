@@ -48,12 +48,12 @@ router.post("/deletePin", (req, res) => {
     episode: req.body.episode,
   };
 
-  Pin.deleteOne(query)
+  Pin.findOneAndDelete(query)
     .then((resp) => {
-      console.log(resp);
+      console.log("deleted Pin", resp);
       res.status(200).json({
         success: true,
-        message: "pin deleted",
+        message: resp,
       });
     })
     .catch((err) => {

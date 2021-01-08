@@ -63,14 +63,53 @@ class Discussion extends React.Component {
   };
 
   addPinLocalStorage = (pin) => {
-    console.log(pin);
     const currHome = JSON.parse(localStorage.getItem("home"));
     let homePins = JSON.parse(currHome.pins);
     homePins[this.props.episodeIndex].message.push(pin);
-    console.log(homePins[this.props.episodeIndex].message);
-    console.log(homePins);
     currHome.pins = JSON.stringify(homePins);
     localStorage.setItem("home", JSON.stringify(currHome));
+
+    const currReflect = JSON.parse(
+      localStorage.getItem(this.props.episode._id.concat(".reflect"))
+    );
+
+    let reflectPins = JSON.parse(currReflect.reflectPins);
+    reflectPins.push(pin);
+    currReflect.reflectPins = JSON.stringify(reflectPins);
+    localStorage.setItem(
+      this.props.episode._id.concat(".reflect"),
+      JSON.stringify(currReflect)
+    );
+  };
+
+  deletePinLocalStorage = (pin) => {
+    const currHome = JSON.parse(localStorage.getItem("home"));
+    let homePins = JSON.parse(currHome.pins);
+    let episodePins = homePins[this.props.episodeIndex].message;
+    for (let i = 0; i < episodePins.length; i++) {
+      if (episodePins[i]._id === pin._id) {
+        episodePins.splice(i, 1);
+      }
+    }
+    homePins[this.props.episodeIndex].message = episodePins;
+    currHome.pins = JSON.stringify(homePins);
+    localStorage.setItem("home", JSON.stringify(currHome));
+
+    const currReflect = JSON.parse(
+      localStorage.getItem(this.props.episode._id.concat(".reflect"))
+    );
+
+    let reflectPins = JSON.parse(currReflect.reflectPins);
+    for (let i = 0; i < reflectPins.length; i++) {
+      if (reflectPins[i]._id === pin._id) {
+        reflectPins.splice(i, 1);
+      }
+    }
+    currReflect.reflectPins = JSON.stringify(reflectPins);
+    localStorage.setItem(
+      this.props.episode._id.concat(".reflect"),
+      JSON.stringify(currReflect)
+    );
   };
 
   makeHighlight = () => {
@@ -157,6 +196,7 @@ class Discussion extends React.Component {
       .then((res) => res.json())
       .then((json) => {
         console.log("hi", json);
+        this.deletePinLocalStorage(json.message);
       })
       .catch((err) => {
         console.log("Error: ", err);
