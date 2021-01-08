@@ -132,6 +132,7 @@ export default class Example extends React.PureComponent {
             pinTime={this.props.pinTime}
             playpause={this.props.playpause}
             user={this.props.user}
+            imgURL="whitepin.png"
           />
 
           <Col className="pr-0 pl-0 mt-5 ml-5 mr-5 home-column">
@@ -216,7 +217,7 @@ export default class Example extends React.PureComponent {
                           onClick={() =>
                             this.props.updateDiscussionEpisode(
                               item,
-                              this.state.pins[id].message
+                              this.state.pins[id].message, this.state.podcasts[id]
                             )
                           }
                           style={{ width: "100%", height: "60px" }}
@@ -229,7 +230,7 @@ export default class Example extends React.PureComponent {
                           onClick={() =>
                             this.props.updateReflectionEpisode(
                               item,
-                              this.state.pins[id].message
+                              this.state.pins[id].message, this.state.podcasts[id]
                             )
                           }
                           style={{ width: "100%", height: "60px" }}

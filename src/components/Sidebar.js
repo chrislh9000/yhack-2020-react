@@ -40,6 +40,7 @@ class Sidebar extends React.Component {
           fastForward={this.props.fastForward}
           seekToTime={this.props.seekToTime}
           playpause={this.props.playpause}
+          imgURL={this.props.imgURL}
         />
       </Col>
     );

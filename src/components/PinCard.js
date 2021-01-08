@@ -113,7 +113,6 @@ class PinCard extends React.Component {
           background: "grey"
         }}
       >
-        {/* <Col xs={1}> */}
         <IconButton
           style={{
             width: "20px",

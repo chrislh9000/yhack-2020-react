@@ -48,12 +48,15 @@ class App extends React.Component {
       },
       reflectPins: [],
       discussPins: [],
+      podcast: {}
     };
   }
 
-  updateReflectionEpisode = (episode, pins) => {
+  updateReflectionEpisode = (episode, pins, podcast) => {
     console.log("reflectionnn", episode, pins);
     this.setState({ reflectEpisode: episode, reflectPins: pins });
+    this.setState({ podcast: podcast })
+    console.log("podcastttt", podcast["imageUrl"])
   };
 
   setPodcast = (newURL) => {
@@ -159,13 +162,14 @@ Update Episode is passed into the About component. When you click listen for a s
 it updates episode-specific state elements passed into the discussion component
 */
 
-  updateDiscussionEpisode = (episode, pins) => {
+  updateDiscussionEpisode = (episode, pins, podcast) => {
     // needs episode name and then the "fake id" (i think its denoted podcast)
     console.log("====YO DIS GETS CALLED BRO");
     this.setState({
       episode: episode,
       discussPins: pins,
     });
+    this.setState({ podcast: podcast })
   };
 
   render() {
@@ -207,12 +211,9 @@ it updates episode-specific state elements passed into the discussion component
                 pinTime={this.state.pinTime}
                 reflectEpisode={this.state.reflectEpisode}
                 reflectPins={this.state.reflectPins}
+                imgURL={this.state.podcast["imageUrl"]}
               />
             </Route>
-
-            {/* <Route path="/discussion">
-        <Discussion />
-        </Route> */}
 
             <Route path="/navbar">
               <Navbar />
@@ -250,6 +251,7 @@ it updates episode-specific state elements passed into the discussion component
                 episode={this.state.episode}
                 login={this.login}
                 discussPins={this.state.discussPins}
+                imgURL={this.state.podcast["imageUrl"]}
               />
             </Route>
 
@@ -271,27 +273,7 @@ it updates episode-specific state elements passed into the discussion component
             </Route>
 
             <Route path="/">
-              {/* <ReactPlayer
-          ref={this.ref}
-          url={podcast}
-          width="400px"
-          height="0px"
-          playing={this.state.playpause}
-          controls={false}
-          /> */}
-              {/* <Discussion
-                pinTime={this.state.pinTime}
-                handlePin={this.handlePin}
-                handlePlayorpause={this.handlePlayorpause}
-                fastRewind={this.fastRewind}
-                fastForward={this.fastForward}
-                seekToTime={this.seekToTime}
-                playpause={this.state.playpause}
-                setCurrTime={this.setCurrTime}
-                user={this.state.user}
-                episode={this.state.episode}
-                login={this.login}
-              /> */}
+
               <About
                 pinTime={this.state.pinTime}
                 handlePin={this.handlePin}
