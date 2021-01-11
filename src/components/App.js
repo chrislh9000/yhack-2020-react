@@ -22,10 +22,6 @@ import podcast from "../assets/podcasts/planet_money.mp3";
 import fs from "fs";
 const ipcRenderer = window.require("electron").ipcRenderer;
 
-// window.onbeforeunload = function () {
-//   localStorage.clear();
-// };
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -253,7 +249,6 @@ it updates episode-specific state elements passed into the discussion component
 
             <Route path="/pins_page">
               <Pinpage
-                pinTime={this.state.pinTime}
                 handlePin={this.handlePin}
                 handlePlayorpause={this.handlePlayorpause}
                 fastRewind={this.fastRewind}

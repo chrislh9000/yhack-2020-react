@@ -36,13 +36,6 @@ class Discussion extends React.Component {
       currTime: 0,
       highlighted: new Map(),
     };
-
-    ipcRenderer.on("pinFromWindow", (event, arg) => {
-      console.log("reciev");
-      this.makePin();
-      event.sender.send('tester', "hi")
-    
-    });
   }
 
   renderPin = (start_time, end_time, selectedComps, text, date, note) => {
@@ -258,6 +251,7 @@ class Discussion extends React.Component {
   };
 
   makePin = () => {
+    // console.log("makepin called")
     if (!this.state.highlighted.has(this.state.mainComp)) {
       this.setState({ selectedElements: [this.state.mainComp] }, () => {
         this.makeHighlight();
@@ -400,6 +394,12 @@ class Discussion extends React.Component {
   };
 
   componentDidMount = (e) => {
+    ipcRenderer.on("pinFromWindow", (event, arg) => {
+      console.log("reciev");
+      this.makePin();
+      // event.sender.send('tester', "hi")
+      ipcRenderer.send("timeReply", [this.props.pinTime])
+    });
     if (localStorage.getItem(this.props.episode._id.concat(".listen"))) {
       window.addEventListener("resize", this.handleResize);
 
@@ -519,12 +519,7 @@ class Discussion extends React.Component {
       //     console.log("Error: ", err);
       //   });
 
-      // ipcRenderer.on("pinFromWindow", (event, arg) => {
-      //   console.log("recieved");
-      //   this.makePin();
-      // //   // ipcMain.send("elo")
-      // //   // mainWindow.webContents.send("timeFromWindow", this.state.ccID);
-      // });
+
     }
     this.interval = setInterval(() => this.props.setCurrTime(), 1000);
   };

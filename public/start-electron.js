@@ -69,17 +69,25 @@ app.on("ready", () => {
     mainWindow.webContents.send("pinFromWindow");
 
   });
-  
-  // tray.on('click', () => {
-  //   console.log('clicked')
-  //   mainWindow.webContents.send("pinFromWindow");
 
-  // })
-
-  // ipcMain.on("tester", (event, arg) => {
+  // ipcMain.on("timeReply", (event, arg) => {
   //   console.log("elo")
   //   console.log("argggggg", arg)
+  //   const t1 = "8"
+  //   const contextMenu = Menu.buildFromTemplate([
+  //     { label: t1, type: 'radio', checked: true },
+  //     { label: 'Item4', type: 'radio' }
+  //   ])
+  //   tray.setContextMenu(contextMenu)
   // })
+  
+  tray.on('click', () => {
+    console.log('clicked')
+    mainWindow.webContents.send("pinFromWindow");
+
+  })
+
+
 
 });
 
@@ -155,6 +163,9 @@ let tray;
 
 const createTray = () => {
   tray = new Tray(path.join(__dirname, './smallwhitepin.png'));
- 
+  const contextMenu = Menu.buildFromTemplate([
+    { label: 'Pinned!', type: 'radio', checked: true }
+  ])
+  tray.setContextMenu(contextMenu)
   return tray;
 }
