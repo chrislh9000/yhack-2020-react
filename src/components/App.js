@@ -52,6 +52,7 @@ class App extends React.Component {
       discussPins: [],
       episodeIndex: 0,
       podcast: {},
+
     };
   }
 
@@ -61,7 +62,7 @@ class App extends React.Component {
     });
   };
 
-  updateReflectionEpisode = (episode, pins, podcast) => {
+  updateReflectionEpisode = (episode, pins, podcast, friendPin) => {
     console.log("reflectionnn", episode, pins);
     this.setState({
       reflectEpisode: episode,
@@ -106,6 +107,37 @@ class App extends React.Component {
     var pin = this.player.getCurrentTime();
     this.handlePin(pin);
   };
+
+  /*
+  friendUser takes in a user_id (string) and adds the user to the friends field of the user object in the database
+  */
+
+  friendUser = (friend_id) => {
+    // update the database to add the friend to the database
+    fetch("http://localhost:5000/social/follow", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: this.state.user._id,
+        friend_id: friend_id
+      })
+    })
+    .then(res => res.json())
+    .then((json) => {
+      // update the user object in state here
+      console.log("SUCCESS",json)
+      this.setState({
+        user: json.message
+      })
+      // update local storage
+    })
+    .catch((err) => {
+      console.log("ERROR",err)
+    })
+  }
 
   componentDidMount = (e) => {
     this.setCurrTime();
@@ -321,6 +353,7 @@ it updates episode-specific state elements passed into the discussion component
                 reflectEpisode={this.state.reflectEpisode}
                 reflectPins={this.state.reflectPins}
                 episodeIndex={this.state.episodeIndex}
+                friendUser={this.friendUser}
               />
             </Route>
 

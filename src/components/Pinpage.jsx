@@ -31,7 +31,13 @@ class Pinpage extends React.Component {
       playbackRate: 1.0,
       loop: false,
       reflectPins: this.props.reflectPins,
+      friendPins: [],
+      seeFriends: false,
     };
+  }
+
+  handleSeeFriends = () => {
+    this.setState({ seeFriends: !this.state.seeFriends })
   }
   handlePlayPause = () => {
     this.setState({ playing: !this.state.playing });
@@ -78,6 +84,32 @@ class Pinpage extends React.Component {
     // this.setState({played:time})
   };
 
+  handleFriendPin = () => {
+    const url = "http://localhost:5000/pins/friendPin";
+    fetch(url, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        friends: this.props.user.friends,
+        episode: this.props.reflectEpisode._id
+      }),
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        console.log("hi");
+        this.setState({
+          friendPins: json.message
+        })
+      })
+      .catch((err) => {
+        console.log("Error: ", err);
+      });
+  };
+
+
   handleEdit = () => {
     const url = "http://localhost:5000/pins/editPin";
     fetch(url, {
@@ -110,6 +142,8 @@ class Pinpage extends React.Component {
 
   componentDidMount = (e) => {
     // add the user id to the end of the request url
+    this.handleFriendPin()
+
     if (localStorage.getItem(this.props.reflectEpisode._id.concat(".reflect"))) {
       const stateObj = JSON.parse(
         localStorage.getItem(this.props.reflectEpisode._id.concat(".reflect"))
@@ -142,7 +176,7 @@ class Pinpage extends React.Component {
   };
 
   render() {
-    console.log("=======REFLECT EPISODE ID=========", this.props.reflectEpisode._id)
+    console.log("=======REFLECT EPISODE ID=========", this.state.friendPins)
     //pre-rendering code
     return (
       <Container fluid className="discussion_background main-back">
@@ -188,6 +222,8 @@ class Pinpage extends React.Component {
             </Row>
             <Row>
               <SearchPage />
+              <button onClick={this.handleSeeFriends}>{this.state.seeFriends ? "no Friends" : "Friends"}</button>
+
             </Row>
             <Row>
               <AudioBar
@@ -206,7 +242,9 @@ class Pinpage extends React.Component {
             <Row>
               {/*here, we can potentially have this.state if we're coming from discussion, and this.props if coming from home */}
               <Col>
-                {this.state.reflectPins.map((pin, i) => {
+                {
+                  this.state.seeFriends ?
+                  this.state.reflectPins.map((pin, i) => {
                   return (
                     <div
                       className="mb-5"
@@ -231,7 +269,33 @@ class Pinpage extends React.Component {
                       />
                     </div>
                   );
-                })}
+                }) :
+                  this.state.friendPins.map((pin, i) => {
+                  return (
+                    <div
+                      className="mb-5"
+                      style={{
+                        background: "grey",
+                        borderRadius: "25px",
+                      }}
+                    >
+                      <PinCard
+                        ccId={pin.ccId}
+                        text={pin.text}
+                        key={i}
+                        time={pin.startTime.$numberDecimal}
+                        note={pin.note}
+                        handleEdit={this.handleEdit}
+                        episode={pin.episode}
+                        user_id={pin.user}
+                        favorited={pin.favorited}
+                        handleSeekTo={this.handleSeekTo}
+                        handlePause={this.handlePause}
+                        handlePlay={this.handlePlay}
+                      />
+                    </div>
+                  );
+                }) }
               </Col>
             </Row>
           </Col>
