@@ -11,7 +11,7 @@ class PlayBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = { message: "", imgURL: this.props.imgURL };
-    
+
   }
 
   changeMessage = (msg) => {
