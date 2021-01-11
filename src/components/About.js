@@ -127,7 +127,6 @@ export default class Example extends React.PureComponent {
   };
 
   render() {
-    console.log("======episodes======", this.state.episodes);
     console.log(this.state.pins.length);
     return (
       <Container fluid className="discussion_background home-back">

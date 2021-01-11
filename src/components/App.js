@@ -22,10 +22,6 @@ import podcast from "../assets/podcasts/planet_money.mp3";
 import fs from "fs";
 const ipcRenderer = window.require("electron").ipcRenderer;
 
-// window.onbeforeunload = function () {
-//   localStorage.clear();
-// };
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -43,10 +39,10 @@ class App extends React.Component {
           "https://res.cloudinary.com/pincast/video/upload/v1609758345/planet_money_wsjh0m.mp3",
       },
       reflectEpisode: {
-        _id: "5ff051084158640e1d924e76",
-        transcript: "5fe345e13ed52c79138e951d",
+        _id: "5ff41fd399ce35f94887faf1",
+        transcript: "5ff09c0f1c12e41a6d708a99",
         audioUrl:
-          "https://res.cloudinary.com/pincast/video/upload/v1609758345/planet_money_wsjh0m.mp3",
+          "https://res.cloudinary.com/pincast/video/upload/v1609759707/How_I_built_this_Riot_Games_vxfj3d.mp3",
       },
       reflectPins: [],
       discussPins: [],
@@ -68,6 +64,8 @@ class App extends React.Component {
       reflectPins: pins,
       podcast: podcast,
     });
+    // update local storage
+    localStorage.setItem("lastPlayedEpisode", JSON.stringify(episode))
   };
 
   setPodcast = (newURL) => {
@@ -112,6 +110,16 @@ class App extends React.Component {
       this.setState({
         user: newuser,
       });
+    }
+    // load last played episode into state from local storage
+    if (localStorage.getItem("lastPlayedEpisode")) {
+      let lastPlayedEpisode = JSON.parse(localStorage.getItem("lastPlayedEpisode"));
+      this.setState({
+        reflectEpisode: lastPlayedEpisode,
+        episode: lastPlayedEpisode
+      }, () => {
+        console.log("EPISODES FROM LAST SESSION ADDED=========", lastPlayedEpisode)
+      })
     }
   };
 
@@ -184,6 +192,7 @@ it updates episode-specific state elements passed into the discussion component
   };
 
   render() {
+    console.log("REFLECT PINS======", this.state.reflectPins)
     return (
       <Router>
         <div>
@@ -222,6 +231,7 @@ it updates episode-specific state elements passed into the discussion component
                 reflectEpisode={this.state.reflectEpisode}
                 reflectPins={this.state.reflectPins}
                 episodeIndex={this.state.episodeIndex}
+                imgURL= {this.state.podcast.imageUrl}
               />
             </Route>
 
