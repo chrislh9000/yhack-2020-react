@@ -22,10 +22,6 @@ import podcast from "../assets/podcasts/planet_money.mp3";
 import fs from "fs";
 const ipcRenderer = window.require("electron").ipcRenderer;
 
-// window.onbeforeunload = function () {
-//   localStorage.clear();
-// };
-
 class App extends React.Component {
   constructor(props) {
     super(props);
