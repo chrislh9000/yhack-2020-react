@@ -208,7 +208,6 @@ it updates episode-specific state elements passed into the discussion component
 
             <Route path="/pins_page">
               <Pinpage
-                pinTime={this.state.pinTime}
                 handlePin={this.handlePin}
                 handlePlayorpause={this.handlePlayorpause}
                 fastRewind={this.fastRewind}
