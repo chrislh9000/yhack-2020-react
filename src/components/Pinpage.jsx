@@ -110,11 +110,11 @@ class Pinpage extends React.Component {
 
   componentDidMount = (e) => {
     // add the user id to the end of the request url
-    if (localStorage.getItem(this.props.episode._id.concat(".reflect"))) {
+    if (localStorage.getItem(this.props.reflectEpisode._id.concat(".reflect"))) {
       const stateObj = JSON.parse(
-        localStorage.getItem(this.props.episode._id.concat(".reflect"))
+        localStorage.getItem(this.props.reflectEpisode._id.concat(".reflect"))
       );
-      console.log(stateObj);
+      console.log("=======REFLECT EPISODE ID=========", this.props.reflectEpisode._id)
       this.setState({
         played: JSON.parse(stateObj.played),
         playing: JSON.parse(stateObj.playing),
@@ -134,13 +134,15 @@ class Pinpage extends React.Component {
   componentWillUnmount = (e) => {
     let currState = this.state;
     currState.reflectPins = JSON.stringify(currState.reflectPins);
+    console.log("WTFFF MANN THIS IS GETTING CALLED?!?!?!?!?==========", currState.reflectPins)
     localStorage.setItem(
-      this.props.episode._id.concat(".reflect"),
+      this.props.reflectEpisode._id.concat(".reflect"),
       JSON.stringify(currState)
     );
   };
 
   render() {
+    console.log("=======REFLECT EPISODE ID=========", this.props.reflectEpisode._id)
     //pre-rendering code
     return (
       <Container fluid className="discussion_background main-back">
