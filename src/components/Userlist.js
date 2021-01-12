@@ -42,6 +42,7 @@ class Userlist extends React.Component {
 
   render () {
     console.log("USERS===", this.state.users)
+
     return (
       <Container fluid className="discussion_background main-back">
 
@@ -65,12 +66,15 @@ class Userlist extends React.Component {
       controls={false}
       />
       <Col>
-        {this.state.users.map((user, i) => {
-          return (
-            <Usercard username={user.username}
-            />
-          );
-        })}
+        { this.props.user.friends ?
+          this.state.users.map((user, i) => (
+              this.props.user.friends.includes(user._id) ?
+              <Usercard isFriend={true} friendUser={this.props.friendUser} user_id={user._id} username={user.username}  /> :
+              <Usercard isFriend={false} friendUser={this.props.friendUser} user_id={user._id} username={user.username}
+              />
+          )
+        ) : "Not Logged In"
+        }
       </Col>
       </Row>
       </Container>

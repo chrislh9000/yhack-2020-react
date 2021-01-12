@@ -28,8 +28,21 @@ router.get('/users/all', (req, res, next) => {
 /*
 follows a specific user
 */
-router.post('/users', (req, res, next) => {
-
+router.post('/follow', (req, res, next) => {
+  console.log("=====SUPPPP=============")
+  // update the user object in the database and then return the userschema
+  User.findByIdAndUpdate(req.body.user_id, {$push: { friends: req.body.friend_id} })
+  .then(user => {
+    console.log("FRIEND ADDED TO USER OBJ ======", user)
+    res.status(200).json({
+      success: true,
+      message: user
+    });
+  })
+  .catch(err => {
+    console.log("=====HEYYY=============")
+    res.status(500).json(err);
+  })
 })
 
 

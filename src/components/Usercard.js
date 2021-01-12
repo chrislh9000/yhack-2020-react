@@ -8,7 +8,12 @@ import "../assets/css/App.css";
 class Usercard extends React.Component {
   constructor(props) {
     super(props);
+    this.state={
+      friends: []
+    }
   }
+
+
   render() {
     //pre-rendering code
     var circleStyle = {
@@ -31,7 +36,10 @@ class Usercard extends React.Component {
         </Card.Header>
         <Card.Body>
           <Card.Title>{this.props.username}</Card.Title>
-          <Button variant="primary">Follow</Button>
+          { this.props.isFriend ?
+            <Button variant="primary">Unfriend</Button>  :
+            <Button onClick={(e) => this.props.friendUser(this.props.user_id)} variant="primary">Friend</Button>
+          }
         </Card.Body>
       </Card>
     );

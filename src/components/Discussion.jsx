@@ -36,12 +36,15 @@ class Discussion extends React.Component {
       currTime: 0,
       highlighted: new Map(),
     };
+<<<<<<< HEAD
 
     ipcRenderer.on("pinFromWindow", (event, arg) => {
       console.log("reciev");
       this.makePin();
       event.sender.send("tester", "hi");
     });
+=======
+>>>>>>> 162551ff3e88f2986521865a852aa5eaee23158f
   }
 
   renderPin = (start_time, end_time, selectedComps, text, date, note) => {
@@ -261,6 +264,7 @@ class Discussion extends React.Component {
   };
 
   makePin = () => {
+    // console.log("makepin called")
     if (!this.state.highlighted.has(this.state.mainComp)) {
       this.setState({ selectedElements: [this.state.mainComp] }, () => {
         this.makeHighlight();
@@ -403,6 +407,12 @@ class Discussion extends React.Component {
   };
 
   componentDidMount = (e) => {
+    ipcRenderer.on("pinFromWindow", (event, arg) => {
+      console.log("reciev");
+      this.makePin();
+      // event.sender.send('tester', "hi")
+      ipcRenderer.send("timeReply", [this.props.pinTime])
+    });
     if (localStorage.getItem(this.props.episode._id.concat(".listen"))) {
       window.addEventListener("resize", this.handleResize);
 
@@ -473,6 +483,59 @@ class Discussion extends React.Component {
           highlighted: highlightedPins,
         });
       }
+<<<<<<< HEAD
+=======
+
+      // fetch("http://localhost:5000/pins/renderPins", {
+      //   method: "POST",
+      //   credentials: "same-origin",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+
+      //   body: JSON.stringify({
+      //     user_id: this.props.user._id,
+      //     episode: this.props.episode._id,
+      //   }),
+      // })
+      //   .then((res) => res.json())
+      //   .then((json) => {
+      //     console.log("YOOOOOOOOOOOOOOO", json.id);
+      //     //set highlights
+      //     let highlightedPins = new Map();
+      //     console.log("=======GOT JSON=======", json.message);
+      //     for (let i = 0; i < json.message.length; i++) {
+      //       // load the cc_id and set this.state.highlighted
+      //       highlightedPins.set(
+      //         json.message[i]["ccId"][0],
+      //         json.message[i]["ccId"]
+      //       );
+      //       this.renderPin(
+      //         json.message[i]["startTime"]["$numberDecimal"],
+      //         json.message[i]["endTime"]["$numberDecimal"],
+      //         json.message[i]["ccId"],
+      //         json.message[i]["text"],
+      //         json.message[i]["pinDate"],
+      //         json.message[i]["note"]
+      //       );
+      //     }
+      //     console.log("=====HUH===== LOOP");
+      //     // highlight components
+      //     this.setState({
+      //       highlighted: highlightedPins,
+      //     });
+      //     console.log(
+      //       "=======HIGHLIGHTS AFTER LOAD=======",
+      //       this.state.highlighted
+      //     );
+      //     console.log("=======PINS AFTER LOAD=======", this.state.pins);
+      //   })
+      //   .catch((err) => {
+      //     console.log("Error: ", err);
+      //   });
+
+
+>>>>>>> 162551ff3e88f2986521865a852aa5eaee23158f
     }
     this.interval = setInterval(() => this.props.setCurrTime(), 1000);
   };

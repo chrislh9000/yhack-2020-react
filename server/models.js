@@ -28,6 +28,13 @@ const UserSchema = new Schema({
       default: [],
     },
   ],
+  friends: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      default: [],
+    },
+  ],
 });
 
 const GcloudResponseSchema = new Schema({

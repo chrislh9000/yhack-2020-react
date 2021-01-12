@@ -84,6 +84,26 @@ router.post("/addNote", (req, res) => {
     });
 });
 
+
+router.post("/friendPin", (req, res) => {
+  Pin.find({
+    $and: [
+      {user: { $in: req.body.friends }},
+      {episode: req.body.episode}
+    ]
+  })
+    .then((resp) => {
+      console.log("====QUERY FRO FRIENDS PINS WORKED====")
+      res.status(200).json({
+        success: true,
+        message: resp,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
+});
+
 // ====== EDIT PINS =======
 router.post("/editPin", (req, res) => {
   const query = {
