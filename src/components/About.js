@@ -127,6 +127,7 @@ export default class Example extends React.PureComponent {
   };
 
   render() {
+    console.log("======episodes======", this.state.episodes);
     console.log(this.state.pins.length);
     return (
       <Container fluid className="discussion_background home-back">
@@ -225,7 +226,8 @@ export default class Example extends React.PureComponent {
                           onClick={() => {
                             this.props.updateDiscussionEpisode(
                               item,
-                              this.state.pins[id].message, this.state.podcasts[id]
+                              this.state.pins[id].message,
+                              this.state.podcasts[id]
                             );
                             this.props.updateIndex(id);
                           }}
@@ -239,7 +241,8 @@ export default class Example extends React.PureComponent {
                           onClick={() => {
                             this.props.updateReflectionEpisode(
                               item,
-                              this.state.pins[id].message, this.state.podcasts[id]
+                              this.state.pins[id].message,
+                              this.state.podcasts[id]
                             );
                             this.props.updateIndex(id);
                           }}

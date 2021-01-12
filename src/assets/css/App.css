@@ -254,6 +254,14 @@
   height: 100%;
 }
 
+.reflection-column {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 .middle {
   height: 30;
   min-height: 50%;

@@ -19,19 +19,45 @@ import ReactPlayer from "react-player";
 class Pinpage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      played: 0,
-      playing: false,
-      controls: false,
-      light: false,
-      volume: 0.8,
-      muted: false,
-      loaded: 0,
-      duration: 0,
-      playbackRate: 1.0,
-      loop: false,
-      reflectPins: this.props.reflectPins,
-    };
+
+    if (
+      localStorage.getItem(this.props.reflectEpisode._id.concat(".reflect"))
+    ) {
+      const stateObj = JSON.parse(
+        localStorage.getItem(this.props.reflectEpisode._id.concat(".reflect"))
+      );
+      console.log(
+        "=======REFLECT EPISODE ID=========",
+        this.props.reflectEpisode._id
+      );
+      this.state = {
+        played: JSON.parse(stateObj.played),
+        playing: JSON.parse(stateObj.playing),
+        controls: JSON.parse(stateObj.controls),
+        light: JSON.parse(stateObj.light),
+        volume: JSON.parse(stateObj.volume),
+        muted: JSON.parse(stateObj.muted),
+        loaded: JSON.parse(stateObj.loaded),
+        duration: JSON.parse(stateObj.duration),
+        playbackRate: JSON.parse(stateObj.playbackRate),
+        loop: JSON.parse(stateObj.loop),
+        reflectPins: JSON.parse(stateObj.reflectPins),
+      };
+    } else {
+      this.state = {
+        played: this.props.setCurrTime(),
+        playing: false,
+        controls: false,
+        light: false,
+        volume: 0.8,
+        muted: false,
+        loaded: 0,
+        duration: 0,
+        playbackRate: 1.0,
+        loop: false,
+        reflectPins: this.props.reflectPins,
+      };
+    }
   }
   handlePlayPause = () => {
     this.setState({ playing: !this.state.playing });
@@ -108,41 +134,20 @@ class Pinpage extends React.Component {
     this.player = player;
   };
 
-  componentDidMount = (e) => {
-    // add the user id to the end of the request url
-    if (localStorage.getItem(this.props.reflectEpisode._id.concat(".reflect"))) {
-      const stateObj = JSON.parse(
-        localStorage.getItem(this.props.reflectEpisode._id.concat(".reflect"))
-      );
-      console.log("=======REFLECT EPISODE ID=========", this.props.reflectEpisode._id)
-      this.setState({
-        played: JSON.parse(stateObj.played),
-        playing: JSON.parse(stateObj.playing),
-        controls: JSON.parse(stateObj.controls),
-        light: JSON.parse(stateObj.light),
-        volume: JSON.parse(stateObj.volume),
-        muted: JSON.parse(stateObj.muted),
-        loaded: JSON.parse(stateObj.loaded),
-        duration: JSON.parse(stateObj.duration),
-        playbackRate: JSON.parse(stateObj.playbackRate),
-        loop: JSON.parse(stateObj.loop),
-        reflectPins: JSON.parse(stateObj.reflectPins),
-      });
-    }
-  };
-
-  componentWillUnmount = (e) => {
+  updateStorage = () => {
     let currState = this.state;
     currState.reflectPins = JSON.stringify(currState.reflectPins);
-    console.log("WTFFF MANN THIS IS GETTING CALLED?!?!?!?!?==========", currState.reflectPins)
     localStorage.setItem(
       this.props.reflectEpisode._id.concat(".reflect"),
       JSON.stringify(currState)
     );
   };
 
+  componentWillUnmount = (e) => {
+    this.updateStorage();
+  };
+
   render() {
-    console.log("=======REFLECT EPISODE ID=========", this.props.reflectEpisode._id)
     //pre-rendering code
     return (
       <Container fluid className="discussion_background main-back">
@@ -159,7 +164,7 @@ class Pinpage extends React.Component {
             imgURL={this.props.imgURL}
           />
 
-          <Col>
+          <Col className="reflection-column">
             <Row>
               <ReactPlayer
                 ref={this.ref}

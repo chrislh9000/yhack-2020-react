@@ -40,8 +40,7 @@ class Discussion extends React.Component {
     ipcRenderer.on("pinFromWindow", (event, arg) => {
       console.log("reciev");
       this.makePin();
-      event.sender.send('tester', "hi")
-    
+      event.sender.send("tester", "hi");
     });
   }
 
@@ -54,13 +53,11 @@ class Discussion extends React.Component {
       date: date,
       note: note,
     };
-    this.setState({ pin: this.state.pins.push(newPin) });
     let newmap = this.state.highlighted;
-    console.log(newmap);
-    console.log(typeof newmap);
     newmap.set(this.state.selectedElements[0], this.state.selectedElements);
     this.setState({
       highlighted: newmap,
+      pin: this.state.pins.push(newPin),
     });
   };
 
@@ -75,13 +72,15 @@ class Discussion extends React.Component {
       localStorage.getItem(this.props.episode._id.concat(".reflect"))
     );
 
-    let reflectPins = JSON.parse(currReflect.reflectPins);
-    reflectPins.push(pin);
-    currReflect.reflectPins = JSON.stringify(reflectPins);
-    localStorage.setItem(
-      this.props.episode._id.concat(".reflect"),
-      JSON.stringify(currReflect)
-    );
+    if (currReflect) {
+      let reflectPins = JSON.parse(currReflect.reflectPins);
+      reflectPins.push(pin);
+      currReflect.reflectPins = JSON.stringify(reflectPins);
+      localStorage.setItem(
+        this.props.episode._id.concat(".reflect"),
+        JSON.stringify(currReflect)
+      );
+    }
   };
 
   deletePinLocalStorage = (pin) => {
@@ -101,17 +100,19 @@ class Discussion extends React.Component {
       localStorage.getItem(this.props.episode._id.concat(".reflect"))
     );
 
-    let reflectPins = JSON.parse(currReflect.reflectPins);
-    for (let i = 0; i < reflectPins.length; i++) {
-      if (reflectPins[i]._id === pin._id) {
-        reflectPins.splice(i, 1);
+    if (currReflect) {
+      let reflectPins = JSON.parse(currReflect.reflectPins);
+      for (let i = 0; i < reflectPins.length; i++) {
+        if (reflectPins[i]._id === pin._id) {
+          reflectPins.splice(i, 1);
+        }
       }
+      currReflect.reflectPins = JSON.stringify(reflectPins);
+      localStorage.setItem(
+        this.props.episode._id.concat(".reflect"),
+        JSON.stringify(currReflect)
+      );
     }
-    currReflect.reflectPins = JSON.stringify(reflectPins);
-    localStorage.setItem(
-      this.props.episode._id.concat(".reflect"),
-      JSON.stringify(currReflect)
-    );
   };
 
   addNoteLocalStorage = (note, index) => {
@@ -125,13 +126,15 @@ class Discussion extends React.Component {
       localStorage.getItem(this.props.episode._id.concat(".reflect"))
     );
 
-    let reflectPins = JSON.parse(currReflect.reflectPins);
-    reflectPins[index].note = note;
-    currReflect.reflectPins = JSON.stringify(reflectPins);
-    localStorage.setItem(
-      this.props.episode._id.concat(".reflect"),
-      JSON.stringify(currReflect)
-    );
+    if (currReflect) {
+      let reflectPins = JSON.parse(currReflect.reflectPins);
+      reflectPins[index].note = note;
+      currReflect.reflectPins = JSON.stringify(reflectPins);
+      localStorage.setItem(
+        this.props.episode._id.concat(".reflect"),
+        JSON.stringify(currReflect)
+      );
+    }
   };
 
   makeHighlight = () => {
@@ -470,61 +473,6 @@ class Discussion extends React.Component {
           highlighted: highlightedPins,
         });
       }
-
-      // fetch("http://localhost:5000/pins/renderPins", {
-      //   method: "POST",
-      //   credentials: "same-origin",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-
-      //   body: JSON.stringify({
-      //     user_id: this.props.user._id,
-      //     episode: this.props.episode._id,
-      //   }),
-      // })
-      //   .then((res) => res.json())
-      //   .then((json) => {
-      //     console.log("YOOOOOOOOOOOOOOO", json.id);
-      //     //set highlights
-      //     let highlightedPins = new Map();
-      //     console.log("=======GOT JSON=======", json.message);
-      //     for (let i = 0; i < json.message.length; i++) {
-      //       // load the cc_id and set this.state.highlighted
-      //       highlightedPins.set(
-      //         json.message[i]["ccId"][0],
-      //         json.message[i]["ccId"]
-      //       );
-      //       this.renderPin(
-      //         json.message[i]["startTime"]["$numberDecimal"],
-      //         json.message[i]["endTime"]["$numberDecimal"],
-      //         json.message[i]["ccId"],
-      //         json.message[i]["text"],
-      //         json.message[i]["pinDate"],
-      //         json.message[i]["note"]
-      //       );
-      //     }
-      //     console.log("=====HUH===== LOOP");
-      //     // highlight components
-      //     this.setState({
-      //       highlighted: highlightedPins,
-      //     });
-      //     console.log(
-      //       "=======HIGHLIGHTS AFTER LOAD=======",
-      //       this.state.highlighted
-      //     );
-      //     console.log("=======PINS AFTER LOAD=======", this.state.pins);
-      //   })
-      //   .catch((err) => {
-      //     console.log("Error: ", err);
-      //   });
-
-      // ipcRenderer.on("pinFromWindow", (event, arg) => {
-      //   console.log("recieved");
-      //   this.makePin();
-      // //   // ipcMain.send("elo")
-      // //   // mainWindow.webContents.send("timeFromWindow", this.state.ccID);
-      // });
     }
     this.interval = setInterval(() => this.props.setCurrTime(), 1000);
   };
@@ -542,11 +490,30 @@ class Discussion extends React.Component {
     clearInterval(this.interval);
     this.updateStorage();
     ipcRenderer.removeAllListeners(["pinFromWindow"]);
+    let time = this.props.setCurrTime();
+
+    const currHome = JSON.parse(localStorage.getItem("home"));
+    let progresses = JSON.parse(currHome.progresses);
+    progresses[this.props.episodeIndex] = time;
+    currHome.progresses = JSON.stringify(progresses);
+    localStorage.setItem("home", JSON.stringify(currHome));
+
+    const currReflect = JSON.parse(
+      localStorage.getItem(this.props.episode._id.concat(".reflect"))
+    );
+
+    if (currReflect) {
+      let played = JSON.parse(currReflect.played);
+      played = time;
+      currReflect.reflectPins = JSON.stringify(played);
+      localStorage.setItem(
+        this.props.episode._id.concat(".reflect"),
+        JSON.stringify(currReflect)
+      );
+    }
   };
 
   render() {
-    // console.log("=====EPISODE===== BEING SET", this.props.episode)
-    // console.log("=====USER===== BEING SET", this.props.user)
     return (
       <Container fluid className="discussion_background listening-back">
         <Row>
