@@ -33,10 +33,33 @@ class Pinpage extends React.Component {
       reflectPins: this.props.reflectPins,
       friendPins: [],
       seeFriends: false,
+      renderedPins: [],
+      searchList: []
     };
   }
 
-  handleSeeFriends = () => {
+  appendTogether = () => {
+    let tempList = []
+    for (var i = 0; i < this.state.friendPins.length; i++){
+      let tempString = ""
+      tempString = tempString.concat(this.state.friendPins[i].text.toLowerCase()) + " "
+      tempString = tempString.concat(this.state.friendPins[i].user.username.toLowerCase()) + " "
+      tempString = tempString.concat(this.state.friendPins[i].note.toLowerCase()) + " "
+      tempList.push(tempString)
+    }
+
+    for (var j = 0; j < this.state.reflectPins.length; j++) {
+      let tempString = ""
+      tempString = tempString.concat(this.state.reflectPins[j].text.toLowerCase()) + " "
+      tempString = tempString.concat(this.props.user.username.toLowerCase()) + " "
+      tempString = tempString.concat(this.state.reflectPins[j].note.toLowerCase()) + " "
+      tempList.push(tempString)
+    }
+    console.log(tempList)
+    this.setState({ searchList: tempList })
+  }
+
+  handleSeeFriends = (note) => {
     this.setState({ seeFriends: !this.state.seeFriends })
   }
   handlePlayPause = () => {
@@ -56,6 +79,11 @@ class Pinpage extends React.Component {
     console.log("onPause");
     this.setState({ playing: false });
   };
+
+  handleSearch = () => {
+    // if query matches pin.text, pin.user, or pin, or pin.note then add pins to renderedPins state 
+    // TO DO: think of pin.time, date of creation search functionality implementation
+  }
 
   handleSeekMouseDown = (e) => {
     this.setState({ seeking: true });
@@ -102,6 +130,8 @@ class Pinpage extends React.Component {
         console.log("hi");
         this.setState({
           friendPins: json.message
+        }, () => {
+          this.appendTogether()
         })
       })
       .catch((err) => {
@@ -136,6 +166,20 @@ class Pinpage extends React.Component {
       });
   };
 
+  filterFunction = (userInput) => {
+    let filteredNames = this.state.searchList.map((x)=>{ 
+        return x.includes(userInput)
+    })
+    console.log("FILTERED NAMES====", filteredNames)
+    // setState to include pins that match that array 
+    if (this.state.seeFriends) {
+      // if seeFriends is toggled, only 
+
+    } else {
+
+    }
+  }
+
   ref = (player) => {
     this.player = player;
   };
@@ -143,12 +187,13 @@ class Pinpage extends React.Component {
   componentDidMount = (e) => {
     // add the user id to the end of the request url
     this.handleFriendPin()
+    
 
     if (localStorage.getItem(this.props.reflectEpisode._id.concat(".reflect"))) {
       const stateObj = JSON.parse(
         localStorage.getItem(this.props.reflectEpisode._id.concat(".reflect"))
       );
-      console.log("=======REFLECT EPISODE ID=========", this.props.reflectEpisode._id)
+      // console.log("=======REFLECT EPISODE ID=========", this.props.reflectEpisode._id)
       this.setState({
         played: JSON.parse(stateObj.played),
         playing: JSON.parse(stateObj.playing),
@@ -163,6 +208,7 @@ class Pinpage extends React.Component {
         reflectPins: JSON.parse(stateObj.reflectPins),
       });
     }
+
   };
 
   componentWillUnmount = (e) => {
@@ -176,7 +222,7 @@ class Pinpage extends React.Component {
   };
 
   render() {
-    console.log("=======REFLECT EPISODE ID=========", this.state.friendPins)
+    // console.log("=======REFLECT EPISODE ID=========", this.state.friendPins)
     //pre-rendering code
     return (
       <Container fluid className="discussion_background main-back">
@@ -221,7 +267,11 @@ class Pinpage extends React.Component {
               />
             </Row>
             <Row>
-              <SearchPage />
+              <SearchPage 
+                filterFunction={this.filterFunction}
+                friendPins={this.state.friendPins}
+                reflectPins={this.state.reflectPins}
+                 />
               <button onClick={this.handleSeeFriends}>{this.state.seeFriends ? "no Friends" : "Friends"}</button>
 
             </Row>
@@ -261,7 +311,7 @@ class Pinpage extends React.Component {
                         note={pin.note}
                         handleEdit={this.handleEdit}
                         episode={pin.episode}
-                        user_id={pin.user}
+                        user={this.props.user}
                         favorited={pin.favorited}
                         handleSeekTo={this.handleSeekTo}
                         handlePause={this.handlePause}
@@ -287,7 +337,7 @@ class Pinpage extends React.Component {
                         note={pin.note}
                         handleEdit={this.handleEdit}
                         episode={pin.episode}
-                        user_id={pin.user}
+                        user={pin.user}
                         favorited={pin.favorited}
                         handleSeekTo={this.handleSeekTo}
                         handlePause={this.handlePause}

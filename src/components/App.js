@@ -224,7 +224,7 @@ it updates episode-specific state elements passed into the discussion component
   };
 
   render() {
-    console.log("REFLECT PINS======", this.state.reflectPins)
+    // console.log("REFLECT PINS======", this.state.reflectPins)
     return (
       <Router>
         <div>

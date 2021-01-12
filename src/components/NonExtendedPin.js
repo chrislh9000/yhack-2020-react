@@ -31,6 +31,9 @@ class NonExtendedPin extends React.Component {
             Note: {this.props.note}
           </div>
         </Row>
+        <Row>
+          By: {this.props.username}
+        </Row>
       </Container>
     );
   }
