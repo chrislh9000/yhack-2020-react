@@ -66,7 +66,7 @@ class App extends React.Component {
       podcast: podcast,
     });
     // update local storage
-    localStorage.setItem("lastPlayedEpisode", JSON.stringify(episode))
+    localStorage.setItem("lastPlayedEpisode", JSON.stringify(episode));
   };
 
   setPodcast = (newURL) => {
@@ -100,8 +100,11 @@ class App extends React.Component {
   };
 
   setCurrTime = () => {
-    var pin = this.player.getCurrentTime();
-    this.handlePin(pin);
+    if (this.player) {
+      var pin = this.player.getCurrentTime();
+      this.handlePin(pin);
+      return pin;
+    }
   };
 
   /*
@@ -145,13 +148,21 @@ class App extends React.Component {
     }
     // load last played episode into state from local storage
     if (localStorage.getItem("lastPlayedEpisode")) {
-      let lastPlayedEpisode = JSON.parse(localStorage.getItem("lastPlayedEpisode"));
-      this.setState({
-        reflectEpisode: lastPlayedEpisode,
-        episode: lastPlayedEpisode
-      }, () => {
-        console.log("EPISODES FROM LAST SESSION ADDED=========", lastPlayedEpisode)
-      })
+      let lastPlayedEpisode = JSON.parse(
+        localStorage.getItem("lastPlayedEpisode")
+      );
+      this.setState(
+        {
+          reflectEpisode: lastPlayedEpisode,
+          episode: lastPlayedEpisode,
+        },
+        () => {
+          console.log(
+            "EPISODES FROM LAST SESSION ADDED=========",
+            lastPlayedEpisode
+          );
+        }
+      );
     }
   };
 
@@ -224,7 +235,6 @@ it updates episode-specific state elements passed into the discussion component
   };
 
   render() {
-    // console.log("REFLECT PINS======", this.state.reflectPins)
     return (
       <Router>
         <div>
@@ -263,7 +273,7 @@ it updates episode-specific state elements passed into the discussion component
                 reflectEpisode={this.state.reflectEpisode}
                 reflectPins={this.state.reflectPins}
                 episodeIndex={this.state.episodeIndex}
-                imgURL= {this.state.podcast.imageUrl}
+                imgURL={this.state.podcast.imageUrl}
               />
             </Route>
 
@@ -311,6 +321,7 @@ it updates episode-specific state elements passed into the discussion component
                 discussPins={this.state.discussPins}
                 getUserFromStorage={this.getUserFromStorage}
                 episodeIndex={this.state.episodeIndex}
+                imgURL={this.state.podcast.imageUrl}
               />
             </Route>
 

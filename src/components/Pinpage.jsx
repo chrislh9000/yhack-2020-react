@@ -19,23 +19,46 @@ import ReactPlayer from "react-player";
 class Pinpage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      played: 0,
-      playing: false,
-      controls: false,
-      light: false,
-      volume: 0.8,
-      muted: false,
-      loaded: 0,
-      duration: 0,
-      playbackRate: 1.0,
-      loop: false,
-      reflectPins: this.props.reflectPins,
-      friendPins: [],
-      seeFriends: false,
-      renderedPins: [],
-      searchList: []
-    };
+    if (
+      localStorage.getItem(this.props.reflectEpisode._id.concat(".reflect"))
+    ) {
+      const stateObj = JSON.parse(
+        localStorage.getItem(this.props.reflectEpisode._id.concat(".reflect"))
+      );
+      console.log(
+        "=======REFLECT EPISODE ID=========",
+        this.props.reflectEpisode._id
+      );
+      this.state = {
+        played: JSON.parse(stateObj.played),
+        playing: JSON.parse(stateObj.playing),
+        controls: JSON.parse(stateObj.controls),
+        light: JSON.parse(stateObj.light),
+        volume: JSON.parse(stateObj.volume),
+        muted: JSON.parse(stateObj.muted),
+        loaded: JSON.parse(stateObj.loaded),
+        duration: JSON.parse(stateObj.duration),
+        playbackRate: JSON.parse(stateObj.playbackRate),
+        loop: JSON.parse(stateObj.loop),
+        reflectPins: JSON.parse(stateObj.reflectPins),
+      };
+    } else {
+      this.state = {
+        played: 0,
+        playing: false,
+        controls: false,
+        light: false,
+        volume: 0.8,
+        muted: false,
+        loaded: 0,
+        duration: 0,
+        playbackRate: 1.0,
+        loop: false,
+        reflectPins: this.props.reflectPins,
+        friendPins: [],
+        seeFriends: false,
+      };
+    }
   }
 
   appendTogether = () => {
@@ -59,9 +82,9 @@ class Pinpage extends React.Component {
     this.setState({ searchList: tempList })
   }
 
-  handleSeeFriends = (note) => {
-    this.setState({ seeFriends: !this.state.seeFriends })
-  }
+  handleSeeFriends = () => {
+    this.setState({ seeFriends: !this.state.seeFriends });
+  };
   handlePlayPause = () => {
     this.setState({ playing: !this.state.playing });
   };
@@ -122,7 +145,7 @@ class Pinpage extends React.Component {
       },
       body: JSON.stringify({
         friends: this.props.user.friends,
-        episode: this.props.reflectEpisode._id
+        episode: this.props.reflectEpisode._id,
       }),
     })
       .then((res) => res.json())
@@ -138,7 +161,6 @@ class Pinpage extends React.Component {
         console.log("Error: ", err);
       });
   };
-
 
   handleEdit = () => {
     const url = "http://localhost:5000/pins/editPin";
@@ -186,43 +208,24 @@ class Pinpage extends React.Component {
 
   componentDidMount = (e) => {
     // add the user id to the end of the request url
-    this.handleFriendPin()
-    
-
-    if (localStorage.getItem(this.props.reflectEpisode._id.concat(".reflect"))) {
-      const stateObj = JSON.parse(
-        localStorage.getItem(this.props.reflectEpisode._id.concat(".reflect"))
-      );
-      // console.log("=======REFLECT EPISODE ID=========", this.props.reflectEpisode._id)
-      this.setState({
-        played: JSON.parse(stateObj.played),
-        playing: JSON.parse(stateObj.playing),
-        controls: JSON.parse(stateObj.controls),
-        light: JSON.parse(stateObj.light),
-        volume: JSON.parse(stateObj.volume),
-        muted: JSON.parse(stateObj.muted),
-        loaded: JSON.parse(stateObj.loaded),
-        duration: JSON.parse(stateObj.duration),
-        playbackRate: JSON.parse(stateObj.playbackRate),
-        loop: JSON.parse(stateObj.loop),
-        reflectPins: JSON.parse(stateObj.reflectPins),
-      });
-    }
-
+    this.handleFriendPin();
   };
 
   componentWillUnmount = (e) => {
     let currState = this.state;
     currState.reflectPins = JSON.stringify(currState.reflectPins);
-    console.log("WTFFF MANN THIS IS GETTING CALLED?!?!?!?!?==========", currState.reflectPins)
     localStorage.setItem(
       this.props.reflectEpisode._id.concat(".reflect"),
       JSON.stringify(currState)
     );
   };
 
+  componentWillUnmount = (e) => {
+    this.updateStorage();
+  };
+
   render() {
-    // console.log("=======REFLECT EPISODE ID=========", this.state.friendPins)
+    console.log("=======REFLECT EPISODE ID=========", this.state.friendPins);
     //pre-rendering code
     return (
       <Container fluid className="discussion_background main-back">
@@ -239,7 +242,7 @@ class Pinpage extends React.Component {
             imgURL={this.props.imgURL}
           />
 
-          <Col>
+          <Col className="reflection-column">
             <Row>
               <ReactPlayer
                 ref={this.ref}
