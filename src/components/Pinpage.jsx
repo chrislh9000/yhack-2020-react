@@ -221,7 +221,7 @@ class Pinpage extends React.Component {
   };
 
   componentWillUnmount = (e) => {
-    this.updateStorage();
+    // this.updateStorage();
   };
 
   render() {
