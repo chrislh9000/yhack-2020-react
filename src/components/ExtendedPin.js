@@ -34,6 +34,9 @@ class ExtendedPin extends React.Component {
           </div>
         </Row>
         <Row>
+          By: {this.props.username}
+        </Row>
+        <Row>
           <form style={{ width: "100%" }} onSubmit={this.props.handleSubmit}>
             <label style={{ color: "white" }}>Add/Change Note:</label>
             <input

@@ -92,6 +92,7 @@ router.post("/friendPin", (req, res) => {
       {episode: req.body.episode}
     ]
   })
+    .populate('user')
     .then((resp) => {
       console.log("====QUERY FRO FRIENDS PINS WORKED====")
       res.status(200).json({

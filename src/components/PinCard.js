@@ -39,7 +39,7 @@ class PinCard extends React.Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        user_id: this.props.user_id,
+        user_id: this.props.user._id,
         episode: this.props.episode,
         favorite: !this.state.favoriteButton,
         ccId: this.props.ccId
@@ -69,6 +69,7 @@ class PinCard extends React.Component {
   handleNote() {
     this.setState({ note: this.state.value})
   }
+
   handleSubmit(event) {
     const url = "http://localhost:5000/pins/addNote";
     this.handleNote()
@@ -83,7 +84,7 @@ class PinCard extends React.Component {
       body: JSON.stringify({
         ccId: this.props.ccId,
         episode: this.props.episode,
-        id: this.props.user_id,
+        id: this.props.user._id,
         note: this.state.value,
       }),
     })
@@ -109,7 +110,15 @@ class PinCard extends React.Component {
     }
   };
 
+  componentWillReceiveProps(nextProps){
+    if(this.props.note !== nextProps.note){
+      this.setState({note: nextProps.note});
+    }
+  }
+
   render() {
+    // console.log("noteeeeee", this.props.note)
+    // console.log("notee w state",this.state.note)
     return (
       <div
         className="mb-5"
@@ -150,6 +159,7 @@ class PinCard extends React.Component {
               handleSubmit={this.handleSubmit}
               handleChange={this.handleChange}
               value={this.state.value}
+              username={this.props.user.username}
             />
           ) : (
             <NonExtendedPin
@@ -158,6 +168,7 @@ class PinCard extends React.Component {
               time={this.props.time}
               note={this.state.note}
               handleEdit={this.props.handleEdit}
+              username={this.props.user.username}
             />
           )}
         </Col>

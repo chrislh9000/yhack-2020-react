@@ -19,28 +19,72 @@ import ReactPlayer from "react-player";
 class Pinpage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      played: 0,
-      playing: false,
-      controls: false,
-      light: false,
-      volume: 0.8,
-      muted: false,
-      loaded: 0,
-      duration: 0,
-      playbackRate: 1.0,
-      loop: false,
-      reflectPins: this.props.reflectPins,
-      friendPins: [],
-      seeFriends: false,
-    };
+    if (
+      localStorage.getItem(this.props.reflectEpisode._id.concat(".reflect"))
+    ) {
+      const stateObj = JSON.parse(
+        localStorage.getItem(this.props.reflectEpisode._id.concat(".reflect"))
+      );
+      console.log(
+        "=======REFLECT EPISODE ID=========",
+        this.props.reflectEpisode._id
+      );
+      this.state = {
+        played: JSON.parse(stateObj.played),
+        playing: JSON.parse(stateObj.playing),
+        controls: JSON.parse(stateObj.controls),
+        light: JSON.parse(stateObj.light),
+        volume: JSON.parse(stateObj.volume),
+        muted: JSON.parse(stateObj.muted),
+        loaded: JSON.parse(stateObj.loaded),
+        duration: JSON.parse(stateObj.duration),
+        playbackRate: JSON.parse(stateObj.playbackRate),
+        loop: JSON.parse(stateObj.loop),
+        reflectPins: JSON.parse(stateObj.reflectPins),
+      };
+    } else {
+      this.state = {
+        played: 0,
+        playing: false,
+        controls: false,
+        light: false,
+        volume: 0.8,
+        muted: false,
+        loaded: 0,
+        duration: 0,
+        playbackRate: 1.0,
+        loop: false,
+        reflectPins: this.props.reflectPins,
+        friendPins: [],
+        seeFriends: false,
+      };
+    }
+  }
+
+  appendTogether = () => {
+    let tempList = []
+    for (var i = 0; i < this.state.friendPins.length; i++){
+      let tempString = ""
+      tempString = tempString.concat(this.state.friendPins[i].text.toLowerCase()) + " "
+      tempString = tempString.concat(this.state.friendPins[i].user.username.toLowerCase()) + " "
+      tempString = tempString.concat(this.state.friendPins[i].note.toLowerCase()) + " "
+      tempList.push(tempString)
+    }
+
+    for (var j = 0; j < this.state.reflectPins.length; j++) {
+      let tempString = ""
+      tempString = tempString.concat(this.state.reflectPins[j].text.toLowerCase()) + " "
+      tempString = tempString.concat(this.props.user.username.toLowerCase()) + " "
+      tempString = tempString.concat(this.state.reflectPins[j].note.toLowerCase()) + " "
+      tempList.push(tempString)
+    }
+    console.log(tempList)
+    this.setState({ searchList: tempList })
   }
 
   handleSeeFriends = () => {
-    this.setState({ seeFriends: !this.state.seeFriends })
-    console.log("REFLECT PINS======", this.state.reflectPins)
-    console.log("FRIEND PINS=======", this.state.friendPins)
-  }
+    this.setState({ seeFriends: !this.state.seeFriends });
+  };
   handlePlayPause = () => {
     this.setState({ playing: !this.state.playing });
   };
@@ -58,6 +102,11 @@ class Pinpage extends React.Component {
     console.log("onPause");
     this.setState({ playing: false });
   };
+
+  handleSearch = () => {
+    // if query matches pin.text, pin.user, or pin, or pin.note then add pins to renderedPins state
+    // TO DO: think of pin.time, date of creation search functionality implementation
+  }
 
   handleSeekMouseDown = (e) => {
     this.setState({ seeking: true });
@@ -96,7 +145,7 @@ class Pinpage extends React.Component {
       },
       body: JSON.stringify({
         friends: this.props.user.friends,
-        episode: this.props.reflectEpisode._id
+        episode: this.props.reflectEpisode._id,
       }),
     })
       .then((res) => res.json())
@@ -104,13 +153,14 @@ class Pinpage extends React.Component {
         console.log("hi");
         this.setState({
           friendPins: json.message
+        }, () => {
+          this.appendTogether()
         })
       })
       .catch((err) => {
         console.log("Error: ", err);
       });
   };
-
 
   handleEdit = () => {
     const url = "http://localhost:5000/pins/editPin";
@@ -138,46 +188,44 @@ class Pinpage extends React.Component {
       });
   };
 
+  filterFunction = (userInput) => {
+    let filteredNames = this.state.searchList.map((x)=>{
+        return x.includes(userInput)
+    })
+    console.log("FILTERED NAMES====", filteredNames)
+    // setState to include pins that match that array
+    if (this.state.seeFriends) {
+      // if seeFriends is toggled, only
+
+    } else {
+
+    }
+  }
+
   ref = (player) => {
     this.player = player;
   };
 
   componentDidMount = (e) => {
     // add the user id to the end of the request url
-    this.handleFriendPin()
-
-    if (localStorage.getItem(this.props.reflectEpisode._id.concat(".reflect"))) {
-      const stateObj = JSON.parse(
-        localStorage.getItem(this.props.reflectEpisode._id.concat(".reflect"))
-      );
-      console.log("=======REFLECT EPISODE ID=========", this.props.reflectEpisode._id)
-      this.setState({
-        played: JSON.parse(stateObj.played),
-        playing: JSON.parse(stateObj.playing),
-        controls: JSON.parse(stateObj.controls),
-        light: JSON.parse(stateObj.light),
-        volume: JSON.parse(stateObj.volume),
-        muted: JSON.parse(stateObj.muted),
-        loaded: JSON.parse(stateObj.loaded),
-        duration: JSON.parse(stateObj.duration),
-        playbackRate: JSON.parse(stateObj.playbackRate),
-        loop: JSON.parse(stateObj.loop),
-        reflectPins: JSON.parse(stateObj.reflectPins),
-      });
-    }
+    this.handleFriendPin();
   };
 
   componentWillUnmount = (e) => {
     let currState = this.state;
     currState.reflectPins = JSON.stringify(currState.reflectPins);
-    console.log("WTFFF MANN THIS IS GETTING CALLED?!?!?!?!?==========", currState.reflectPins)
     localStorage.setItem(
       this.props.reflectEpisode._id.concat(".reflect"),
       JSON.stringify(currState)
     );
   };
 
+  componentWillUnmount = (e) => {
+    this.updateStorage();
+  };
+
   render() {
+    console.log("=======REFLECT EPISODE ID=========", this.state.friendPins);
     //pre-rendering code
     return (
       <Container fluid className="discussion_background main-back">
@@ -194,7 +242,7 @@ class Pinpage extends React.Component {
             imgURL={this.props.imgURL}
           />
 
-          <Col>
+          <Col className="reflection-column">
             <Row>
               <ReactPlayer
                 ref={this.ref}
@@ -222,7 +270,11 @@ class Pinpage extends React.Component {
               />
             </Row>
             <Row>
-              <SearchPage />
+              <SearchPage
+                filterFunction={this.filterFunction}
+                friendPins={this.state.friendPins}
+                reflectPins={this.state.reflectPins}
+                 />
               <button onClick={this.handleSeeFriends}>{this.state.seeFriends ? "no Friends" : "Friends"}</button>
 
             </Row>
@@ -262,7 +314,7 @@ class Pinpage extends React.Component {
                         note={pin.note}
                         handleEdit={this.handleEdit}
                         episode={pin.episode}
-                        user_id={pin.user}
+                        user={this.props.user}
                         favorited={pin.favorited}
                         handleSeekTo={this.handleSeekTo}
                         handlePause={this.handlePause}
@@ -288,7 +340,7 @@ class Pinpage extends React.Component {
                         note={pin.note}
                         handleEdit={this.handleEdit}
                         episode={pin.episode}
-                        user_id={pin.user}
+                        user={pin.user}
                         favorited={pin.favorited}
                         handleSeekTo={this.handleSeekTo}
                         handlePause={this.handlePause}
