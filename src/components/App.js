@@ -130,7 +130,70 @@ class App extends React.Component {
       console.log("SUCCESS",json)
       this.setState({
         user: json.message
+      }, () => {
+        console.log("NEW USER WITH FRIEND CHANGE", this.state.user)
       })
+      // update local storage
+    })
+    .catch((err) => {
+      console.log("ERROR",err)
+    })
+  }
+
+  /*
+  unfriendUser takes in a user_id (string) and removes the user to the friends field of the user object in the database
+  */
+
+  unfriendUser = (friend_id) => {
+    // update the database to add the friend to the database
+    fetch("http://localhost:5000/social/unfollow", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: this.state.user._id,
+        friend_id: friend_id
+      })
+    })
+    .then(res => res.json())
+    .then((json) => {
+      // update the user object in state here
+      console.log("SUCCESSfully unfollowed friend",json)
+      this.setState({
+        user: json.message
+      }, () => {
+        console.log("NEW USER WITH FRIEND CHANGE", this.state.user)
+      })
+      // update local storage
+    })
+    .catch((err) => {
+      console.log("ERROR",err)
+    })
+  }
+
+  /*
+  sharePin takes in a user_id (string) and adds the user to the friends field of the user object in the database
+  */
+
+  sharePin = (friend_id, pin_id) => {
+    // update the database to add the friend to the database
+    fetch("http://localhost:5000/social/share", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: friend_id,
+        pin: pin_id
+      })
+    })
+    .then(res => res.json())
+    .then((json) => {
+      // update the user object in state here
+      console.log("shared pin with user!! SUCCESFULLY")
       // update local storage
     })
     .catch((err) => {
@@ -274,6 +337,7 @@ it updates episode-specific state elements passed into the discussion component
                 reflectPins={this.state.reflectPins}
                 episodeIndex={this.state.episodeIndex}
                 imgURL={this.state.podcast.imageUrl}
+                sharePin = {this.sharePin}
               />
             </Route>
 
@@ -360,6 +424,8 @@ it updates episode-specific state elements passed into the discussion component
                 reflectPins={this.state.reflectPins}
                 episodeIndex={this.state.episodeIndex}
                 friendUser={this.friendUser}
+                unfriendUser={this.unfriendUser}
+                imgURL={this.state.podcast.imageUrl}
               />
             </Route>
 
