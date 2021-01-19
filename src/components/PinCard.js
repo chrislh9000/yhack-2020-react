@@ -53,11 +53,17 @@ class PinCard extends React.Component {
       });
   };
 
+  componentDidMount = (e) => {
+    this.setState({
+      note: this.props.note
+    })
+  }
+
 
   handleChange(event) {
     console.log("elo",event)
     this.setState({ value: event.target.value });
-    
+
   }
 
   handleNote() {
@@ -66,7 +72,7 @@ class PinCard extends React.Component {
   handleSubmit(event) {
     const url = "http://localhost:5000/pins/addNote";
     this.handleNote()
-    
+
     fetch(url, {
       method: "POST",
       credentials: "same-origin",
@@ -90,7 +96,7 @@ class PinCard extends React.Component {
         console.log("Error: ", err);
       });
     this.setState({ value: "" });
-  
+
   }
 
   handlePlay = () => {

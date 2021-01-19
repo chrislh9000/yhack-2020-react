@@ -38,6 +38,8 @@ class Pinpage extends React.Component {
 
   handleSeeFriends = () => {
     this.setState({ seeFriends: !this.state.seeFriends })
+    console.log("REFLECT PINS======", this.state.reflectPins)
+    console.log("FRIEND PINS=======", this.state.friendPins)
   }
   handlePlayPause = () => {
     this.setState({ playing: !this.state.playing });
@@ -176,7 +178,6 @@ class Pinpage extends React.Component {
   };
 
   render() {
-    console.log("=======REFLECT EPISODE ID=========", this.state.friendPins)
     //pre-rendering code
     return (
       <Container fluid className="discussion_background main-back">
