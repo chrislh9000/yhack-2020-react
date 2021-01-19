@@ -77,7 +77,7 @@ router.get("/loadTranscript/:id", (req, res) => {
             j++
           ) {
             let word = trans[i]["alternatives"][0]["words"][j]["word"];
-            if (word[word.length - 1] == ".") {
+            if (word[word.length - 1] == "." || word[word.length - 1] == "?" || word[word.length - 1] == "!") {
               // if there's only one word in the sentence, then make sure to add the timestamp
               if (ccSentence.length == 0) {
                 let timeStampstr =
