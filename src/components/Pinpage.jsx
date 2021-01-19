@@ -15,6 +15,7 @@ import SearchPage from "./SearchPage";
 import PinCard from "./PinCard";
 import AudioBar from "./AudioBar";
 import ReactPlayer from "react-player";
+import { filter } from "minimatch";
 
 class Pinpage extends React.Component {
   constructor(props) {
@@ -25,10 +26,7 @@ class Pinpage extends React.Component {
       const stateObj = JSON.parse(
         localStorage.getItem(this.props.reflectEpisode._id.concat(".reflect"))
       );
-      console.log(
-        "=======REFLECT EPISODE ID=========",
-        this.props.reflectEpisode._id
-      );
+
       this.state = {
         played: JSON.parse(stateObj.played),
         playing: JSON.parse(stateObj.playing),
@@ -41,6 +39,10 @@ class Pinpage extends React.Component {
         playbackRate: JSON.parse(stateObj.playbackRate),
         loop: JSON.parse(stateObj.loop),
         reflectPins: JSON.parse(stateObj.reflectPins),
+        friendPins: [],
+        shouldRenderPins: [],
+        searchList: [],
+        seeFriends: false
       };
     } else {
       this.state = {
@@ -57,39 +59,59 @@ class Pinpage extends React.Component {
         reflectPins: this.props.reflectPins,
         friendPins: [],
         seeFriends: false,
+        shouldRenderPins: [],
+        searchList: []
       };
     }
   }
 
   appendTogether = () => {
-    let tempList = []
-    for (var i = 0; i < this.state.friendPins.length; i++){
-      let tempString = ""
-      tempString = tempString.concat(this.state.friendPins[i].text.toLowerCase()) + " "
-      tempString = tempString.concat(this.state.friendPins[i].user.username.toLowerCase()) + " "
-      tempString = tempString.concat(this.state.friendPins[i].note.toLowerCase()) + " "
-      tempList.push(tempString)
+    let tempList = [];
+    for (var i = 0; i < this.state.friendPins.length; i++) {
+      let tempString = "";
+      tempString =
+        tempString.concat(this.state.friendPins[i].text.toLowerCase()) + " ";
+      tempString =
+        tempString.concat(
+          this.state.friendPins[i].user.username.toLowerCase()
+        ) + " ";
+      tempString =
+        tempString.concat(this.state.friendPins[i].note.toLowerCase()) + " ";
+      tempList.push(tempString);
     }
 
     for (var j = 0; j < this.state.reflectPins.length; j++) {
-      let tempString = ""
-      tempString = tempString.concat(this.state.reflectPins[j].text.toLowerCase()) + " "
-      tempString = tempString.concat(this.props.user.username.toLowerCase()) + " "
-      tempString = tempString.concat(this.state.reflectPins[j].note.toLowerCase()) + " "
-      tempList.push(tempString)
+      let tempString = "";
+      tempString =
+        tempString.concat(this.state.reflectPins[j].text.toLowerCase()) + " ";
+      tempString =
+        tempString.concat(this.props.user.username.toLowerCase()) + " ";
+      tempString =
+        tempString.concat(this.state.reflectPins[j].note.toLowerCase()) + " ";
+      tempList.push(tempString);
     }
-    console.log(tempList)
-    this.setState({ searchList: tempList })
-  }
+    this.setState({ searchList: tempList });
+  };
 
   handleSeeFriends = () => {
-    this.setState({ seeFriends: !this.state.seeFriends });
+    if (this.state.seeFriends) {
+      this.setState({
+        seeFriends: !this.state.seeFriends,
+        shouldRenderPins: this.state.reflectPins
+      });
+    } else {
+      this.setState({
+        seeFriends: !this.state.seeFriends,
+        shouldRenderPins: this.state.friendPins
+      });
+    }
   };
+
   handlePlayPause = () => {
     this.setState({ playing: !this.state.playing });
   };
 
-  handleVolumeChange = (e) => {
+  handleVolumeChange = e => {
     this.setState({ volume: parseFloat(e.target.value) });
   };
 
@@ -104,33 +126,33 @@ class Pinpage extends React.Component {
   };
 
   handleSearch = () => {
-    // if query matches pin.text, pin.user, or pin, or pin.note then add pins to renderedPins state 
+    // if query matches pin.text, pin.user, or pin, or pin.note then add pins to renderedPins state
     // TO DO: think of pin.time, date of creation search functionality implementation
-  }
+  };
 
-  handleSeekMouseDown = (e) => {
+  handleSeekMouseDown = e => {
     this.setState({ seeking: true });
   };
 
-  handleSeekChange = (e) => {
+  handleSeekChange = e => {
     this.setState({ played: parseFloat(e.target.value) });
   };
 
-  handleSeekMouseUp = (e) => {
+  handleSeekMouseUp = e => {
     this.setState({ seeking: false });
     this.player.seekTo(parseFloat(e.target.value));
   };
 
-  handleDuration = (duration) => {
+  handleDuration = duration => {
     console.log("onDuration", duration);
     this.setState({ duration });
   };
 
-  handleSeekTo = (time) => {
+  handleSeekTo = time => {
     console.log("gonan seek to", time);
     this.player.seekTo(time);
     this.setState({
-      played: (time / this.props.reflectEpisode.duration) * 0.999999,
+      played: (time / this.props.reflectEpisode.duration) * 0.999999
     });
     // this.setState({played:time})
   };
@@ -141,23 +163,27 @@ class Pinpage extends React.Component {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         friends: this.props.user.friends,
-        episode: this.props.reflectEpisode._id,
-      }),
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        console.log("hi");
-        this.setState({
-          friendPins: json.message
-        }, () => {
-          this.appendTogether()
-        })
+        episode: this.props.reflectEpisode._id
       })
-      .catch((err) => {
+    })
+      .then(res => res.json())
+      .then(json => {
+        console.log("hi");
+        this.setState(
+          {
+            friendPins: json.message
+          },
+          () => {
+            this.appendTogether();
+            this.initializeShouldRenderPins();
+          }
+        );
+      })
+      .catch(err => {
         console.log("Error: ", err);
       });
   };
@@ -168,7 +194,7 @@ class Pinpage extends React.Component {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         startTime: 1,
@@ -177,41 +203,64 @@ class Pinpage extends React.Component {
         text: "oh elo",
         ccId: 5,
         episode: "PlanetMoney0",
-        id: "5fdaf4e7616a7e5445f0ba59",
-      }),
+        id: "5fdaf4e7616a7e5445f0ba59"
+      })
     })
-      .then((json) => {
+      .then(json => {
         console.log("hi");
       })
-      .catch((err) => {
+      .catch(err => {
         console.log("Error: ", err);
       });
   };
 
-  filterFunction = (userInput) => {
-    let filteredNames = this.state.searchList.map((x)=>{ 
-        return x.includes(userInput)
-    })
-    console.log("FILTERED NAMES====", filteredNames)
-    // setState to include pins that match that array 
+  filterFunction = userInput => {
+    let filteredNames = this.state.searchList.map(x => {
+      return x.includes(userInput);
+    });
+
+    let tempList = [];
+
+    let flen = this.state.friendPins.length;
+    let len = this.state.reflectPins.length;
+
+    // setState to include pins that match that array
     if (this.state.seeFriends) {
-      // if seeFriends is toggled, only 
-
+      // if seeFriends is toggled, only
+      for (var i = 0; i < flen; i++) {
+        if (filteredNames[i]) {
+          tempList.push(this.state.friendPins[i]);
+        }
+      }
     } else {
-
+      // for when youre looking at your own list
+      for (var i = flen; i < filteredNames.length; i++) {
+        if (filteredNames[i]) {
+          tempList.push(this.state.reflectPins[i - flen]);
+        }
+      }
     }
-  }
+    this.setState({ shouldRenderPins: tempList });
+  };
 
-  ref = (player) => {
+  ref = player => {
     this.player = player;
   };
 
-  componentDidMount = (e) => {
+  initializeShouldRenderPins = () => {
+    if (this.state.seeFriends) {
+      this.setState({ shouldRenderPins: this.state.friendPins });
+    } else {
+      this.setState({ shouldRenderPins: this.state.reflectPins });
+    }
+  };
+
+  componentDidMount = e => {
     // add the user id to the end of the request url
     this.handleFriendPin();
   };
 
-  componentWillUnmount = (e) => {
+  componentWillUnmount = e => {
     let currState = this.state;
     currState.reflectPins = JSON.stringify(currState.reflectPins);
     localStorage.setItem(
@@ -220,12 +269,11 @@ class Pinpage extends React.Component {
     );
   };
 
-  componentWillUnmount = (e) => {
-    this.updateStorage();
-  };
+  // componentWillUnmount = (e) => {
+  //   this.updateStorage();
+  // };
 
   render() {
-    console.log("=======REFLECT EPISODE ID=========", this.state.friendPins);
     //pre-rendering code
     return (
       <Container fluid className="discussion_background main-back">
@@ -270,13 +318,14 @@ class Pinpage extends React.Component {
               />
             </Row>
             <Row>
-              <SearchPage 
+              <SearchPage
                 filterFunction={this.filterFunction}
                 friendPins={this.state.friendPins}
                 reflectPins={this.state.reflectPins}
-                 />
-              <button onClick={this.handleSeeFriends}>{this.state.seeFriends ? "no Friends" : "Friends"}</button>
-
+              />
+              <button onClick={this.handleSeeFriends}>
+                {this.state.seeFriends ? "no Friends" : "Friends"}
+              </button>
             </Row>
             <Row>
               <AudioBar
@@ -295,60 +344,59 @@ class Pinpage extends React.Component {
             <Row>
               {/*here, we can potentially have this.state if we're coming from discussion, and this.props if coming from home */}
               <Col>
-                {
-                  this.state.seeFriends ?
-                  this.state.reflectPins.map((pin, i) => {
-                  return (
-                    <div
-                      className="mb-5"
-                      style={{
-                        background: "grey",
-                        borderRadius: "25px",
-                      }}
-                    >
-                      <PinCard
-                        ccId={pin.ccId}
-                        text={pin.text}
-                        key={i}
-                        time={pin.startTime.$numberDecimal}
-                        note={pin.note}
-                        handleEdit={this.handleEdit}
-                        episode={pin.episode}
-                        user={this.props.user}
-                        favorited={pin.favorited}
-                        handleSeekTo={this.handleSeekTo}
-                        handlePause={this.handlePause}
-                        handlePlay={this.handlePlay}
-                      />
-                    </div>
-                  );
-                }) :
-                  this.state.friendPins.map((pin, i) => {
-                  return (
-                    <div
-                      className="mb-5"
-                      style={{
-                        background: "grey",
-                        borderRadius: "25px",
-                      }}
-                    >
-                      <PinCard
-                        ccId={pin.ccId}
-                        text={pin.text}
-                        key={i}
-                        time={pin.startTime.$numberDecimal}
-                        note={pin.note}
-                        handleEdit={this.handleEdit}
-                        episode={pin.episode}
-                        user={pin.user}
-                        favorited={pin.favorited}
-                        handleSeekTo={this.handleSeekTo}
-                        handlePause={this.handlePause}
-                        handlePlay={this.handlePlay}
-                      />
-                    </div>
-                  );
-                }) }
+                {this.state.seeFriends
+                  ? this.state.shouldRenderPins.map((pin, i) => {
+                      return (
+                        <div
+                          className="mb-5"
+                          style={{
+                            background: "grey",
+                            borderRadius: "25px"
+                          }}
+                        >
+                          <PinCard
+                            ccId={pin.ccId}
+                            text={pin.text}
+                            key={i}
+                            time={pin.startTime.$numberDecimal}
+                            note={pin.note}
+                            handleEdit={this.handleEdit}
+                            episode={pin.episode}
+                            user={pin.user}
+                            favorited={pin.favorited}
+                            handleSeekTo={this.handleSeekTo}
+                            handlePause={this.handlePause}
+                            handlePlay={this.handlePlay}
+                          />
+                        </div>
+                      );
+                    })
+                  : this.state.shouldRenderPins.map((pin, i) => {
+                      return (
+                        <div
+                          className="mb-5"
+                          style={{
+                            background: "grey",
+                            borderRadius: "25px"
+                          }}
+                        >
+                          <PinCard
+                            ccId={pin.ccId}
+                            text={pin.text}
+                            key={i}
+                            time={pin.startTime.$numberDecimal}
+                            note={pin.note}
+                            handleEdit={this.handleEdit}
+                            episode={pin.episode}
+                            user={this.props.user}
+                            favorited={pin.favorited}
+                            handleSeekTo={this.handleSeekTo}
+                            handlePause={this.handlePause}
+                            handlePlay={this.handlePlay}
+                          />
+                        </div>
+                      );
+                    })}
               </Col>
             </Row>
           </Col>

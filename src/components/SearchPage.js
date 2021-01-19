@@ -124,7 +124,7 @@ class List extends React.Component {
 
   handleChange(e) {
     console.log("VALUE OF SEARCH BAR", e.target.value)
-    this.props.filterFunction(e.target.value)
+    this.props.filterFunction(e.target.value.toLowerCase())
   }
 
   render() {
