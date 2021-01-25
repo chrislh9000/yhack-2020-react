@@ -9,6 +9,7 @@ import ReactPlayer from "react-player";
 import IconButton from "@material-ui/core/Button";
 import NonExtendedPin from "./NonExtendedPin";
 import ExtendedPin from "./ExtendedPin";
+import Dropdown from "react-bootstrap/Dropdown";
 
 class PinCard extends React.Component {
   constructor(props) {
@@ -160,6 +161,10 @@ class PinCard extends React.Component {
               handleChange={this.handleChange}
               value={this.state.value}
               username={this.props.user.username}
+              user={this.props.user}
+              friends={this.props.friends}
+              sharePin={this.props.sharePin}
+              pin={this.props.pin}
             />
           ) : (
             <NonExtendedPin
@@ -169,6 +174,10 @@ class PinCard extends React.Component {
               note={this.state.note}
               handleEdit={this.props.handleEdit}
               username={this.props.user.username}
+              user={this.props.user}
+              friends={this.props.friends}
+              sharePin={this.props.sharePin}
+              pin={this.props.pin}
             />
           )}
         </Col>

@@ -16,6 +16,7 @@ import PinCard from "./PinCard";
 import AudioBar from "./AudioBar";
 import ReactPlayer from "react-player";
 import { filter } from "minimatch";
+import Dropdown from "react-bootstrap/Dropdown";
 
 class Pinpage extends React.Component {
   constructor(props) {
@@ -42,7 +43,8 @@ class Pinpage extends React.Component {
         friendPins: [],
         shouldRenderPins: [],
         searchList: [],
-        seeFriends: false
+        seeFriends: false,
+        friends: []
       };
     } else {
       this.state = {
@@ -60,7 +62,8 @@ class Pinpage extends React.Component {
         friendPins: [],
         seeFriends: false,
         shouldRenderPins: [],
-        searchList: []
+        searchList: [],
+        friends: []
       };
     }
   }
@@ -258,6 +261,27 @@ class Pinpage extends React.Component {
   componentDidMount = e => {
     // add the user id to the end of the request url
     this.handleFriendPin();
+    const url = 'http://localhost:5000/social/users/getFriends'
+    fetch(url, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: this.props.user._id
+      })
+    })
+    .then((res) => res.json())
+    .then((json) => {
+      console.log("======JSON FRIENDS=======", json.message.friends)
+      this.setState({
+        friends: json.message.friends
+      })
+    })
+    .catch((err) => {
+      console.log("Error: ", err);
+    });
   };
 
   componentWillUnmount = e => {
@@ -367,6 +391,9 @@ class Pinpage extends React.Component {
                             handleSeekTo={this.handleSeekTo}
                             handlePause={this.handlePause}
                             handlePlay={this.handlePlay}
+                            friends={this.state.friends}
+                            sharePin={this.props.sharePin}
+                            pin={pin}
                           />
                         </div>
                       );
@@ -393,6 +420,9 @@ class Pinpage extends React.Component {
                             handleSeekTo={this.handleSeekTo}
                             handlePause={this.handlePause}
                             handlePlay={this.handlePlay}
+                            friends={this.state.friends}
+                            sharePin={this.props.sharePin}
+                            pin={pin}
                           />
                         </div>
                       );

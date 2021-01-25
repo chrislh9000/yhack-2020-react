@@ -56,6 +56,7 @@ class Userlist extends React.Component {
       pinTime={this.props.pinTime}
       playpause={this.props.playpause}
       user={this.props.user}
+      imgUrl = {this.props.imgUrl}
       />
       <ReactPlayer
       ref={this.ref}
@@ -69,8 +70,8 @@ class Userlist extends React.Component {
         { this.props.user.friends ?
           this.state.users.map((user, i) => (
               this.props.user.friends.includes(user._id) ?
-              <Usercard isFriend={true} friendUser={this.props.friendUser} user_id={user._id} username={user.username}  /> :
-              <Usercard isFriend={false} friendUser={this.props.friendUser} user_id={user._id} username={user.username}
+              <Usercard isFriend={true} unfriendUser={this.props.unfriendUser} friendUser={this.props.friendUser} user_id={user._id} username={user.username}  /> :
+              <Usercard isFriend={false} unfriendUser={this.props.unfriendUser} friendUser={this.props.friendUser} user_id={user._id} username={user.username}
               />
           )
         ) : "Not Logged In"
