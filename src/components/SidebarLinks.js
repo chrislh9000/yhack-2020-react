@@ -40,7 +40,9 @@ class SidebarLinks extends React.Component {
           </Link>
         </Row>
         <Row>
-          <p className="sidebar-title">Saved Podcasts</p>
+          <Link to="/reflect">
+          <p className="sidebar-title">Reflect</p>
+          </Link>
         </Row>
         <Row>
           <Link to="/social">

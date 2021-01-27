@@ -12,7 +12,7 @@ class UserView extends React.Component {
     var circleStyle = {
       display: "inline-block",
       // position:'absolute',
-      backgroundColor: "#297373",
+      backgroundColor: "#3c5a75",
       borderRadius: "50%",
       width: 45,
       height: 45,

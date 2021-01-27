@@ -18,7 +18,7 @@ class Sidebar extends React.Component {
     //pre-rendering code
 
     return (
-      <Col className="pl-0 pr-0 far-left" xs={2}>
+      <Col className="pl-0 pr-0 far-left" style={{padding: "0px"}}>
         <Col className="pl-0 far-left-top">
           <LogoHome />
           <Row style={{ paddingLeft: "1.5rem" }}>

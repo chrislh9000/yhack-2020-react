@@ -126,7 +126,8 @@ class PinCard extends React.Component {
         style={{
           display: "flex",
           flexDirection: "row",
-          background: "grey"
+          background: "#E7E7E7",
+          borderRadius:"10px"
         }}
       >
         <IconButton

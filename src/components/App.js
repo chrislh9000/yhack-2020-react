@@ -19,6 +19,7 @@ import Userlist from "./Userlist";
 import Login from "./Login";
 import ReactPlayer from "react-player";
 import podcast from "../assets/podcasts/planet_money.mp3";
+import Reflect from "./Reflect";
 import fs from "fs";
 const ipcRenderer = window.require("electron").ipcRenderer;
 
@@ -316,8 +317,24 @@ it updates episode-specific state elements passed into the discussion component
               <Pin />
             </Route>
 
-            <Route path="/podcast">
-              <Podcast />
+            <Route path="/reflect">
+              <Reflect 
+              pinTime={this.state.pinTime}
+              handlePin={this.handlePin}
+              handlePlayorpause={this.handlePlayorpause}
+              fastRewind={this.fastRewind}
+              fastForward={this.fastForward}
+              seekToTime={this.seekToTime}
+              playpause={this.state.playpause}
+              setCurrTime={this.setCurrTime}
+              user={this.state.user}
+              episode={this.state.episode}
+              login={this.login}
+              updateDiscussionEpisode={this.updateDiscussionEpisode}
+              updateReflectionEpisode={this.updateReflectionEpisode}
+              updateIndex={this.updateEpisodeIndex}
+              episodeIndex={this.state.episodeIndex}
+              />
             </Route>
 
             <Route path="/pins_page">
