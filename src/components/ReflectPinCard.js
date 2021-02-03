@@ -30,10 +30,12 @@ class ReflectPinCard extends React.Component {
       >
         <Row style={{ width: "100%" }}>
           <Col xs={11} style={{ padding: "1%" }}>
-            <p1>@</p1><p1>d.wang98</p1>
+            <p1>@</p1>
+            <p1>d.wang98</p1>
           </Col>
           <Col xs={1}>
-            <IconButton>
+            <Dropdown>
+              <Dropdown.Toggle style={{backgroundColor: "#E5E5E5", borderColor: "#E5E5E5"}} id="dropdown-basic">
               <img
                 style={{
                   height: 20,
@@ -41,7 +43,14 @@ class ReflectPinCard extends React.Component {
                 }}
                 src="/threeDotCircle.png"
               />
-            </IconButton>
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item href="#/action-1">Edit Length</Dropdown.Item>
+                <Dropdown.Item href="#/action-2">Edit Comment</Dropdown.Item>
+                <Dropdown.Item href="#/action-3">Delete Pin</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </Col>
         </Row>
 

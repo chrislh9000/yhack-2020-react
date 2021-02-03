@@ -43,7 +43,7 @@ class NonExtendedPin extends React.Component {
               {this.props.user.friends ? (
                 this.props.friends.map((user, i) => (
                   <Dropdown.Item
-                    onClick={this.props.sharePin(user._id, this.props.pin._id)}
+                    // onClick={this.props.sharePin(user._id, this.props.pin._id)}
                   >
                     {" "}
                     {user.username}{" "}

@@ -319,25 +319,27 @@ it updates episode-specific state elements passed into the discussion component
 
             <Route path="/reflect">
               <Reflect 
-              pinTime={this.state.pinTime}
-              handlePin={this.handlePin}
-              handlePlayorpause={this.handlePlayorpause}
-              fastRewind={this.fastRewind}
-              fastForward={this.fastForward}
-              seekToTime={this.seekToTime}
-              playpause={this.state.playpause}
-              setCurrTime={this.setCurrTime}
-              user={this.state.user}
-              episode={this.state.episode}
-              login={this.login}
-              updateDiscussionEpisode={this.updateDiscussionEpisode}
-              updateReflectionEpisode={this.updateReflectionEpisode}
-              updateIndex={this.updateEpisodeIndex}
-              episodeIndex={this.state.episodeIndex}
+                 handlePin={this.handlePin}
+                 handlePlayorpause={this.handlePlayorpause}
+                 fastRewind={this.fastRewind}
+                 fastForward={this.fastForward}
+                 seekToTime={this.seekToTime}
+                 playpause={this.state.playpause}
+                 setCurrTime={this.setCurrTime}
+                 user={this.state.user}
+                 episode={this.state.episode}
+                 audioDuration={100}
+                 pinTime={this.state.pinTime}
+                 reflectEpisode={this.state.reflectEpisode}
+                 reflectPins={this.state.reflectPins}
+                 episodeIndex={this.state.episodeIndex}
+                 imgURL={this.state.podcast.imageUrl}
+                 sharePin = {this.sharePin}
+                 podcast = {this.state.podcast}
               />
             </Route>
 
-            <Route path="/pins_page">
+            <Route path="/reflect">
               <Pinpage
                 handlePin={this.handlePin}
                 handlePlayorpause={this.handlePlayorpause}
