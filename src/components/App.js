@@ -465,6 +465,26 @@ it updates episode-specific state elements passed into the discussion component
               imgURL={this.state.podcast.imageUrl}
             ></Listening>
           </Route>
+          <Route path="/reflect">
+            <Reflect
+              handlePin={this.handlePin}
+              handlePlayorpause={this.handlePlayorpause}
+              fastRewind={this.fastRewind}
+              fastForward={this.fastForward}
+              seekToTime={this.seekToTime}
+              playpause={this.state.playpause}
+              setCurrTime={this.setCurrTime}
+              user={this.state.user}
+              episode={this.state.episode}
+              audioDuration={100}
+              pinTime={this.state.pinTime}
+              reflectEpisode={this.state.reflectEpisode}
+              reflectPins={this.state.reflectPins}
+              episodeIndex={this.state.episodeIndex}
+              imgURL={this.state.podcast.imageUrl}
+              podcast={this.state.podcast}
+            ></Reflect>
+          </Route>
 
           <Route path="/">
             {/* <ReactPlayer

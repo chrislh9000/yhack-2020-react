@@ -23,7 +23,7 @@ class SidebarLinks extends React.Component {
             }}
             src="/play.png"
           />
-          <Link to="/listening">
+          <Link to="/">
             <p
               style={{
                 fontFamily: "Avenir Heavy",
@@ -61,7 +61,7 @@ class SidebarLinks extends React.Component {
         </Row>
         <Row>
           <Link to="/reflect">
-          <p className="sidebar-title">Reflect</p>
+            <p className="sidebar-title">Reflect</p>
           </Link>
         </Row>
         <Row>

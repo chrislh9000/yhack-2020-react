@@ -21,7 +21,7 @@ import UserView from "./UserView";
 import Dropdown from "react-bootstrap/Dropdown";
 
 class Reflect extends React.Component {
-constructor(props) {
+  constructor(props) {
     super(props);
     if (
       localStorage.getItem(this.props.reflectEpisode._id.concat(".reflect"))
@@ -101,12 +101,12 @@ constructor(props) {
     if (this.state.seeFriends) {
       this.setState({
         seeFriends: !this.state.seeFriends,
-        shouldRenderPins: this.state.reflectPins
+        shouldRenderPins: this.state.reflectPins,
       });
     } else {
       this.setState({
         seeFriends: !this.state.seeFriends,
-        shouldRenderPins: this.state.friendPins
+        shouldRenderPins: this.state.friendPins,
       });
     }
   };
@@ -115,7 +115,7 @@ constructor(props) {
     this.setState({ playing: !this.state.playing });
   };
 
-  handleVolumeChange = e => {
+  handleVolumeChange = (e) => {
     this.setState({ volume: parseFloat(e.target.value) });
   };
 
@@ -134,29 +134,29 @@ constructor(props) {
     // TO DO: think of pin.time, date of creation search functionality implementation
   };
 
-  handleSeekMouseDown = e => {
+  handleSeekMouseDown = (e) => {
     this.setState({ seeking: true });
   };
 
-  handleSeekChange = e => {
+  handleSeekChange = (e) => {
     this.setState({ played: parseFloat(e.target.value) });
   };
 
-  handleSeekMouseUp = e => {
+  handleSeekMouseUp = (e) => {
     this.setState({ seeking: false });
     this.player.seekTo(parseFloat(e.target.value));
   };
 
-  handleDuration = duration => {
+  handleDuration = (duration) => {
     console.log("onDuration", duration);
     this.setState({ duration });
   };
 
-  handleSeekTo = time => {
+  handleSeekTo = (time) => {
     console.log("gonan seek to", time);
     this.player.seekTo(time);
     this.setState({
-      played: (time / this.props.reflectEpisode.duration) * 0.999999
+      played: (time / this.props.reflectEpisode.duration) * 0.999999,
     });
     // this.setState({played:time})
   };
@@ -167,19 +167,19 @@ constructor(props) {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         friends: this.props.user.friends,
-        episode: this.props.reflectEpisode._id
-      })
+        episode: this.props.reflectEpisode._id,
+      }),
     })
-      .then(res => res.json())
-      .then(json => {
+      .then((res) => res.json())
+      .then((json) => {
         console.log("hi");
         this.setState(
           {
-            friendPins: json.message
+            friendPins: json.message,
           },
           () => {
             this.appendTogether();
@@ -187,7 +187,7 @@ constructor(props) {
           }
         );
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error: ", err);
       });
   };
@@ -198,7 +198,7 @@ constructor(props) {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         startTime: 1,
@@ -207,19 +207,19 @@ constructor(props) {
         text: "oh elo",
         ccId: 5,
         episode: "PlanetMoney0",
-        id: "5fdaf4e7616a7e5445f0ba59"
-      })
+        id: "5fdaf4e7616a7e5445f0ba59",
+      }),
     })
-      .then(json => {
+      .then((json) => {
         console.log("hi");
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error: ", err);
       });
   };
 
-  filterFunction = userInput => {
-    let filteredNames = this.state.searchList.map(x => {
+  filterFunction = (userInput) => {
+    let filteredNames = this.state.searchList.map((x) => {
       return x.includes(userInput);
     });
 
@@ -247,7 +247,7 @@ constructor(props) {
     this.setState({ shouldRenderPins: tempList });
   };
 
-  ref = player => {
+  ref = (player) => {
     this.player = player;
   };
 
@@ -259,10 +259,10 @@ constructor(props) {
     }
   };
 
-  componentDidMount = e => {
+  componentDidMount = (e) => {
     // add the user id to the end of the request url
     this.handleFriendPin();
-    const url = 'http://localhost:5000/social/users/getFriends'
+    const url = "http://localhost:5000/social/users/getFriends";
     fetch(url, {
       method: "POST",
       credentials: "same-origin",
@@ -270,22 +270,22 @@ constructor(props) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        user_id: this.props.user._id
-      })
+        user_id: this.props.user._id,
+      }),
     })
-    .then((res) => res.json())
-    .then((json) => {
-      console.log("======JSON FRIENDS=======", json.message.friends)
-      this.setState({
-        friends: json.message.friends
+      .then((res) => res.json())
+      .then((json) => {
+        console.log("======JSON FRIENDS=======", json.message.friends);
+        this.setState({
+          friends: json.message.friends,
+        });
       })
-    })
-    .catch((err) => {
-      console.log("Error: ", err);
-    });
+      .catch((err) => {
+        console.log("Error: ", err);
+      });
   };
 
-  componentWillUnmount = e => {
+  componentWillUnmount = (e) => {
     let currState = this.state;
     currState.reflectPins = JSON.stringify(currState.reflectPins);
     localStorage.setItem(
@@ -326,7 +326,7 @@ constructor(props) {
                     height: "75%",
                     display: "flex",
                     alignItems: "center",
-                    paddingTop: "15%"
+                    paddingTop: "15%",
                   }}
                 >
                   <Col xs={3} style={{ marginLeft: "0%" }}>
@@ -341,7 +341,7 @@ constructor(props) {
                         height: "100px",
                         marginLeft: "25%",
                         boxShadow:
-                          "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
+                          "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
                       }}
                     >
                       {this.state.playing ? (
@@ -351,7 +351,7 @@ constructor(props) {
                             paddingTop: "3%",
                             height: 28,
                             width: 28,
-                            marginRight: "8%"
+                            marginRight: "8%",
                           }}
                           src="BluePause.png"
                         />
@@ -361,7 +361,7 @@ constructor(props) {
                             paddingLeft: "7.5%",
                             paddingTop: "3%",
                             height: 28,
-                            width: 28
+                            width: 28,
                           }}
                           src="BluePlay.png"
                         />
@@ -373,7 +373,7 @@ constructor(props) {
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "center",
-                      paddingLeft: "2%"
+                      paddingLeft: "2%",
                     }}
                     xs={9}
                   >
@@ -388,17 +388,17 @@ constructor(props) {
                           textAlign: "right",
                           color: "white",
                           fontSize: "20px",
-                          fontWeight: "bold"
+                          fontWeight: "bold",
                         }}
                       >
-                        {this.props.episode.title}
+                        {this.props.reflectEpisode.title}
                       </p1>
                     </Row>
                   </Col>
                 </Row>
                 <Row
                   style={{
-                    height: "25%"
+                    height: "25%",
                   }}
                 >
                   Play here
@@ -424,7 +424,7 @@ constructor(props) {
                       width: 180,
                       borderRadius: 10,
                       boxShadow:
-                        "0 4px 8pdx 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
+                        "0 4px 8pdx 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
                     }}
                     src={"npr_planetmoney.jpg"}
                   />
@@ -437,7 +437,7 @@ constructor(props) {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                height: "60vh"
+                height: "60vh",
               }}
             >
               {/* Title Row */}
@@ -446,7 +446,7 @@ constructor(props) {
                   height: "10%",
                   width: "100%",
                   display: "flex",
-                  marginBottom: "2%"
+                  marginBottom: "2%",
                 }}
               >
                 {/* Pins Title */}
@@ -454,7 +454,7 @@ constructor(props) {
                   style={{
                     display: "flex",
                     flexDirection: "column",
-                    justifyContent: "center"
+                    justifyContent: "center",
                   }}
                   xs={8}
                 >
@@ -462,7 +462,7 @@ constructor(props) {
                     style={{
                       fontSize: "30px",
                       paddingLeft: "10%",
-                      color: "#173B5C"
+                      color: "#173B5C",
                     }}
                   >
                     Pins
@@ -475,7 +475,14 @@ constructor(props) {
                     <Form>
                       <Form.Group controlId="formBasicCheckbox">
                         <Form.Check inline type="checkbox" label="Me" />
-                        <Form.Check onChange={() => {this.handleSeeFriends()}} inline type="checkbox" label="Friends" />
+                        <Form.Check
+                          onChange={() => {
+                            this.handleSeeFriends();
+                          }}
+                          inline
+                          type="checkbox"
+                          label="Friends"
+                        />
                         <Form.Check inline type="checkbox" label="World" />
                       </Form.Group>
                     </Form>
@@ -489,7 +496,7 @@ constructor(props) {
                   overflowX: "hidden",
                   overflowY: "scroll",
                   height: "75%",
-                  width: "100%"
+                  width: "100%",
                 }}
               >
                 <Col style={{ marginLeft: "3%" }}>
@@ -518,64 +525,64 @@ constructor(props) {
                     );
                   })} */}
                   {this.state.seeFriends
-                  ? this.state.shouldRenderPins.map((pin, i) => {
-                      return (
-                        <div
-                          className="mb-5"
-                          style={{
-                            background: "grey",
-                            borderRadius: "25px"
-                          }}
-                        >
-                          <PinCard
-                            ccId={pin.ccId}
-                            text={pin.text}
-                            key={i}
-                            time={pin.startTime.$numberDecimal}
-                            note={pin.note}
-                            handleEdit={this.handleEdit}
-                            episode={pin.episode}
-                            user={pin.user}
-                            favorited={pin.favorited}
-                            handleSeekTo={this.handleSeekTo}
-                            handlePause={this.handlePause}
-                            handlePlay={this.handlePlay}
-                            friends={this.state.friends}
-                            sharePin={this.props.sharePin}
-                            pin={pin}
-                          />
-                        </div>
-                      );
-                    })
-                  : this.state.shouldRenderPins.map((pin, i) => {
-                      return (
-                        <div
-                          className="mb-5"
-                          style={{
-                            background: "grey",
-                            borderRadius: "25px"
-                          }}
-                        >
-                          <PinCard
-                            ccId={pin.ccId}
-                            text={pin.text}
-                            key={i}
-                            time={pin.startTime.$numberDecimal}
-                            note={pin.note}
-                            handleEdit={this.handleEdit}
-                            episode={pin.episode}
-                            user={this.props.user}
-                            favorited={pin.favorited}
-                            handleSeekTo={this.handleSeekTo}
-                            handlePause={this.handlePause}
-                            handlePlay={this.handlePlay}
-                            friends={this.state.friends}
-                            sharePin={this.props.sharePin}
-                            pin={pin}
-                          />
-                        </div>
-                      );
-                    })}
+                    ? this.state.shouldRenderPins.map((pin, i) => {
+                        return (
+                          <div
+                            className="mb-5"
+                            style={{
+                              background: "grey",
+                              borderRadius: "25px",
+                            }}
+                          >
+                            <PinCard
+                              ccId={pin.ccId}
+                              text={pin.text}
+                              key={i}
+                              time={pin.startTime.$numberDecimal}
+                              note={pin.note}
+                              handleEdit={this.handleEdit}
+                              episode={pin.episode}
+                              user={pin.user}
+                              favorited={pin.favorited}
+                              handleSeekTo={this.handleSeekTo}
+                              handlePause={this.handlePause}
+                              handlePlay={this.handlePlay}
+                              friends={this.state.friends}
+                              sharePin={this.props.sharePin}
+                              pin={pin}
+                            />
+                          </div>
+                        );
+                      })
+                    : this.state.shouldRenderPins.map((pin, i) => {
+                        return (
+                          <div
+                            className="mb-5"
+                            style={{
+                              background: "grey",
+                              borderRadius: "25px",
+                            }}
+                          >
+                            <PinCard
+                              ccId={pin.ccId}
+                              text={pin.text}
+                              key={i}
+                              time={pin.startTime.$numberDecimal}
+                              note={pin.note}
+                              handleEdit={this.handleEdit}
+                              episode={pin.episode}
+                              user={this.props.user}
+                              favorited={pin.favorited}
+                              handleSeekTo={this.handleSeekTo}
+                              handlePause={this.handlePause}
+                              handlePlay={this.handlePlay}
+                              friends={this.state.friends}
+                              sharePin={this.props.sharePin}
+                              pin={pin}
+                            />
+                          </div>
+                        );
+                      })}
                 </Col>
               </Row>
             </Row>
