@@ -9,7 +9,13 @@ class Usercard extends React.Component {
   constructor(props) {
     super(props);
     this.state={
-      friends: []
+      isFriend: this.props.isFriend
+    }
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(this.props.isFriend !== nextProps.isFriend){
+      this.setState({isFriend: nextProps.isFriend});
     }
   }
 
@@ -36,8 +42,8 @@ class Usercard extends React.Component {
         </Card.Header>
         <Card.Body>
           <Card.Title>{this.props.username}</Card.Title>
-          { this.props.isFriend ?
-            <Button variant="primary">Unfriend</Button>  :
+          { this.state.isFriend ?
+            <Button onClick={(e) => this.props.unfriendUser(this.props.user_id)} variant="primary">Unfriend</Button>  :
             <Button onClick={(e) => this.props.friendUser(this.props.user_id)} variant="primary">Friend</Button>
           }
         </Card.Body>

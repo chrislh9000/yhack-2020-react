@@ -21,6 +21,13 @@ const UserSchema = new Schema({
       default: [],
     },
   ],
+  sharedPins: [ // these are pins sent to you by friends 
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Pin",
+      default: [],
+    },
+  ],
   episodes: [
     {
       type: Schema.Types.ObjectId,

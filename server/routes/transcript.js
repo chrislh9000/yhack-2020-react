@@ -72,10 +72,7 @@ router.get("/loadTranscript/:id", (req, res) => {
         console.log("starting timer...");
         for (let i = 0; i < trans.length - 1; i++) {
           for (
-            let j = 0;
-            j < trans[i]["alternatives"][0]["words"].length;
-            j++
-          ) {
+            let j = 0; j < trans[i]["alternatives"][0]["words"].length;j++) {
             let word = trans[i]["alternatives"][0]["words"][j]["word"];
             if (
               word[word.length - 1] == "." ||

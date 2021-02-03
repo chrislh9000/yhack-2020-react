@@ -244,7 +244,7 @@ export default class Example extends React.PureComponent {
                           Listen
                         </Button>
                         {/* </Link> */}
-                        <Link to="/pins_page">
+                        <Link to="/reflect">
                           <Button
                             onClick={() => {
                               this.props.updateReflectionEpisode(
