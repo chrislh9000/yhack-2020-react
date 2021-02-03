@@ -25,6 +25,7 @@ class UserView extends React.Component {
       marginRight: "1em"
     };
     return (
+<<<<<<< HEAD
       <div
         style={{
           display: "flex",
@@ -33,15 +34,16 @@ class UserView extends React.Component {
         }}
         className="container userContainer mb-4"
       >
+=======
+      <div className="container userContainer mb-4" style={{justifyContent:"flex-end", paddingTop:"5%"}}>
+>>>>>>> f8fa481f1ebf6f5cfbe848c97528694c5db5db48
         <div style={circleStyle}>
           <p className="userLetter">{letter}</p>
         </div>
         <div
           style={
             {
-              // display: "flex",
-              // flexDirection: "column",
-              // alignSelf: "center",
+ 
             }
           }
         >

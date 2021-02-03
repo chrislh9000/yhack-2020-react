@@ -404,6 +404,7 @@ constructor(props) {
                   Play here
                 </Row>
               </Col>
+
               {/* picture and user col */}
               <Col style={{ display: "flex", flexDirection: "column" }}>
                 <Row
