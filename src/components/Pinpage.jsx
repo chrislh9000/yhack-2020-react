@@ -42,7 +42,7 @@ class Pinpage extends React.Component {
         friendPins: [],
         shouldRenderPins: [],
         searchList: [],
-        seeFriends: false
+        seeFriends: false,
       };
     } else {
       this.state = {
@@ -60,7 +60,7 @@ class Pinpage extends React.Component {
         friendPins: [],
         seeFriends: false,
         shouldRenderPins: [],
-        searchList: []
+        searchList: [],
       };
     }
   }
@@ -97,12 +97,12 @@ class Pinpage extends React.Component {
     if (this.state.seeFriends) {
       this.setState({
         seeFriends: !this.state.seeFriends,
-        shouldRenderPins: this.state.reflectPins
+        shouldRenderPins: this.state.reflectPins,
       });
     } else {
       this.setState({
         seeFriends: !this.state.seeFriends,
-        shouldRenderPins: this.state.friendPins
+        shouldRenderPins: this.state.friendPins,
       });
     }
   };
@@ -111,7 +111,7 @@ class Pinpage extends React.Component {
     this.setState({ playing: !this.state.playing });
   };
 
-  handleVolumeChange = e => {
+  handleVolumeChange = (e) => {
     this.setState({ volume: parseFloat(e.target.value) });
   };
 
@@ -130,29 +130,29 @@ class Pinpage extends React.Component {
     // TO DO: think of pin.time, date of creation search functionality implementation
   };
 
-  handleSeekMouseDown = e => {
+  handleSeekMouseDown = (e) => {
     this.setState({ seeking: true });
   };
 
-  handleSeekChange = e => {
+  handleSeekChange = (e) => {
     this.setState({ played: parseFloat(e.target.value) });
   };
 
-  handleSeekMouseUp = e => {
+  handleSeekMouseUp = (e) => {
     this.setState({ seeking: false });
     this.player.seekTo(parseFloat(e.target.value));
   };
 
-  handleDuration = duration => {
+  handleDuration = (duration) => {
     console.log("onDuration", duration);
     this.setState({ duration });
   };
 
-  handleSeekTo = time => {
+  handleSeekTo = (time) => {
     console.log("gonan seek to", time);
     this.player.seekTo(time);
     this.setState({
-      played: (time / this.props.reflectEpisode.duration) * 0.999999
+      played: (time / this.props.reflectEpisode.duration) * 0.999999,
     });
     // this.setState({played:time})
   };
@@ -163,19 +163,19 @@ class Pinpage extends React.Component {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         friends: this.props.user.friends,
-        episode: this.props.reflectEpisode._id
-      })
+        episode: this.props.reflectEpisode._id,
+      }),
     })
-      .then(res => res.json())
-      .then(json => {
+      .then((res) => res.json())
+      .then((json) => {
         console.log("hi");
         this.setState(
           {
-            friendPins: json.message
+            friendPins: json.message,
           },
           () => {
             this.appendTogether();
@@ -183,7 +183,7 @@ class Pinpage extends React.Component {
           }
         );
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error: ", err);
       });
   };
@@ -194,7 +194,7 @@ class Pinpage extends React.Component {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         startTime: 1,
@@ -203,19 +203,19 @@ class Pinpage extends React.Component {
         text: "oh elo",
         ccId: 5,
         episode: "PlanetMoney0",
-        id: "5fdaf4e7616a7e5445f0ba59"
-      })
+        id: "5fdaf4e7616a7e5445f0ba59",
+      }),
     })
-      .then(json => {
+      .then((json) => {
         console.log("hi");
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error: ", err);
       });
   };
 
-  filterFunction = userInput => {
-    let filteredNames = this.state.searchList.map(x => {
+  filterFunction = (userInput) => {
+    let filteredNames = this.state.searchList.map((x) => {
       return x.includes(userInput);
     });
 
@@ -243,7 +243,7 @@ class Pinpage extends React.Component {
     this.setState({ shouldRenderPins: tempList });
   };
 
-  ref = player => {
+  ref = (player) => {
     this.player = player;
   };
 
@@ -255,12 +255,12 @@ class Pinpage extends React.Component {
     }
   };
 
-  componentDidMount = e => {
+  componentDidMount = (e) => {
     // add the user id to the end of the request url
     this.handleFriendPin();
   };
 
-  componentWillUnmount = e => {
+  componentWillUnmount = (e) => {
     let currState = this.state;
     currState.reflectPins = JSON.stringify(currState.reflectPins);
     localStorage.setItem(
@@ -276,7 +276,7 @@ class Pinpage extends React.Component {
   render() {
     //pre-rendering code
     return (
-      <Container fluid className="discussion_background main-back">
+      <Container fluid className="discussion_background main-back pl-0 pr-0">
         <Row>
           <Sidebar
             handlePlayorpause={this.props.handlePlayorpause}
@@ -351,7 +351,7 @@ class Pinpage extends React.Component {
                           className="mb-5"
                           style={{
                             background: "grey",
-                            borderRadius: "25px"
+                            borderRadius: "25px",
                           }}
                         >
                           <PinCard
@@ -377,7 +377,7 @@ class Pinpage extends React.Component {
                           className="mb-5"
                           style={{
                             background: "grey",
-                            borderRadius: "25px"
+                            borderRadius: "25px",
                           }}
                         >
                           <PinCard

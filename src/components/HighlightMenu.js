@@ -29,7 +29,7 @@ class HighlightMenu extends React.Component {
   //     position: { x = 0, y = 0 } = {},
   //   } = props;
   xfin = this.props.position.x.toString().concat("px");
-  yfin = this.props.position.y.toString().concat("px");
+  yfin = (this.props.position.y - this.props.currPos).toString().concat("px");
 
   render() {
     return (

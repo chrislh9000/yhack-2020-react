@@ -13,11 +13,31 @@ class SidebarLinks extends React.Component {
     //pre-rendering code
 
     return (
-      <Container className="mb-1 ml-4">
+      <Container className="mb-1 ml-2">
         <Row>
-          <Link to="/about">
-            <p className="sidebar-title">Home</p>
+          <img
+            className="mr-3"
+            style={{
+              height: 15,
+              width: 11,
+            }}
+            src="/play.png"
+          />
+          <Link to="/listening">
+            <p
+              style={{
+                fontFamily: "Avenir Heavy",
+                fontSize: "14px",
+                color: "#173B5C",
+              }}
+              className="sidebar-title"
+            >
+              HOME
+            </p>
           </Link>
+        </Row>
+        <Row>
+          <div className="sidebar-hl" />
         </Row>
         <Row>
           <Link to="/">

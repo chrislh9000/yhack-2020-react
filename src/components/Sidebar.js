@@ -18,21 +18,21 @@ class Sidebar extends React.Component {
     //pre-rendering code
 
     return (
-      <Col className="pl-0 pr-0 far-left" xs={2}>
+      <Col className="pl-3 pr-0 far-left">
         <Col className="pl-0 far-left-top">
           <LogoHome />
           <Row style={{ paddingLeft: "1.5rem" }}>
-            <Search />
+            {/* <Search />
             <UserView
               className="ml-4"
               style={{ alignSelf: "left" }}
               user={this.props.user}
-            />
+            /> */}
 
             <SidebarLinks />
           </Row>
         </Col>
-        <PlayBox
+        {/* <PlayBox
           handlePin={this.props.handlePin}
           pinTime={this.props.pinTime}
           handlePlayorpause={this.props.handlePlayorpause}
@@ -41,7 +41,7 @@ class Sidebar extends React.Component {
           seekToTime={this.props.seekToTime}
           playpause={this.props.playpause}
           imgURL={this.props.imgURL}
-        />
+        /> */}
       </Col>
     );
   }

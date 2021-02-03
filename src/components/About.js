@@ -12,8 +12,11 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import FilterBar from "./FilterBar";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+import { SlideDown } from "react-slidedown";
 
 import Truncate from "react-truncate";
+import PlayBar from "./PlayBar";
+import Listening from "./Listening";
 
 export default class Example extends React.PureComponent {
   constructor() {
@@ -127,101 +130,106 @@ export default class Example extends React.PureComponent {
   };
 
   render() {
-    console.log("======episodes======", this.state.episodes);
-    console.log(this.state.pins.length);
     return (
-      <Container fluid className="discussion_background home-back">
-        <Row>
-          <Sidebar
-            handlePlayorpause={this.props.handlePlayorpause}
-            fastRewind={this.props.fastRewind}
-            fastForward={this.props.fastForward}
-            seekToTime={this.props.seekToTime}
-            handlePin={this.props.handlePin}
-            pinTime={this.props.pinTime}
-            playpause={this.props.playpause}
-            user={this.props.user}
-            imgURL="whitepin.png"
-          />
+      <div className="page">
+        <Container fluid className="discussion_background home-back pl-0 pr-0">
+          <Row style={{ height: "92vh" }}>
+            <Sidebar
+              style={{ flex: "1" }}
+              handlePlayorpause={this.props.handlePlayorpause}
+              fastRewind={this.props.fastRewind}
+              fastForward={this.props.fastForward}
+              seekToTime={this.props.seekToTime}
+              handlePin={this.props.handlePin}
+              pinTime={this.props.pinTime}
+              playpause={this.props.playpause}
+              user={this.props.user}
+              imgURL="whitepin.png"
+            />
 
-          <Col className="pr-0 pl-0 mt-5 ml-5 mr-5 home-column">
-            <FilterBar />
-            {this.state.episodes.length > 0 && this.state.pins.length > 1
-              ? this.state.episodes.map((item, id) => (
-                  <div
-                    className="mb-5"
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      background: "white",
-                    }}
-                  >
-                    <img
-                      className="ml-3 mt-3 mb-3"
-                      style={{
-                        height: 180,
-                        width: 180,
-                        borderRadius: 10,
-                        boxShadow:
-                          "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
-                      }}
-                      src={this.state.podcasts[id].imageUrl}
-                    />
+            <Col
+              className="pr-0 pl-0 mt-5 ml-5 mr-5 home-column"
+              style={{ flex: "6" }}
+            >
+              <FilterBar />
+              {this.state.episodes.length > 0 && this.state.pins.length > 1
+                ? this.state.episodes.map((item, id) => (
                     <div
-                      className="pl-3 mt-3"
-                      style={{ display: "flex", flexDirection: "column" }}
+                      className="mb-5"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        background: "white",
+                      }}
                     >
-                      <div
+                      <img
+                        className="ml-3 mt-3 mb-3"
                         style={{
-                          fontSize: "18px",
-                          fontWeight: "bold",
-                          color: "gray",
+                          height: 180,
+                          width: 180,
+                          borderRadius: 10,
+                          boxShadow:
+                            "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
                         }}
-                      >
-                        {item.date}
-                      </div>
-                      <div style={{ fontSize: "22px", fontWeight: "bold" }}>
-                        {item.title}
-                      </div>
-                      <Truncate lines={3} className="pb-4 episode-summary">
-                        {item.summary}
-                      </Truncate>
+                        src={this.state.podcasts[id].imageUrl}
+                      />
                       <div
-                        className="hl pb-4"
-                        style={{ alignSelf: "right" }}
-                        ref="bar"
+                        className="pl-3 mt-3"
+                        style={{ display: "flex", flexDirection: "column" }}
                       >
                         <div
                           style={{
-                            left: String(
-                              (this.state.progresses[id] / item.duration) * 500
-                            ).concat("px"),
+                            fontSize: "18px",
+                            fontWeight: "bold",
+                            color: "gray",
                           }}
-                          className="bubble"
-                        />
-                        {/* <div className="pinbar"></div> */}
-                        {this.state.pins[id].message.map((pin, id) => (
+                        >
+                          {item.date}
+                        </div>
+                        <div style={{ fontSize: "22px", fontWeight: "bold" }}>
+                          {item.title}
+                        </div>
+                        <Truncate lines={3} className="pb-4 episode-summary">
+                          {item.summary}
+                        </Truncate>
+                        <div
+                          className="hl pb-4"
+                          style={{ alignSelf: "right" }}
+                          ref="bar"
+                        >
                           <div
                             style={{
                               left: String(
-                                (pin.startTime.$numberDecimal / item.duration) *
+                                (this.state.progresses[id] / item.duration) *
                                   500
                               ).concat("px"),
                             }}
-                            className="pinbar"
-                          ></div>
-                        ))}
+                            className="bubble"
+                          />
+                          {/* <div className="pinbar"></div> */}
+                          {this.state.pins[id].message.map((pin, id) => (
+                            <div
+                              style={{
+                                left: String(
+                                  (pin.startTime.$numberDecimal /
+                                    item.duration) *
+                                    500
+                                ).concat("px"),
+                              }}
+                              className="pinbar"
+                            ></div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                    <Col
-                      xs={3}
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-evenly",
-                      }}
-                    >
-                      <Link to="/users">
+                      <Col
+                        xs={3}
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-evenly",
+                        }}
+                      >
+                        {/* <Link to="/users"> */}
                         <Button
                           onClick={() => {
                             this.props.updateDiscussionEpisode(
@@ -235,29 +243,41 @@ export default class Example extends React.PureComponent {
                         >
                           Listen
                         </Button>
-                      </Link>
-                      <Link to="/pins_page">
-                        <Button
-                          onClick={() => {
-                            this.props.updateReflectionEpisode(
-                              item,
-                              this.state.pins[id].message,
-                              this.state.podcasts[id]
-                            );
-                            this.props.updateIndex(id);
-                          }}
-                          style={{ width: "100%", height: "60px" }}
-                        >
-                          Reflect
-                        </Button>
-                      </Link>
-                    </Col>
-                  </div>
-                ))
-              : "Loading..."}
-          </Col>
-        </Row>
-      </Container>
+                        {/* </Link> */}
+                        <Link to="/pins_page">
+                          <Button
+                            onClick={() => {
+                              this.props.updateReflectionEpisode(
+                                item,
+                                this.state.pins[id].message,
+                                this.state.podcasts[id]
+                              );
+                              this.props.updateIndex(id);
+                            }}
+                            style={{ width: "100%", height: "60px" }}
+                          >
+                            Reflect
+                          </Button>
+                        </Link>
+                      </Col>
+                    </div>
+                  ))
+                : "Loading..."}
+            </Col>
+          </Row>
+          <PlayBar
+            handlePlayorpause={this.props.handlePlayorpause}
+            fastRewind={this.props.fastRewind}
+            fastForward={this.props.fastForward}
+            seekToTime={this.props.seekToTime}
+            handlePin={this.props.handlePin}
+            pinTime={this.props.pinTime}
+            playpause={this.props.playpause}
+            user={this.props.user}
+            imgURL="whitepin.png"
+          ></PlayBar>
+        </Container>
+      </div>
     );
   }
 }

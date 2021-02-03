@@ -15,7 +15,7 @@ class LogoHome extends React.Component {
     return (
       <Row className="mt-4" style={{ alignSelf: "center" }}>
         <img
-          className="mr-1"
+          className="mr-1 mb-5"
           style={{
             width: 30,
             height: 30,
@@ -27,8 +27,9 @@ class LogoHome extends React.Component {
         />
         <p
           style={{
-            color: "white",
-            fontSize: 19,
+            fontFfamily: "Avenir Heavy",
+            color: "#173B5C",
+            fontSize: 24,
             fontWeight: "bold",
             paddingTop: 5,
           }}

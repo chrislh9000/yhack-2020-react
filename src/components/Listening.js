@@ -1,28 +1,52 @@
 import React from "react";
+import "../assets/css/App.css";
+import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/Button";
+import AudioBar from "./AudioBar";
+import { Link } from "react-router-dom";
+import About from "./About";
+
 import "../assets/css/App.css";
 import PinButton from "./PinButton";
 import Comments from "./Comments";
 import AddComment from "./AddComment";
 import CCC from "./CCC";
-import Sidebar from "./Sidebar";
 
 import HighlightMenu from "./HighlightMenu";
 import { SelectableGroup, createSelectable } from "react-selectable";
-
 import ReactCursorPosition from "react-cursor-position";
 import { animateScroll } from "react-scroll";
 import transitions from "@material-ui/core/styles/transitions";
+
 const ipcRenderer = window.require("electron").ipcRenderer;
 
 const SelectableComponent = createSelectable(CCC);
 
-class Discussion extends React.Component {
+class Listening extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      imgURL: this.props.imgURL,
+      played: 0,
+      playing: false,
+      controls: false,
+      light: false,
+      volume: 0.8,
+      muted: false,
+      loaded: 0,
+      duration: 0,
+      playbackRate: 1.0,
+      loop: false,
+      // reflectPins: this.props.reflectPins,
+      // friendPins: [],
+      // seeFriends: false,
+      // shouldRenderPins: [],
+      // searchList: [],
+
       pins: [], // pinned objects
       mainComp: 0,
       windowWidth: window.innerWidth,
@@ -298,32 +322,6 @@ class Discussion extends React.Component {
   };
 
   handleScroll = (e) => {
-    // if (this.state.mainComp >= this.state.cc_comps.length - 1) {
-    //   console.log("should never print");
-    //   if (
-    //     this.props.pinTime <
-    //       this.state.cc_comps[this.state.mainComp]["startTime"] &&
-    //     this.props.pinTime >= this.state.cc_comps[0]["startTime"]
-    //   ) {
-    //     // shift the heights
-    //     let shiftHeight =
-    //       this.state.cc_comps[this.state.mainComp]["height"] / 2 +
-    //       this.state.cc_comps[this.state.mainComp + 1]["height"] / 2; //height that everything needs to be shifted height
-    //     animateScroll.scrollTo(this.state.currPos - shiftHeight, {
-    //       containerId: "midcol",
-    //     });
-    //     this.setState({ currPos: this.state.currPos - shiftHeight });
-    //     // reset the mainComp
-    //     this.setState({
-    //       mainComp: this.state.mainComp - 1,
-    //     });
-    //   } else {
-    //     this.setState({
-    //       mainComp: this.state.mainComp,
-    //     });
-    //   }
-    // } else
-
     if (
       this.state.cc_comps[this.state.mainComp]["height"] &&
       this.state.cc_comps[this.state.mainComp + 1]["height"]
@@ -369,8 +367,9 @@ class Discussion extends React.Component {
       let time2 = Date.now();
 
       if (flag) {
+        console.log("hello animate scroll");
         animateScroll.scrollTo(this.state.currPos + shiftHeight, {
-          containerId: "midcol",
+          containerId: "caption-col",
         });
         this.setState({ currPos: this.state.currPos + shiftHeight });
         // reset the mainComp
@@ -379,54 +378,7 @@ class Discussion extends React.Component {
         });
       }
       let time3 = Date.now();
-
-      // console.log("hi1", time3 - time1);
-      // console.log("hi2", time3 - time2);
     }
-    // if (
-    //   this.state.cc_comps[this.state.mainComp]["height"] &&
-    //   this.state.cc_comps[this.state.mainComp + 1]["height"]
-    // ) {
-    //   // check audio startTime against the interval of podcasts
-    //   // if audiostamp >= cc_comp startTime i+1
-
-    //   if (
-    //     this.props.pinTime >=
-    //     this.state.cc_comps[this.state.mainComp + 1]["startTime"]
-    //   ) {
-    //     // shift the heights
-    //     let shiftHeight =
-    //       this.state.cc_comps[this.state.mainComp]["height"] / 2 +
-    //       this.state.cc_comps[this.state.mainComp + 1]["height"] / 2; //height that everything needs to be shifted height
-    //     animateScroll.scrollTo(this.state.currPos + shiftHeight, {
-    //       containerId: "midcol",
-    //     });
-    //     this.setState({ currPos: this.state.currPos + shiftHeight });
-    //     // reset the mainComp
-    //     this.setState({
-    //       mainComp: this.state.mainComp + 1,
-    //     });
-    //   } else if (
-    //     this.props.pinTime <
-    //       this.state.cc_comps[this.state.mainComp]["startTime"] &&
-    //     this.props.pinTime >= this.state.cc_comps[0]["startTime"]
-    //   ) {
-    //     // shift the heights
-    //     let shiftHeight =
-    //       this.state.cc_comps[this.state.mainComp]["height"] / 2 +
-    //       this.state.cc_comps[this.state.mainComp + 1]["height"] / 2; //height that everything needs to be shifted height
-    //     animateScroll.scrollTo(this.state.currPos - shiftHeight, {
-    //       containerId: "midcol",
-    //     });
-    //     this.setState({ currPos: this.state.currPos - shiftHeight });
-    //     // reset the mainComp
-    //     this.setState({
-    //       mainComp: this.state.mainComp - 1,
-    //     });
-    //     // reposition the mainComp cc_component to the middle
-    //   }
-    //   // change height for other comps accordingly
-    // }
   };
 
   initHeightPos = (e) => {
@@ -437,7 +389,7 @@ class Discussion extends React.Component {
       this.state.cc_comps[i]["height"] = clientHeight;
 
       if (i === 0) {
-        this.state.cc_comps[i]["y"] = this.state.windowHeight / 2;
+        this.state.cc_comps[i]["y"] = 500 / 2;
       } else {
         this.state.cc_comps[i]["y"] =
           this.state.cc_comps[i - 1]["y"] +
@@ -553,158 +505,187 @@ class Discussion extends React.Component {
         console.log(this.state.cc_comps[this.state.mainComp]["startTime"]);
       }
     }
+    console.log(this.state.cc_load);
   };
 
   componentWillUnmount = (e) => {
     window.addEventListener("resize", this.handleResize);
     clearInterval(this.interval);
     this.updateStorage();
-    // ipcRenderer.removeAllListeners(["pinFromWindow"]);
-    // let time = this.props.setCurrTime();
+  };
 
-    // const currHome = JSON.parse(localStorage.getItem("home"));
-    // let progresses = JSON.parse(currHome.progresses);
-    // progresses[this.props.episodeIndex] = time;
-    // currHome.progresses = JSON.stringify(progresses);
-    // localStorage.setItem("home", JSON.stringify(currHome));
+  handleSeekMouseDown = (e) => {
+    this.setState({ seeking: true });
+  };
 
-    // const currReflect = JSON.parse(
-    //   localStorage.getItem(this.props.episode._id.concat(".reflect"))
-    // );
+  handleSeekChange = (e) => {
+    this.setState({ played: parseFloat(e.target.value) });
+  };
 
-    // if (currReflect) {
-    //   let played = JSON.parse(currReflect.played);
-    //   played = time;
-    //   currReflect.reflectPins = JSON.stringify(played);
-    //   localStorage.setItem(
-    //     this.props.episode._id.concat(".reflect"),
-    //     JSON.stringify(currReflect)
-    //   );
-    // }
+  handleSeekMouseUp = (e) => {
+    this.setState({ seeking: false });
+    // this.player.seekTo(parseFloat(e.target.value));
   };
 
   render() {
+    console.log("rendered");
     return (
-      <Container
-        fluid
-        className="discussion_background listening-back pl-0 pr-0"
-      >
-        <Row>
-          <Sidebar
-            handlePlayorpause={this.props.handlePlayorpause}
-            fastRewind={this.props.fastRewind}
-            fastForward={this.props.fastForward}
-            seekToTime={this.props.seekToTime}
-            handlePin={this.props.handlePin}
-            pinTime={this.props.pinTime}
-            playpause={this.props.playpause}
-            user={this.props.user}
-            imgURL={this.props.imgURL}
-          />
-          <Col xs={7} className="pr-0 pl-0">
-            <ReactCursorPosition
-              style={{ display: "flex", flexDirection: "row" }}
-            >
-              <Col
-                id="midcol"
-                className="middle pr-1 pl-2"
-                xs={7}
-                style={{ display: "flex", flexDirection: "column" }}
-              >
-                {/* <Col> */}
-                <SelectableGroup
-                  className="selectGroup"
-                  onSelection={this.handleSelection}
-                  onEndSelection={this.makeHighlight}
-                >
-                  {this.state.cc_comps.map((comp, i) => {
-                    let selected = this.state.selectedElements.indexOf(i) > -1;
-                    let pinned = this.state.highlighted.has(i);
-                    let highlighted = this.isHighlighted(i);
-                    return (
-                      <div
-                        className={
-                          this.state.mainComp === i
-                            ? "cctext-mainComp"
-                            : "cctext"
-                        }
-                        style={{
-                          width: "100%",
-                          position: "absolute",
-                          top: comp["y"],
-                        }}
-                        ref={"caption".concat(String(comp.id))}
-                        key={comp.id}
-                      >
-                        <SelectableComponent
-                          handleMainComp={this.handleMainComp}
-                          ccID={comp.id}
-                          key={i}
-                          selected={selected}
-                          selectableKey={comp.id}
-                          ccText={comp.text}
-                          seekToTime={this.props.seekToTime}
-                          time={comp.startTime}
-                          pins={pinned}
-                          highlighted={highlighted}
-                          handleDelete={this.handleDelete}
-                        />
-                      </div>
-                    );
-                  })}
-                </SelectableGroup>
-                {/* </Col> */}
-              </Col>
-
-              <Col
-                xs={5}
-                style={{
-                  paddingLeft: "0px",
-                  paddingRight: "0px",
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Container
-                  style={{ display: "flex", flexDirection: "column" }}
-                ></Container>
-                <PinButton makePin={this.makePin} />
-              </Col>
-              {this.state.showComponent ? (
-                <HighlightMenu
-                  makeHighlight={this.makeHighlight}
-                  disableHighlight={this.disableSelection}
-                  style={{ height: "100%", width: "100%" }}
-                />
-              ) : null}
-            </ReactCursorPosition>
-          </Col>
-
-          <Col
-            id="far_right"
-            xs={3}
-            className="farRight"
+      <div className="page">
+        <Container
+          className="mr-0 ml-0 listening-main"
+          fluid
+          style={{
+            height: "100vh",
+            width: "100%",
+          }}
+        >
+          <div
+            class="listening-middle"
             style={{
-              justifyContent: "space-between",
-              display: "flex",
-              flexDirection: "column",
-              backgroundColor: "#5C719B",
+              marginLeft: "10%",
+              // marginRight: "14.286%",
+              height: "100%",
             }}
           >
-            <Comments
-              user={this.props.user}
-              episode={this.props.episode}
-              editPin={this.editPin}
-              pins={this.state.pins}
-              handleDelete={this.handleDelete}
-            />
-          </Col>
-        </Row>
-      </Container>
+            <Row style={{ marginLeft: "4%" }}>
+              <Link to="/">
+                <IconButton
+                  //   onClick={() => this.props.handleSlide()}
+                  style={{
+                    outline: "none",
+                  }}
+                  disableTouchRipple={true}
+                  className="pr-0 mt-4"
+                >
+                  <img
+                    style={{
+                      height: 30,
+                      width: 30,
+                    }}
+                    src="/LOGO.png"
+                  />
+                </IconButton>
+              </Link>
+              <IconButton
+                onClick={() => this.props.handlePlayorpause()}
+                style={{
+                  outline: "none",
+                }}
+                disableTouchRipple={true}
+                className="pr-0 mt-4"
+              >
+                <img
+                  style={{
+                    height: 30,
+                    width: 30,
+                  }}
+                  src="/LOGO.png"
+                />
+              </IconButton>
+            </Row>
+
+            <Row style={{ width: "100%" }}>
+              <Col
+                style={{
+                  flex: "1.5",
+                  marginTop: "50px",
+                  marginRight: "130px",
+                  display: "flex",
+                  flexDirection: "column",
+                  maxHeight: "80vh",
+                }}
+              >
+                <p
+                  style={{
+                    fontFamily: "Avenir Light",
+                    fontSize: "18px",
+                    color: "#FFFFFF",
+                    marginLeft: "7%",
+                  }}
+                  className="mb-1"
+                >
+                  The Investor's Podcast
+                </p>
+                <p
+                  style={{
+                    fontFamily: "Avenir Heavy",
+                    fontSize: "24px",
+                    color: "white",
+                    marginLeft: "7%",
+                  }}
+                >
+                  Millenial Investing
+                </p>
+
+                <div
+                  id="caption-col"
+                  className="listening-captions"
+                  style={{ height: "100%" }}
+                >
+                  <ReactCursorPosition
+                    style={{ display: "flex", flexDirection: "row" }}
+                  >
+                    <SelectableGroup
+                      className="selectGroup"
+                      onSelection={this.handleSelection}
+                      onEndSelection={this.makeHighlight}
+                    >
+                      {this.state.cc_comps.map((comp, i) => {
+                        let selected =
+                          this.state.selectedElements.indexOf(i) > -1;
+                        let pinned = this.state.highlighted.has(i);
+                        let highlighted = this.isHighlighted(i);
+                        return (
+                          <div
+                            className={
+                              this.state.mainComp === i
+                                ? "cctext-mainComp"
+                                : "cctext"
+                            }
+                            style={{
+                              width: "100%",
+                              position: "absolute",
+                              top: comp["y"],
+                            }}
+                            ref={"caption".concat(String(comp.id))}
+                            key={comp.id}
+                          >
+                            <SelectableComponent
+                              handleMainComp={this.handleMainComp}
+                              ccID={comp.id}
+                              key={i}
+                              selected={selected}
+                              selectableKey={comp.id}
+                              ccText={comp.text}
+                              seekToTime={this.props.seekToTime}
+                              time={comp.startTime}
+                              pins={pinned}
+                              highlighted={highlighted}
+                              handleDelete={this.handleDelete}
+                            />
+                          </div>
+                        );
+                      })}
+                    </SelectableGroup>
+
+                    {/* {this.state.showComponent ? (
+                      <HighlightMenu
+                        currPos={this.state.currPos}
+                        makeHighlight={this.makeHighlight}
+                        disableHighlight={this.disableSelection}
+                        style={{ height: "20px", width: "30px" }}
+                      />
+                    ) : null} */}
+                  </ReactCursorPosition>
+                </div>
+              </Col>
+              <div style={{ flex: "1" }}>ello</div>
+            </Row>
+          </div>
+        </Container>
+      </div>
     );
   }
 }
 
-export default Discussion;
+export default Listening;
