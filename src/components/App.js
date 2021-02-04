@@ -6,7 +6,7 @@ import {
   Switch,
   Route,
   Link,
-  Redirect
+  Redirect,
 } from "react-router-dom";
 import Navbar from "./Navbar";
 import Pinpage from "./Pinpage";
@@ -21,7 +21,6 @@ import ReactPlayer from "react-player";
 import podcast from "../assets/podcasts/planet_money.mp3";
 import Listening from "./Listening";
 import Reflect from "./Reflect";
-import Home from "./Home";
 import fs from "fs";
 
 import { AnimatedSwitch } from "react-router-transition";
@@ -42,41 +41,33 @@ class App extends React.Component {
         _id: "5ff051084158640e1d924e76",
         transcript: "5fe345e13ed52c79138e951d",
         audioUrl:
-          "https://res.cloudinary.com/pincast/video/upload/v1609758345/planet_money_wsjh0m.mp3"
+          "https://res.cloudinary.com/pincast/video/upload/v1609758345/planet_money_wsjh0m.mp3",
       },
       reflectEpisode: {
         _id: "5ff41fd399ce35f94887faf1",
         transcript: "5ff09c0f1c12e41a6d708a99",
         audioUrl:
-          "https://res.cloudinary.com/pincast/video/upload/v1609759707/How_I_built_this_Riot_Games_vxfj3d.mp3"
+          "https://res.cloudinary.com/pincast/video/upload/v1609759707/How_I_built_this_Riot_Games_vxfj3d.mp3",
       },
       reflectPins: [],
       discussPins: [],
       episodeIndex: 0,
       podcast: {},
-      progress: 0 // progress for a given episode (to be passed into the reflect page)
+      played: 0,
+      playing: false,
+      controls: false,
+      light: false,
+      volume: 0.8,
+      muted: false,
+      loaded: 0,
+      duration: 0,
+      playbackRate: 1.0,
+      loop: false,
+      progress: 0,
     };
   }
 
-  // updateEpisodeIndex = index => {
 
-  //     // test
-
-  //     played: 0,
-  //     playing: false,
-  //     controls: false,
-  //     light: false,
-  //     volume: 0.8,
-  //     muted: false,
-  //     loaded: 0,
-  //     duration: 0,
-  //     playbackRate: 1.0,
-  //     loop: false,
-  //   };
-  }
-
-
-  // TESTTTT
 
   handlePlayPause = () => {
     this.setState({ playing: !this.state.playing });
@@ -109,7 +100,6 @@ class App extends React.Component {
     });
 
     console.log("my durrattionnn", this.state.reflectEpisode.duration)
-    // this.setState({played:time})
   };
 
   handleSeekMouseDown = (e) => {
@@ -134,12 +124,16 @@ class App extends React.Component {
     }
   }
 
-  // TESTEND
+  updateProgress = (progresses) => {
+    this.setState({
+      progress: progresses 
+    })
+  }
 
 
   updateEpisodeIndex = (index) => {
     this.setState({
-      episodeIndex: index
+      episodeIndex: index,
     });
   };
 
@@ -148,17 +142,17 @@ class App extends React.Component {
     this.setState({
       reflectEpisode: episode,
       reflectPins: pins,
-      podcast: podcast
+      podcast: podcast,
     });
     // update local storage
     localStorage.setItem("lastPlayedEpisode", JSON.stringify(episode));
   };
 
-  setPodcast = newURL => {
+  setPodcast = (newURL) => {
     this.setState({ url: newURL });
   };
 
-  handlePlayorpause = e => {
+  handlePlayorpause = (e) => {
     if (e) {
       e.stopPropagation();
     }
@@ -173,7 +167,7 @@ class App extends React.Component {
     //   : this.props.message("NOW PLAYING");
   };
 
-  login = id => {
+  login = (id) => {
     this.setState({ loggedIn: true, user: id }, () => {
       console.log(this.state.user);
     });
@@ -184,7 +178,7 @@ class App extends React.Component {
     this.setState(
       {
         loggedIn: false,
-        user: { username: " " }
+        user: { username: " " },
       },
       () => {
         console.log("====LOGGED OUT=====");
@@ -200,47 +194,37 @@ class App extends React.Component {
     }
   };
 
-  /* 
-  Update progresses updates the progress of a given episode to be passed into the reflect page
-  */
-
-  updateProgress = progresses_arrs => {
-    this.setState({
-      progress: progresses_arrs
-    });
-  };
-
   /*
   friendUser takes in a user_id (string) and adds the user to the friends field of the user object in the database
   */
 
-  friendUser = friend_id => {
+  friendUser = (friend_id) => {
     // update the database to add the friend to the database
     fetch("http://localhost:5000/social/follow", {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         user_id: this.state.user._id,
-        friend_id: friend_id
-      })
+        friend_id: friend_id,
+      }),
     })
-      .then(res => res.json())
-      .then(json => {
+      .then((res) => res.json())
+      .then((json) => {
         // update the user object in state here
         console.log("SUCCESS", json);
         this.setState(
           {
-            user: json.message
+            user: json.message,
           },
           () => {
             console.log("NEW USER WITH FRIEND CHANGE", this.state.user);
           }
         );
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("ERROR", err);
       });
   };
@@ -249,26 +233,26 @@ class App extends React.Component {
   unfriendUser takes in a user_id (string) and removes the user to the friends field of the user object in the database
   */
 
-  unfriendUser = friend_id => {
+  unfriendUser = (friend_id) => {
     // update the database to add the friend to the database
     fetch("http://localhost:5000/social/unfollow", {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         user_id: this.state.user._id,
-        friend_id: friend_id
-      })
+        friend_id: friend_id,
+      }),
     })
-      .then(res => res.json())
-      .then(json => {
+      .then((res) => res.json())
+      .then((json) => {
         // update the user object in state here
         console.log("SUCCESSfully unfollowed friend", json);
         this.setState(
           {
-            user: json.message
+            user: json.message,
           },
           () => {
             console.log("NEW USER WITH FRIEND CHANGE", this.state.user);
@@ -276,7 +260,7 @@ class App extends React.Component {
         );
         // update local storage
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("ERROR", err);
       });
   };
@@ -291,30 +275,30 @@ class App extends React.Component {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         user_id: friend_id,
-        pin: pin_id
-      })
+        pin: pin_id,
+      }),
     })
-      .then(res => res.json())
-      .then(json => {
+      .then((res) => res.json())
+      .then((json) => {
         // update the user object in state here
         console.log("shared pin with user!! SUCCESFULLY");
         // update local storage
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("ERROR", err);
       });
   };
 
-  componentDidMount = e => {
+  componentDidMount = (e) => {
     this.setCurrTime();
     const newuser = JSON.parse(localStorage.getItem("user"));
     if (newuser) {
       this.setState({
-        user: newuser
+        user: newuser,
       });
     }
     // load last played episode into state from local storage
@@ -325,7 +309,7 @@ class App extends React.Component {
       this.setState(
         {
           reflectEpisode: lastPlayedEpisode,
-          episode: lastPlayedEpisode
+          episode: lastPlayedEpisode,
         },
         () => {
           console.log(
@@ -337,11 +321,11 @@ class App extends React.Component {
     }
   };
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     localStorage.clear();
   }
 
-  fastRewind = e => {
+  fastRewind = (e) => {
     e.stopPropagation();
     // this.player.seekTo(parseFloat(this.player.getCurrentTime() - 10))
     var time = this.player.getCurrentTime();
@@ -353,7 +337,7 @@ class App extends React.Component {
     this.seekToTime(time);
   };
 
-  fastForward = e => {
+  fastForward = (e) => {
     e.stopPropagation();
     // this.player.seekTo(parseFloat(this.player.getCurrentTime() + 10))
     var time = this.player.getCurrentTime() + 10;
@@ -365,14 +349,14 @@ class App extends React.Component {
     this.seekToTime(time);
   };
 
-  seekToTime = time => {
+  seekToTime = (time) => {
     if (this.state.pinTime > 0) {
       this.player.seekTo(time);
       this.setState({ pinTime: time });
     }
   };
 
-  componentDidUpdate = (prevProps) => {
+  componentDidUpdate(prevProps) {
     // console.log("componentdidupdate       ==========", this.props.pinTime);
     // this.interval = setInterval(
     //   () => this.handlePin(this.player.getCurrentTime()),
@@ -382,13 +366,13 @@ class App extends React.Component {
     // console.log(this.state.episodeIndex);
   }
 
-  ref = player => {
+  ref = (player) => {
     this.player = player;
   };
 
-  handlePin = pin => {
+  handlePin = (pin) => {
     this.setState({
-      pinTime: pin
+      pinTime: pin,
     });
     // console.log("we in apps.js", this.state.pinTime)
   };
@@ -404,7 +388,7 @@ it updates episode-specific state elements passed into the discussion component
     this.setState({
       episode: episode,
       discussPins: pins,
-      podcast: podcast
+      podcast: podcast,
     });
   };
 
@@ -467,29 +451,6 @@ it updates episode-specific state elements passed into the discussion component
             <Navbar />
           </Route>
 
-          <Route path="/home_page">
-            <Home
-              pinTime={this.state.pinTime}
-              handlePin={this.handlePin}
-              handlePlayorpause={this.handlePlayorpause}
-              fastRewind={this.fastRewind}
-              fastForward={this.fastForward}
-              seekToTime={this.seekToTime}
-              playpause={this.state.playpause}
-              setCurrTime={this.setCurrTime}
-              user={this.state.user}
-              episode={this.state.episode}
-              login={this.login}
-              updateDiscussionEpisode={this.updateDiscussionEpisode}
-              updateReflectionEpisode={this.updateReflectionEpisode}
-              updateIndex={this.updateEpisodeIndex}
-              episodeIndex={this.state.episodeIndex}
-              open={this.state.open}
-              handleSlide={this.handleSlide}
-              updateProgress={this.updateProgress}
-            />
-          </Route>
-
           <Route path="/about">
             <About
               pinTime={this.state.pinTime}
@@ -509,11 +470,8 @@ it updates episode-specific state elements passed into the discussion component
               episodeIndex={this.state.episodeIndex}
               open={this.state.open}
               handleSlide={this.handleSlide}
-              updateProgress={this.updateProgress}
               played={this.state.played}
               episode={this.state.episode}
-
-              // test
               playing={this.state.playing}
               controls={this.state.controls}
               light={this.state.light}
@@ -532,7 +490,6 @@ it updates episode-specific state elements passed into the discussion component
               handleSeekChange={this.handleSeekChange}
               handleSeekMouseDown={this.handleSeekMouseDown}
               handleSeekMouseUp={this.handleSeekMouseUp}
-              // testend
             />
           </Route>
 
@@ -695,10 +652,7 @@ it updates episode-specific state elements passed into the discussion component
               updateReflectionEpisode={this.updateReflectionEpisode}
               updateIndex={this.updateEpisodeIndex}
               episodeIndex={this.state.episodeIndex}
-              open={this.state.open}
-              handleSlide={this.handleSlide}
               updateProgress={this.updateProgress}
-              updatePins={this.updatePins}
             ></About>
           </Route>
         </AnimatedSwitch>
@@ -709,6 +663,9 @@ it updates episode-specific state elements passed into the discussion component
 
 export default App;
 
+function Home() {
+  return <h2>Wut</h2>;
+}
 
 function Users() {
   return <h2>Users</h2>;
