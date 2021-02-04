@@ -83,6 +83,29 @@
   position: relative;
 }
 
+.hl_reflect {
+  border-top: 2px solid;
+  border-image: linear-gradient(
+    to right,
+    #fa65f7,
+    #f18cff,
+    #eaaaff,
+    #e8c5ff,
+    #ebddff,
+    #e6e6ff,
+    #e5edff,
+    #e9f3ff,
+    #cff1ff,
+    #acf1ff,
+    #81f2ff,
+    #4cf2fa
+  );
+  border-image-slice: 1;
+  width: 60%;
+  position: relative;
+  margin-top: 1.75%;
+}
+
 .sidebar-hl {
   border-top: 0.2px solid #c4c4c4;
   width: 165px;
@@ -101,11 +124,33 @@
   z-index: 10;
 }
 
+.bubble_reflect {
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  top: -6px;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+}
+
 .pinbar {
   border-left: 2px solid black;
   height: 30px;
   position: absolute;
   top: -15px;
+}
+
+.pincircle {
+  position: absolute;
+  height: 14px;
+  width: 14px;
+  border: 1px solid #889AAB; 
+  border-radius: 50%;
+  top: -8px;
+  /* display: inline-block; */
 }
 
 .vl2 {

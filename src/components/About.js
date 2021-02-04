@@ -253,6 +253,7 @@ export default class Example extends React.PureComponent {
                                 this.state.podcasts[id]
                               );
                               this.props.updateIndex(id);
+                              this.props.updateProgress(this.state.progresses[id])
                             }}
                             style={{ width: "100%", height: "60px" }}
                           >

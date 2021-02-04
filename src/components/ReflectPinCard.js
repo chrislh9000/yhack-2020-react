@@ -30,8 +30,8 @@ class ReflectPinCard extends React.Component {
       >
         <Row style={{ width: "100%" }}>
           <Col xs={11} style={{ padding: "1%" }}>
-            <p1>@</p1>
-            <p1>d.wang98</p1>
+            <p1 style={{fontWeight: "bold"}}>@</p1>
+            <p1 style={{fontWeight: "bold"}}>{this.props.user.username}</p1>
           </Col>
           <Col xs={1}>
             <Dropdown>
@@ -46,19 +46,20 @@ class ReflectPinCard extends React.Component {
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">Edit Length</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Edit Comment</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Delete Pin</Dropdown.Item>
+                <Dropdown.Item>Edit Length</Dropdown.Item>
+                <Dropdown.Item>Edit Comment</Dropdown.Item>
+                <Dropdown.Item>Delete Pin</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </Col>
         </Row>
 
         <Row style={{ padding: "2%" }}>
-          <p1>This is the note and there are lots of words</p1>
+          <p1>"{this.props.pin.text}"</p1>
         </Row>
         <Row style={{ paddingLeft: "5%" }}>
-          <p1>Comment here and also the replies</p1>
+          <p style={{fontWeight: "bold"}}>Note:</p>
+          <p1 style={{paddingLeft: "10px", fontStyle: "italic"}}>{this.props.pin.note}</p1>
         </Row>
       </Container>
     );

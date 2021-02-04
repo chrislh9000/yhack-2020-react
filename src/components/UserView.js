@@ -27,7 +27,7 @@ class UserView extends React.Component {
     return (
       <div
         className="container userContainer mb-4"
-        style={{ justifyContent: "flex-end", paddingTop: "5%" }}
+        style={{ justifyContent: "flex-end" }}
       >
         <div style={circleStyle}>
           <p className="userLetter">{letter}</p>
@@ -39,18 +39,19 @@ class UserView extends React.Component {
         <Dropdown style={{ borderRadius: "0.5px" }}>
           <Dropdown.Toggle
             style={{
-              backgroundColor: "#6D8398",
-              borderColor: "#6D8398",
+              backgroundColor: "transparent",
+              borderColor: "transparent",
               borderRadius: "10px",
-              width: "2px",
+              width: "10px",
+              padding: "15px",
             }}
             id="dropdown-basic"
           ></Dropdown.Toggle>
 
           <Dropdown.Menu>
-            <Dropdown.Item href="#/action-1">Edit Length</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Edit Comment</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Delete Pin</Dropdown.Item>
+            <Dropdown.Item>Account</Dropdown.Item>
+            <Dropdown.Item>Settings</Dropdown.Item>
+            <Dropdown.Item>Logout</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </div>
