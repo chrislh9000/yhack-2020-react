@@ -53,9 +53,6 @@ class App extends React.Component {
       discussPins: [],
       episodeIndex: 0,
       podcast: {},
-
-      // test
-
       played: 0,
       playing: false,
       controls: false,
@@ -70,7 +67,6 @@ class App extends React.Component {
   }
 
 
-  // TESTTTT
 
   handlePlayPause = () => {
     this.setState({ playing: !this.state.playing });
@@ -103,7 +99,6 @@ class App extends React.Component {
     });
 
     console.log("my durrattionnn", this.state.reflectEpisode.duration)
-    // this.setState({played:time})
   };
 
   handleSeekMouseDown = (e) => {
@@ -127,8 +122,6 @@ class App extends React.Component {
       this.setState(state)
     }
   }
-
-  // TESTEND
 
 
   updateEpisodeIndex = (index) => {
@@ -472,8 +465,6 @@ it updates episode-specific state elements passed into the discussion component
               handleSlide={this.handleSlide}
               played={this.state.played}
               episode={this.state.episode}
-
-              // test
               playing={this.state.playing}
               controls={this.state.controls}
               light={this.state.light}
@@ -492,7 +483,6 @@ it updates episode-specific state elements passed into the discussion component
               handleSeekChange={this.handleSeekChange}
               handleSeekMouseDown={this.handleSeekMouseDown}
               handleSeekMouseUp={this.handleSeekMouseUp}
-              // testend
             />
           </Route>
 
