@@ -101,7 +101,10 @@ class Comments extends React.Component {
     // console.log("=====PINS=======", this.props.pins)
     //pre-rendering code
     return (
-      <Row style={{ overflowY: "auto" }}>
+      <Row
+        className="ml-5 mr-5"
+        style={{ overflowY: "auto", height: "250px", marginTop: "10%" }}
+      >
         {this.props.pins.map((item, i) => (
           <Container
             id="comment"
@@ -215,7 +218,11 @@ class Comments extends React.Component {
               </Form.Group>
             </Form> */}
             <form
-              style={{ width: "100%", display: "flex", flexDirection: "row" }}
+              style={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+              }}
               onSubmit={(e) => this.handleSubmit(e, item, i)}
               onKeyDown={(e) => this.initSubmit(e, item, i)}
             >
@@ -226,11 +233,11 @@ class Comments extends React.Component {
                 placeholder={"Add a Comment"}
                 style={{
                   backgroundColor: "transparent",
-                  marginBottom: "5%",
+                  marginBottom: "2%",
                   marginRight: "10%",
                   borderTop: "0px",
                   borderLeft: "0px",
-                  borderBottom: "1px solid white",
+                  borderBottom: "0.1px solid white",
                   outline: "none",
                   borderRight: "0px",
                   color: "white",
@@ -253,26 +260,12 @@ class Comments extends React.Component {
                   color: "white",
                   borderRadius: "3px",
                   outline: "none",
+                  alignSelf: "flex-end",
                 }}
               />
             </form>
           </Container>
         ))}
-        <div
-          id="note-input"
-          className="mt-4 mb-4 ml-4 mr-4 pl-4 pr-4 pt-3 pb-3"
-          style={{ background: "blue", borderRadius: "20px", width: "100%" }}
-        >
-          <form style={{ width: "100%" }} onSubmit={this.handleSubmit}>
-            <label style={{ color: "white" }}>Note:</label>
-            <input
-              style={{ width: "100%" }}
-              type="text"
-              value={this.state.value}
-              onChange={this.handleChange}
-            />
-          </form>
-        </div>
       </Row>
     );
   }
