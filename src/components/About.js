@@ -113,7 +113,6 @@ export default class Example extends React.PureComponent {
   };
 
   componentDidUpdate = (e) => {
-    console.log(this.props.episodeIndex);
     // console.log(this.state.pins);
     // console.log("=======proggresses========", this.state.progresses);
   };
@@ -130,6 +129,7 @@ export default class Example extends React.PureComponent {
   };
 
   render() {
+
     return (
       <div className="page">
         <Container fluid className="discussion_background home-back pl-0 pr-0">
@@ -275,8 +275,6 @@ export default class Example extends React.PureComponent {
             playpause={this.props.playpause}
             user={this.props.user}
             imgURL="whitepin.png"
-
-            // test
             played={this.props.played}
             playing={this.props.playing}
             controls={this.props.controls}

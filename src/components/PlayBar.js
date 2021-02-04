@@ -57,23 +57,33 @@ class PlayBar extends React.Component {
 
   duraTime = () => {
     let secs = Math.floor(this.props.episode.duration)
-    let mins = Math.floor(secs / 60)
+    let mins = (Math.floor(secs / 60)).toString().padStart(2,"0")
     secs = secs % 60
     let str = (mins.toString().concat(":")).concat(secs.toString())
-    console.log("helo",str)
+
+    if (mins == "NaN") {
+      str = "00:00"
+    }
     return str
   }
+
+
   currTime = () => {
     
     let secs = Math.floor(this.props.episode.duration * this.props.played)
     let mins = (Math.floor(secs / 60)).toString().padStart(2,"0")
     secs = (secs % 60).toString().padStart(2,"0")
     let str = (mins.concat(":")).concat(secs)
+    if (mins == "NaN") {
+      console.log(" we in here baby")
+      str = "00:00"
+    }
+    console.log("yoooooooooooooooo",mins)
     return str
   }
 
   render() {
-    console.log(this.duraTime())
+    
     return (
       <Container
         onClick={this.slideUp}
