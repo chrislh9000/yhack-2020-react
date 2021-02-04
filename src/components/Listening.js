@@ -21,6 +21,7 @@ import { SelectableGroup, createSelectable } from "react-selectable";
 import ReactCursorPosition from "react-cursor-position";
 import { animateScroll } from "react-scroll";
 import transitions from "@material-ui/core/styles/transitions";
+import PlayBar from "./PlayBar";
 
 const ipcRenderer = window.require("electron").ipcRenderer;
 
@@ -547,7 +548,7 @@ class Listening extends React.Component {
               height: "100%",
             }}
           >
-            <Row style={{ marginLeft: "4%" }}>
+            <Row style={{}}>
               <Link to="/">
                 <IconButton
                   //   onClick={() => this.props.handleSlide()}
@@ -562,40 +563,74 @@ class Listening extends React.Component {
                       height: 30,
                       width: 30,
                     }}
-                    src="/LOGO.png"
+                    src="/downarrow-white.png"
                   />
                 </IconButton>
               </Link>
-              <IconButton
-                onClick={() => this.props.handlePlayorpause()}
-                style={{
-                  outline: "none",
-                }}
-                disableTouchRipple={true}
-                className="pr-0 mt-4"
+            </Row>
+            <div
+              className="pt-2 pb-2 mt-3"
+              style={{
+                marginLeft: "5%",
+                marginRight: "16.67%",
+                display: "flex",
+                flexDirection: "row",
+                width: "100%",
+                alignItems: "center",
+              }}
+            >
+              <Row
+                className="playbar-episode mr-3"
+                style={{ alignItems: "center" }}
               >
                 <img
                   style={{
-                    height: 30,
-                    width: 30,
+                    height: 65,
+                    width: 65,
+                    boxShadow:
+                      "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
                   }}
-                  src="/LOGO.png"
+                  src={this.state.imgURL}
                 />
-              </IconButton>
-            </Row>
+                <div
+                  className="playbar-text ml-3"
+                  style={{ display: "flex", flexDirection: "column" }}
+                >
+                  <p
+                    style={{
+                      fontFamily: "Avenir Light",
+                      fontSize: "14px",
+                      color: "white",
+                    }}
+                    className="mb-0"
+                  >
+                    Millennial Investing
+                  </p>
+                  <p
+                    style={{
+                      fontFamily: "Avenir Heavy",
+                      fontSize: "20px",
+                      color: "white",
+                    }}
+                    className="mb-0"
+                  >
+                    Episode 3: Why Millennial’s Should Invest Today
+                  </p>
+                </div>
+              </Row>
+            </div>
 
             <Row style={{ width: "100%" }}>
               <Col
                 style={{
-                  flex: "1.5",
+                  flex: "1.3",
                   marginTop: "50px",
-                  marginRight: "130px",
                   display: "flex",
                   flexDirection: "column",
-                  maxHeight: "80vh",
+                  maxHeight: "70vh",
                 }}
               >
-                <p
+                {/* <p
                   style={{
                     fontFamily: "Avenir Light",
                     fontSize: "18px",
@@ -615,12 +650,12 @@ class Listening extends React.Component {
                   }}
                 >
                   Millenial Investing
-                </p>
+                </p> */}
 
                 <div
                   id="caption-col"
                   className="listening-captions"
-                  style={{ height: "100%" }}
+                  style={{ height: "100%", marginRight: "100px" }}
                 >
                   <ReactCursorPosition
                     style={{ display: "flex", flexDirection: "row" }}
@@ -679,7 +714,138 @@ class Listening extends React.Component {
                   </ReactCursorPosition>
                 </div>
               </Col>
-              <div style={{ flex: "1" }}>ello</div>
+              <div
+                style={{
+                  flex: "1",
+                  marginRight: "10%",
+                  flexDirection: "column",
+                  display: "flex",
+                }}
+              >
+                <div
+                  style={{
+                    height: "240px",
+                  }}
+                >
+                  <Comments
+                    user={this.props.user}
+                    episode={this.props.episode}
+                    editPin={this.editPin}
+                    pins={this.state.pins}
+                    handleDelete={this.handleDelete}
+                  />
+                </div>
+
+                <Row
+                  className="ml-3 mr-3"
+                  style={{
+                    alignSelf: "center",
+                    marginTop: "140px",
+                    width: "45%",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <IconButton
+                    onClick={(event) => this.props.fastRewind(event)}
+                    disableTouchRipple={true}
+                    style={{
+                      minWidth: "0px",
+                      outline: "none",
+                      backgroundColor: "transparent",
+                    }}
+                    className="pl-0"
+                  >
+                    <img
+                      style={{
+                        height: 50,
+                        width: 27,
+                      }}
+                      src="/back-lightgray.png"
+                    />
+                  </IconButton>
+                  <IconButton
+                    onClick={(event) => this.props.handlePlayorpause(event)}
+                    disableTouchRipple={true}
+                    style={{
+                      outline: "none",
+                      backgroundColor: "transparent",
+                      minWidth: "35px",
+                    }}
+                    className="pr-0 pl-0"
+                  >
+                    <img
+                      style={{
+                        height: 50,
+                        width: 38,
+                        opacity: 1,
+                      }}
+                      src={
+                        this.props.playpause
+                          ? "/pause-lightgray.png"
+                          : "/play-lightgray.png"
+                      }
+                    />
+                  </IconButton>
+                  <IconButton
+                    onClick={(event) => this.props.fastForward(event)}
+                    style={{
+                      minWidth: "0px",
+                      outline: "none",
+                      backgroundColor: "transparent",
+                    }}
+                    disableTouchRipple={true}
+                    className="pr-0"
+                  >
+                    <img
+                      style={{
+                        height: 50,
+                        width: 27,
+                      }}
+                      src="/next-lightgray.png"
+                    />
+                  </IconButton>
+                </Row>
+                <Row
+                  className="playbar-audio ml-3 mr-3"
+                  style={{
+                    width: "100%",
+                    alignItems: "center",
+                    marginTop: "10%",
+                  }}
+                >
+                  <p
+                    className="mb-0"
+                    style={{
+                      fontFamily: "Avenir Book",
+                      fontSize: "14px",
+                      color: "#D8DEE3",
+                    }}
+                  >
+                    15:39
+                  </p>
+                  <input
+                    class="slider-listening ml-3 mr-3"
+                    type="range"
+                    min={0}
+                    max={0.999999}
+                    step="any"
+                    value={this.state.played}
+                    onMouseDown={this.handleSeekMouseDown}
+                    onChange={this.handleSeekChange}
+                    onMouseUp={this.handleSeekMouseUp}
+                  />
+                  <p
+                    className="mb-0"
+                    style={{
+                      fontFamily: "Avenir Book",
+                      fontSize: "14px",
+                      color: "#D8DEE3",
+                    }}
+                  >
+                    21:50
+                  </p>
+                </Row>
+              </div>
             </Row>
           </div>
         </Container>

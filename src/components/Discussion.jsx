@@ -615,7 +615,7 @@ class Discussion extends React.Component {
                 <SelectableGroup
                   className="selectGroup"
                   onSelection={this.handleSelection}
-                  onEndSelection={this.makeHighlight}
+                  onEndSelection={this.saveSelection}
                 >
                   {this.state.cc_comps.map((comp, i) => {
                     let selected = this.state.selectedElements.indexOf(i) > -1;
@@ -625,7 +625,7 @@ class Discussion extends React.Component {
                       <div
                         className={
                           this.state.mainComp === i
-                            ? "cctext-mainComp"
+                            ? "cctext-highlighted"
                             : "cctext"
                         }
                         style={{
