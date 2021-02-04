@@ -62,7 +62,8 @@ class App extends React.Component {
       loaded: 0,
       duration: 0,
       playbackRate: 1.0,
-      loop: false
+      loop: false,
+      progress: 0,
     };
   }
 
@@ -120,6 +121,13 @@ class App extends React.Component {
       this.setState(state);
     }
   };
+
+  updateProgress = (progresses) => {
+    this.setState({
+      progress: progresses 
+    })
+  }
+
 
   updateEpisodeIndex = index => {
     this.setState({
@@ -575,6 +583,7 @@ it updates episode-specific state elements passed into the discussion component
               episodeIndex={this.state.episodeIndex}
               imgURL={this.state.podcast.imageUrl}
               podcast={this.state.podcast}
+              progress={this.state.progress}
             ></Reflect>
           </Route>
 
@@ -661,6 +670,7 @@ it updates episode-specific state elements passed into the discussion component
               handleSeekChange={this.handleSeekChange}
               handleSeekMouseDown={this.handleSeekMouseDown}
               handleSeekMouseUp={this.handleSeekMouseUp}
+              updateProgress={this.updateProgress}
             ></About>
           </Route>
         </AnimatedSwitch>

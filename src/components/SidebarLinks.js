@@ -73,7 +73,9 @@ class SidebarLinks extends React.Component {
           <p className="sidebar-title">Discovered</p>
         </Row>
         <Row>
+        <Link to="/home_page">
           <p className="sidebar-title">New Releases</p>
+          </Link>
         </Row>
       </Container>
     );
