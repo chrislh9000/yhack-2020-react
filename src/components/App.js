@@ -58,21 +58,21 @@ class App extends React.Component {
     };
   }
 
-  updateEpisodeIndex = index => {
+  // updateEpisodeIndex = index => {
 
-      // test
+  //     // test
 
-      played: 0,
-      playing: false,
-      controls: false,
-      light: false,
-      volume: 0.8,
-      muted: false,
-      loaded: 0,
-      duration: 0,
-      playbackRate: 1.0,
-      loop: false,
-    };
+  //     played: 0,
+  //     playing: false,
+  //     controls: false,
+  //     light: false,
+  //     volume: 0.8,
+  //     muted: false,
+  //     loaded: 0,
+  //     duration: 0,
+  //     playbackRate: 1.0,
+  //     loop: false,
+  //   };
   }
 
 
@@ -337,7 +337,7 @@ class App extends React.Component {
     }
   };
 
-  componentWillUnmount() {
+  componentWillUnmount = () => {
     localStorage.clear();
   }
 
@@ -372,7 +372,7 @@ class App extends React.Component {
     }
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate = (prevProps) => {
     // console.log("componentdidupdate       ==========", this.props.pinTime);
     // this.interval = setInterval(
     //   () => this.handlePin(this.player.getCurrentTime()),
