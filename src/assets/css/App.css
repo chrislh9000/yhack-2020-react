@@ -146,17 +146,10 @@
 }
 
 .reflect-top {
-  background-image: linear-gradient(
-    180deg,
-    #5e768d,
-    #48647e,
-    #304f6d 
-  );
+  background-image: linear-gradient(180deg, #5e768d, #48647e, #304f6d);
   background-repeat: no-repeat;
   /* background-size: 100%; */
 }
-
-
 
 @keyframes App-logo-spin {
   from {
@@ -422,4 +415,10 @@
   overflow-y: auto;
   overflow-x: hidden;
   height: 100%;
+}
+
+input::placeholder {
+  color: white;
+  font-family: "Avenir Heavy";
+  font-size: 12px;
 }

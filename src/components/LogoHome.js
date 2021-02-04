@@ -23,7 +23,7 @@ class LogoHome extends React.Component {
             paddingBottom: 2,
             paddingTop: 3,
           }}
-          src="/LOGO.png"
+          src="/logo-blue.png"
         />
         <p
           style={{

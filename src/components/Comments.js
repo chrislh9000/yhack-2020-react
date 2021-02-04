@@ -6,6 +6,7 @@ import Col from "react-bootstrap/Col";
 import Replies from "./Replies";
 import IconButton from "@material-ui/core/Button";
 import Form from "react-bootstrap/Form";
+import Container from "react-bootstrap/Container";
 
 class Comments extends React.Component {
   constructor(props) {
@@ -102,26 +103,51 @@ class Comments extends React.Component {
     return (
       <Row style={{ overflowY: "auto" }}>
         {this.props.pins.map((item, i) => (
-          <div
+          <Container
             id="comment"
-            className="mt-4 ml-4 mr-4 pl-4 pr-4 pt-3"
+            className="mt-4 ml-1 mr-1 pl-4 pr-4 pt-3"
             style={{
-              background: "purple",
+              background: "transparent",
               borderRadius: "20px",
               width: "100%",
             }}
           >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-end",
+              }}
+            >
+              <IconButton
+                onClick={() => this.props.handleDelete(item.startComp)}
+                style={{
+                  width: "1px",
+                  height: "1px",
+                  minWidth: "0px",
+                  outline: "none",
+                  backgroundColor: "transparent",
+                  color: "white",
+                }}
+              >
+                x
+              </IconButton>
+            </div>
             <Row>
               <Col xs={10}>
                 <p
-                  className="mb-1 title"
-                  style={{ color: "white", fontSize: "11px" }}
+                  className="mb-0"
+                  style={{
+                    color: "white",
+                    fontFamily: "Avenir Heavy",
+                    fontSize: "10px",
+                  }}
                 >
                   {this.timeToStr(item.startTime)} -{" "}
                   {this.timeToStr(item.endTime)}
                 </p>
               </Col>
-              <Col xs={2}>
+              {/* <Col xs={2}>
                 <IconButton
                   onClick={() => this.props.handleDelete(item.startComp)}
                   style={{
@@ -130,49 +156,107 @@ class Comments extends React.Component {
                     minWidth: "0px",
                     outline: "none",
                     backgroundColor: "transparent",
+                    color: "white",
                   }}
                 >
                   x
                 </IconButton>
-              </Col>
+              </Col> */}
             </Row>
             <p
               className="mb-1"
-              style={{ color: "white", fontSize: "11px", fontColor: "gray" }}
+              style={{
+                color: "white",
+                fontSize: "10px",
+                fontFamily: "Avenir Heavy",
+              }}
             >
               Pinned on {String(item.date).substring(0, 10)}
             </p>
-            <p className="title" style={{ color: "white", fontSize: "12px" }}>
+            <p
+              style={{
+                color: "white",
+                fontSize: "14px",
+                fontFamily: "Avenir Medium",
+                height: "60px",
+                overflow: "scroll",
+                marginBottom: "10%",
+              }}
+            >
               {item.text}
             </p>
-            <Form
+            {/* <Form
               style={{ paddingBottom: "10px" }}
               onSubmit={(e) => this.handleSubmit(e, item, i)}
               onKeyDown={(e) => this.initSubmit(e, item, i)}
             >
-              <Form.Label style={{ color: "white" }}>Note: </Form.Label>
-              {this.state.editedPin === i ? (
-                <Form.Control
-                  size="sm"
-                  onClick={(e) => this.handleNoteChange(e, item, i)}
-                  onChange={this.handleChange}
-                  value={this.state.value}
-                  placeholder={item.note}
-                  as="textarea"
-                  rows={2}
-                />
-              ) : (
-                <Form.Control
-                  type="text"
-                  size="sm"
-                  onClick={(e) => this.handleNoteChange(e, item, i)}
-                  onChange={this.handleChange}
-                  value={item.note}
-                  placeholder={item.note}
-                />
-              )}
-            </Form>
-          </div>
+              <Form.Group>
+                <Form.Label style={{ color: "white" }}>Note: </Form.Label>
+                {this.state.editedPin === i ? (
+                  <Form.Control
+                    size="sm"
+                    onClick={(e) => this.handleNoteChange(e, item, i)}
+                    onChange={this.handleChange}
+                    value={this.state.value}
+                    // placeholder={item.note}
+                    // as="textarea"
+                    // rows={2}
+                  />
+                ) : (
+                  <Form.Control
+                    type="text"
+                    size="sm"
+                    onClick={(e) => this.handleNoteChange(e, item, i)}
+                    onChange={this.handleChange}
+                    value={item.note}
+                    placeholder={item.note}
+                  />
+                )}
+              </Form.Group>
+            </Form> */}
+            <form
+              style={{ width: "100%", display: "flex", flexDirection: "row" }}
+              onSubmit={(e) => this.handleSubmit(e, item, i)}
+              onKeyDown={(e) => this.initSubmit(e, item, i)}
+            >
+              <input
+                type="text"
+                value={item.note}
+                onChange={this.handleChange}
+                placeholder={"Add a Comment"}
+                style={{
+                  backgroundColor: "transparent",
+                  marginBottom: "5%",
+                  marginRight: "10%",
+                  borderTop: "0px",
+                  borderLeft: "0px",
+                  borderBottom: "1px solid white",
+                  outline: "none",
+                  borderRight: "0px",
+                  color: "white",
+                  fontFamily: "Avenir Medium",
+                  fontSize: "12px",
+                  width: "100%",
+                }}
+              />
+              <input
+                type="submit"
+                value="Submit"
+                onClick={(e) => this.handleNoteChange(e, item, i)}
+                style={{
+                  backgroundColor: "transparent",
+                  border: "1px solid #688095",
+                  width: "75px",
+                  height: "25px",
+                  fontSize: "10px",
+                  fontFamily: "Avenir Medium",
+                  color: "white",
+                  borderRadius: "3px",
+                  outline: "none",
+                }}
+              />
+            </form>
+          </Container>
         ))}
         <div
           id="note-input"

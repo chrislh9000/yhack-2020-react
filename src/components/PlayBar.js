@@ -124,7 +124,7 @@ class PlayBar extends React.Component {
                   height: 15,
                   width: 11,
                 }}
-                src="/back.png"
+                src="/back-gray.png"
               />
             </IconButton>
             <IconButton
@@ -143,7 +143,9 @@ class PlayBar extends React.Component {
                   width: 13,
                   opacity: 1,
                 }}
-                src={this.props.playpause ? "/pause.png" : "/play.png"}
+                src={
+                  this.props.playpause ? "/pause-gray.png" : "/play-gray.png"
+                }
               />
             </IconButton>
             <IconButton
@@ -161,7 +163,7 @@ class PlayBar extends React.Component {
                   height: 15,
                   width: 11,
                 }}
-                src="/next.png"
+                src="/next-gray.png"
               />
             </IconButton>
           </Row>
@@ -218,7 +220,7 @@ class PlayBar extends React.Component {
                     height: 30,
                     width: 30,
                   }}
-                  src="/LOGO.png"
+                  src="/logo-gray.png"
                 />
               </IconButton>
             </Link>

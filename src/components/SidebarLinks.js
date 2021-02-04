@@ -19,9 +19,9 @@ class SidebarLinks extends React.Component {
             className="mr-3"
             style={{
               height: 15,
-              width: 11,
+              width: 15,
             }}
-            src="/play.png"
+            src="/home-blue.png"
           />
           <Link to="/">
             <p
