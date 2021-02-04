@@ -25,6 +25,7 @@ class UserView extends React.Component {
       marginRight: "1em",
     };
     return (
+      this.props.color == "blue" ?
       <div
         className="container userContainer mb-4"
         style={{ justifyContent: "flex-end" }}
@@ -33,8 +34,8 @@ class UserView extends React.Component {
           <p className="userLetter">{letter}</p>
         </div>
         <div style={{}}>
-          <div className="userName">{this.props.user.username}</div>
-          <div className="followers">23 Followers</div>
+          <div style={{color: "#173B5C"}} className="userName">{this.props.user.username}</div>
+          <div style={{color: "#173B5C"}} className="followers">23 Followers</div>
         </div>
         <Dropdown style={{ borderRadius: "0.5px" }}>
           <Dropdown.Toggle
@@ -51,10 +52,40 @@ class UserView extends React.Component {
           <Dropdown.Menu>
             <Dropdown.Item>Account</Dropdown.Item>
             <Dropdown.Item>Settings</Dropdown.Item>
-            <Dropdown.Item>Logout</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </div>
+      :       
+      <div
+      className="container userContainer mb-4"
+      style={{ justifyContent: "flex-end" }}
+    >
+      <div style={circleStyle}>
+        <p className="userLetter">{letter}</p>
+      </div>
+      <div style={{}}>
+        <div style={{color: "#173B5C"}}  className="userName">{this.props.user.username}</div>
+        <div style={{color: "#173B5C"}}  className="followers">23 Followers</div>
+      </div>
+      <Dropdown style={{ borderRadius: "0.5px" }}>
+        <Dropdown.Toggle
+          style={{
+            backgroundColor: "transparent",
+            borderColor: "transparent",
+            borderRadius: "10px",
+            width: "10px",
+            padding: "15px",
+          }}
+          id="dropdown-basic"
+        ></Dropdown.Toggle>
+
+        <Dropdown.Menu>
+          <Dropdown.Item>Account</Dropdown.Item>
+          <Dropdown.Item>Settings</Dropdown.Item>
+          <Dropdown.Item>Logout</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    </div>
     );
   }
 }

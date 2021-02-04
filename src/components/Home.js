@@ -134,8 +134,8 @@ export default class Example extends React.PureComponent {
   render() {
     return (
       <Container fluid className="discussion_background">
-        <Row style={{ height: "100%" }}>
-          <Col xs={2} style={{ padding: "0px" }}>
+        <Row style={{ height: "92vh" }}>
+          <Col xs={2} style={{ padding: "0px", height: "100%" }}>
             <Sidebar
               handlePlayorpause={this.props.handlePlayorpause}
               fastRewind={this.props.fastRewind}
@@ -151,10 +151,9 @@ export default class Example extends React.PureComponent {
           <Col>
             <Row
               style={{
-                height: "40%",
+                height: "18%",
                 display: "flex"
               }}
-              className="reflect-top"
             >
               <Col>
                 <Row
@@ -180,31 +179,23 @@ export default class Example extends React.PureComponent {
                 >
                   <p1
                     style={{
-                      fontWeight: "bold",
-                      color: "white",
-                      fontSize: "25px"
+                      color: "#173B5C",
+                      fontSize: "25px",
+                      paddingTop: "4%"
                     }}
                   >
                     PINCAST WEEKLY
                   </p1>
-                  <p1 style={{ color: "white" }}>Pincast. Just for you.</p1>
                 </Row>
               </Col>
               <Col>
-                <UserView user={{ username: "chemm" }} />
+                <UserView user={{ username: "chemm", color: "blue" }} />
               </Col>
             </Row>
-            <Row>
+            <Row style={{ flexDirection: "column", paddingLeft: "1%" }}>
               {this.state.episodes.length > 0 && this.state.pins.length > 1
                 ? this.state.episodes.map((item, id) => (
-                    <div
-                      className="mb-5"
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        background: "white"
-                      }}
-                    >
+                    <div style={{ display: "flex" }}>
                       <img
                         className="ml-3 mt-3 mb-3"
                         style={{
@@ -216,13 +207,137 @@ export default class Example extends React.PureComponent {
                         }}
                         src={this.state.podcasts[id].imageUrl}
                       />
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          marginTop: "1.8%",
+                          marginLeft: "4%"
+                        }}
+                      >
+                        <div
+                          style={{
+                            fontSize: "20px",
+                            color: "#173B5C",
+                            fontWeight: "bold"
+                          }}
+                        >
+                          {item.title}
+                        </div>
+                        <div
+                          style={{
+                            fontSize: "12px",
+                            color: "grey",
+                            marginLeft: "0.1%",
+                            paddingTop: "0.3%",
+                            paddingBottom: "0.3%"
+                          }}
+                        >
+                          <div style={{ display: "inline", marginRight: "2%" }}>
+                            {this.state.podcasts[id].title}
+                          </div>
+                          {String(item.date).substring(0, 10)}
+                        </div>
+                        <div style={{ fontSize: "16px", color: "#848484" }}>
+                          {item.summary}
+                        </div>
+                      </div>
+                      <Dropdown
+                        style={{
+                          display: "inline",
+                          height: "20%",
+                          marginRight: "4%",
+                          marginTop: "1.5%"
+                        }}
+                      >
+                        <Dropdown.Toggle
+                          style={{
+                            backgroundColor: "white",
+                            borderColor: "white"
+                          }}
+                          id="dropdown-basic"
+                        >
+                          <img
+                            style={{
+                              height: "15px",
+                              width: "15px"
+                            }}
+                            src="/threeDotCircle.png"
+                          />
+                        </Dropdown.Toggle>
 
+                        <Dropdown.Menu>
+                          <Dropdown.Item
+                            onClick={() => {
+                              this.props.updateDiscussionEpisode(
+                                item,
+                                this.state.pins[id].message,
+                                this.state.podcasts[id]
+                              );
+                              this.props.updateIndex(id);
+                            }}
+                          >
+                            Listen
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            onClick={() => {
+                              this.props.updateReflectionEpisode(
+                                item,
+                                this.state.pins[id].message,
+                                this.state.podcasts[id]
+                              );
+                              this.props.updateIndex(id);
+                              this.props.updateProgress(
+                                this.state.progresses[id]
+                              );
+                            }}
+                          >
+                            <Link to="/reflect">
+                              <Button>
+                              Reflect
+                              </Button>
+                            </Link>
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
                     </div>
                   ))
                 : "Loading..."}
             </Row>
           </Col>
         </Row>
+        <PlayBar
+          handlePlayorpause={this.props.handlePlayorpause}
+          fastRewind={this.props.fastRewind}
+          fastForward={this.props.fastForward}
+          seekToTime={this.props.seekToTime}
+          handlePin={this.props.handlePin}
+          pinTime={this.props.pinTime}
+          playpause={this.props.playpause}
+          user={this.props.user}
+          imgURL="whitepin.png"
+          played={this.props.played}
+          playing={this.props.playing}
+          controls={this.props.controls}
+          light={this.props.light}
+          volume={this.props.volume}
+          muted={this.props.muted}
+          loaded={this.props.loaded}
+          duration={this.props.duration}
+          playbackRate={this.props.playbackRate}
+          loop={this.props.loop}
+          handlePlayPause={this.props.handlePlayPause}
+          handleVolumeChange={this.props.handleVolumeChange}
+          handlePlay={this.props.handlePlay}
+          handlePause={this.props.handlePause}
+          handleDuration={this.props.handleDuration}
+          handleSeekTo={this.props.handleSeekTo}
+          handleSeekChange={this.props.handleSeekChange}
+          handleSeekMouseDown={this.props.handleSeekMouseDown}
+          handleSeekMouseUp={this.props.handleSeekMouseUp}
+          episode={this.props.episode}
+          // testend
+        ></PlayBar>
       </Container>
     );
   }

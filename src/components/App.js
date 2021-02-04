@@ -22,6 +22,7 @@ import podcast from "../assets/podcasts/planet_money.mp3";
 import Listening from "./Listening";
 import Reflect from "./Reflect";
 import fs from "fs";
+import Home from "./Home"
 
 import { AnimatedSwitch } from "react-router-transition";
 
@@ -546,6 +547,48 @@ it updates episode-specific state elements passed into the discussion component
               friendUser={this.friendUser}
             />
           </Route>
+          <Route path="/home_page">
+            <Home
+            pinTime={this.state.pinTime}
+            handlePin={this.handlePin}
+            handlePlayorpause={this.handlePlayorpause}
+            fastRewind={this.fastRewind}
+            fastForward={this.fastForward}
+            seekToTime={this.seekToTime}
+            playpause={this.state.playpause}
+            setCurrTime={this.setCurrTime}
+            user={this.state.user}
+            episode={this.state.episode}
+            login={this.login}
+            updateDiscussionEpisode={this.updateDiscussionEpisode}
+            updateReflectionEpisode={this.updateReflectionEpisode}
+            updateIndex={this.updateEpisodeIndex}
+            episodeIndex={this.state.episodeIndex}
+            open={this.state.open}
+            handleSlide={this.handleSlide}
+            played={this.state.played}
+            episode={this.state.episode}
+            playing={this.state.playing}
+            controls={this.state.controls}
+            light={this.state.light}
+            volume={this.state.volume}
+            muted={this.state.muted}
+            loaded={this.state.loaded}
+            duration={this.state.duration}
+            playbackRate={this.state.playbackRate}
+            loop={this.state.loop}
+            handlePlayPause={this.handlePlayPause}
+            handleVolumeChange={this.handleVolumeChange}
+            handlePlay={this.handlePlay}
+            handlePause={this.handlePause}
+            handleDuration={this.handleDuration}
+            handleSeekTo={this.handleSeekTo}
+            handleSeekChange={this.handleSeekChange}
+            handleSeekMouseDown={this.handleSeekMouseDown}
+            handleSeekMouseUp={this.handleSeekMouseUp}
+            updateProgress={this.updateProgress}
+            />
+          </Route>
           <Route path="/listening">
             <Listening
               pinTime={this.state.pinTime}
@@ -632,46 +675,46 @@ it updates episode-specific state elements passed into the discussion component
                 open={this.state.open}
                 handleSlide={this.handleSlide}
               /> */}
-            <About
-              pinTime={this.state.pinTime}
-              handlePin={this.handlePin}
-              handlePlayorpause={this.handlePlayorpause}
-              fastRewind={this.fastRewind}
-              fastForward={this.fastForward}
-              seekToTime={this.seekToTime}
-              playpause={this.state.playpause}
-              setCurrTime={this.setCurrTime}
-              user={this.state.user}
-              episode={this.state.episode}
-              login={this.login}
-              updateDiscussionEpisode={this.updateDiscussionEpisode}
-              updateReflectionEpisode={this.updateReflectionEpisode}
-              updateIndex={this.updateEpisodeIndex}
-              episodeIndex={this.state.episodeIndex}
-              open={this.state.open}
-              handleSlide={this.handleSlide}
-              played={this.state.played}
-              episode={this.state.episode}
-              playing={this.state.playing}
-              controls={this.state.controls}
-              light={this.state.light}
-              volume={this.state.volume}
-              muted={this.state.muted}
-              loaded={this.state.loaded}
-              duration={this.state.duration}
-              playbackRate={this.state.playbackRate}
-              loop={this.state.loop}
-              handlePlayPause={this.handlePlayPause}
-              handleVolumeChange={this.handleVolumeChange}
-              handlePlay={this.handlePlay}
-              handlePause={this.handlePause}
-              handleDuration={this.handleDuration}
-              handleSeekTo={this.handleSeekTo}
-              handleSeekChange={this.handleSeekChange}
-              handleSeekMouseDown={this.handleSeekMouseDown}
-              handleSeekMouseUp={this.handleSeekMouseUp}
-              updateProgress={this.updateProgress}
-            ></About>
+            <Home
+            pinTime={this.state.pinTime}
+            handlePin={this.handlePin}
+            handlePlayorpause={this.handlePlayorpause}
+            fastRewind={this.fastRewind}
+            fastForward={this.fastForward}
+            seekToTime={this.seekToTime}
+            playpause={this.state.playpause}
+            setCurrTime={this.setCurrTime}
+            user={this.state.user}
+            episode={this.state.episode}
+            login={this.login}
+            updateDiscussionEpisode={this.updateDiscussionEpisode}
+            updateReflectionEpisode={this.updateReflectionEpisode}
+            updateIndex={this.updateEpisodeIndex}
+            episodeIndex={this.state.episodeIndex}
+            open={this.state.open}
+            handleSlide={this.handleSlide}
+            played={this.state.played}
+            episode={this.state.episode}
+            playing={this.state.playing}
+            controls={this.state.controls}
+            light={this.state.light}
+            volume={this.state.volume}
+            muted={this.state.muted}
+            loaded={this.state.loaded}
+            duration={this.state.duration}
+            playbackRate={this.state.playbackRate}
+            loop={this.state.loop}
+            handlePlayPause={this.handlePlayPause}
+            handleVolumeChange={this.handleVolumeChange}
+            handlePlay={this.handlePlay}
+            handlePause={this.handlePause}
+            handleDuration={this.handleDuration}
+            handleSeekTo={this.handleSeekTo}
+            handleSeekChange={this.handleSeekChange}
+            handleSeekMouseDown={this.handleSeekMouseDown}
+            handleSeekMouseUp={this.handleSeekMouseUp}
+            updateProgress={this.updateProgress}
+            />
           </Route>
         </AnimatedSwitch>
       </Router>
@@ -680,10 +723,6 @@ it updates episode-specific state elements passed into the discussion component
 }
 
 export default App;
-
-function Home() {
-  return <h2>Wut</h2>;
-}
 
 function Users() {
   return <h2>Users</h2>;
