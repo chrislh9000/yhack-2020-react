@@ -110,6 +110,18 @@ class Pinpage extends React.Component {
     }
   };
 
+
+
+
+
+
+
+
+
+
+
+
+
   handlePlayPause = () => {
     this.setState({ playing: !this.state.playing });
   };
@@ -127,25 +139,7 @@ class Pinpage extends React.Component {
     console.log("onPause");
     this.setState({ playing: false });
   };
-
-  handleSearch = () => {
-    // if query matches pin.text, pin.user, or pin, or pin.note then add pins to renderedPins state
-    // TO DO: think of pin.time, date of creation search functionality implementation
-  };
-
-  handleSeekMouseDown = (e) => {
-    this.setState({ seeking: true });
-  };
-
-  handleSeekChange = (e) => {
-    this.setState({ played: parseFloat(e.target.value) });
-  };
-
-  handleSeekMouseUp = (e) => {
-    this.setState({ seeking: false });
-    this.player.seekTo(parseFloat(e.target.value));
-  };
-
+  
   handleDuration = (duration) => {
     console.log("onDuration", duration);
     this.setState({ duration });
@@ -158,6 +152,24 @@ class Pinpage extends React.Component {
       played: (time / this.props.reflectEpisode.duration) * 0.999999,
     });
     // this.setState({played:time})
+  };
+
+  // handleSearch = () => {
+  //   // if query matches pin.text, pin.user, or pin, or pin.note then add pins to renderedPins state
+  //   // TO DO: think of pin.time, date of creation search functionality implementation
+  // };
+
+  handleSeekMouseDown = (e) => {
+    this.setState({ seeking: true });
+  };
+
+  handleSeekChange = (e) => {
+    this.setState({ played: parseFloat(e.target.value) });
+  };
+
+  handleSeekMouseUp = (e) => {
+    this.setState({ seeking: false });
+    this.player.seekTo(parseFloat(e.target.value));
   };
 
   handleFriendPin = () => {

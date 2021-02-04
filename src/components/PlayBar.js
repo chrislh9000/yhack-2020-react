@@ -10,21 +10,22 @@ import AudioBar from "./AudioBar";
 import { useHistory, Link, withRouter } from "react-router-dom";
 import history from "./history";
 
+
 class PlayBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       imgURL: this.props.imgURL,
-      played: 0,
-      playing: false,
-      controls: false,
-      light: false,
-      volume: 0.8,
-      muted: false,
-      loaded: 0,
-      duration: 0,
-      playbackRate: 1.0,
-      loop: false,
+      // played: 0,
+      // playing: false,
+      // controls: false,
+      // light: false,
+      // volume: 0.8,
+      // muted: false,
+      // loaded: 0,
+      // duration: 0,
+      // playbackRate: 1.0,
+      // loop: false,
       reflectPins: this.props.reflectPins,
       friendPins: [],
       seeFriends: false,
@@ -33,28 +34,46 @@ class PlayBar extends React.Component {
     };
   }
 
-  handleSeekMouseDown = (e) => {
-    this.setState({ seeking: true });
-    e.stopPropagation();
-  };
+  // handleSeekMouseDown = (e) => {
+  //   this.setState({ seeking: true });
+  //   // e.stopPropagation();
+  // };
 
-  handleSeekChange = (e) => {
-    this.setState({ played: parseFloat(e.target.value) });
-    e.stopPropagation();
-  };
+  // handleSeekChange = (e) => {
+  //   this.setState({ played: parseFloat(e.target.value) });
+  //   // e.stopPropagation();
+  // };
 
-  handleSeekMouseUp = (e) => {
-    this.setState({ seeking: false });
-    e.stopPropagation();
-    // this.player.seekTo(parseFloat(e.target.value));
-  };
+  // handleSeekMouseUp = (e) => {
+  //   this.setState({ seeking: false });
+  //   // e.stopPropagation();
+  //   // this.player.seekTo(parseFloat(e.target.value));
+  // };
 
   slideUp = () => {
     // history.push("/");
     // alert("hi");
   };
 
+  duraTime = () => {
+    let secs = Math.floor(this.props.episode.duration)
+    let mins = Math.floor(secs / 60)
+    secs = secs % 60
+    let str = (mins.toString().concat(":")).concat(secs.toString())
+    console.log("helo",str)
+    return str
+  }
+  currTime = () => {
+    
+    let secs = Math.floor(this.props.episode.duration * this.props.played)
+    let mins = (Math.floor(secs / 60)).toString().padStart(2,"0")
+    secs = (secs % 60).toString().padStart(2,"0")
+    let str = (mins.concat(":")).concat(secs)
+    return str
+  }
+
   render() {
+    console.log(this.duraTime())
     return (
       <Container
         onClick={this.slideUp}
@@ -179,7 +198,7 @@ class PlayBar extends React.Component {
                 color: "#173B5C",
               }}
             >
-              15:39
+              {this.currTime()}
             </p>
             <input
               class="slider ml-3 mr-3"
@@ -187,10 +206,14 @@ class PlayBar extends React.Component {
               min={0}
               max={0.999999}
               step="any"
-              value={this.state.played}
-              onMouseDown={this.handleSeekMouseDown}
-              onChange={this.handleSeekChange}
-              onMouseUp={this.handleSeekMouseUp}
+              // value={this.state.played}
+              // onMouseDown={this.handleSeekMouseDown}
+              // onChange={this.handleSeekChange}
+              // onMouseUp={this.handleSeekMouseUp}
+              value={this.props.played}
+              onMouseDown={this.props.handleSeekMouseDown}
+              onChange={this.props.handleSeekChange}
+              onMouseUp={this.props.handleSeekMouseUp}
             />
             <p
               className="mb-0"
@@ -200,7 +223,7 @@ class PlayBar extends React.Component {
                 color: "#173B5C",
               }}
             >
-              21:50
+              {this.duraTime()}
             </p>
           </Row>
           <Row>

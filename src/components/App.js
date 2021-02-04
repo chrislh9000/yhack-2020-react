@@ -53,8 +53,83 @@ class App extends React.Component {
       discussPins: [],
       episodeIndex: 0,
       podcast: {},
+
+      // test
+
+      played: 0,
+      playing: false,
+      controls: false,
+      light: false,
+      volume: 0.8,
+      muted: false,
+      loaded: 0,
+      duration: 0,
+      playbackRate: 1.0,
+      loop: false,
     };
   }
+
+
+  // TESTTTT
+
+  handlePlayPause = () => {
+    this.setState({ playing: !this.state.playing });
+  };
+
+  handleVolumeChange = (e) => {
+    this.setState({ volume: parseFloat(e.target.value) });
+  };
+
+  handlePlay = () => {
+    console.log("onPlay");
+    this.setState({ playing: true });
+  };
+
+  handlePause = () => {
+    console.log("onPause");
+    this.setState({ playing: false });
+  };
+  
+  handleDuration = (duration) => {
+    console.log("onDuration", duration);
+    this.setState({ duration });
+  };
+
+  handleSeekTo = (time) => {
+    console.log("gonan seek to", time);
+    this.player.seekTo(time);
+    this.setState({
+      played: (time / this.state.episode.duration) * 0.999999,
+    });
+
+    console.log("my durrattionnn", this.state.reflectEpisode.duration)
+    // this.setState({played:time})
+  };
+
+  handleSeekMouseDown = (e) => {
+    this.setState({ seeking: true });
+  };
+
+  handleSeekChange = (e) => {
+    this.setState({ played: parseFloat(e.target.value) });
+    console.log("playedddddddd",this.state.played)
+  };
+
+  handleSeekMouseUp = (e) => {
+    this.setState({ seeking: false });
+    this.player.seekTo(parseFloat(e.target.value));
+  };
+
+  handleProgress = state => {
+    console.log('onProgress', state)
+    // We only want to update time slider if we are not currently seeking
+    if (!this.state.seeking) {
+      this.setState(state)
+    }
+  }
+
+  // TESTEND
+
 
   updateEpisodeIndex = (index) => {
     this.setState({
@@ -81,7 +156,12 @@ class App extends React.Component {
     if (e) {
       e.stopPropagation();
     }
-    this.setState({ playpause: !this.state.playpause });
+    if (this.state.playpause) {
+      this.handlePause()
+    } else {
+      this.handlePlay()
+    }
+    this.setState({ playpause: !this.state.playing });
     // this.state.playpause
     //   ? this.props.message("PAUSED")
     //   : this.props.message("NOW PLAYING");
@@ -313,6 +393,8 @@ it updates episode-specific state elements passed into the discussion component
   };
 
   render() {
+
+    console.log(this.state.reflectEpisode)
     return (
       <Router>
         <ReactPlayer
@@ -320,8 +402,10 @@ it updates episode-specific state elements passed into the discussion component
           url={this.state.episode.audioUrl} // TO DO: change this based on selected episode
           width="400px"
           height="0px"
-          playing={this.state.playpause}
+          // playing={this.state.playpause}
+          playing={this.state.playing}
           controls={false}
+          onProgress={this.handleProgress}
         />
         {/* A <Switch> looks through its children <Route>s and
         renders the first one that matches the current URL. */}
@@ -386,6 +470,29 @@ it updates episode-specific state elements passed into the discussion component
               episodeIndex={this.state.episodeIndex}
               open={this.state.open}
               handleSlide={this.handleSlide}
+              played={this.state.played}
+              episode={this.state.episode}
+
+              // test
+              playing={this.state.playing}
+              controls={this.state.controls}
+              light={this.state.light}
+              volume={this.state.volume}
+              muted={this.state.muted}
+              loaded={this.state.loaded}
+              duration={this.state.duration}
+              playbackRate={this.state.playbackRate}
+              loop={this.state.loop}
+              handlePlayPause={this.handlePlayPause}
+              handleVolumeChange={this.handleVolumeChange}
+              handlePlay={this.handlePlay}
+              handlePause={this.handlePause}
+              handleDuration={this.handleDuration}
+              handleSeekTo={this.handleSeekTo}
+              handleSeekChange={this.handleSeekChange}
+              handleSeekMouseDown={this.handleSeekMouseDown}
+              handleSeekMouseUp={this.handleSeekMouseUp}
+              // testend
             />
           </Route>
 
