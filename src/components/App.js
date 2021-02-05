@@ -708,6 +708,7 @@ it updates episode-specific state elements passed into the discussion component
               handleSeekMouseDown={this.handleSeekMouseDown}
               handleSeekMouseUp={this.handleSeekMouseUp}
               updateProgress={this.updateProgress}
+              podcast={this.state.podcast}
             />
           </Route>
         </AnimatedSwitch>

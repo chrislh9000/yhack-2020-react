@@ -75,7 +75,7 @@ class UserView extends React.Component {
             23 Followers
           </div>
         </div>
-        <Dropdown style={{ borderRadius: "0.5px" }}>
+        <Dropdown style={{ borderRadius: "0.5px", outline: "none"}}>
           <Dropdown.Toggle
             style={{
               backgroundColor: "white",

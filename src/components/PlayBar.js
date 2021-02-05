@@ -127,13 +127,13 @@ class PlayBar extends React.Component {
                 style={{ fontFamily: "Avenir Book", fontSize: "10px" }}
                 className="mb-0"
               >
-                The Investor's Podcast
+                {this.props.podcast.title}
               </p>
               <p
                 style={{ fontFamily: "Avenir Heavy", fontSize: "13px" }}
                 className="mb-0"
               >
-                Millennial Investing
+                {this.props.episode.title}
               </p>
             </div>
           </Row>

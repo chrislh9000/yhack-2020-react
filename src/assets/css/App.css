@@ -512,3 +512,31 @@ input::placeholder {
   background: #4caf50;
   cursor: pointer;
 }
+
+/* 
+  Hovering over image thumbnail styles 
+*/ 
+
+.imageContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 300px;
+}
+.podcast_thumbnail {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.play_overlay {
+  position: absolute;
+  bottom: 30px;
+  left: 19%;
+  opacity: 0.4;
+}
+
+.play_overlay:hover {
+  opacity: 1;
+}
