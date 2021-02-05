@@ -10,7 +10,6 @@ import AudioBar from "./AudioBar";
 import { useHistory, Link, withRouter } from "react-router-dom";
 import history from "./history";
 
-
 class PlayBar extends React.Component {
   constructor(props) {
     super(props);
@@ -56,34 +55,35 @@ class PlayBar extends React.Component {
   };
 
   duraTime = () => {
-    let secs = Math.floor(this.props.episode.duration)
-    let mins = (Math.floor(secs / 60)).toString().padStart(2,"0")
-    secs = secs % 60
-    let str = (mins.toString().concat(":")).concat(secs.toString())
+    let secs = Math.floor(this.props.episode.duration);
+    let mins = Math.floor(secs / 60)
+      .toString()
+      .padStart(2, "0");
+    secs = secs % 60;
+    let str = mins.toString().concat(":").concat(secs.toString());
 
     if (mins == "NaN") {
-      str = "00:00"
+      str = "00:00";
     }
-    return str
-  }
-
+    return str;
+  };
 
   currTime = () => {
-    
-    let secs = Math.floor(this.props.episode.duration * this.props.played)
-    let mins = (Math.floor(secs / 60)).toString().padStart(2,"0")
-    secs = (secs % 60).toString().padStart(2,"0")
-    let str = (mins.concat(":")).concat(secs)
+    let secs = Math.floor(this.props.episode.duration * this.props.played);
+    let mins = Math.floor(secs / 60)
+      .toString()
+      .padStart(2, "0");
+    secs = (secs % 60).toString().padStart(2, "0");
+    let str = mins.concat(":").concat(secs);
     if (mins == "NaN") {
-      console.log(" we in here baby")
-      str = "00:00"
+      console.log(" we in here baby");
+      str = "00:00";
     }
-    console.log("yoooooooooooooooo",mins)
-    return str
-  }
+    console.log("yoooooooooooooooo", mins);
+    return str;
+  };
 
   render() {
-    
     return (
       <Container
         onClick={this.slideUp}
@@ -117,7 +117,7 @@ class PlayBar extends React.Component {
                 boxShadow:
                   "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
               }}
-              src={this.state.imgURL}
+              src={this.props.imgURL}
             />
             <div
               className="playbar-text ml-3"

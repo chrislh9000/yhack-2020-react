@@ -554,6 +554,7 @@ class Listening extends React.Component {
                   //   onClick={() => this.props.handleSlide()}
                   style={{
                     outline: "none",
+                    backgroundColor: "transparent",
                   }}
                   disableTouchRipple={true}
                   className="pr-0 mt-4"
@@ -579,45 +580,40 @@ class Listening extends React.Component {
                 alignItems: "center",
               }}
             >
-              <Row
-                className="playbar-episode mr-3"
-                style={{ alignItems: "center" }}
+              <img
+                style={{
+                  height: 65,
+                  width: 65,
+                  boxShadow:
+                    "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+                }}
+                src={this.state.imgURL}
+              />
+              <div
+                className="playbar-text ml-3"
+                style={{ display: "flex", flexDirection: "column" }}
               >
-                <img
+                <p
                   style={{
-                    height: 65,
-                    width: 65,
-                    boxShadow:
-                      "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+                    fontFamily: "Avenir Light",
+                    fontSize: "14px",
+                    color: "white",
                   }}
-                  src={this.state.imgURL}
-                />
-                <div
-                  className="playbar-text ml-3"
-                  style={{ display: "flex", flexDirection: "column" }}
+                  className="mb-0"
                 >
-                  <p
-                    style={{
-                      fontFamily: "Avenir Light",
-                      fontSize: "14px",
-                      color: "white",
-                    }}
-                    className="mb-0"
-                  >
-                    Millennial Investing
-                  </p>
-                  <p
-                    style={{
-                      fontFamily: "Avenir Heavy",
-                      fontSize: "20px",
-                      color: "white",
-                    }}
-                    className="mb-0"
-                  >
-                    Episode 3: Why Millennial’s Should Invest Today
-                  </p>
-                </div>
-              </Row>
+                  Millennial Investing
+                </p>
+                <p
+                  style={{
+                    fontFamily: "Avenir Heavy",
+                    fontSize: "20px",
+                    color: "white",
+                  }}
+                  className="mb-0"
+                >
+                  Episode 3: Why Millennial’s Should Invest Today
+                </p>
+              </div>
             </div>
 
             <Row style={{ width: "100%" }}>

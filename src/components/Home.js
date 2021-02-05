@@ -28,19 +28,19 @@ export default class Example extends React.PureComponent {
       episodes: [],
       podcasts: [],
       progresses: [],
-      pins: []
+      pins: [],
     };
   }
 
-  addPin = pin => {
+  addPin = (pin) => {
     let newpins = this.state.pins;
     newpins.push({ message: pin });
     this.setState({
-      pins: newpins
+      pins: newpins,
     });
   };
 
-  componentDidMount = e => {
+  componentDidMount = (e) => {
     // add the user id to the end of the request url
 
     if (localStorage.getItem("home")) {
@@ -49,7 +49,7 @@ export default class Example extends React.PureComponent {
         episodes: JSON.parse(stateObj.episodes),
         podcasts: JSON.parse(stateObj.podcasts),
         progresses: JSON.parse(stateObj.progresses),
-        pins: JSON.parse(stateObj.pins)
+        pins: JSON.parse(stateObj.pins),
       });
     } else {
       const url = "http://localhost:5000/podcasts/loadUserEpisodes/".concat(
@@ -61,18 +61,18 @@ export default class Example extends React.PureComponent {
         method: "GET",
         credentials: "same-origin",
         headers: {
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       })
-        .then(res => res.json())
-        .then(json => {
+        .then((res) => res.json())
+        .then((json) => {
           console.log(json.episodes);
           console.log(json.podcasts);
           if (json.episodes) {
             this.setState({
               episodes: json.episodes,
               podcasts: json.podcasts,
-              progresses: json.progresses
+              progresses: json.progresses,
             });
           }
           let promises = [];
@@ -84,43 +84,43 @@ export default class Example extends React.PureComponent {
                 method: "POST",
                 credentials: "same-origin",
                 headers: {
-                  "Content-Type": "application/json"
+                  "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                   user_id: this.props.user._id, // userId
-                  episode: json.episodes[i]._id
-                })
+                  episode: json.episodes[i]._id,
+                }),
               })
             );
           }
           console.log(promises);
-          Promise.all(promises).then(values => {
+          Promise.all(promises).then((values) => {
             let pinsarray = [];
             for (let i = 0; i < json.episodes.length; i++) {
               pinsarray.push(values[i].json());
             }
-            Promise.all(pinsarray).then(pinobjects => {
+            Promise.all(pinsarray).then((pinobjects) => {
               console.log("============pinobjects========", pinobjects);
               this.setState({
-                pins: pinobjects
+                pins: pinobjects,
               });
             });
           });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("Error: ", err);
         });
     }
     this.interval = setInterval(() => this.props.setCurrTime(), 1000);
   };
 
-  componentDidUpdate = e => {
+  componentDidUpdate = (e) => {
     console.log(this.props.episodeIndex);
     // console.log(this.state.pins);
     // console.log("=======proggresses========", this.state.progresses);
   };
 
-  componentWillUnmount = e => {
+  componentWillUnmount = (e) => {
     if (this.state.episodes.length > 0) {
       let currState = this.state;
       currState.episodes = JSON.stringify(currState.episodes);
@@ -152,8 +152,9 @@ export default class Example extends React.PureComponent {
             <Row
               style={{
                 height: "18%",
-                display: "flex"
+                display: "flex",
               }}
+              className="mt-2"
             >
               <Col>
                 <Row
@@ -174,36 +175,43 @@ export default class Example extends React.PureComponent {
                     flexDirection: "column",
                     marginLeft: "3%",
                     marginTop: "1%",
-                    height: "70%"
+                    height: "70%",
                   }}
                 >
                   <p1
                     style={{
                       color: "#173B5C",
-                      fontSize: "25px",
-                      paddingTop: "4%"
+                      fontSize: "24px",
+                      paddingTop: "4%",
+                      fontFamily: "Avenir Medium",
                     }}
                   >
-                    PINCAST WEEKLY
+                    DOWNLOADED EPISODES
                   </p1>
                 </Row>
               </Col>
-              <Col>
+              <Col style={{ marginRight: "10%" }}>
                 <UserView user={{ username: "chemm", color: "blue" }} />
               </Col>
             </Row>
-            <Row style={{ flexDirection: "column", paddingLeft: "1%" }}>
+            <div
+              style={{
+                flexDirection: "column",
+                paddingLeft: "1%",
+                marginRight: "10%",
+              }}
+            >
               {this.state.episodes.length > 0 && this.state.pins.length > 1
                 ? this.state.episodes.map((item, id) => (
-                    <div style={{ display: "flex" }}>
+                    <div style={{ display: "flex" }} className="mt-3 mb-2">
                       <img
                         className="ml-3 mt-3 mb-3"
                         style={{
-                          height: 180,
-                          width: 180,
-                          borderRadius: 10,
+                          height: 100,
+                          width: 100,
+                          borderRadius: 5,
                           boxShadow:
-                            "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
+                            "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
                         }}
                         src={this.state.podcasts[id].imageUrl}
                       />
@@ -212,25 +220,25 @@ export default class Example extends React.PureComponent {
                           display: "flex",
                           flexDirection: "column",
                           marginTop: "1.8%",
-                          marginLeft: "4%"
+                          marginLeft: "4%",
                         }}
                       >
                         <div
                           style={{
-                            fontSize: "20px",
+                            fontSize: "13px",
                             color: "#173B5C",
-                            fontWeight: "bold"
+                            fontFamily: "Avenir Heavy",
                           }}
                         >
                           {item.title}
                         </div>
                         <div
                           style={{
-                            fontSize: "12px",
+                            fontSize: "9px",
+                            fontFamily: "Avenir Medium",
                             color: "grey",
                             marginLeft: "0.1%",
-                            paddingTop: "0.3%",
-                            paddingBottom: "0.3%"
+                            paddingBottom: "0.3%",
                           }}
                         >
                           <div style={{ display: "inline", marginRight: "2%" }}>
@@ -238,8 +246,23 @@ export default class Example extends React.PureComponent {
                           </div>
                           {String(item.date).substring(0, 10)}
                         </div>
-                        <div style={{ fontSize: "16px", color: "#848484" }}>
-                          {item.summary}
+                        <div
+                          style={{
+                            maxHeight: "55px",
+                            display: "flex",
+                            flexDirection: "column",
+                            overflow: "hidden",
+                          }}
+                        >
+                          <div
+                            style={{
+                              fontSize: "12px",
+                              color: "#848484",
+                              fontFamily: "Avenir Medium",
+                            }}
+                          >
+                            {item.summary}
+                          </div>
                         </div>
                       </div>
                       <Dropdown
@@ -247,20 +270,20 @@ export default class Example extends React.PureComponent {
                           display: "inline",
                           height: "20%",
                           marginRight: "4%",
-                          marginTop: "1.5%"
+                          marginTop: "1.5%",
                         }}
                       >
                         <Dropdown.Toggle
                           style={{
                             backgroundColor: "white",
-                            borderColor: "white"
+                            borderColor: "white",
                           }}
                           id="dropdown-basic"
                         >
                           <img
                             style={{
                               height: "15px",
-                              width: "15px"
+                              width: "15px",
                             }}
                             src="/threeDotCircle.png"
                           />
@@ -293,9 +316,7 @@ export default class Example extends React.PureComponent {
                             }}
                           >
                             <Link to="/reflect">
-                              <Button>
-                              Reflect
-                              </Button>
+                              <Button>Reflect</Button>
                             </Link>
                           </Dropdown.Item>
                         </Dropdown.Menu>
@@ -303,7 +324,7 @@ export default class Example extends React.PureComponent {
                     </div>
                   ))
                 : "Loading..."}
-            </Row>
+            </div>
           </Col>
         </Row>
         <PlayBar
@@ -315,7 +336,7 @@ export default class Example extends React.PureComponent {
           pinTime={this.props.pinTime}
           playpause={this.props.playpause}
           user={this.props.user}
-          imgURL="whitepin.png"
+          imgURL={this.props.imgURL}
           played={this.props.played}
           playing={this.props.playing}
           controls={this.props.controls}
@@ -344,5 +365,5 @@ export default class Example extends React.PureComponent {
 }
 
 Example.propTypes = {
-  style: PropTypes.object
+  style: PropTypes.object,
 };
