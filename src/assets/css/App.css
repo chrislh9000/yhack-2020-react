@@ -540,3 +540,16 @@ input::placeholder {
 .play_overlay:hover {
   opacity: 1;
 }
+
+/*
+  Pin note styling in reflection
+*/
+
+.pin_note:hover {
+  padding-top: 1%;
+  border-radius: 10px;
+  background-color: #B1DAFF;
+}
+
+
+

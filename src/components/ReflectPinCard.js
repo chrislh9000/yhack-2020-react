@@ -57,7 +57,7 @@ class ReflectPinCard extends React.Component {
         <Row style={{ padding: "2%" }}>
           <p1>"{this.props.pin.text}"</p1>
         </Row>
-        <Row style={{ paddingLeft: "5%" }}>
+        <Row className="pin_note" style={{ paddingLeft: "5%" }}>
           <p style={{fontWeight: "bold"}}>Note:</p>
           <p1 style={{paddingLeft: "10px", fontStyle: "italic"}}>{this.props.pin.note}</p1>
         </Row>

@@ -335,6 +335,7 @@ class Reflect extends React.Component {
                     <IconButton
                       onClick={() => {
                         this.setState({ playing: !this.state.playing });
+                        this.handlePlayPause()
                       }}
                       style={{
                         backgroundColor: "white",
@@ -343,7 +344,8 @@ class Reflect extends React.Component {
                         height: "100px",
                         marginLeft: "25%",
                         boxShadow:
-                          "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
+                          "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+                        outline: "none"
                       }}
                     >
                       {this.state.playing ? (
@@ -353,7 +355,7 @@ class Reflect extends React.Component {
                             paddingTop: "3%",
                             height: 28,
                             width: 28,
-                            marginRight: "8%"
+                            marginRight: "8%",
                           }}
                           src="BluePause.png"
                         />
@@ -363,7 +365,7 @@ class Reflect extends React.Component {
                             paddingLeft: "7.5%",
                             paddingTop: "3%",
                             height: 28,
-                            width: 28
+                            width: 28,                          
                           }}
                           src="BluePlay.png"
                         />
@@ -423,6 +425,7 @@ class Reflect extends React.Component {
                     />
                     {/* <div className="pinbar"></div> */}
                     {this.state.reflectPins.map((pin, id) => (
+                      // <IconButton className="pincircle">
                       <div
                         style={{
                           left: String(
@@ -431,6 +434,7 @@ class Reflect extends React.Component {
                         }}
                         className="pincircle"
                       ></div>
+                      // </IconButton>
                     ))}
                   </div>
                   <p style={{ color: "white", marginLeft: "5%" }}>20:35</p>
