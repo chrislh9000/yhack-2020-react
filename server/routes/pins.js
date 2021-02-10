@@ -63,8 +63,10 @@ router.post("/deletePin", (req, res) => {
 
 //get episode
 router.post("/addNote", (req, res) => {
-  console.log(req.body.id);
   console.log(req.body.note);
+  console.log(req.body.episode);
+  console.log(req.body.id);
+  console.log(req.body.ccId);
   Pin.findOneAndUpdate(
     {
       ccId: req.body.ccId,
@@ -74,6 +76,7 @@ router.post("/addNote", (req, res) => {
     { note: req.body.note }
   )
     .then((resp) => {
+      console.log("RESP========", resp)
       res.status(200).json({
         success: true,
         message: "added note",

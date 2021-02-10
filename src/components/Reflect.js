@@ -46,7 +46,8 @@ class Reflect extends React.Component {
         shouldRenderPins: [],
         searchList: [],
         seeFriends: false,
-        friends: []
+        friends: [],
+        editedPin: null
       };
     } else {
       this.state = {
@@ -65,7 +66,8 @@ class Reflect extends React.Component {
         seeFriends: false,
         shouldRenderPins: [],
         searchList: [],
-        friends: []
+        friends: [],
+        editedPin: null
       };
     }
   }
@@ -95,6 +97,62 @@ class Reflect extends React.Component {
       tempList.push(tempString);
     }
     this.setState({ searchList: tempList });
+  };
+
+  /*
+  editPin handles frontend note changes that the user makes.
+  Note (string) := the note that the user wants to add
+  Index (int) := the index of the note
+  */
+
+  // addNoteLocalStorage = (note, index) => {
+  //   const currHome = JSON.parse(localStorage.getItem("home"));
+  //   let homePins = JSON.parse(currHome.pins);
+  //   homePins[this.props.episodeIndex].message[index].note = note;
+  //   currHome.pins = JSON.stringify(homePins);
+  //   localStorage.setItem("home", JSON.stringify(currHome));
+
+  //   const currReflect = JSON.parse(
+  //     localStorage.getItem(this.props.episode._id.concat(".reflect"))
+  //   );
+
+  //   if (currReflect) {
+  //     let reflectPins = JSON.parse(currReflect.reflectPins);
+  //     reflectPins[index].note = note;
+  //     currReflect.reflectPins = JSON.stringify(reflectPins);
+  //     localStorage.setItem(
+  //       this.props.episode._id.concat(".reflect"),
+  //       JSON.stringify(currReflect)
+  //     );
+  //   }
+  // };
+
+  addNoteLocalStorage = (note, index) => {
+    // get the old reflection local storage state
+    const currReflect = JSON.parse(
+      localStorage.getItem(this.props.episode._id.concat(".reflect"))
+    );
+
+    if (currReflect) {
+      // update should render pins
+      console.log("=====MADE IT IN CURRREFLECT", currReflect);
+      let shouldRenderPins = JSON.parse(currReflect.shouldRenderPins);
+      shouldRenderPins[index].note = note;
+      currReflect.shouldRenderPins = JSON.stringify(shouldRenderPins);
+      localStorage.setItem(
+        this.props.episode._id.concat(".reflect"),
+        JSON.stringify(currReflect)
+      );
+    }
+  };
+
+  editPin = (note, index) => {
+    // this.addNoteLocalStorage(note, index);
+    this.setState(prevState => ({
+      shouldRenderPins: prevState.shouldRenderPins.map((el, i) =>
+        i === index ? { ...el, note: note } : el
+      )
+    }));
   };
 
   handleSeeFriends = () => {
@@ -294,12 +352,58 @@ class Reflect extends React.Component {
     );
   };
 
-  // componentWillUnmount = (e) => {
-  //   this.updateStorage();
-  // };
+  /*
+  handleNoteChange initializes the form on the comment to be the existing note of the pin
+  item is the pin object and i is the index of the pin relative to all other displayed pins
+  */
+
+  handleNoteChange = (e, item, i) => {
+    console.log("HANDLE NOTE CHANGE CALLED======", item, i);
+    this.setState({
+      editedPin: i
+    });
+  };
+
+  initSubmit = (e, note, pin, index) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      console.log("======SUBMITTING======", note);
+      this.handleSubmit(e, note, pin, index);
+    }
+  };
+
+  handleSubmit = (event, note, pin, index) => {
+    console.log("PIN=======", pin);
+    // update pin note in the database
+    const url = "http://localhost:5000/pins/addNote";
+    fetch(url, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        ccId: pin.ccId,
+        episode: this.props.episode._id,
+        id: this.props.user._id,
+        note: note
+      })
+    })
+      .then(res => res.json())
+      .then(json => {
+        console.log(json.message);
+        this.setState({
+          editedPin: null
+        });
+      })
+      .catch(err => {
+        console.log("Error: ", err);
+      });
+    // update the pin note in real-time in the application
+    this.editPin(note, index);
+  };
 
   render() {
-    console.log("SHOULD RENDER PINS=====", this.state.reflectPins)
     // console.log("Progress=====", this.props.progress);
     // console.log("Episode duration=====", this.props.reflectEpisode.duration);
     return (
@@ -335,7 +439,7 @@ class Reflect extends React.Component {
                     <IconButton
                       onClick={() => {
                         this.setState({ playing: !this.state.playing });
-                        this.handlePlayPause()
+                        this.handlePlayPause();
                       }}
                       style={{
                         backgroundColor: "white",
@@ -355,7 +459,7 @@ class Reflect extends React.Component {
                             paddingTop: "3%",
                             height: 28,
                             width: 28,
-                            marginRight: "8%",
+                            marginRight: "8%"
                           }}
                           src="BluePause.png"
                         />
@@ -365,7 +469,7 @@ class Reflect extends React.Component {
                             paddingLeft: "7.5%",
                             paddingTop: "3%",
                             height: 28,
-                            width: 28,                          
+                            width: 28
                           }}
                           src="BluePlay.png"
                         />
@@ -429,7 +533,9 @@ class Reflect extends React.Component {
                       <div
                         style={{
                           left: String(
-                            (pin.startTime.$numberDecimal / this.props.reflectEpisode.duration) * 100
+                            (pin.startTime.$numberDecimal /
+                              this.props.reflectEpisode.duration) *
+                              100
                           ).concat("%")
                         }}
                         className="pincircle"
@@ -444,7 +550,11 @@ class Reflect extends React.Component {
               {/* picture and user col */}
               <Col style={{ display: "flex", flexDirection: "column" }}>
                 <Row
-                  style={{ paddingTop: "10px", flexDirection: "row-reverse", height: "25%"}}
+                  style={{
+                    paddingTop: "10px",
+                    flexDirection: "row-reverse",
+                    height: "25%"
+                  }}
                 >
                   <UserView
                     className="ml-4"
@@ -452,7 +562,7 @@ class Reflect extends React.Component {
                     user={{ username: this.props.user.username }}
                   />
                 </Row>
-                <Row style={{ flexDirection: "row-reverse"}}>
+                <Row style={{ flexDirection: "row-reverse" }}>
                   <img
                     className="ml-3 mt-3 mb-3"
                     style={{
@@ -479,7 +589,7 @@ class Reflect extends React.Component {
               {/* Title Row */}
               <Row
                 style={{
-                  height: "10%",
+                  height: "18%",
                   width: "100%",
                   display: "flex",
                   marginBottom: "2%"
@@ -494,6 +604,14 @@ class Reflect extends React.Component {
                   }}
                   xs={8}
                 >
+                  <div style={{ width: "60%", padding: "2%", paddingLeft: "10%"}}>
+                    <input
+                      type="text"
+                      className="input"
+                      onChange={this.handleChange}
+                      placeholder="Search..."
+                    />
+                  </div>
                   <h1
                     style={{
                       fontSize: "30px",
@@ -570,23 +688,53 @@ class Reflect extends React.Component {
                               borderRadius: "25px"
                             }}
                           >
-                            <ReflectPinCard
-                              ccId={pin.ccId}
-                              text={pin.text}
-                              key={i}
-                              time={pin.startTime.$numberDecimal}
-                              note={pin.note}
-                              handleEdit={this.handleEdit}
-                              episode={pin.episode}
-                              user={pin.user}
-                              favorited={pin.favorited}
-                              handleSeekTo={this.handleSeekTo}
-                              handlePause={this.handlePause}
-                              handlePlay={this.handlePlay}
-                              friends={this.state.friends}
-                              sharePin={this.props.sharePin}
-                              pin={pin}
-                            />
+                            {this.state.editedPin == i ? (
+                              <ReflectPinCard
+                                ccId={pin.ccId}
+                                text={pin.text}
+                                index={i}
+                                time={pin.startTime.$numberDecimal}
+                                note={pin.note}
+                                handleEdit={this.handleEdit}
+                                episode={pin.episode}
+                                user={pin.user}
+                                favorited={pin.favorited}
+                                handleSeekTo={this.handleSeekTo}
+                                handlePause={this.handlePause}
+                                handlePlay={this.handlePlay}
+                                friends={this.state.friends}
+                                sharePin={this.props.sharePin}
+                                pin={pin}
+                                handleNoteChange={this.handleNoteChange}
+                                toggleEdit={true}
+                                handleSubmit={this.handleSubmit}
+                                initSubmit={this.initSubmit}
+                                editPin={this.editPin}
+                              />
+                            ) : (
+                              <ReflectPinCard
+                                ccId={pin.ccId}
+                                text={pin.text}
+                                index={i}
+                                time={pin.startTime.$numberDecimal}
+                                note={pin.note}
+                                handleEdit={this.handleEdit}
+                                episode={pin.episode}
+                                user={pin.user}
+                                favorited={pin.favorited}
+                                handleSeekTo={this.handleSeekTo}
+                                handlePause={this.handlePause}
+                                handlePlay={this.handlePlay}
+                                friends={this.state.friends}
+                                sharePin={this.props.sharePin}
+                                pin={pin}
+                                handleNoteChange={this.handleNoteChange}
+                                toggleEdit={false}
+                                handleSubmit={this.handleSubmit}
+                                initSubmit={this.initSubmit}
+                                editPin={this.editPin}
+                              />
+                            )}
                           </div>
                         );
                       })
@@ -599,23 +747,53 @@ class Reflect extends React.Component {
                               borderRadius: "25px"
                             }}
                           >
-                            <ReflectPinCard
-                              ccId={pin.ccId}
-                              text={pin.text}
-                              key={i}
-                              time={pin.startTime.$numberDecimal}
-                              note={pin.note}
-                              handleEdit={this.handleEdit}
-                              episode={pin.episode}
-                              user={this.props.user}
-                              favorited={pin.favorited}
-                              handleSeekTo={this.handleSeekTo}
-                              handlePause={this.handlePause}
-                              handlePlay={this.handlePlay}
-                              friends={this.state.friends}
-                              sharePin={this.props.sharePin}
-                              pin={pin}
-                            />
+                            {this.state.editedPin == i ? (
+                              <ReflectPinCard
+                                ccId={pin.ccId}
+                                text={pin.text}
+                                index={i}
+                                time={pin.startTime.$numberDecimal}
+                                note={pin.note}
+                                handleEdit={this.handleEdit}
+                                episode={pin.episode}
+                                user={this.props.user}
+                                favorited={pin.favorited}
+                                handleSeekTo={this.handleSeekTo}
+                                handlePause={this.handlePause}
+                                handlePlay={this.handlePlay}
+                                friends={this.state.friends}
+                                sharePin={this.props.sharePin}
+                                pin={pin}
+                                handleNoteChange={this.handleNoteChange}
+                                toggleEdit={true}
+                                handleSubmit={this.handleSubmit}
+                                initSubmit={this.initSubmit}
+                                editPin={this.editPin}
+                              />
+                            ) : (
+                              <ReflectPinCard
+                                ccId={pin.ccId}
+                                text={pin.text}
+                                index={i}
+                                time={pin.startTime.$numberDecimal}
+                                note={pin.note}
+                                handleEdit={this.handleEdit}
+                                episode={pin.episode}
+                                user={this.props.user}
+                                favorited={pin.favorited}
+                                handleSeekTo={this.handleSeekTo}
+                                handlePause={this.handlePause}
+                                handlePlay={this.handlePlay}
+                                friends={this.state.friends}
+                                sharePin={this.props.sharePin}
+                                pin={pin}
+                                handleNoteChange={this.handleNoteChange}
+                                toggleEdit={false}
+                                handleSubmit={this.handleSubmit}
+                                initSubmit={this.initSubmit}
+                                editPin={this.editPin}
+                              />
+                            )}
                           </div>
                         );
                       })}
