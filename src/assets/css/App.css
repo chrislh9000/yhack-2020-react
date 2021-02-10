@@ -580,7 +580,7 @@ input::placeholder {
 
 /* Handle */
 .comments-scroll::-webkit-scrollbar-thumb {
-  background: rgb(7, 7, 7);
+  background: black;
   border-radius: 10px;
 }
 
