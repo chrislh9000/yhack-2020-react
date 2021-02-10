@@ -13,7 +13,7 @@ class SidebarLinks extends React.Component {
     //pre-rendering code
 
     return (
-      <Container className="mb-1 ml-2">
+      <Container className="mb-1 ml-3">
         <Row>
           <img
             className="mr-3"
@@ -39,7 +39,7 @@ class SidebarLinks extends React.Component {
         <Row>
           <div className="sidebar-hl" />
         </Row>
-        <Row>
+        {/* <Row>
           <Link to="/">
             <p className="sidebar-title">Discussion</p>
           </Link>
@@ -73,10 +73,10 @@ class SidebarLinks extends React.Component {
           <p className="sidebar-title">Discovered</p>
         </Row>
         <Row>
-        <Link to="/home_page">
-          <p className="sidebar-title">New Releases</p>
+          <Link to="/home_page">
+            <p className="sidebar-title">New Releases</p>
           </Link>
-        </Row>
+        </Row> */}
       </Container>
     );
   }

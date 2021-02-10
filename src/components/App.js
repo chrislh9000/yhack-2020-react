@@ -147,6 +147,7 @@ class App extends React.Component {
   };
 
   handlePlayorpause = (e) => {
+    console.log("ello dog");
     if (e) {
       e.stopPropagation();
     }
@@ -159,6 +160,11 @@ class App extends React.Component {
     // this.state.playpause
     //   ? this.props.message("PAUSED")
     //   : this.props.message("NOW PLAYING");
+  };
+
+  playEpisode = () => {
+    this.handlePlay();
+    this.setState({ playpause: true });
   };
 
   login = (id) => {
@@ -709,6 +715,8 @@ it updates episode-specific state elements passed into the discussion component
               handleSeekMouseUp={this.handleSeekMouseUp}
               updateProgress={this.updateProgress}
               podcast={this.state.podcast}
+              playEpisode={this.playEpisode}
+              logout={this.logout}
             />
           </Route>
         </AnimatedSwitch>
