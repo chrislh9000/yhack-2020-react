@@ -467,6 +467,12 @@ input::placeholder {
   font-family: "Avenir Heavy";
   font-size: 12px;
 }
+.search-bar::placeholder {
+  background-image: url('search.png');
+  background-repeat: no-repeat;
+  background-size: 12px 14px;
+  background-position: right;
+}
 
 .slider-listening {
   -webkit-appearance: none;

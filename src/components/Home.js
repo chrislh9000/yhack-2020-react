@@ -29,7 +29,10 @@ export default class Example extends React.PureComponent {
       episodes: [],
       podcasts: [],
       progresses: [],
-      pins: []
+      pins: [],
+      searchList: [],
+      shouldRenderEpisodes: [],
+      shouldRenderPodcasts: []
     };
   }
 
@@ -40,6 +43,58 @@ export default class Example extends React.PureComponent {
       pins: newpins
     });
   };
+
+  // ###################################################################################################
+  // Start of Searching helpers
+  // ###################################################################################################
+
+  appendTogether = () => {
+    let tempList = [];
+
+    for (var i = 0; i < this.state.episodes.length; i++) {
+      let tempString = "";
+      tempString =
+        tempString.concat(this.state.episodes[i].title.toLowerCase()) + " ";
+      tempString =
+        tempString.concat(this.state.podcasts[i].title.toLowerCase()) + " ";
+      tempString =
+        tempString.concat(this.state.podcasts[i].author.toLowerCase()) + " ";
+      tempList.push(tempString);
+    }
+    console.log(tempList);
+    this.setState({ searchList: tempList });
+  };
+
+  filterFunction = userInput => {
+    let filteredNames = this.state.searchList.map(x => {
+      return x.includes(userInput);
+    });
+    console.log(this.state.searchList);
+    let tempList = [];
+    let tempPod = [];
+
+    for (var i = 0; i < filteredNames.length; i++) {
+      if (filteredNames[i]) {
+        tempList.push(this.state.episodes[i]);
+        tempPod.push(this.state.podcasts[i]);
+      }
+    }
+
+    this.setState({
+      shouldRenderEpisodes: tempList,
+      shouldRenderPodcasts: tempPod
+    });
+  };
+
+  initializeShouldRenderPins = () => {
+    this.setState({
+      shouldRenderEpisodes: this.state.episodes,
+      shouldRenderPodcasts: this.state.podcasts
+    });
+  };
+  // ###################################################################################################
+  // End of Searching helpers
+  // ###################################################################################################
 
   componentDidMount = e => {
     // add the user id to the end of the request url
@@ -67,19 +122,25 @@ export default class Example extends React.PureComponent {
       })
         .then(res => res.json())
         .then(json => {
-          console.log(json.episodes);
-          console.log(json.podcasts);
+          // console.log(json.episodes);
+          // console.log(json.podcasts);
           if (json.episodes) {
-            this.setState({
-              episodes: json.episodes,
-              podcasts: json.podcasts,
-              progresses: json.progresses
-            });
+            this.setState(
+              {
+                episodes: json.episodes,
+                podcasts: json.podcasts,
+                progresses: json.progresses
+              },
+              () => {
+                this.appendTogether();
+                this.initializeShouldRenderPins();
+              }
+            );
           }
           let promises = [];
           for (let i = 0; i < json.episodes.length; i++) {
-            console.log(this.props.user._id);
-            console.log(json.episodes[i]._id);
+            // console.log(this.props.user._id);
+            // console.log(json.episodes[i]._id);
             promises.push(
               fetch(url2, {
                 method: "POST",
@@ -94,14 +155,14 @@ export default class Example extends React.PureComponent {
               })
             );
           }
-          console.log(promises);
+          // console.log(promises);
           Promise.all(promises).then(values => {
             let pinsarray = [];
             for (let i = 0; i < json.episodes.length; i++) {
               pinsarray.push(values[i].json());
             }
             Promise.all(pinsarray).then(pinobjects => {
-              console.log("============pinobjects========", pinobjects);
+              // console.log("============pinobjects========", pinobjects);
               this.setState({
                 pins: pinobjects
               });
@@ -116,7 +177,7 @@ export default class Example extends React.PureComponent {
   };
 
   componentDidUpdate = e => {
-    console.log(this.props.episodeIndex);
+    // console.log(this.props.episodeIndex);
     // console.log(this.state.pins);
     // console.log("=======proggresses========", this.state.progresses);
   };
@@ -162,12 +223,13 @@ export default class Example extends React.PureComponent {
                   style={{ marginLeft: "3%", marginTop: "2%", height: "30%" }}
                 >
                   <div style={{ width: "90%" }}>
-                    <input
+                    {/* <input
                       type="text"
                       className="input"
                       onChange={this.handleChange}
                       placeholder="Search..."
-                    />
+                    /> */}
+                    <SearchPage filterFunction={this.filterFunction} />
                   </div>
                 </Row>
                 <Row
@@ -205,7 +267,7 @@ export default class Example extends React.PureComponent {
               }}
             >
               {this.state.episodes.length > 0 && this.state.pins.length > 1
-                ? this.state.episodes.map((item, id) => (
+                ? this.state.shouldRenderEpisodes.map((item, id) => (
                     <div style={{ display: "flex" }} className="mt-3 mb-2">
                       <Col style={{ width: "30%" }} className="imageContainer">
                         <img
@@ -218,7 +280,7 @@ export default class Example extends React.PureComponent {
                             boxShadow:
                               "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
                           }}
-                          src={this.state.podcasts[id].imageUrl}
+                          src={this.state.shouldRenderPodcasts[id].imageUrl}
                         />
                         <IconButton
                           className="pl-0 play_overlay"
@@ -231,7 +293,7 @@ export default class Example extends React.PureComponent {
                             this.props.updateDiscussionEpisode(
                               item,
                               this.state.pins[id].message,
-                              this.state.podcasts[id]
+                              this.state.shouldRenderPodcasts[id]
                             );
                             this.props.updateIndex(id);
                           }}
@@ -273,7 +335,7 @@ export default class Example extends React.PureComponent {
                           }}
                         >
                           <div style={{ display: "inline", marginRight: "2%" }}>
-                            {this.state.podcasts[id].title}
+                            {this.state.shouldRenderPodcasts[id].title}
                           </div>
                           {String(item.date).substring(0, 10)}
                         </div>
@@ -326,7 +388,7 @@ export default class Example extends React.PureComponent {
                               this.props.updateDiscussionEpisode(
                                 item,
                                 this.state.pins[id].message,
-                                this.state.podcasts[id]
+                                this.state.shouldRenderPodcasts[id]
                               );
                               this.props.updateIndex(id);
                             }}
@@ -338,7 +400,7 @@ export default class Example extends React.PureComponent {
                               this.props.updateReflectionEpisode(
                                 item,
                                 this.state.pins[id].message,
-                                this.state.podcasts[id]
+                                this.state.shouldRenderPodcasts[id]
                               );
                               this.props.updateIndex(id);
                               this.props.updateProgress(

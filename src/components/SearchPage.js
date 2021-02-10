@@ -132,9 +132,11 @@ class List extends React.Component {
       <div>
         <input
           type="text"
-          className="input"
+          className="input search-bar"
           onChange={this.handleChange}
+          style={{border:"none", boxShadow:"0px 3px 5px #c4c4c4", height:"30px"}}
           placeholder="Search..."
+          
         />
         <ul>
           {this.state.filtered.map((item) => (

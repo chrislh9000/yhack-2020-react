@@ -75,8 +75,8 @@ export default class Example extends React.PureComponent {
           }
           let promises = [];
           for (let i = 0; i < json.episodes.length; i++) {
-            console.log(this.props.user._id);
-            console.log(json.episodes[i]._id);
+            // console.log(this.props.user._id);
+            // console.log(json.episodes[i]._id);
             promises.push(
               fetch(url2, {
                 method: "POST",
@@ -91,14 +91,14 @@ export default class Example extends React.PureComponent {
               })
             );
           }
-          console.log(promises);
+          // console.log(promises);
           Promise.all(promises).then((values) => {
             let pinsarray = [];
             for (let i = 0; i < json.episodes.length; i++) {
               pinsarray.push(values[i].json());
             }
             Promise.all(pinsarray).then((pinobjects) => {
-              console.log("============pinobjects========", pinobjects);
+              // console.log("============pinobjects========", pinobjects);
               this.setState({
                 pins: pinobjects,
               });
