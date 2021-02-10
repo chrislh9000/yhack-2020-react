@@ -2,7 +2,8 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import "../assets/css/App.css";
 import Dropdown from "react-bootstrap/Dropdown";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
 
 class UserView extends React.Component {
   constructor(props) {
@@ -75,7 +76,7 @@ class UserView extends React.Component {
             23 Followers
           </div>
         </div>
-        <Dropdown style={{ borderRadius: "0.5px", outline: "none"}}>
+        <Dropdown style={{ borderRadius: "0.5px", outline: "none" }}>
           <Dropdown.Toggle
             style={{
               backgroundColor: "white",
@@ -94,9 +95,17 @@ class UserView extends React.Component {
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
-            <Link to="/listening">Account</Link>
-            <Dropdown.Item>Settings</Dropdown.Item>
-            <Dropdown.Item>Logout</Dropdown.Item>
+            {/* <Dropdown.Item>Account</Dropdown.Item>
+            <Dropdown.Item>Settings</Dropdown.Item> */}
+            <LinkContainer to="/login">
+              <Dropdown.Item
+                onClick={() => {
+                  this.props.logout();
+                }}
+              >
+                Logout
+              </Dropdown.Item>
+            </LinkContainer>
           </Dropdown.Menu>
         </Dropdown>
       </div>

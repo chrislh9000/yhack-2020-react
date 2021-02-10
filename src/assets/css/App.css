@@ -147,7 +147,7 @@
   position: absolute;
   height: 14px;
   width: 14px;
-  border: 1px solid #889AAB; 
+  border: 1px solid #889aab;
   border-radius: 50%;
   top: -8px;
   /* display: inline-block; */
@@ -519,7 +519,7 @@ input::placeholder {
 
 /* 
   Hovering over image thumbnail styles 
-*/ 
+*/
 
 .imageContainer {
   width: 100%;
@@ -552,8 +552,43 @@ input::placeholder {
 .pin_note:hover {
   padding-top: 1%;
   border-radius: 10px;
-  background-color: #B1DAFF;
+  background-color: #b1daff;
+}
+.btn:focus {
+  outline: none !important;
+  outline-offset: none !important;
+  box-shadow: none !important;
 }
 
+.btn-primary:focus {
+  outline: none !important;
+  outline-offset: none !important;
+  box-shadow: none !important;
+}
 
+.dropdown-toggle:focus {
+  outline: none !important;
+  outline-offset: none !important;
+  box-shadow: none !important;
+}
 
+.comments-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.comments-scroll::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 2px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+.comments-scroll::-webkit-scrollbar-thumb {
+  background: black;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+.comments-scroll::-webkit-scrollbar-thumb:hover {
+  background: #009eb3;
+}

@@ -11,7 +11,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import FilterBar from "./FilterBar";
 import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { SlideDown } from "react-slidedown";
 import IconButton from "@material-ui/core/Button";
 
@@ -20,6 +20,7 @@ import PlayBar from "./PlayBar";
 import Listening from "./Listening";
 import SearchPage from "./SearchPage";
 import UserView from "./UserView";
+import { LinkContainer } from "react-router-bootstrap";
 
 export default class Example extends React.PureComponent {
   constructor() {
@@ -29,19 +30,19 @@ export default class Example extends React.PureComponent {
       episodes: [],
       podcasts: [],
       progresses: [],
-      pins: []
+      pins: [],
     };
   }
 
-  addPin = pin => {
+  addPin = (pin) => {
     let newpins = this.state.pins;
     newpins.push({ message: pin });
     this.setState({
-      pins: newpins
+      pins: newpins,
     });
   };
 
-  componentDidMount = e => {
+  componentDidMount = (e) => {
     // add the user id to the end of the request url
 
     if (localStorage.getItem("home")) {
@@ -50,7 +51,7 @@ export default class Example extends React.PureComponent {
         episodes: JSON.parse(stateObj.episodes),
         podcasts: JSON.parse(stateObj.podcasts),
         progresses: JSON.parse(stateObj.progresses),
-        pins: JSON.parse(stateObj.pins)
+        pins: JSON.parse(stateObj.pins),
       });
     } else {
       const url = "http://localhost:5000/podcasts/loadUserEpisodes/".concat(
@@ -62,18 +63,18 @@ export default class Example extends React.PureComponent {
         method: "GET",
         credentials: "same-origin",
         headers: {
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       })
-        .then(res => res.json())
-        .then(json => {
+        .then((res) => res.json())
+        .then((json) => {
           console.log(json.episodes);
           console.log(json.podcasts);
           if (json.episodes) {
             this.setState({
               episodes: json.episodes,
               podcasts: json.podcasts,
-              progresses: json.progresses
+              progresses: json.progresses,
             });
           }
           let promises = [];
@@ -85,43 +86,43 @@ export default class Example extends React.PureComponent {
                 method: "POST",
                 credentials: "same-origin",
                 headers: {
-                  "Content-Type": "application/json"
+                  "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                   user_id: this.props.user._id, // userId
-                  episode: json.episodes[i]._id
-                })
+                  episode: json.episodes[i]._id,
+                }),
               })
             );
           }
           console.log(promises);
-          Promise.all(promises).then(values => {
+          Promise.all(promises).then((values) => {
             let pinsarray = [];
             for (let i = 0; i < json.episodes.length; i++) {
               pinsarray.push(values[i].json());
             }
-            Promise.all(pinsarray).then(pinobjects => {
+            Promise.all(pinsarray).then((pinobjects) => {
               console.log("============pinobjects========", pinobjects);
               this.setState({
-                pins: pinobjects
+                pins: pinobjects,
               });
             });
           });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("Error: ", err);
         });
     }
     this.interval = setInterval(() => this.props.setCurrTime(), 1000);
   };
 
-  componentDidUpdate = e => {
+  componentDidUpdate = (e) => {
     console.log(this.props.episodeIndex);
     // console.log(this.state.pins);
     // console.log("=======proggresses========", this.state.progresses);
   };
 
-  componentWillUnmount = e => {
+  componentWillUnmount = (e) => {
     if (this.state.episodes.length > 0) {
       let currState = this.state;
       currState.episodes = JSON.stringify(currState.episodes);
@@ -134,7 +135,7 @@ export default class Example extends React.PureComponent {
 
   render() {
     return (
-      <Container fluid className="discussion_background">
+      <Container fluid className="discussion_background pl-0 pr-0">
         <Row style={{ height: "92vh" }}>
           <Col xs={2} style={{ padding: "0px", height: "100%" }}>
             <Sidebar
@@ -153,7 +154,7 @@ export default class Example extends React.PureComponent {
             <Row
               style={{
                 height: "18%",
-                display: "flex"
+                display: "flex",
               }}
               className="mt-2"
             >
@@ -176,7 +177,7 @@ export default class Example extends React.PureComponent {
                     flexDirection: "column",
                     marginLeft: "3%",
                     marginTop: "1%",
-                    height: "70%"
+                    height: "70%",
                   }}
                 >
                   <p1
@@ -184,7 +185,7 @@ export default class Example extends React.PureComponent {
                       color: "#173B5C",
                       fontSize: "24px",
                       paddingTop: "4%",
-                      fontFamily: "Avenir Medium"
+                      fontFamily: "Avenir Medium",
                     }}
                   >
                     DOWNLOADED EPISODES
@@ -193,6 +194,7 @@ export default class Example extends React.PureComponent {
               </Col>
               <Col style={{ marginRight: "10%" }}>
                 <UserView
+                  logout={this.props.logout}
                   user={{ username: this.props.user.username, color: "blue" }}
                 />
               </Col>
@@ -201,7 +203,7 @@ export default class Example extends React.PureComponent {
               style={{
                 flexDirection: "column",
                 paddingLeft: "1%",
-                marginRight: "10%"
+                marginRight: "10%",
               }}
             >
               {this.state.episodes.length > 0 && this.state.pins.length > 1
@@ -216,7 +218,7 @@ export default class Example extends React.PureComponent {
                             width: 100,
                             borderRadius: 5,
                             boxShadow:
-                              "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
+                              "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
                           }}
                           src={this.state.podcasts[id].imageUrl}
                         />
@@ -225,7 +227,7 @@ export default class Example extends React.PureComponent {
                           style={{
                             // minWidth: "0px",
                             outline: "none",
-                            backgroundColor: "transparent"
+                            backgroundColor: "transparent",
                           }}
                           onClick={() => {
                             this.props.updateDiscussionEpisode(
@@ -234,11 +236,20 @@ export default class Example extends React.PureComponent {
                               this.state.podcasts[id]
                             );
                             this.props.updateIndex(id);
+
+                            this.props.episodeIndex == id
+                              ? this.props.handlePlayorpause()
+                              : this.props.playEpisode();
                           }}
                         >
                           <img
                             className="play_overlay"
-                            src="http://wptf.com/wp-content/uploads/2014/05/play-button.png"
+                            src={
+                              this.props.playpause &&
+                              this.props.episodeIndex == id
+                                ? "./pauseCircle.png"
+                                : "./playCircle.png"
+                            }
                             width="50"
                             height="50"
                             alt=""
@@ -251,25 +262,37 @@ export default class Example extends React.PureComponent {
                           flexDirection: "column",
                           marginTop: "1.8%",
                           marginRight: "8%",
-                          width: "65%"
+                          width: "65%",
                         }}
                       >
-                        <div
+                        <Link
+                          to={"./Reflect"}
                           style={{
                             fontSize: "13px",
                             color: "#173B5C",
-                            fontFamily: "Avenir Heavy"
+                            fontFamily: "Avenir Heavy",
+                          }}
+                          onClick={() => {
+                            this.props.updateReflectionEpisode(
+                              item,
+                              this.state.pins[id].message,
+                              this.state.podcasts[id]
+                            );
+                            this.props.updateIndex(id);
+                            this.props.updateProgress(
+                              this.state.progresses[id]
+                            );
                           }}
                         >
                           {item.title}
-                        </div>
+                        </Link>
                         <div
                           style={{
                             fontSize: "9px",
                             fontFamily: "Avenir Medium",
                             color: "grey",
                             marginLeft: "0.1%",
-                            paddingBottom: "0.3%"
+                            paddingBottom: "0.3%",
                           }}
                         >
                           <div style={{ display: "inline", marginRight: "2%" }}>
@@ -282,14 +305,14 @@ export default class Example extends React.PureComponent {
                             maxHeight: "55px",
                             display: "flex",
                             flexDirection: "column",
-                            overflow: "hidden"
+                            overflow: "hidden",
                           }}
                         >
                           <div
                             style={{
                               fontSize: "12px",
                               color: "#848484",
-                              fontFamily: "Avenir Medium"
+                              fontFamily: "Avenir Medium",
                             }}
                           >
                             {item.summary}
@@ -301,55 +324,59 @@ export default class Example extends React.PureComponent {
                           display: "inline",
                           height: "20%",
                           marginRight: "4%",
-                          marginTop: "1.5%"
+                          marginTop: "1.5%",
+                          outline: "none",
+                          boxShadow: "none",
                         }}
                       >
                         <Dropdown.Toggle
                           style={{
                             backgroundColor: "white",
-                            borderColor: "white"
+                            borderColor: "white",
                           }}
                           id="dropdown-basic"
                         >
                           <img
                             style={{
                               height: "15px",
-                              width: "15px"
+                              width: "15px",
                             }}
                             src="/threeDotCircle.png"
                           />
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                          <Dropdown.Item
-                            onClick={() => {
-                              this.props.updateDiscussionEpisode(
-                                item,
-                                this.state.pins[id].message,
-                                this.state.podcasts[id]
-                              );
-                              this.props.updateIndex(id);
-                            }}
-                          >
-                            Listen
-                          </Dropdown.Item>
-                          <Dropdown.Item
-                            onClick={() => {
-                              this.props.updateReflectionEpisode(
-                                item,
-                                this.state.pins[id].message,
-                                this.state.podcasts[id]
-                              );
-                              this.props.updateIndex(id);
-                              this.props.updateProgress(
-                                this.state.progresses[id]
-                              );
-                            }}
-                          >
-                            <Link to="/reflect">
-                              <Button>Reflect</Button>
-                            </Link>
-                          </Dropdown.Item>
+                          <LinkContainer to="./listening">
+                            <Dropdown.Item
+                              onClick={() => {
+                                this.props.updateDiscussionEpisode(
+                                  item,
+                                  this.state.pins[id].message,
+                                  this.state.podcasts[id]
+                                );
+                                this.props.updateIndex(id);
+                              }}
+                            >
+                              Listen
+                            </Dropdown.Item>
+                          </LinkContainer>
+                          <LinkContainer to="./reflect">
+                            <Dropdown.Item
+                              onClick={() => {
+                                this.props.updateReflectionEpisode(
+                                  item,
+                                  this.state.pins[id].message,
+                                  this.state.podcasts[id]
+                                );
+                                this.props.updateIndex(id);
+                                this.props.updateProgress(
+                                  this.state.progresses[id]
+                                );
+                              }}
+                            >
+                              Reflect
+                            </Dropdown.Item>
+                          </LinkContainer>
                         </Dropdown.Menu>
                       </Dropdown>
                     </div>
@@ -397,5 +424,5 @@ export default class Example extends React.PureComponent {
 }
 
 Example.propTypes = {
-  style: PropTypes.object
+  style: PropTypes.object,
 };

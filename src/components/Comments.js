@@ -102,8 +102,8 @@ class Comments extends React.Component {
     //pre-rendering code
     return (
       <Row
-        className="ml-5 mr-5"
-        style={{ overflowY: "auto", height: "250px", marginTop: "10%" }}
+        className="ml-5 mr-5 comments-scroll"
+        style={{ overflowY: "scroll", height: "250px", marginTop: "10%" }}
       >
         {this.props.pins.map((item, i) => (
           <Container
