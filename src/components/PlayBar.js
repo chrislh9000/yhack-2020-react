@@ -250,8 +250,8 @@ class PlayBar extends React.Component {
               >
                 <img
                   style={{
-                    height: 17,
-                    width: 30,
+                    height: 12,
+                    width: 20,
                   }}
                   src="/uparrow-gray.png"
                 />

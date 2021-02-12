@@ -43,7 +43,7 @@
 }
 
 .discussion_background {
-  height: 100%;
+  height: 100vh;
   width: 100%;
   padding: 0px;
   margin: 0px;
@@ -154,7 +154,7 @@
 }
 
 .pincircle:hover {
-  border: 2px solid white; 
+  border: 2px solid white;
 }
 
 .vl2 {

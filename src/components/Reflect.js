@@ -47,7 +47,7 @@ class Reflect extends React.Component {
         searchList: [],
         seeFriends: false,
         friends: [],
-        editedPin: null
+        editedPin: null,
       };
     } else {
       this.state = {
@@ -67,7 +67,7 @@ class Reflect extends React.Component {
         shouldRenderPins: [],
         searchList: [],
         friends: [],
-        editedPin: null
+        editedPin: null,
       };
     }
   }
@@ -148,10 +148,10 @@ class Reflect extends React.Component {
 
   editPin = (note, index) => {
     // this.addNoteLocalStorage(note, index);
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       shouldRenderPins: prevState.shouldRenderPins.map((el, i) =>
         i === index ? { ...el, note: note } : el
-      )
+      ),
     }));
   };
 
@@ -159,12 +159,12 @@ class Reflect extends React.Component {
     if (this.state.seeFriends) {
       this.setState({
         seeFriends: !this.state.seeFriends,
-        shouldRenderPins: this.state.reflectPins
+        shouldRenderPins: this.state.reflectPins,
       });
     } else {
       this.setState({
         seeFriends: !this.state.seeFriends,
-        shouldRenderPins: this.state.friendPins
+        shouldRenderPins: this.state.friendPins,
       });
     }
   };
@@ -173,7 +173,7 @@ class Reflect extends React.Component {
     this.setState({ playing: !this.state.playing });
   };
 
-  handleVolumeChange = e => {
+  handleVolumeChange = (e) => {
     this.setState({ volume: parseFloat(e.target.value) });
   };
 
@@ -192,29 +192,29 @@ class Reflect extends React.Component {
     // TO DO: think of pin.time, date of creation search functionality implementation
   };
 
-  handleSeekMouseDown = e => {
+  handleSeekMouseDown = (e) => {
     this.setState({ seeking: true });
   };
 
-  handleSeekChange = e => {
+  handleSeekChange = (e) => {
     this.setState({ played: parseFloat(e.target.value) });
   };
 
-  handleSeekMouseUp = e => {
+  handleSeekMouseUp = (e) => {
     this.setState({ seeking: false });
     this.player.seekTo(parseFloat(e.target.value));
   };
 
-  handleDuration = duration => {
+  handleDuration = (duration) => {
     console.log("onDuration", duration);
     this.setState({ duration });
   };
 
-  handleSeekTo = time => {
+  handleSeekTo = (time) => {
     console.log("gonan seek to", time);
     this.player.seekTo(time);
     this.setState({
-      played: (time / this.props.reflectEpisode.duration) * 0.999999
+      played: (time / this.props.reflectEpisode.duration) * 0.999999,
     });
     // this.setState({played:time})
   };
@@ -225,19 +225,19 @@ class Reflect extends React.Component {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         friends: this.props.user.friends,
-        episode: this.props.reflectEpisode._id
-      })
+        episode: this.props.reflectEpisode._id,
+      }),
     })
-      .then(res => res.json())
-      .then(json => {
+      .then((res) => res.json())
+      .then((json) => {
         console.log("hi");
         this.setState(
           {
-            friendPins: json.message
+            friendPins: json.message,
           },
           () => {
             this.appendTogether();
@@ -245,7 +245,7 @@ class Reflect extends React.Component {
           }
         );
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error: ", err);
       });
   };
@@ -256,7 +256,7 @@ class Reflect extends React.Component {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         startTime: 1,
@@ -265,19 +265,19 @@ class Reflect extends React.Component {
         text: "oh elo",
         ccId: 5,
         episode: "PlanetMoney0",
-        id: "5fdaf4e7616a7e5445f0ba59"
-      })
+        id: "5fdaf4e7616a7e5445f0ba59",
+      }),
     })
-      .then(json => {
+      .then((json) => {
         console.log("hi");
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error: ", err);
       });
   };
 
-  filterFunction = userInput => {
-    let filteredNames = this.state.searchList.map(x => {
+  filterFunction = (userInput) => {
+    let filteredNames = this.state.searchList.map((x) => {
       return x.includes(userInput);
     });
 
@@ -305,7 +305,7 @@ class Reflect extends React.Component {
     this.setState({ shouldRenderPins: tempList });
   };
 
-  ref = player => {
+  ref = (player) => {
     this.player = player;
   };
 
@@ -317,7 +317,7 @@ class Reflect extends React.Component {
     }
   };
 
-  componentDidMount = e => {
+  componentDidMount = (e) => {
     // add the user id to the end of the request url
     this.handleFriendPin();
     const url = "http://localhost:5000/social/users/getFriends";
@@ -325,25 +325,25 @@ class Reflect extends React.Component {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        user_id: this.props.user._id
-      })
+        user_id: this.props.user._id,
+      }),
     })
-      .then(res => res.json())
-      .then(json => {
+      .then((res) => res.json())
+      .then((json) => {
         console.log("======JSON FRIENDS=======", json.message.friends);
         this.setState({
-          friends: json.message.friends
+          friends: json.message.friends,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error: ", err);
       });
   };
 
-  componentWillUnmount = e => {
+  componentWillUnmount = (e) => {
     let currState = this.state;
     currState.reflectPins = JSON.stringify(currState.reflectPins);
     localStorage.setItem(
@@ -360,7 +360,7 @@ class Reflect extends React.Component {
   handleNoteChange = (e, item, i) => {
     console.log("HANDLE NOTE CHANGE CALLED======", item, i);
     this.setState({
-      editedPin: i
+      editedPin: i,
     });
   };
 
@@ -380,23 +380,23 @@ class Reflect extends React.Component {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         ccId: pin.ccId,
         episode: this.props.episode._id,
         id: this.props.user._id,
-        note: note
-      })
+        note: note,
+      }),
     })
-      .then(res => res.json())
-      .then(json => {
+      .then((res) => res.json())
+      .then((json) => {
         console.log(json.message);
         this.setState({
-          editedPin: null
+          editedPin: null,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error: ", err);
       });
     // update the pin note in real-time in the application
@@ -407,7 +407,7 @@ class Reflect extends React.Component {
     // console.log("Progress=====", this.props.progress);
     // console.log("Episode duration=====", this.props.reflectEpisode.duration);
     return (
-      <Container fluid className="discussion_background">
+      <Container fluid className="discussion_background pl-0 pr-0">
         <Row style={{ height: "100%" }}>
           <Col xs={2} style={{ padding: "0px" }}>
             <Sidebar
@@ -432,7 +432,7 @@ class Reflect extends React.Component {
                     height: "75%",
                     display: "flex",
                     alignItems: "center",
-                    paddingTop: "15%"
+                    paddingTop: "15%",
                   }}
                 >
                   <Col xs={3} style={{ marginLeft: "0%" }}>
@@ -449,7 +449,7 @@ class Reflect extends React.Component {
                         marginLeft: "25%",
                         boxShadow:
                           "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
-                        outline: "none"
+                        outline: "none",
                       }}
                     >
                       {this.state.playing ? (
@@ -459,7 +459,7 @@ class Reflect extends React.Component {
                             paddingTop: "3%",
                             height: 28,
                             width: 28,
-                            marginRight: "8%"
+                            marginRight: "8%",
                           }}
                           src="BluePause.png"
                         />
@@ -469,7 +469,7 @@ class Reflect extends React.Component {
                             paddingLeft: "7.5%",
                             paddingTop: "3%",
                             height: 28,
-                            width: 28
+                            width: 28,
                           }}
                           src="BluePlay.png"
                         />
@@ -481,7 +481,7 @@ class Reflect extends React.Component {
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "center",
-                      paddingLeft: "2%"
+                      paddingLeft: "2%",
                     }}
                     xs={9}
                   >
@@ -496,7 +496,7 @@ class Reflect extends React.Component {
                           textAlign: "right",
                           color: "white",
                           fontSize: "20px",
-                          fontWeight: "bold"
+                          fontWeight: "bold",
                         }}
                       >
                         {this.props.reflectEpisode.title}
@@ -508,7 +508,7 @@ class Reflect extends React.Component {
                   style={{
                     height: "25%",
                     marginLeft: "5%",
-                    marginTop: "3%"
+                    marginTop: "3%",
                   }}
                 >
                   <p style={{ color: "white", marginRight: "5%" }}>15:35</p>
@@ -523,7 +523,7 @@ class Reflect extends React.Component {
                           (this.props.progress /
                             this.props.reflectEpisode.duration) *
                             100
-                        ).concat("%")
+                        ).concat("%"),
                       }}
                       className="bubble_reflect"
                     />
@@ -536,7 +536,7 @@ class Reflect extends React.Component {
                             (pin.startTime.$numberDecimal /
                               this.props.reflectEpisode.duration) *
                               100
-                          ).concat("%")
+                          ).concat("%"),
                         }}
                         className="pincircle"
                       ></div>
@@ -553,13 +553,15 @@ class Reflect extends React.Component {
                   style={{
                     paddingTop: "10px",
                     flexDirection: "row-reverse",
-                    height: "25%"
+                    height: "25%",
                   }}
                 >
                   <UserView
                     className="ml-4"
                     style={{ alignSelf: "right" }}
                     user={{ username: this.props.user.username }}
+                    color="white"
+                    logout={this.props.logout}
                   />
                 </Row>
                 <Row style={{ flexDirection: "row-reverse" }}>
@@ -570,7 +572,7 @@ class Reflect extends React.Component {
                       width: 180,
                       borderRadius: 10,
                       boxShadow:
-                        "0 4px 8pdx 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
+                        "0 4px 8pdx 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
                     }}
                     src={this.props.podcast.imageUrl}
                   />
@@ -583,7 +585,7 @@ class Reflect extends React.Component {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                height: "60vh"
+                height: "60vh",
               }}
             >
               {/* Title Row */}
@@ -592,7 +594,7 @@ class Reflect extends React.Component {
                   height: "18%",
                   width: "100%",
                   display: "flex",
-                  marginBottom: "2%"
+                  marginBottom: "2%",
                 }}
               >
                 {/* Pins Title */}
@@ -600,11 +602,13 @@ class Reflect extends React.Component {
                   style={{
                     display: "flex",
                     flexDirection: "column",
-                    justifyContent: "center"
+                    justifyContent: "center",
                   }}
                   xs={8}
                 >
-                  <div style={{ width: "60%", padding: "2%", paddingLeft: "10%"}}>
+                  <div
+                    style={{ width: "60%", padding: "2%", paddingLeft: "10%" }}
+                  >
                     <input
                       type="text"
                       className="input"
@@ -616,7 +620,7 @@ class Reflect extends React.Component {
                     style={{
                       fontSize: "30px",
                       paddingLeft: "10%",
-                      color: "#173B5C"
+                      color: "#173B5C",
                     }}
                   >
                     Pins
@@ -650,7 +654,7 @@ class Reflect extends React.Component {
                   overflowX: "hidden",
                   overflowY: "scroll",
                   height: "75%",
-                  width: "100%"
+                  width: "100%",
                 }}
               >
                 <Col style={{ marginLeft: "3%" }}>
@@ -685,7 +689,7 @@ class Reflect extends React.Component {
                             className="mb-5"
                             style={{
                               background: "grey",
-                              borderRadius: "25px"
+                              borderRadius: "25px",
                             }}
                           >
                             {this.state.editedPin == i ? (
@@ -744,7 +748,7 @@ class Reflect extends React.Component {
                             className="mb-5"
                             style={{
                               background: "grey",
-                              borderRadius: "25px"
+                              borderRadius: "25px",
                             }}
                           >
                             {this.state.editedPin == i ? (
