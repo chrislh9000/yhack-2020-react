@@ -4,6 +4,8 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Input from "@material-ui/core/Input";
 import Row from "react-bootstrap/Row";
+import Container from "react-bootstrap/Container";
+import Col from "react-bootstrap/Col";
 import Alert from "react-bootstrap/Alert";
 import { Link } from "react-router-dom";
 import fs from "fs";
@@ -88,68 +90,79 @@ class Register extends React.Component {
       </Alert>
     ));
     return (
-      <div>
-        <Grid
-          container
-          direction="column"
-          alignContent="center"
-          alignItems="center"
-        >
-          <h1>Register</h1>
-          {alertArr}
-          <form method="POST">
-            <div className="form-group">
-              <Input
-                className="form-control"
-                onChange={e => this.handleUsername(e)}
-                value={this.state.username}
-                type="text"
-                placeholder="Username"
-              ></Input>
-            </div>
-            <div className="form-group">
-              <Input
-                onChange={e => this.handlePassword(e)}
-                value={this.state.password}
-                className="form-control"
-                type="password"
-                placeholder="Password"
-              ></Input>
-            </div>
-            <div className="form-group">
-              <Input
-                onChange={e => this.handlePassword2(e)}
-                value={this.state.password2}
-                className="form-control"
-                type="password"
-                placeholder="Repeat Password"
-              ></Input>
-            </div>
-            <Button
-              style={{ marginLeft: 40, marginBottom: 10, marginTop: 20 }}
-              variant="contained"
-              color="secondary"
-              onClick={e => this.handleRegister(e)}
-              className="btn btn-primary"
-              method="POST"
-            >
-              Sign Up
-            </Button>
-          </form>
-          <Row style={{ display: "flex", justifyContent: "center" }}>
-            <Link to="/login">
-              <Button
-                style={{ justifyContent: "center" }}
-                variant="contained"
-                className="btn btn-primary"
-                color="primary"
-              >
-                If Already Signed Up, Login
-              </Button>
-            </Link>
-          </Row>
-        </Grid>
-      </div>
+
+      <Container className="registration-main">
+        <Col xs={1}></Col>
+        <Col xs={4}>Pincast</Col>
+        <Col xs={6}></Col>
+        <Col xs={1}></Col>
+      </Container>
+
+
+      //     <div>
+      //       <Grid
+      //         container
+      //         direction="column"
+      //         alignContent="center"
+      //         alignItems="center"
+      //       >
+      //         <h1>Register</h1>
+      //         {alertArr}
+      //         <form method="POST">
+      //           <div className="form-group">
+      //             <Input
+      //               className="form-control"
+      //               onChange={e => this.handleUsername(e)}
+      //               value={this.state.username}
+      //               type="text"
+      //               placeholder="Username"
+      //             ></Input>
+      //           </div>
+      //           <div className="form-group">
+      //             <Input
+      //               onChange={e => this.handlePassword(e)}
+      //               value={this.state.password}
+      //               className="form-control"
+      //               type="password"
+      //               placeholder="Password"
+      //             ></Input>
+      //           </div>
+      //           <div className="form-group">
+      //             <Input
+      //               onChange={e => this.handlePassword2(e)}
+      //               value={this.state.password2}
+      //               className="form-control"
+      //               type="password"
+      //               placeholder="Repeat Password"
+      //             ></Input>
+      //           </div>
+      //           <Button
+      //             style={{ marginLeft: 40, marginBottom: 10, marginTop: 20 }}
+      //             variant="contained"
+      //             color="secondary"
+      //             onClick={e => this.handleRegister(e)}
+      //             className="btn btn-primary"
+      //             method="POST"
+      //           >
+      //             Sign Up
+      //           </Button>
+      //         </form>
+      //         <Row style={{ display: "flex", justifyContent: "center" }}>
+      //           <Link to="/login">
+      //             <Button
+      //               style={{ justifyContent: "center" }}
+      //               variant="contained"
+      //               className="btn btn-primary"
+      //               color="primary"
+      //             >
+      //               If Already Signed Up, Login
+      //             </Button>
+      //           </Link>
+      //         </Row>
+      //       </Grid>
+      //     </div>
+      //   );
+      // }
     );
   }
 }
