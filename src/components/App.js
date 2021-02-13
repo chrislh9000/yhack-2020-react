@@ -411,15 +411,7 @@ it updates episode-specific state elements passed into the discussion component
           atActive={{ opacity: 1 }}
           className="switch-wrapper"
         >
-          <Route path="/pinning">
-            <Pin />
-          </Route>
-
-          <Route path="/podcast">
-            <Podcast />
-          </Route>
-
-          <Route path="/pins_page">
+          {/* <Route path="/pins_page">
             <Pinpage
               handlePin={this.handlePin}
               handlePlayorpause={this.handlePlayorpause}
@@ -437,17 +429,9 @@ it updates episode-specific state elements passed into the discussion component
               episodeIndex={this.state.episodeIndex}
               imgURL={this.state.podcast.imageUrl}
             />
-          </Route>
+          </Route> */}
 
-          {/* <Route path="/discussion">
-        <Discussion />
-        </Route> */}
-
-          <Route path="/navbar">
-            <Navbar />
-          </Route>
-
-          <Route path="/about">
+          {/* <Route path="/about">
             <About
               pinTime={this.state.pinTime}
               handlePin={this.handlePin}
@@ -487,9 +471,9 @@ it updates episode-specific state elements passed into the discussion component
               handleSeekMouseDown={this.handleSeekMouseDown}
               handleSeekMouseUp={this.handleSeekMouseUp}
             />
-          </Route>
+          </Route> */}
 
-          <Route path="/users">
+          {/* <Route path="/users">
             <Discussion
               pinTime={this.state.pinTime}
               handlePin={this.handlePin}
@@ -507,7 +491,7 @@ it updates episode-specific state elements passed into the discussion component
               episodeIndex={this.state.episodeIndex}
               imgURL={this.state.podcast.imageUrl}
             />
-          </Route>
+          </Route> */}
 
           <Route path="/register">
             <Register
@@ -546,7 +530,7 @@ it updates episode-specific state elements passed into the discussion component
               friendUser={this.friendUser}
             />
           </Route>
-          <Route path="/home_page">
+          {/* <Route path="/home_page">
             <Home
               pinTime={this.state.pinTime}
               handlePin={this.handlePin}
@@ -587,7 +571,7 @@ it updates episode-specific state elements passed into the discussion component
               handleSeekMouseUp={this.handleSeekMouseUp}
               updateProgress={this.updateProgress}
             />
-          </Route>
+          </Route> */}
           <Route path="/listening">
             <Listening
               pinTime={this.state.pinTime}
@@ -626,6 +610,7 @@ it updates episode-specific state elements passed into the discussion component
               imgURL={this.state.podcast.imageUrl}
               podcast={this.state.podcast}
               progress={this.state.progress}
+              logout={this.logout}
             ></Reflect>
           </Route>
 

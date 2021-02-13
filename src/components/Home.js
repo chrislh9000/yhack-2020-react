@@ -264,6 +264,7 @@ export default class Example extends React.PureComponent {
                 <UserView
                   logout={this.props.logout}
                   user={{ username: this.props.user.username, color: "blue" }}
+                  color="blue"
                 />
               </Col>
             </Row>

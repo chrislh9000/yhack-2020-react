@@ -14,7 +14,13 @@ import Dropdown from "react-bootstrap/Dropdown";
 class ReflectPinCard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      value: this.props.pin.note
+    };
+  }
+
+  handleChange = (e) => {
+    this.setState({ value: e.target.value });
   }
 
   render() {
@@ -59,7 +65,41 @@ class ReflectPinCard extends React.Component {
         </Row>
         <Row className="pin_note" style={{ paddingLeft: "5%" }}>
           <p style={{fontWeight: "bold"}}>Note:</p>
-          <p1 style={{paddingLeft: "10px", fontStyle: "italic"}}>{this.props.pin.note}</p1>
+          {
+            this.props.toggleEdit ? 
+            <form
+              style={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+              }}
+              onSubmit={(e) => this.props.handleSubmit(e, this.state.value, this.props.pin, this.props.index)}
+              onKeyDown={(e) => this.props.initSubmit(e, this.state.value, this.props.pin, this.props.index)}
+            >
+              <input
+                type="text"
+                value={this.state.value}
+                onChange={(e) => this.handleChange(e)}
+                placeholder={"Add a Comment"}
+                style={{
+                  backgroundColor: "transparent",
+                  marginBottom: "2%",
+                  marginRight: "10%",
+                  borderTop: "0px",
+                  borderLeft: "0px",
+                  borderBottom: "0.1px solid white",
+                  outline: "none",
+                  borderRight: "0px",
+                  color: "black",
+                  fontFamily: "Avenir Medium",
+                  fontSize: "12px",
+                  width: "100%",
+                }}
+              />
+            </form>
+            :
+            <p1 onClick={(e) => {this.props.handleNoteChange(e, this.props.pin, this.props.index)}} style={{paddingLeft: "10px", fontStyle: "italic"}}>{this.props.pin.note}</p1>
+          }
         </Row>
       </Container>
     );

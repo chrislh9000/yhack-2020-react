@@ -93,7 +93,7 @@ class Comments extends React.Component {
   componentDidMount = (e) => {
     // reorganize pins by Date
     this.pins.sort(function compareNumbers(a, b) {
-      return Date(a["date"]) > Date(b["date"]);
+      return Date(a["date"]) < Date(b["pinDate"]);
     });
     // only render the first four pins
   };

@@ -26,7 +26,7 @@ class UserView extends React.Component {
       justifyContent: "center",
       marginRight: "1em",
     };
-    return this.props.color == "blue" ? (
+    return (
       <div
         className="container userContainer mb-4"
         style={{ justifyContent: "flex-end" }}
@@ -35,53 +35,35 @@ class UserView extends React.Component {
           <p className="userLetter">{letter}</p>
         </div>
         <div style={{}}>
-          <div style={{ color: "#173B5C" }} className="userName">
+          <div
+            style={{
+              color: this.props.color == "white" ? "#ffffff" : "#173B5C",
+            }}
+            className="userName"
+          >
             {this.props.user.username}
           </div>
-          <div style={{ color: "#173B5C" }} className="followers">
+          <div
+            style={{
+              color: this.props.color == "white" ? "#ffffff" : "#173B5C",
+            }}
+            className="followers"
+          >
             23 Followers
           </div>
         </div>
-        <Dropdown style={{ borderRadius: "0.5px" }}>
+        <Dropdown
+          style={{
+            borderRadius: "0.5px",
+            outline: "none",
+          }}
+        >
           <Dropdown.Toggle
             style={{
               backgroundColor: "transparent",
               borderColor: "transparent",
-              borderRadius: "10px",
-              width: "10px",
-              padding: "15px",
-            }}
-            id="dropdown-basic"
-          ></Dropdown.Toggle>
-
-          <Dropdown.Menu>
-            <Dropdown.Item>Account</Dropdown.Item>
-            <Dropdown.Item>Settings</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-      </div>
-    ) : (
-      <div
-        className="container userContainer mb-4"
-        style={{ justifyContent: "flex-end" }}
-      >
-        <div style={circleStyle}>
-          <p className="userLetter">{letter}</p>
-        </div>
-        <div style={{}}>
-          <div style={{ color: "#173B5C" }} className="userName">
-            {this.props.user.username}
-          </div>
-          <div style={{ color: "#173B5C" }} className="followers">
-            23 Followers
-          </div>
-        </div>
-        <Dropdown style={{ borderRadius: "0.5px", outline: "none" }}>
-          <Dropdown.Toggle
-            style={{
-              backgroundColor: "white",
-              borderColor: "white",
               outline: "none",
+              color: "transparent",
             }}
             id="dropdown-basic"
           >
@@ -90,7 +72,7 @@ class UserView extends React.Component {
                 height: "15px",
                 width: "15px",
               }}
-              src="/downarrow-thick-blue.png"
+              src={"/downarrow-thick-" + this.props.color + ".png"}
             />
           </Dropdown.Toggle>
 

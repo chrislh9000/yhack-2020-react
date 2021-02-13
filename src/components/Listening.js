@@ -82,7 +82,7 @@ class Listening extends React.Component {
     newmap.set(this.state.selectedElements[0], this.state.selectedElements);
     this.setState({
       highlighted: newmap,
-      pin: this.state.pins.push(newPin),
+      pin: this.state.pins.unshift(newPin),
     });
   };
 
@@ -651,7 +651,7 @@ class Listening extends React.Component {
                 <div
                   id="caption-col"
                   className="listening-captions"
-                  style={{ height: "100%", marginRight: "100px" }}
+                  style={{ height: "100%" }}
                 >
                   <ReactCursorPosition
                     style={{ display: "flex", flexDirection: "row" }}
@@ -709,6 +709,18 @@ class Listening extends React.Component {
                     ) : null} */}
                   </ReactCursorPosition>
                 </div>
+              </Col>
+              <Col
+                className="pl-0 pr-0"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  flex: "0.3",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <p>yo</p>
               </Col>
               <div
                 style={{
