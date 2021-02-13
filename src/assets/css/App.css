@@ -592,3 +592,27 @@ input::placeholder {
 .comments-scroll::-webkit-scrollbar-thumb:hover {
   background: #009eb3;
 }
+
+.mainLoginInput::-webkit-input-placeholder {
+  font-family: Avenir Medium;
+  font-size: 10px;
+  color: white;
+}
+
+.mainLoginInput:-ms-input-placeholder {
+  font-family: Avenir Medium;
+  font-size: 10px;
+  color: white;
+}
+
+.mainLoginInput:-moz-placeholder {
+  font-family: Avenir Medium;
+  font-size: 10px;
+  color: white;
+}
+
+.mainLoginInput::-moz-placeholder {
+  font-family: Avenir Medium;
+  font-size: 10px;
+  color: white;
+}
