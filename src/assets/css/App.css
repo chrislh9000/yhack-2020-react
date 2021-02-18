@@ -237,6 +237,22 @@
   -webkit-transition: 0.2s;
   transition: opacity 0.2s;
 }
+.registration-main {
+  padding-left:0;
+  padding-right:0;
+  height:100vh;
+  width:100%;
+  background-image: linear-gradient(
+    #94a4b4,
+    #6f8599,
+    #4d6881,
+    #3c5a76,
+    #2f4f6d,
+    #214363,
+    #193c5d,
+    #123758
+  );
+}
 
 .listening-main {
   background-image: linear-gradient(
@@ -471,6 +487,12 @@ input::placeholder {
   font-family: "Avenir Heavy";
   font-size: 12px;
 }
+.search-bar::placeholder {
+  background-image: url('search.png');
+  background-repeat: no-repeat;
+  background-size: 12px 14px;
+  background-position: right;
+}
 
 .slider-listening {
   -webkit-appearance: none;
@@ -591,4 +613,28 @@ input::placeholder {
 /* Handle on hover */
 .comments-scroll::-webkit-scrollbar-thumb:hover {
   background: #009eb3;
+}
+
+.mainLoginInput::-webkit-input-placeholder {
+  font-family: Avenir Medium;
+  font-size: 10px;
+  color: white;
+}
+
+.mainLoginInput:-ms-input-placeholder {
+  font-family: Avenir Medium;
+  font-size: 10px;
+  color: white;
+}
+
+.mainLoginInput:-moz-placeholder {
+  font-family: Avenir Medium;
+  font-size: 10px;
+  color: white;
+}
+
+.mainLoginInput::-moz-placeholder {
+  font-family: Avenir Medium;
+  font-size: 10px;
+  color: white;
 }

@@ -589,6 +589,10 @@ it updates episode-specific state elements passed into the discussion component
               getUserFromStorage={this.getUserFromStorage}
               episodeIndex={this.state.episodeIndex}
               imgURL={this.state.podcast.imageUrl}
+              handleSeekChange={this.handleSeekChange}
+              handleSeekMouseDown={this.handleSeekMouseDown}
+              handleSeekMouseUp={this.handleSeekMouseUp}
+              played={this.state.played}
             ></Listening>
           </Route>
           <Route path="/reflect">

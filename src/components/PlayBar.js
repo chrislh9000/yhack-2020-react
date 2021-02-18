@@ -76,10 +76,10 @@ class PlayBar extends React.Component {
     secs = (secs % 60).toString().padStart(2, "0");
     let str = mins.concat(":").concat(secs);
     if (mins == "NaN") {
-      console.log(" we in here baby");
+      // console.log(" we in here baby");
       str = "00:00";
     }
-    console.log("yoooooooooooooooo", mins);
+    // console.log("yoooooooooooooooo", mins);
     return str;
   };
 
