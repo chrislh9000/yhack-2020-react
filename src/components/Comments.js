@@ -12,16 +12,17 @@ class Comments extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: "",
-      editedPin: null,
+      value: new Array(this.props.pins.length).fill(""),
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({ value: event.target.value });
+  handleChange(event, i) {
+    let val = this.state.value;
+    val[i] = event.target.value;
+    this.setState({ value: val });
   }
 
   /*
@@ -29,13 +30,13 @@ class Comments extends React.Component {
   item is the pin object and i is the index of the pin relative to all other displayed pins
   */
 
-  handleNoteChange(event, item, i) {
-    if (item.note) {
-      this.setState({ value: item.note, editedPin: i });
-    } else {
-      this.setState({ value: "", editedPin: i });
-    }
-  }
+  // handleNoteChange(event, item, i) {
+  //   if (item.note) {
+  //     this.setState({ value: item.note, editedPin: i });
+  //   } else {
+  //     this.setState({ value: "", editedPin: i });
+  //   }
+  // }
 
   initSubmit(e, pin, index) {
     if (e.key === "Enter") {
@@ -57,7 +58,7 @@ class Comments extends React.Component {
         ccId: pin.startComp,
         episode: this.props.episode._id,
         id: this.props.user._id,
-        note: this.state.value,
+        note: this.state.value[index],
       }),
     })
       .then((res) => res.json())
@@ -68,7 +69,10 @@ class Comments extends React.Component {
         console.log("Error: ", err);
       });
     // update the pin note in real-time in the application
-    this.props.editPin(this.state.value, index);
+    this.props.editPin(this.state.value[index], index);
+    let val = this.state.value;
+    val[index] = "";
+    this.setState({ value: val });
   }
 
   timeToStr = (duration) => {
@@ -150,21 +154,6 @@ class Comments extends React.Component {
                   {this.timeToStr(item.endTime)}
                 </p>
               </Col>
-              {/* <Col xs={2}>
-                <IconButton
-                  onClick={() => this.props.handleDelete(item.startComp)}
-                  style={{
-                    width: "1px",
-                    height: "1px",
-                    minWidth: "0px",
-                    outline: "none",
-                    backgroundColor: "transparent",
-                    color: "white",
-                  }}
-                >
-                  x
-                </IconButton>
-              </Col> */}
             </Row>
             <p
               className="mb-1"
@@ -179,15 +168,28 @@ class Comments extends React.Component {
             <p
               style={{
                 color: "white",
-                fontSize: "14px",
+                fontSize: "10px",
                 fontFamily: "Avenir Medium",
                 height: "60px",
                 overflow: "scroll",
-                marginBottom: "10%",
+                marginBottom: "4%",
               }}
             >
               {item.text}
             </p>
+            <p
+              style={{
+                color: "#BAC0E4",
+                fontSize: "10px",
+                fontFamily: "Avenir Black",
+                height: "20px",
+                overflow: "scroll",
+                marginBottom: "5%",
+              }}
+            >
+              {"Note: " + item.note}
+            </p>
+
             {/* <Form
               style={{ paddingBottom: "10px" }}
               onSubmit={(e) => this.handleSubmit(e, item, i)}
@@ -228,9 +230,10 @@ class Comments extends React.Component {
             >
               <input
                 type="text"
-                value={item.note}
-                onChange={this.handleChange}
+                value={this.state.value[i]}
+                onChange={(e) => this.handleChange(e, i)}
                 placeholder={"Add a Comment"}
+                className="mainLoginInput"
                 style={{
                   backgroundColor: "transparent",
                   marginBottom: "2%",
@@ -249,7 +252,7 @@ class Comments extends React.Component {
               <input
                 type="submit"
                 value="Submit"
-                onClick={(e) => this.handleNoteChange(e, item, i)}
+                onClick={(e) => this.handleSubmit(e, item, i)}
                 style={{
                   backgroundColor: "transparent",
                   border: "1px solid #688095",

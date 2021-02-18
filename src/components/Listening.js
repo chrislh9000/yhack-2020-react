@@ -216,6 +216,7 @@ class Listening extends React.Component {
   */
 
   editPin = (note, index) => {
+    console.log(note);
     this.addNoteLocalStorage(note, index);
     this.setState((prevState) => ({
       pins: prevState.pins.map((el, i) =>
@@ -527,7 +528,6 @@ class Listening extends React.Component {
     // this.player.seekTo(parseFloat(e.target.value));
   };
 
-
   // ########################################################################################################
   // playtime strs funcs
   // ########################################################################################################
@@ -560,7 +560,6 @@ class Listening extends React.Component {
     // console.log("yoooooooooooooooo", mins);
     return str;
   };
-
 
   // ########################################################################################################
   // playtime strs end
@@ -747,7 +746,7 @@ class Listening extends React.Component {
                   </ReactCursorPosition>
                 </div>
               </Col>
-              <Col
+              {/* <Col
                 className="pl-0 pr-0"
                 style={{
                   display: "flex",
@@ -758,7 +757,7 @@ class Listening extends React.Component {
                 }}
               >
                 <p>yo</p>
-              </Col>
+              </Col> */}
               <div
                 style={{
                   flex: "1",

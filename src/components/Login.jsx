@@ -89,7 +89,7 @@ class Login extends React.Component {
           <Row className="mt-4" style={{ alignSelf: "center" }}>
             <p
               style={{
-                fontFfamily: "Avenir Heavy",
+                fontFamily: "Avenir Heavy",
                 color: "white",
                 fontSize: 40,
                 fontWeight: "bold",
@@ -129,7 +129,7 @@ class Login extends React.Component {
           >
             <input
               className="mainLoginInput"
-              type="text"
+              type="username"
               onChange={(e) => this.handleUsername(e)}
               value={this.state.username}
               placeholder={"Username"}
@@ -151,7 +151,7 @@ class Login extends React.Component {
             />
             <input
               className="mainLoginInput"
-              type="text"
+              type="password"
               onChange={(e) => this.handlePassword(e)}
               value={this.state.password}
               placeholder={"Password"}
@@ -210,7 +210,91 @@ class Login extends React.Component {
             </Row>
           </form>
         </Col>
-        <Col style={{ flex: "1" }}></Col>
+        <Col
+          style={{
+            flex: "1",
+            marginRight: "10%",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "Avenir Black",
+              color: "white",
+              fontSize: "20px",
+              marginTop: "18vh",
+            }}
+          >
+            Featured Podcasts
+          </p>
+          <Row>
+            <img
+              alt="play"
+              className="ml-3 mt-3 mb-3 podcast_thumbnail"
+              style={{
+                height: 150,
+                width: 150,
+                borderRadius: 5,
+                boxShadow:
+                  "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+                marginRight: "50px",
+              }}
+              src="/TheDaily.png"
+            />
+            <img
+              alt="play"
+              className="ml-3 mt-3 mb-3 podcast_thumbnail"
+              style={{
+                height: 150,
+                width: 150,
+                borderRadius: 5,
+                boxShadow:
+                  "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+                marginRight: "50px",
+              }}
+              src="/npr_planetmoney.jpg"
+            />
+            <img
+              alt="play"
+              className="ml-3 mt-3 mb-3 podcast_thumbnail"
+              style={{
+                height: 150,
+                width: 150,
+                borderRadius: 5,
+                boxShadow:
+                  "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+                marginRight: "50px",
+              }}
+              src="/npr_howibuiltthis.jpg"
+            />
+            <img
+              alt="play"
+              className="ml-3 mt-3 mb-3 podcast_thumbnail"
+              style={{
+                height: 150,
+                width: 150,
+                borderRadius: 5,
+                boxShadow:
+                  "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+                marginRight: "50px",
+              }}
+              src="/TheDaily.png"
+            />
+          </Row>
+          <p
+            style={{
+              fontFamily: "Avenir Black",
+              color: "white",
+              fontSize: "20px",
+              marginTop: "5vh",
+              alignSelf: "flex-end",
+              marginRight: "100px",
+            }}
+          >
+            ...and more
+          </p>
+        </Col>
         {/* <Grid
           container
           direction="column"
