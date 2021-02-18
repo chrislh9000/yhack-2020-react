@@ -506,7 +506,6 @@ class Listening extends React.Component {
         console.log(this.state.cc_comps[this.state.mainComp]["startTime"]);
       }
     }
-    console.log(this.state.cc_load);
   };
 
   componentWillUnmount = (e) => {
@@ -568,7 +567,6 @@ class Listening extends React.Component {
   // ########################################################################################################
 
   render() {
-    console.log("rendered");
     return (
       <div className="page">
         <Container
