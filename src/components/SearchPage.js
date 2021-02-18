@@ -57,8 +57,8 @@ class Search extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className="container">
+      <div style={{width: "100%"}}>
+        <div style={{width: "100%"}} className="container">
           <section>
             <List filterFunction={this.props.filterFunction} items={this.state.list} delete={this.removeItem} />
           </section>
@@ -129,7 +129,7 @@ class List extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{width: "100%", margin: "0px", padding: "0px"}}>
         <input
           type="text"
           className="input search-bar"

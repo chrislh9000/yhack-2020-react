@@ -13,8 +13,6 @@ import fs from "fs";
 const ipcRenderer = window.require("electron").ipcRenderer;
 // import { Redirect } from 'react-router';
 
-
-
 class Register extends React.Component {
   constructor(props) {
     super(props);
@@ -90,14 +88,166 @@ class Register extends React.Component {
       </Alert>
     ));
     return (
-
-      <Container className="registration-main">
-        <Col xs={1}></Col>
-        <Col xs={4}>Pincast</Col>
-        <Col xs={6}></Col>
-        <Col xs={1}></Col>
+      <Container
+        className="mr-0 ml-0 listening-main"
+        fluid
+        style={{
+          height: "100vh",
+          width: "100%",
+          display: "flex",
+          flexDirection: "row"
+        }}
+      >
+        <Col style={{ flex: "1.3", marginLeft: "9%", marginTop: "5%" }}>
+          <Row className="mt-4" style={{ alignSelf: "center" }}>
+            <p
+              style={{
+                fontFamily: "Avenir Heavy",
+                color: "white",
+                fontSize: 40,
+                fontWeight: "bold",
+                paddingTop: 5
+              }}
+            >
+              PINCAST
+            </p>
+            <img
+              className="mr-1 mb-5"
+              style={{
+                width: 80,
+                height: 80,
+                paddingRight: 3,
+                paddingBottom: 2,
+                paddingTop: 3
+              }}
+              src="/logo.png"
+            />
+          </Row>
+          <p
+            style={{
+              fontFamily: "Avenir Black",
+              color: "white",
+              fontSize: "20px",
+              marginTop: "10vh"
+            }}
+          >
+            Create Your Account
+          </p>
+          <form
+            style={{
+              width: "400px",
+              display: "flex",
+              flexDirection: "column"
+            }}
+          >
+            <input
+              className="mainLoginInput"
+              type="text"
+              onChange={e => this.handleUsername(e)}
+              value={this.state.username}
+              placeholder={"Username"}
+              style={{
+                marginTop: "3vh",
+                backgroundColor: "transparent",
+                marginBottom: "2%",
+                marginRight: "10%",
+                borderTop: "0px",
+                borderLeft: "0px",
+                borderBottom: "0.1px solid white",
+                outline: "none",
+                borderRight: "0px",
+                color: "white",
+                fontFamily: "Avenir Medium",
+                fontSize: "12px",
+                width: "100%"
+              }}
+            />
+            <input
+              className="mainLoginInput"
+              onChange={e => this.handlePassword(e)}
+              value={this.state.password}
+              placeholder={"Password"}
+              type="password"
+              style={{
+                backgroundColor: "transparent",
+                marginTop: "7vh",
+                marginBottom: "2%",
+                marginRight: "10%",
+                borderTop: "0px",
+                borderLeft: "0px",
+                borderBottom: "0.1px solid white",
+                outline: "none",
+                borderRight: "0px",
+                color: "white",
+                fontFamily: "Avenir Medium",
+                fontSize: "12px",
+                width: "100%"
+              }}
+            />
+            <input
+              className="mainLoginInput"
+              placeholder={"Retype Password"}
+              type="password"
+              onChange={e => this.handlePassword2(e)}
+              value={this.state.password2}
+              style={{
+                backgroundColor: "transparent",
+                marginTop: "7vh",
+                marginBottom: "2%",
+                marginRight: "10%",
+                borderTop: "0px",
+                borderLeft: "0px",
+                borderBottom: "0.1px solid white",
+                outline: "none",
+                borderRight: "0px",
+                color: "white",
+                fontFamily: "Avenir Medium",
+                fontSize: "12px",
+                width: "100%"
+              }}
+            />
+            <Row
+              className="mr-0 ml-0"
+              style={{
+                marginTop: "3vh",
+                // alignSelf: "flex-end",
+                width: "100%",
+                display: "flex",
+                flexDirection: "column"
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: "Avenir Medium",
+                  fontSize: "12px",
+                  color: "white"
+                }}
+              >
+                Already have an account? <Link to="/login">Login Here</Link>
+              </p>
+              <input
+                type="submit"
+                value="Sign Up"
+                onClick={e => this.handleRegister(e)}
+                method="POST"
+                style={{
+                  backgroundColor: "transparent",
+                  border: "1px solid #688095",
+                  width: "75px",
+                  height: "25px",
+                  fontSize: "10px",
+                  fontFamily: "Avenir Medium",
+                  color: "white",
+                  borderRadius: "3px",
+                  outline: "none",
+                  alignSelf: "flex-end"
+                }}
+              />
+            </Row>
+          </form>
+        </Col>
+        <Col style={{ flex: "1" }}></Col>
       </Container>
-
 
       //     <div>
       //       <Grid

@@ -615,6 +615,11 @@ it updates episode-specific state elements passed into the discussion component
               podcast={this.state.podcast}
               progress={this.state.progress}
               logout={this.logout}
+              played={this.state.played}
+              handleSeekChange={this.handleSeekChange}
+              handleSeekMouseDown={this.handleSeekMouseDown}
+              handleSeekMouseUp={this.handleSeekMouseUp}
+              handleSeekTo={this.handleSeekTo}
             ></Reflect>
           </Route>
 

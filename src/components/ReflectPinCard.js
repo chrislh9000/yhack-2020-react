@@ -64,9 +64,11 @@ class ReflectPinCard extends React.Component {
           <p1>"{this.props.pin.text}"</p1>
         </Row>
         <Row className="pin_note" style={{ paddingLeft: "5%" }}>
-          <p style={{fontWeight: "bold"}}>Note:</p>
+          <p style={{fontWeight: "bold", marginBottom: "5px"}}>Note:</p>
           {
             this.props.toggleEdit ? 
+            <div style={{display: "flex", flexDirection: "column", width: "100%"}}>
+              <p style={{fontStyle:"italic", fontSize:"8px"}}>Press enter to submit changes</p>
             <form
               style={{
                 width: "100%",
@@ -97,6 +99,7 @@ class ReflectPinCard extends React.Component {
                 }}
               />
             </form>
+            </div>
             :
             <p1 onClick={(e) => {this.props.handleNoteChange(e, this.props.pin, this.props.index)}} style={{paddingLeft: "10px", fontStyle: "italic"}}>{this.props.pin.note}</p1>
           }
