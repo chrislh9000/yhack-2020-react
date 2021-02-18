@@ -161,7 +161,7 @@ const EpisodeSchema = new Schema({
   },
   duration: {
     type: Number,
-    requierd: true,
+    required: true,
   },
 });
 
