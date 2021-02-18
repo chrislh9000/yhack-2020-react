@@ -528,6 +528,45 @@ class Listening extends React.Component {
     // this.player.seekTo(parseFloat(e.target.value));
   };
 
+
+  // ########################################################################################################
+  // playtime strs funcs
+  // ########################################################################################################
+
+  duraTime = () => {
+    let secs = Math.floor(this.props.episode.duration);
+    let mins = Math.floor(secs / 60)
+      .toString()
+      .padStart(2, "0");
+    secs = secs % 60;
+    let str = mins.toString().concat(":").concat(secs.toString());
+
+    if (mins == "NaN") {
+      str = "00:00";
+    }
+    return str;
+  };
+
+  currTime = () => {
+    let secs = Math.floor(this.props.episode.duration * this.props.played);
+    let mins = Math.floor(secs / 60)
+      .toString()
+      .padStart(2, "0");
+    secs = (secs % 60).toString().padStart(2, "0");
+    let str = mins.concat(":").concat(secs);
+    if (mins == "NaN") {
+      // console.log(" we in here baby");
+      str = "00:00";
+    }
+    // console.log("yoooooooooooooooo", mins);
+    return str;
+  };
+
+
+  // ########################################################################################################
+  // playtime strs end
+  // ########################################################################################################
+
   render() {
     console.log("rendered");
     return (
@@ -829,7 +868,7 @@ class Listening extends React.Component {
                       color: "#D8DEE3",
                     }}
                   >
-                    15:39
+                    {this.currTime()}
                   </p>
                   <input
                     class="slider-listening ml-3 mr-3"
@@ -837,10 +876,10 @@ class Listening extends React.Component {
                     min={0}
                     max={0.999999}
                     step="any"
-                    value={this.state.played}
-                    onMouseDown={this.handleSeekMouseDown}
-                    onChange={this.handleSeekChange}
-                    onMouseUp={this.handleSeekMouseUp}
+                    value={this.props.played}
+                    onMouseDown={this.props.handleSeekMouseDown}
+                    onChange={this.props.handleSeekChange}
+                    onMouseUp={this.props.handleSeekMouseUp}
                   />
                   <p
                     className="mb-0"
@@ -850,7 +889,7 @@ class Listening extends React.Component {
                       color: "#D8DEE3",
                     }}
                   >
-                    21:50
+                    {this.duraTime()}
                   </p>
                 </Row>
               </div>
