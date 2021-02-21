@@ -11,17 +11,57 @@ import NonExtendedPin from "./NonExtendedPin";
 import ExtendedPin from "./ExtendedPin";
 import Dropdown from "react-bootstrap/Dropdown";
 
+import Slider from "@material-ui/core/Slider";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
+
+const AirbnbSlider = withStyles({
+  root: {
+    color: "#3a8589",
+    height: 3,
+    padding: "13px 0",
+  },
+  thumb: {
+    height: 27,
+    width: 27,
+    backgroundColor: "#fff",
+    border: "1px solid currentColor",
+    marginTop: -12,
+    marginLeft: -13,
+    boxShadow: "#ebebeb 0 2px 2px",
+    "&:focus, &:hover, &$active": {
+      boxShadow: "#ccc 0 2px 3px 1px",
+    },
+    "& .bar": {
+      // display: inline-block !important;
+      height: 9,
+      width: 1,
+      backgroundColor: "currentColor",
+      marginLeft: 1,
+      marginRight: 1,
+    },
+  },
+  active: {},
+  track: {
+    height: 3,
+  },
+  rail: {
+    color: "#d8d8d8",
+    opacity: 1,
+    height: 3,
+  },
+})(Slider);
+
 class ReflectPinCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: this.props.pin.note
+      value: this.props.pin.note,
     };
   }
 
   handleChange = (e) => {
     this.setState({ value: e.target.value });
-  }
+  };
 
   render() {
     return (
@@ -31,24 +71,36 @@ class ReflectPinCard extends React.Component {
           // flexDirection: "row",
           background: "#E7E7E7",
           borderRadius: "10px",
-          marginTop: "10px"
+          marginTop: "10px",
         }}
       >
         <Row style={{ width: "100%" }}>
           <Col xs={11} style={{ padding: "1%" }}>
-            <p1 style={{fontWeight: "bold"}}>@</p1>
-            <p1 style={{fontWeight: "bold"}}>{this.props.user.username}</p1>
+            <p1 style={{ fontWeight: "bold" }}>@</p1>
+            <p1 style={{ fontWeight: "bold" }}>{this.props.user.username}</p1>
+            <AirbnbSlider
+              value={[this.props.startTime, this.props.endTime]}
+              // value={value}
+              // onChange={handleChange}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              max={this.props.episode.duration}
+              // getAriaValueText={valuetext}
+            />
           </Col>
           <Col xs={1}>
             <Dropdown>
-              <Dropdown.Toggle style={{backgroundColor: "#E5E5E5", borderColor: "#E5E5E5"}} id="dropdown-basic">
-              <img
-                style={{
-                  height: 20,
-                  width: 20
-                }}
-                src="/threeDotCircle.png"
-              />
+              <Dropdown.Toggle
+                style={{ backgroundColor: "#E5E5E5", borderColor: "#E5E5E5" }}
+                id="dropdown-basic"
+              >
+                <img
+                  style={{
+                    height: 20,
+                    width: 20,
+                  }}
+                  src="/threeDotCircle.png"
+                />
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
@@ -64,45 +116,77 @@ class ReflectPinCard extends React.Component {
           <p1>"{this.props.pin.text}"</p1>
         </Row>
         <Row className="pin_note" style={{ paddingLeft: "5%" }}>
-          <p style={{fontWeight: "bold", marginBottom: "5px"}}>Note:</p>
-          {
-            this.props.toggleEdit ? 
-            <div style={{display: "flex", flexDirection: "column", width: "100%"}}>
-              <p style={{fontStyle:"italic", fontSize:"8px"}}>Press enter to submit changes</p>
-            <form
+          <p style={{ fontWeight: "bold", marginBottom: "5px" }}>Note:</p>
+          {this.props.toggleEdit ? (
+            <div
               style={{
-                width: "100%",
                 display: "flex",
                 flexDirection: "column",
+                width: "100%",
               }}
-              onSubmit={(e) => this.props.handleSubmit(e, this.state.value, this.props.pin, this.props.index)}
-              onKeyDown={(e) => this.props.initSubmit(e, this.state.value, this.props.pin, this.props.index)}
             >
-              <input
-                type="text"
-                value={this.state.value}
-                onChange={(e) => this.handleChange(e)}
-                placeholder={"Add a Comment"}
+              <p style={{ fontStyle: "italic", fontSize: "8px" }}>
+                Press enter to submit changes
+              </p>
+              <form
                 style={{
-                  backgroundColor: "transparent",
-                  marginBottom: "2%",
-                  marginRight: "10%",
-                  borderTop: "0px",
-                  borderLeft: "0px",
-                  borderBottom: "0.1px solid white",
-                  outline: "none",
-                  borderRight: "0px",
-                  color: "black",
-                  fontFamily: "Avenir Medium",
-                  fontSize: "12px",
                   width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
-              />
-            </form>
+                onSubmit={(e) =>
+                  this.props.handleSubmit(
+                    e,
+                    this.state.value,
+                    this.props.pin,
+                    this.props.index
+                  )
+                }
+                onKeyDown={(e) =>
+                  this.props.initSubmit(
+                    e,
+                    this.state.value,
+                    this.props.pin,
+                    this.props.index
+                  )
+                }
+              >
+                <input
+                  type="text"
+                  value={this.state.value}
+                  onChange={(e) => this.handleChange(e)}
+                  placeholder={"Add a Comment"}
+                  style={{
+                    backgroundColor: "transparent",
+                    marginBottom: "2%",
+                    marginRight: "10%",
+                    borderTop: "0px",
+                    borderLeft: "0px",
+                    borderBottom: "0.1px solid white",
+                    outline: "none",
+                    borderRight: "0px",
+                    color: "black",
+                    fontFamily: "Avenir Medium",
+                    fontSize: "12px",
+                    width: "100%",
+                  }}
+                />
+              </form>
             </div>
-            :
-            <p1 onClick={(e) => {this.props.handleNoteChange(e, this.props.pin, this.props.index)}} style={{paddingLeft: "10px", fontStyle: "italic"}}>{this.props.pin.note}</p1>
-          }
+          ) : (
+            <p1
+              onClick={(e) => {
+                this.props.handleNoteChange(
+                  e,
+                  this.props.pin,
+                  this.props.index
+                );
+              }}
+              style={{ paddingLeft: "10px", fontStyle: "italic" }}
+            >
+              {this.props.pin.note}
+            </p1>
+          )}
         </Row>
       </Container>
     );

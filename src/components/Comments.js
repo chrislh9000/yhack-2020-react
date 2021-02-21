@@ -47,6 +47,7 @@ class Comments extends React.Component {
 
   handleSubmit(event, pin, index) {
     // update pin note in the database
+    event.preventDefault();
     const url = "http://localhost:5000/pins/addNote";
     fetch(url, {
       method: "POST",
@@ -107,7 +108,7 @@ class Comments extends React.Component {
     return (
       <Row
         className="ml-5 mr-5 comments-scroll"
-        style={{ overflowY: "scroll", height: "250px", marginTop: "10%" }}
+        style={{ overflowY: "scroll", height: "260px", marginTop: "10%" }}
       >
         {this.props.pins.map((item, i) => (
           <Container
@@ -182,12 +183,12 @@ class Comments extends React.Component {
                 color: "#BAC0E4",
                 fontSize: "10px",
                 fontFamily: "Avenir Black",
-                height: "20px",
+                height: "30px",
                 overflow: "scroll",
                 marginBottom: "5%",
               }}
             >
-              {"Note: " + item.note}
+              {"Note:   " + item.note}
             </p>
 
             {/* <Form
@@ -232,7 +233,7 @@ class Comments extends React.Component {
                 type="text"
                 value={this.state.value[i]}
                 onChange={(e) => this.handleChange(e, i)}
-                placeholder={"Add a Comment"}
+                placeholder={"Add a Note"}
                 className="mainLoginInput"
                 style={{
                   backgroundColor: "transparent",
