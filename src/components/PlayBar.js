@@ -60,7 +60,7 @@ class PlayBar extends React.Component {
       .toString()
       .padStart(2, "0");
     secs = secs % 60;
-    let str = mins.toString().concat(":").concat(secs.toString());
+    let str = mins.toString().concat(":").concat(secs.toString().padStart(2,"0"));
 
     if (mins == "NaN") {
       str = "00:00";

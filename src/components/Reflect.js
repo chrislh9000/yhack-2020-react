@@ -100,6 +100,21 @@ class Reflect extends React.Component {
     this.setState({ searchList: tempList });
   };
 
+  currTime = () => {
+    let secs = Math.floor(this.props.episode.duration * this.props.played);
+    let mins = Math.floor(secs / 60)
+      .toString()
+      .padStart(2, "0");
+    secs = (secs % 60).toString().padStart(2, "0");
+    let str = mins.concat(":").concat(secs);
+    if (mins == "NaN") {
+      // console.log(" we in here baby");
+      str = "00:00";
+    }
+    // console.log("yoooooooooooooooo", mins);
+    return str;
+  };
+
   /*
   editPin handles frontend note changes that the user makes.
   Note (string) := the note that the user wants to add
@@ -528,7 +543,7 @@ class Reflect extends React.Component {
                       marginTop: "0.5%",
                     }}
                   >
-                    0:00
+                    {this.currTime()}
                   </p>
                   <div
                     style={{
