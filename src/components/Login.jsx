@@ -16,6 +16,7 @@ class Login extends React.Component {
     this.state = {
       username: "",
       password: "",
+      loginvalid: true,
     };
   }
 
@@ -55,8 +56,10 @@ class Login extends React.Component {
           // create a cookie
           // ipcRenderer.send("clearCookies", "")
           ipcRenderer.send("createCookie", userObj);
+          this.setState({ loginvalid: true });
         } else {
           console.log("error: invalid login info", json.err);
+          this.setState({ loginvalid: false });
         }
       })
       .catch((err) => {
@@ -181,6 +184,17 @@ class Login extends React.Component {
                 flexDirection: "column",
               }}
             >
+              {this.state.loginvalid ? null : (
+                <p
+                  style={{
+                    fontFamily: "Avenir Medium",
+                    fontSize: "12px",
+                    color: "red",
+                  }}
+                >
+                  Incorrect Username or Password
+                </p>
+              )}
               <p
                 style={{
                   fontFamily: "Avenir Medium",

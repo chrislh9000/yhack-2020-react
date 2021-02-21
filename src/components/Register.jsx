@@ -20,62 +20,64 @@ class Register extends React.Component {
       username: "",
       password: "",
       password2: "",
-      alerts: []
+      alerts: [{ text: "" }],
+      registered: false,
     };
   }
 
-  handleUsername = e => {
+  handleUsername = (e) => {
     this.setState({
-      username: e.target.value
+      username: e.target.value,
     });
   };
-  handlePassword = e => {
+  handlePassword = (e) => {
     this.setState({
-      password: e.target.value
+      password: e.target.value,
     });
   };
-  handlePassword2 = e => {
+  handlePassword2 = (e) => {
     this.setState({
-      password2: e.target.value
+      password2: e.target.value,
     });
   };
 
-  handleRegister = e => {
+  handleRegister = (e) => {
     e.preventDefault();
     fetch("http://localhost:5000/register", {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         username: this.state.username,
         password: this.state.password,
-        password2: this.state.password2
-      })
+        password2: this.state.password2,
+      }),
     })
-      .then(res => res.json())
-      .then(json => {
+      .then((res) => res.json())
+      .then((json) => {
         // if false, it means there's already someone signed up with that username
         if (json.success === false) {
           console.log("====MESSAGE=====", json.message);
           let alertObj = { text: json.message };
           let alertArr = this.state.alerts.concat(alertObj);
           this.setState({
-            alerts: alertArr
+            alerts: alertArr,
           });
         } else {
+          this.setState({ registered: true });
           console.log("gothere");
         }
         console.log(json.message);
         console.log(this.state.alerts);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error: ", err);
       });
   };
 
-  componentDidMount = e => {
+  componentDidMount = (e) => {
     console.log("USERNAME=====", this.props.user.username);
     ipcRenderer.send("clearCookies", this.props.user.username);
     this.props.logout();
@@ -95,7 +97,7 @@ class Register extends React.Component {
           height: "100vh",
           width: "100%",
           display: "flex",
-          flexDirection: "row"
+          flexDirection: "row",
         }}
       >
         <Col style={{ flex: "1.3", marginLeft: "9%", marginTop: "5%" }}>
@@ -106,7 +108,7 @@ class Register extends React.Component {
                 color: "white",
                 fontSize: 40,
                 fontWeight: "bold",
-                paddingTop: 5
+                paddingTop: 5,
               }}
             >
               PINCAST
@@ -118,7 +120,7 @@ class Register extends React.Component {
                 height: 80,
                 paddingRight: 3,
                 paddingBottom: 2,
-                paddingTop: 3
+                paddingTop: 3,
               }}
               src="/logo.png"
             />
@@ -128,7 +130,7 @@ class Register extends React.Component {
               fontFamily: "Avenir Black",
               color: "white",
               fontSize: "20px",
-              marginTop: "10vh"
+              marginTop: "10vh",
             }}
           >
             Create Your Account
@@ -137,13 +139,13 @@ class Register extends React.Component {
             style={{
               width: "400px",
               display: "flex",
-              flexDirection: "column"
+              flexDirection: "column",
             }}
           >
             <input
               className="mainLoginInput"
               type="text"
-              onChange={e => this.handleUsername(e)}
+              onChange={(e) => this.handleUsername(e)}
               value={this.state.username}
               placeholder={"Username"}
               style={{
@@ -159,12 +161,12 @@ class Register extends React.Component {
                 color: "white",
                 fontFamily: "Avenir Medium",
                 fontSize: "12px",
-                width: "100%"
+                width: "100%",
               }}
             />
             <input
               className="mainLoginInput"
-              onChange={e => this.handlePassword(e)}
+              onChange={(e) => this.handlePassword(e)}
               value={this.state.password}
               placeholder={"Password"}
               type="password"
@@ -181,14 +183,14 @@ class Register extends React.Component {
                 color: "white",
                 fontFamily: "Avenir Medium",
                 fontSize: "12px",
-                width: "100%"
+                width: "100%",
               }}
             />
             <input
               className="mainLoginInput"
               placeholder={"Retype Password"}
               type="password"
-              onChange={e => this.handlePassword2(e)}
+              onChange={(e) => this.handlePassword2(e)}
               value={this.state.password2}
               style={{
                 backgroundColor: "transparent",
@@ -203,7 +205,7 @@ class Register extends React.Component {
                 color: "white",
                 fontFamily: "Avenir Medium",
                 fontSize: "12px",
-                width: "100%"
+                width: "100%",
               }}
             />
             <Row
@@ -213,14 +215,35 @@ class Register extends React.Component {
                 // alignSelf: "flex-end",
                 width: "100%",
                 display: "flex",
-                flexDirection: "column"
+                flexDirection: "column",
               }}
             >
+              {this.state.registered ? (
+                <p
+                  style={{
+                    fontFamily: "Avenir Medium",
+                    fontSize: "12px",
+                    color: "white",
+                  }}
+                >
+                  Successfully Registered
+                </p>
+              ) : (
+                <p
+                  style={{
+                    fontFamily: "Avenir Medium",
+                    fontSize: "12px",
+                    color: "red",
+                  }}
+                >
+                  {this.state.alerts[this.state.alerts.length - 1].text}
+                </p>
+              )}
               <p
                 style={{
                   fontFamily: "Avenir Medium",
                   fontSize: "12px",
-                  color: "white"
+                  color: "white",
                 }}
               >
                 Already have an account? <Link to="/login">Login Here</Link>
@@ -228,7 +251,7 @@ class Register extends React.Component {
               <input
                 type="submit"
                 value="Sign Up"
-                onClick={e => this.handleRegister(e)}
+                onClick={(e) => this.handleRegister(e)}
                 method="POST"
                 style={{
                   backgroundColor: "transparent",
@@ -240,7 +263,7 @@ class Register extends React.Component {
                   color: "white",
                   borderRadius: "3px",
                   outline: "none",
-                  alignSelf: "flex-end"
+                  alignSelf: "flex-end",
                 }}
               />
             </Row>

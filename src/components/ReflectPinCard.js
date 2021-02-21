@@ -14,30 +14,37 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Slider from "@material-ui/core/Slider";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 
-const AirbnbSlider = withStyles({
+const EditPinSlider = withStyles({
   root: {
+    color:
+      "linear-gradient(to right, #fa65f7, #f18cff, #eaaaff, #e8c5ff, #ebddff, #e6e6ff, #e5edff, #e9f3ff, #cff1ff, #acf1ff, #81f2ff, #4cf2fa);",
     color: "#3a8589",
     height: 3,
     padding: "13px 0",
   },
+  valueLabel: {
+    left: -17,
+  },
   thumb: {
-    height: 27,
-    width: 27,
+    height: 30,
+    width: 1,
     backgroundColor: "#fff",
     border: "1px solid currentColor",
     marginTop: -12,
-    marginLeft: -13,
+    marginLeft: -2,
     boxShadow: "#ebebeb 0 2px 2px",
     "&:focus, &:hover, &$active": {
       boxShadow: "#ccc 0 2px 3px 1px",
     },
     "& .bar": {
       // display: inline-block !important;
-      height: 9,
-      width: 1,
-      backgroundColor: "currentColor",
-      marginLeft: 1,
-      marginRight: 1,
+      // backgroundColor:
+      //   "linear-gradient(to right, #fa65f7, #f18cff, #eaaaff, #e8c5ff, #ebddff, #e6e6ff, #e5edff, #e9f3ff, #cff1ff, #acf1ff, #81f2ff, #4cf2fa);",
+      // color: "#fff",
+      // height: 2,
+      // width: 1,
+      // marginLeft: 1,
+      // marginRight: 1,
     },
   },
   active: {},
@@ -64,6 +71,11 @@ class ReflectPinCard extends React.Component {
   };
 
   render() {
+    let pinStart = Math.max(parseInt(this.props.startTime) - parseInt(100), 0);
+    let pinEnd = Math.min(
+      parseInt(this.props.endTime) + parseInt(100),
+      parseInt(this.props.episode.duration)
+    );
     return (
       <Container
         style={{
@@ -78,13 +90,17 @@ class ReflectPinCard extends React.Component {
           <Col xs={11} style={{ padding: "1%" }}>
             <p1 style={{ fontWeight: "bold" }}>@</p1>
             <p1 style={{ fontWeight: "bold" }}>{this.props.user.username}</p1>
-            <AirbnbSlider
-              value={[this.props.startTime, this.props.endTime]}
+            <EditPinSlider
+              defaultValue={[
+                parseInt(this.props.startTime),
+                parseInt(this.props.endTime),
+              ]}
               // value={value}
               // onChange={handleChange}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
-              max={this.props.episode.duration}
+              max={pinEnd}
+              min={pinStart}
               // getAriaValueText={valuetext}
             />
           </Col>
