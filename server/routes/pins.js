@@ -76,7 +76,7 @@ router.post("/addNote", (req, res) => {
     { note: req.body.note }
   )
     .then((resp) => {
-      console.log("RESP========", resp)
+      console.log("RESP========", resp);
       res.status(200).json({
         success: true,
         message: "added note",
@@ -87,17 +87,13 @@ router.post("/addNote", (req, res) => {
     });
 });
 
-
 router.post("/friendPin", (req, res) => {
   Pin.find({
-    $and: [
-      {user: { $in: req.body.friends }},
-      {episode: req.body.episode}
-    ]
+    $and: [{ user: { $in: req.body.friends } }, { episode: req.body.episode }],
   })
-    .populate('user')
+    .populate("user")
     .then((resp) => {
-      console.log("====QUERY FRO FRIENDS PINS WORKED====")
+      console.log("====QUERY FRO FRIENDS PINS WORKED====");
       res.status(200).json({
         success: true,
         message: resp,

@@ -49,6 +49,7 @@ class Reflect extends React.Component {
         seeFriends: false,
         friends: [],
         editedPin: null,
+        cc_comps: [],
       };
     } else {
       this.state = {
@@ -69,6 +70,7 @@ class Reflect extends React.Component {
         searchList: [],
         friends: [],
         editedPin: null,
+        cc_comps: [],
       };
     }
   }
@@ -348,6 +350,28 @@ class Reflect extends React.Component {
       .catch((err) => {
         console.log("Error: ", err);
       });
+
+    //load cc_comps
+    const url2 = "http://localhost:5000/transcript/loadTranscript/".concat(
+      this.props.episode.transcript
+    );
+    fetch(url2, {
+      method: "GET",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        console.log("=======GOT TRANSCRIPT JSON=======", json.message);
+        this.setState({
+          cc_comps: json.message,
+        });
+      })
+      .catch((err) => {
+        console.log("Error: ", err);
+      });
   };
 
   componentWillUnmount = (e) => {
@@ -357,6 +381,87 @@ class Reflect extends React.Component {
       this.props.reflectEpisode._id.concat(".reflect"),
       JSON.stringify(currState)
     );
+  };
+
+  /*
+  handleEditPinLength goes through the cc_comps object to figure out how many more/less sentences should be added to the pin
+  */
+
+  handleEditPinLength = (e, newStart, newEnd, oldccId) => {
+    let start = 0;
+    let end = 0;
+    let curr_cc = 0;
+    let ccId = [];
+    let text = "";
+    if (this.state.cc_comps) {
+      while (parseFloat(newStart) > this.state.cc_comps[curr_cc]["startTime"]) {
+        curr_cc += 1;
+      }
+      start = this.state.cc_comps[curr_cc]["startTime"];
+      while (parseFloat(newEnd) > this.state.cc_comps[curr_cc]["endTime"]) {
+        ccId.push(curr_cc);
+        curr_cc += 1;
+      }
+      ccId.push(curr_cc);
+      end = this.state.cc_comps[curr_cc]["endTime"];
+
+      for (let i = 0; i < ccId.length; i++) {
+        text = text.concat(this.state.cc_comps[ccId[i]]["text"]);
+      }
+      console.log("asjdflaskdflfs");
+      const url = "http://localhost:5000/pins/editPin";
+      fetch(url, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          startTime: start,
+          endTime: end,
+          newCcId: ccId,
+          text: text,
+          ccId: oldccId,
+          episode: this.props.episode._id,
+          id: this.props.user._id,
+        }),
+      })
+        .then((json) => {
+          console.log("hi");
+          this.changePinFrontEnd(json, oldccId, text, start, end, ccId);
+        })
+        .catch((err) => {
+          console.log("Error: ", err);
+        });
+    }
+  };
+
+  /*
+changePinFrontend changes the content of the pin on the frontend when the length is changed
+*/
+
+  changePinFrontEnd = (e, ccId, newtext, newstart, newend, newccid) => {
+    let newpins = this.state.shouldRenderPins;
+    let newpins2 = this.state.reflectPins;
+    console.log(typeof ccId);
+    for (let i = 0; i < newpins.length; i++) {
+      if (newpins[i].ccId == ccId) {
+        console.log("a");
+        newpins[i].text = newtext;
+        newpins[i]["startTime"]["$numberDecimal"] = parseFloat(newstart);
+        newpins[i]["endTime"]["$numberDecimal"] = parseFloat(newend);
+        newpins[i].ccId = newccid;
+      }
+      if (newpins2[i].ccId == ccId) {
+        console.log("b");
+        newpins2[i].text = newtext;
+        newpins2[i]["startTime"]["$numberDecimal"] = parseFloat(newstart);
+        newpins2[i]["endTime"]["$numberDecimal"] = parseFloat(newend);
+        newpins2[i].ccId = newccid;
+      }
+    }
+    console.log("ello");
+    this.setState({ shouldRenderPins: newpins, reflectPins: newpins2 });
   };
 
   /*
@@ -769,6 +874,8 @@ class Reflect extends React.Component {
                                 handleSubmit={this.handleSubmit}
                                 initSubmit={this.initSubmit}
                                 editPin={this.editPin}
+                                displayTime={this.fancyTimeFormat}
+                                handleEditPinLength={this.handleEditPinLength}
                               />
                             ) : (
                               <ReflectPinCard
@@ -793,6 +900,8 @@ class Reflect extends React.Component {
                                 handleSubmit={this.handleSubmit}
                                 initSubmit={this.initSubmit}
                                 editPin={this.editPin}
+                                displayTime={this.fancyTimeFormat}
+                                handleEditPinLength={this.handleEditPinLength}
                               />
                             )}
                           </div>
@@ -830,6 +939,8 @@ class Reflect extends React.Component {
                                 handleSubmit={this.handleSubmit}
                                 initSubmit={this.initSubmit}
                                 editPin={this.editPin}
+                                displayTime={this.fancyTimeFormat}
+                                handleEditPinLength={this.handleEditPinLength}
                               />
                             ) : (
                               <ReflectPinCard
@@ -854,6 +965,8 @@ class Reflect extends React.Component {
                                 handleSubmit={this.handleSubmit}
                                 initSubmit={this.initSubmit}
                                 editPin={this.editPin}
+                                displayTime={this.fancyTimeFormat}
+                                handleEditPinLength={this.handleEditPinLength}
                               />
                             )}
                           </div>

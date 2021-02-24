@@ -63,11 +63,34 @@ class ReflectPinCard extends React.Component {
     super(props);
     this.state = {
       value: this.props.pin.note,
+      pin: this.props.pin,
+      startTime: this.props.startTime,
+      endTime: this.props.endTime,
     };
   }
 
   handleChange = (e) => {
     this.setState({ value: e.target.value });
+  };
+
+  handleLengthChange = (e, times) => {
+    let start = times[0];
+    let end = times[1];
+    if (times[0] > times[1]) {
+      start = times[1];
+      end = times[0];
+    }
+
+    this.setState({ startTime: start, endTime: end });
+  };
+
+  editLength = (e) => {
+    this.props.handleEditPinLength(
+      e,
+      this.state.startTime,
+      this.state.endTime,
+      this.props.ccId
+    );
   };
 
   render() {
@@ -90,19 +113,44 @@ class ReflectPinCard extends React.Component {
           <Col xs={11} style={{ padding: "1%" }}>
             <p1 style={{ fontWeight: "bold" }}>@</p1>
             <p1 style={{ fontWeight: "bold" }}>{this.props.user.username}</p1>
-            <EditPinSlider
-              defaultValue={[
-                parseInt(this.props.startTime),
-                parseInt(this.props.endTime),
-              ]}
-              // value={value}
-              // onChange={handleChange}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              max={pinEnd}
-              min={pinStart}
-              // getAriaValueText={valuetext}
-            />
+            <Row
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <EditPinSlider
+                style={{ width: "85%" }}
+                className="ml-3 mt-3 mb-0"
+                defaultValue={[this.state.startTime, this.state.endTime]}
+                value={[this.state.startTime, this.state.endTime]}
+                onChange={this.handleLengthChange}
+                valueLabelDisplay="auto"
+                aria-labelledby="range-slider"
+                max={pinEnd}
+                min={pinStart}
+                valueLabelFormat={this.props.displayTime}
+                // getAriaValueText={valuetext}
+              />
+              <input
+                type="submit"
+                value="Edit Length"
+                onClick={(e) => this.editLength(e)}
+                style={{
+                  backgroundColor: "#3a8589",
+                  border: "1px solid #3a8589",
+                  width: "75px",
+                  height: "25px",
+                  fontSize: "10px",
+                  fontFamily: "Avenir Medium",
+                  color: "white",
+                  borderRadius: "3px",
+                  outline: "none",
+                  alignSelf: "flex-end",
+                }}
+              />
+            </Row>
           </Col>
           <Col xs={1}>
             <Dropdown>
@@ -129,7 +177,7 @@ class ReflectPinCard extends React.Component {
         </Row>
 
         <Row style={{ padding: "2%" }}>
-          <p1>"{this.props.pin.text}"</p1>
+          <p1>"{this.state.pin.text}"</p1>
         </Row>
         <Row className="pin_note" style={{ paddingLeft: "5%" }}>
           <p style={{ fontWeight: "bold", marginBottom: "5px" }}>Note:</p>
