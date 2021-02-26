@@ -157,7 +157,7 @@ class ReflectPinCard extends React.Component {
                 />
                 <input
                   type="submit"
-                  value="Confirm Length"
+                  value="Confirm"
                   onClick={(e) => this.editLength(e)}
                   style={{
                     backgroundColor: "#3a8589",
