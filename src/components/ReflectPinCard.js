@@ -66,6 +66,7 @@ class ReflectPinCard extends React.Component {
       pin: this.props.pin,
       startTime: this.props.startTime,
       endTime: this.props.endTime,
+      showSlider: false,
     };
   }
 
@@ -113,44 +114,48 @@ class ReflectPinCard extends React.Component {
           <Col xs={11} style={{ padding: "1%" }}>
             <p1 style={{ fontWeight: "bold" }}>@</p1>
             <p1 style={{ fontWeight: "bold" }}>{this.props.user.username}</p1>
-            <Row
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <EditPinSlider
-                style={{ width: "85%" }}
-                className="ml-3 mt-3 mb-0"
-                defaultValue={[this.state.startTime, this.state.endTime]}
-                value={[this.state.startTime, this.state.endTime]}
-                onChange={this.handleLengthChange}
-                valueLabelDisplay="auto"
-                aria-labelledby="range-slider"
-                max={pinEnd}
-                min={pinStart}
-                valueLabelFormat={this.props.displayTime}
-                // getAriaValueText={valuetext}
-              />
-              <input
-                type="submit"
-                value="Edit Length"
-                onClick={(e) => this.editLength(e)}
+            {!this.state.showSlider ? (
+              <div></div>
+            ) : (
+              <Row
                 style={{
-                  backgroundColor: "#3a8589",
-                  border: "1px solid #3a8589",
-                  width: "75px",
-                  height: "25px",
-                  fontSize: "10px",
-                  fontFamily: "Avenir Medium",
-                  color: "white",
-                  borderRadius: "3px",
-                  outline: "none",
-                  alignSelf: "flex-end",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
                 }}
-              />
-            </Row>
+              >
+                <EditPinSlider
+                  style={{ width: "85%" }}
+                  className="ml-3 mt-3 mb-0"
+                  defaultValue={[this.state.startTime, this.state.endTime]}
+                  value={[this.state.startTime, this.state.endTime]}
+                  onChange={this.handleLengthChange}
+                  valueLabelDisplay="auto"
+                  aria-labelledby="range-slider"
+                  max={pinEnd}
+                  min={pinStart}
+                  valueLabelFormat={this.props.displayTime}
+                  // getAriaValueText={valuetext}
+                />
+                <input
+                  type="submit"
+                  value="Edit Length"
+                  onClick={(e) => this.editLength(e)}
+                  style={{
+                    backgroundColor: "#3a8589",
+                    border: "1px solid #3a8589",
+                    width: "75px",
+                    height: "25px",
+                    fontSize: "10px",
+                    fontFamily: "Avenir Medium",
+                    color: "white",
+                    borderRadius: "3px",
+                    outline: "none",
+                    alignSelf: "flex-end",
+                  }}
+                />
+              </Row>
+            )}
           </Col>
           <Col xs={1}>
             <Dropdown>
@@ -168,7 +173,24 @@ class ReflectPinCard extends React.Component {
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                <Dropdown.Item>Edit Length</Dropdown.Item>
+                {this.state.showSlider ? (
+                  <Dropdown.Item
+                    onClick={() =>
+                      this.setState({ showSlider: !this.state.showSlider })
+                    }
+                  >
+                    Hide Slider
+                  </Dropdown.Item>
+                ) : (
+                  <Dropdown.Item
+                    onClick={() =>
+                      this.setState({ showSlider: !this.state.showSlider })
+                    }
+                  >
+                    Edit Length
+                  </Dropdown.Item>
+                )}
+
                 <Dropdown.Item>Edit Comment</Dropdown.Item>
                 <Dropdown.Item>Delete Pin</Dropdown.Item>
               </Dropdown.Menu>
