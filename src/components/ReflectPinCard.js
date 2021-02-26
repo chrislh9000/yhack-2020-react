@@ -67,6 +67,7 @@ class ReflectPinCard extends React.Component {
       startTime: this.props.startTime,
       endTime: this.props.endTime,
       showSlider: false,
+      toggleEdit: false,
     };
   }
 
@@ -92,6 +93,14 @@ class ReflectPinCard extends React.Component {
       this.state.endTime,
       this.props.ccId
     );
+  };
+
+  changeNote = (e, note, pin, index) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      this.props.handleSubmit(e, note, pin, index);
+      this.setState({ toggleEdit: false });
+    }
   };
 
   render() {
@@ -190,8 +199,24 @@ class ReflectPinCard extends React.Component {
                     Edit Length
                   </Dropdown.Item>
                 )}
+                {this.state.toggleEdit ? (
+                  <Dropdown.Item
+                    onClick={() =>
+                      this.setState({ toggleEdit: !this.state.toggleEdit })
+                    }
+                  >
+                    Cancel Edit
+                  </Dropdown.Item>
+                ) : (
+                  <Dropdown.Item
+                    onClick={() =>
+                      this.setState({ toggleEdit: !this.state.toggleEdit })
+                    }
+                  >
+                    Edit Comment
+                  </Dropdown.Item>
+                )}
 
-                <Dropdown.Item>Edit Comment</Dropdown.Item>
                 <Dropdown.Item>Delete Pin</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
@@ -201,9 +226,20 @@ class ReflectPinCard extends React.Component {
         <Row style={{ padding: "2%" }}>
           <p1>"{this.state.pin.text}"</p1>
         </Row>
-        <Row className="pin_note" style={{ paddingLeft: "5%" }}>
+        <Row
+          onClick={(e) => {
+            // this.props.handleNoteChange(
+            //   e,
+            //   this.props.pin,
+            //   this.props.index
+            // );
+            this.setState({ toggleEdit: true });
+          }}
+          className={this.state.toggleEdit ? "" : "pin_note"}
+          style={{ paddingLeft: "5%" }}
+        >
           <p style={{ fontWeight: "bold", marginBottom: "5px" }}>Note:</p>
-          {this.props.toggleEdit ? (
+          {this.state.toggleEdit ? (
             <div
               style={{
                 display: "flex",
@@ -229,7 +265,7 @@ class ReflectPinCard extends React.Component {
                   )
                 }
                 onKeyDown={(e) =>
-                  this.props.initSubmit(
+                  this.changeNote(
                     e,
                     this.state.value,
                     this.props.pin,
@@ -254,22 +290,13 @@ class ReflectPinCard extends React.Component {
                     color: "black",
                     fontFamily: "Avenir Medium",
                     fontSize: "12px",
-                    width: "100%",
+                    width: "90%",
                   }}
                 />
               </form>
             </div>
           ) : (
-            <p1
-              onClick={(e) => {
-                this.props.handleNoteChange(
-                  e,
-                  this.props.pin,
-                  this.props.index
-                );
-              }}
-              style={{ paddingLeft: "10px", fontStyle: "italic" }}
-            >
+            <p1 style={{ paddingLeft: "10px", fontStyle: "italic" }}>
               {this.props.pin.note}
             </p1>
           )}
