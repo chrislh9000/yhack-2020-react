@@ -103,6 +103,15 @@ class ReflectPinCard extends React.Component {
     }
   };
 
+  componentDidUpdate = (e) => {
+    console.log(this.state.toggleEdit);
+  };
+
+  cancelComment = (e) => {
+    e.stopPropagation();
+    this.setState({ toggleEdit: false });
+  };
+
   render() {
     let pinStart = Math.max(parseInt(this.props.startTime) - parseInt(100), 0);
     let pinEnd = Math.min(
@@ -148,7 +157,7 @@ class ReflectPinCard extends React.Component {
                 />
                 <input
                   type="submit"
-                  value="Edit Length"
+                  value="Confirm Length"
                   onClick={(e) => this.editLength(e)}
                   style={{
                     backgroundColor: "#3a8589",
@@ -250,50 +259,74 @@ class ReflectPinCard extends React.Component {
               <p style={{ fontStyle: "italic", fontSize: "8px" }}>
                 Press enter to submit changes
               </p>
-              <form
+              <div
                 style={{
-                  width: "100%",
                   display: "flex",
-                  flexDirection: "column",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingRight: "5%",
                 }}
-                onSubmit={(e) =>
-                  this.props.handleSubmit(
-                    e,
-                    this.state.value,
-                    this.props.pin,
-                    this.props.index
-                  )
-                }
-                onKeyDown={(e) =>
-                  this.changeNote(
-                    e,
-                    this.state.value,
-                    this.props.pin,
-                    this.props.index
-                  )
-                }
               >
-                <input
-                  type="text"
-                  value={this.state.value}
-                  onChange={(e) => this.handleChange(e)}
-                  placeholder={"Add a Comment"}
+                <form
                   style={{
-                    backgroundColor: "transparent",
-                    marginBottom: "2%",
-                    marginRight: "10%",
-                    borderTop: "0px",
-                    borderLeft: "0px",
-                    borderBottom: "0.1px solid white",
-                    outline: "none",
-                    borderRight: "0px",
-                    color: "black",
+                    width: "80%",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                  onSubmit={(e) =>
+                    this.props.handleSubmit(
+                      e,
+                      this.state.value,
+                      this.props.pin,
+                      this.props.index
+                    )
+                  }
+                  onKeyDown={(e) =>
+                    this.changeNote(
+                      e,
+                      this.state.value,
+                      this.props.pin,
+                      this.props.index
+                    )
+                  }
+                >
+                  <input
+                    type="text"
+                    value={this.state.value}
+                    onChange={(e) => this.handleChange(e)}
+                    placeholder={"Add a Comment"}
+                    style={{
+                      backgroundColor: "transparent",
+                      marginBottom: "2%",
+                      borderTop: "0px",
+                      borderLeft: "0px",
+                      borderBottom: "0.1px solid white",
+                      outline: "none",
+                      borderRight: "0px",
+                      color: "black",
+                      fontFamily: "Avenir Medium",
+                      fontSize: "12px",
+                      width: "100%",
+                    }}
+                  />
+                </form>
+                <input
+                  type="submit"
+                  value="Cancel"
+                  onClick={(e) => this.cancelComment(e)}
+                  style={{
+                    backgroundColor: "#3a8589",
+                    border: "1px solid #3a8589",
+                    width: "75px",
+                    height: "25px",
+                    fontSize: "10px",
                     fontFamily: "Avenir Medium",
-                    fontSize: "12px",
-                    width: "90%",
+                    color: "white",
+                    borderRadius: "3px",
+                    outline: "none",
                   }}
                 />
-              </form>
+              </div>
             </div>
           ) : (
             <p1 style={{ paddingLeft: "10px", fontStyle: "italic" }}>
