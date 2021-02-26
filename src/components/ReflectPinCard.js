@@ -109,7 +109,7 @@ class ReflectPinCard extends React.Component {
 
   cancelComment = (e) => {
     e.stopPropagation();
-    this.setState({ toggleEdit: false });
+    this.setState({ toggleEdit: false, value: this.props.pin.note });
   };
 
   render() {
@@ -209,11 +209,7 @@ class ReflectPinCard extends React.Component {
                   </Dropdown.Item>
                 )}
                 {this.state.toggleEdit ? (
-                  <Dropdown.Item
-                    onClick={() =>
-                      this.setState({ toggleEdit: !this.state.toggleEdit })
-                    }
-                  >
+                  <Dropdown.Item onClick={(e) => this.cancelComment(e)}>
                     Cancel Edit
                   </Dropdown.Item>
                 ) : (
