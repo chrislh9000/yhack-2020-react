@@ -48,7 +48,7 @@ class Reflect extends React.Component {
         searchList: [],
         seeFriends: false,
         friends: [],
-        editedPin: null,
+        // editedPin: null,
         cc_comps: [],
       };
     } else {
@@ -69,7 +69,7 @@ class Reflect extends React.Component {
         shouldRenderPins: [],
         searchList: [],
         friends: [],
-        editedPin: null,
+        // editedPin: null,
         cc_comps: [],
       };
     }
@@ -464,26 +464,6 @@ changePinFrontend changes the content of the pin on the frontend when the length
     this.setState({ shouldRenderPins: newpins, reflectPins: newpins2 });
   };
 
-  /*
-  handleNoteChange initializes the form on the comment to be the existing note of the pin
-  item is the pin object and i is the index of the pin relative to all other displayed pins
-  */
-
-  handleNoteChange = (e, item, i) => {
-    console.log("HANDLE NOTE CHANGE CALLED======", item, i);
-    this.setState({
-      editedPin: i,
-    });
-  };
-
-  initSubmit = (e, note, pin, index) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      console.log("======SUBMITTING======", note);
-      this.handleSubmit(e, note, pin, index);
-    }
-  };
-
   handleSubmit = (event, note, pin, index) => {
     console.log("PIN=======", pin);
     // update pin note in the database
@@ -532,6 +512,54 @@ changePinFrontend changes the content of the pin on the frontend when the length
     ret += "" + secs;
     return ret;
   };
+
+  // handleDelete = (pincc) => {
+  //   const url = "http://localhost:5000/pins/deletePin";
+  //   fetch(url, {
+  //     method: "POST",
+  //     credentials: "same-origin",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       id: this.props.user._id,
+  //       ccId: pincc,
+  //       episode: this.props.episode._id,
+  //     }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((json) => {
+  //       console.log("hi", json);
+  //       // this.deletePinLocalStorage(json.message);
+  //     })
+  //     .catch((err) => {
+  //       console.log("Error: ", err);
+  //     });
+
+  //   let index1 = -1;
+  //   let index2 = -1;
+  //   let array = [...this.state.pins]; // make a separate copy of the array
+  //   for (let i = 0; i < this.state.shouldRenderPins.length; i++) {
+  //     if (this.state.shouldRenderPins[i]["ccId"] === pin_id) {
+  //       // console.log(i)
+  //       index1 = i;
+  //     }
+  //     if (this.state.reflectPins[i]["ccId"] === pin_id) {
+  //       // console.log(i)
+  //       index2 = i;
+  //     }
+  //   }
+
+  //   if (index !== -1) {
+  //     array.splice(index, 1);
+  //     this.setState({ pins: array });
+  //   }
+  //   let newhighlight = this.state.highlighted;
+  //   newhighlight.delete(pin_id);
+  //   this.setState({
+  //     highlighted: newhighlight,
+  //   });
+  // };
 
   render() {
     // console.log("Progress=====", this.props.progress);
@@ -817,30 +845,6 @@ changePinFrontend changes the content of the pin on the frontend when the length
                 }}
               >
                 <Col style={{ marginLeft: "3%" }}>
-                  {/* {this.state.shouldRenderPins.map((pin, i) => {
-                    return (
-                      <ReflectPinCard
-                        ccId={pin}
-                        text={pin}
-                        key={i}
-                        time={1}
-                        note={"ello"}
-                        // handleEdit={this.handleEdit}
-                        episode={"5ff051084158640e1d924e76"}
-                        user={"5fdaf4e7616a7e5445f0ba59"}
-                        favorited={true}
-                        // handleSeekTo={this.handleSeekTo}
-                        // handlePause={this.handlePause}
-                        // handlePlay={this.handlePlay}
-                        friends={[
-                          "5fdaf4e7616a7e5445f0ba59",
-                          "5fdaf4e7616a7e5445f0ba59"
-                        ]}
-                        // sharePin={this.props.sharePin}
-                        // pin={pin}
-                      />
-                    );
-                  })} */}
                   {this.state.seeFriends
                     ? this.state.shouldRenderPins.map((pin, i) => {
                         return (
@@ -851,59 +855,28 @@ changePinFrontend changes the content of the pin on the frontend when the length
                               borderRadius: "25px",
                             }}
                           >
-                            {this.state.editedPin == i ? (
-                              <ReflectPinCard
-                                ccId={pin.ccId}
-                                text={pin.text}
-                                index={i}
-                                startTime={pin.startTime.$numberDecimal}
-                                endTime={pin.endTime.$numberDecimal}
-                                note={pin.note}
-                                handleEdit={this.handleEdit}
-                                episode={pin.episode}
-                                user={pin.user}
-                                favorited={pin.favorited}
-                                handleSeekTo={this.handleSeekTo}
-                                handlePause={this.handlePause}
-                                handlePlay={this.handlePlay}
-                                friends={this.state.friends}
-                                sharePin={this.props.sharePin}
-                                pin={pin}
-                                handleNoteChange={this.handleNoteChange}
-                                toggleEdit={true}
-                                handleSubmit={this.handleSubmit}
-                                initSubmit={this.initSubmit}
-                                editPin={this.editPin}
-                                displayTime={this.fancyTimeFormat}
-                                handleEditPinLength={this.handleEditPinLength}
-                              />
-                            ) : (
-                              <ReflectPinCard
-                                ccId={pin.ccId}
-                                text={pin.text}
-                                index={i}
-                                startTime={pin.startTime.$numberDecimal}
-                                endTime={pin.endTime.$numberDecimal}
-                                note={pin.note}
-                                handleEdit={this.handleEdit}
-                                episode={this.props.episode}
-                                user={pin.user}
-                                favorited={pin.favorited}
-                                handleSeekTo={this.handleSeekTo}
-                                handlePause={this.handlePause}
-                                handlePlay={this.handlePlay}
-                                friends={this.state.friends}
-                                sharePin={this.props.sharePin}
-                                pin={pin}
-                                handleNoteChange={this.handleNoteChange}
-                                toggleEdit={false}
-                                handleSubmit={this.handleSubmit}
-                                initSubmit={this.initSubmit}
-                                editPin={this.editPin}
-                                displayTime={this.fancyTimeFormat}
-                                handleEditPinLength={this.handleEditPinLength}
-                              />
-                            )}
+                            <ReflectPinCard
+                              ccId={pin.ccId}
+                              text={pin.text}
+                              index={i}
+                              startTime={pin.startTime.$numberDecimal}
+                              endTime={pin.endTime.$numberDecimal}
+                              note={pin.note}
+                              handleEdit={this.handleEdit}
+                              episode={this.props.episode}
+                              user={pin.user}
+                              favorited={pin.favorited}
+                              handleSeekTo={this.handleSeekTo}
+                              handlePause={this.handlePause}
+                              handlePlay={this.handlePlay}
+                              friends={this.state.friends}
+                              sharePin={this.props.sharePin}
+                              pin={pin}
+                              handleSubmit={this.handleSubmit}
+                              editPin={this.editPin}
+                              displayTime={this.fancyTimeFormat}
+                              handleEditPinLength={this.handleEditPinLength}
+                            />
                           </div>
                         );
                       })
@@ -916,59 +889,28 @@ changePinFrontend changes the content of the pin on the frontend when the length
                               borderRadius: "25px",
                             }}
                           >
-                            {this.state.editedPin == i ? (
-                              <ReflectPinCard
-                                ccId={pin.ccId}
-                                text={pin.text}
-                                index={i}
-                                startTime={pin.startTime.$numberDecimal}
-                                endTime={pin.endTime.$numberDecimal}
-                                note={pin.note}
-                                handleEdit={this.handleEdit}
-                                episode={this.props.episode}
-                                user={this.props.user}
-                                favorited={pin.favorited}
-                                handleSeekTo={this.handleSeekTo}
-                                handlePause={this.handlePause}
-                                handlePlay={this.handlePlay}
-                                friends={this.state.friends}
-                                sharePin={this.props.sharePin}
-                                pin={pin}
-                                handleNoteChange={this.handleNoteChange}
-                                toggleEdit={true}
-                                handleSubmit={this.handleSubmit}
-                                initSubmit={this.initSubmit}
-                                editPin={this.editPin}
-                                displayTime={this.fancyTimeFormat}
-                                handleEditPinLength={this.handleEditPinLength}
-                              />
-                            ) : (
-                              <ReflectPinCard
-                                ccId={pin.ccId}
-                                text={pin.text}
-                                index={i}
-                                startTime={pin.startTime.$numberDecimal}
-                                endTime={pin.endTime.$numberDecimal}
-                                note={pin.note}
-                                handleEdit={this.handleEdit}
-                                episode={this.props.episode}
-                                user={this.props.user}
-                                favorited={pin.favorited}
-                                handleSeekTo={this.handleSeekTo}
-                                handlePause={this.handlePause}
-                                handlePlay={this.handlePlay}
-                                friends={this.state.friends}
-                                sharePin={this.props.sharePin}
-                                pin={pin}
-                                handleNoteChange={this.handleNoteChange}
-                                toggleEdit={false}
-                                handleSubmit={this.handleSubmit}
-                                initSubmit={this.initSubmit}
-                                editPin={this.editPin}
-                                displayTime={this.fancyTimeFormat}
-                                handleEditPinLength={this.handleEditPinLength}
-                              />
-                            )}
+                            <ReflectPinCard
+                              ccId={pin.ccId}
+                              text={pin.text}
+                              index={i}
+                              startTime={pin.startTime.$numberDecimal}
+                              endTime={pin.endTime.$numberDecimal}
+                              note={pin.note}
+                              handleEdit={this.handleEdit}
+                              episode={this.props.episode}
+                              user={this.props.user}
+                              favorited={pin.favorited}
+                              handleSeekTo={this.handleSeekTo}
+                              handlePause={this.handlePause}
+                              handlePlay={this.handlePlay}
+                              friends={this.state.friends}
+                              sharePin={this.props.sharePin}
+                              pin={pin}
+                              handleSubmit={this.handleSubmit}
+                              editPin={this.editPin}
+                              displayTime={this.fancyTimeFormat}
+                              handleEditPinLength={this.handleEditPinLength}
+                            />
                           </div>
                         );
                       })}
