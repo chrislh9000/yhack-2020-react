@@ -50,6 +50,7 @@ export default class Example extends React.PureComponent {
   // ###################################################################################################
 
   appendTogether = () => {
+    console.log(this.state.episodes)
     let tempList = [];
 
     for (var i = 0; i < this.state.episodes.length; i++) {
@@ -273,6 +274,8 @@ export default class Example extends React.PureComponent {
                 flexDirection: "column",
                 paddingLeft: "1%",
                 marginRight: "10%",
+                height: "70vh",
+                overflow: "hidden scroll"
               }}
             >
               {this.state.episodes.length > 0 && this.state.pins.length > 1
@@ -345,8 +348,8 @@ export default class Example extends React.PureComponent {
                             this.props.updateReflectionEpisode(
                               item,
 
-                              // TODO ADD PINS 
-                              this.state.pins[id].message,  
+                              // TODO ADD PINS
+                              this.state.pins[id].message,
                               this.state.shouldRenderPodcasts[id]
                             );
                             this.props.updateIndex(id);
