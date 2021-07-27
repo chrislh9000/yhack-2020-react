@@ -316,6 +316,7 @@ class Listening extends React.Component {
   };
 
   handleMainComp = (comp_id) => {
+    console.log("HANDLE MAIN COMP BEING CALLED")
     let timeStamp = this.state.cc_comps[comp_id]["startTime"];
     this.props.handlePin(timeStamp);
     this.setState({
@@ -324,6 +325,7 @@ class Listening extends React.Component {
   };
 
   handleScroll = (e) => {
+    console.log("HANDLE SCROLL IS BEING CALLED")
     if (
       this.state.cc_comps[this.state.mainComp]["height"] &&
       this.state.cc_comps[this.state.mainComp + 1]["height"]
@@ -497,14 +499,15 @@ class Listening extends React.Component {
         });
       }
     }
-    this.interval = setInterval(() => this.props.setCurrTime(), 1000);
+    this.interval = setInterval(() => this.props.setCurrTime(), 100000);
   };
 
   componentDidUpdate = (e) => {
+    console.log("COMPONENTDIDUPDATE BEING CALLED")
     if (this.state.cc_comps) {
       if (this.state.mainComp < this.state.cc_comps.length - 1) {
         this.handleScroll();
-        console.log(this.state.cc_comps[this.state.mainComp]["startTime"]);
+        console.log("START TIME OF SEGMENT: ", this.state.cc_comps[this.state.mainComp]["startTime"]);
       }
     }
   };

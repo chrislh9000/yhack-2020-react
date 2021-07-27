@@ -298,6 +298,7 @@ class Discussion extends React.Component {
   };
 
   handleScroll = (e) => {
+    console.log("HANDLE SCROLL BEING CALLED HELL YEA")
     // if (this.state.mainComp >= this.state.cc_comps.length - 1) {
     //   console.log("should never print");
     //   if (

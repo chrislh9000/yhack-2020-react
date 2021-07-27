@@ -187,6 +187,7 @@ class App extends React.Component {
   setCurrTime = () => {
     if (this.player) {
       var pin = this.player.getCurrentTime();
+      console.log("CURRENT TIME!!!!", pin)
       this.handlePin(pin);
       return pin;
     }
@@ -349,26 +350,31 @@ class App extends React.Component {
 
   seekToTime = (time) => {
     if (this.state.pinTime > 0) {
-      this.player.seekTo(time);
-      this.setState({ pinTime: time });
+      console.log("SEEK TO TIME BEING CALLED!!! at time", time)
+      // this.setState({ pinTime: time });
+      this.player.seekTo(time, 'seconds');
+      console.log("SEEK TO TIME BEING CALLED!!!", this.player.getInternalPlayer())
     }
   };
 
-  componentDidUpdate(prevProps) {
-    // console.log("componentdidupdate       ==========", this.props.pinTime);
-    // this.interval = setInterval(
-    //   () => this.handlePin(this.player.getCurrentTime()),
-    //   1000
-    // );
-    // this.handlePin(this.player.getCurrentTime())
-    // console.log(this.state.episodeIndex);
-  }
+  // componentDidUpdate(prevProps) {
+  //   console.log("PREV PROPS", prevProps)
+  //   // console.log("componentdidupdate       ==========", this.props.pinTime);
+  //   // this.interval = setInterval(
+  //   //   () => this.handlePin(this.player.getCurrentTime()),
+  //   //   1000
+  //   // );
+  //   // this.handlePin(this.player.getCurrentTime())
+  //   // console.log(this.state.episodeIndex);
+  // }
 
   ref = (player) => {
+    console.log("PREV PLAYER", player)
     this.player = player;
   };
 
   handlePin = (pin) => {
+    console.log("PIN", pin)
     this.setState({
       pinTime: pin,
     });
